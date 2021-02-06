@@ -97,6 +97,13 @@ class Catalog(MixinLogable):
 
         self.debug("preflight : ...ok")
 
+    def __contains__(self, name: str) -> bool:
+        """
+        Check if the given name is an artefact
+        """
+
+        return name in self._data.artefacts.keys()
+
     def _get_connector(self, artefact: Artefact) -> Connector:
         """
         Retrieve the connector of an Artefact

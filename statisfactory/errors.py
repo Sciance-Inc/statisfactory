@@ -175,6 +175,12 @@ class Errors(metaclass=Singleton):
     E031 = "catalog : the '{name}' interactor does not exists"
     E032 = "catalog : the '{name}' connector does not exists"
 
+    # Craft
+    E040 = "craft : failed to execute callable '{func}'"
+    E041 = "craft : the object outputed by {func} schould be a dict. Got : {got}"
+    E042 = "craft : failed to load artefact for callable '{func}'"
+    E043 = "craft : failed to save artefact for callable '{func}'"
+
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
 
