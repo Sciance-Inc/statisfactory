@@ -1,7 +1,7 @@
 # Statisfactory
 _A Satisfying Statistical Factory_
 
-Primative to replicate statiscal pipelines on differents data sources.
+Primatives for statiscal pipelines replication on differents data sources.
 
 ## How to contribute.
 Don't. 
