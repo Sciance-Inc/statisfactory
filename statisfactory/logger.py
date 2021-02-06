@@ -42,7 +42,7 @@ def get_module_logger(mod_name):
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
-        logger.setLevel(os.environ.get("LOG_LEVEL", "INFO").upper())
+        logger.setLevel(os.environ.get("LOG_LEVEL", "DEBUG").upper())
         _LOGGERS[mod_name] = logger
 
     return logger
