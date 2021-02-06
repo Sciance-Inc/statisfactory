@@ -168,7 +168,12 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
         self.debug(f"saving 'csv' : {self._path}")
 
         if not isinstance(asset, (pd.DataFrame, pd.Series)):
-            raise errors.E025(__name__, "csv", "pd.DataFrame, pd.Series", type(asset))
+            raise errors.E025(
+                __name__,
+                interactor="csv",
+                accept="pd.DataFrame, pd.Series",
+                got=type(asset),
+            )
 
         self._create_parents(self._path)
 
@@ -232,7 +237,12 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
         self.debug(f"saving 'xslx' : {self._path}")
 
         if not isinstance(asset, (pd.DataFrame, pd.Series)):
-            raise errors.E025(__name__, "xslx", "pd.DataFrame, pd.Series", type(asset))
+            raise errors.E025(
+                __name__,
+                interactor="xlsx",
+                accept="pd.DataFrame, pd.Series",
+                got=type(asset),
+            )
 
         self._create_parents(self._path)
 
