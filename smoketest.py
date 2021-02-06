@@ -17,7 +17,7 @@ df = catalog.load("masterFile")
 df["foo"] = 1
 
 # Save the dataframe to a contextualized Artefact
-catalog.save("testDataset", df)
+catalog.save("testDataset", str(df))
 
 
 print(df)

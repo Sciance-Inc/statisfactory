@@ -69,7 +69,7 @@ class StatisfactoryCricial(Exception):
         logger.critical(str(self))  # Automatically logs the waning
 
 
-class DuplicatesRemoverError(Exception):
+class SatisfactoryError(Exception):
     """
     Base parent for all custom errors raised by the program.
     The class performs base operation making the error message displaybale
@@ -152,7 +152,7 @@ class Critical(metaclass=Singleton):
     pass
 
 
-@_raisable_attributes_factory(DuplicatesRemoverError)
+@_raisable_attributes_factory(SatisfactoryError)
 class Errors(metaclass=Singleton):
 
     # Init and connection related errors
