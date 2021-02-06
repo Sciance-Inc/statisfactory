@@ -4,11 +4,13 @@
 
 from statisfactory import Catalog
 
+# Open a catalog on the root of the project
+
 root = "/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo"
 context = {"PIPELINE": "vdc_P6_S3"}
-catalog = Catalog(root, context)
+catalog = Catalog(root, **context)
 
-# Load the master dataframe
+# Load the (concrete artefact, not contextualized) master dataframe
 df = catalog.load("masterFile")
 
 # do complicated statistical trasnformations

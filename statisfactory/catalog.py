@@ -16,6 +16,7 @@
 
 # system
 from pathlib import Path
+from typing import Any
 
 # project
 from .logger import MixinLogable
@@ -153,24 +154,28 @@ class Catalog(MixinLogable):
         connector = self._get_connector(artefact)
 
         # build the interactor with the artefact and the catalog context.
-        interactor = self._get_interactor(artefact)(
+        interactor: ArtefactInteractor = self._get_interactor(artefact)(
             artefact=artefact, connector=connector, **self._context
         )
 
         return interactor.load()
 
-    def save(self, name, asset):
-        """Save an asset using the path from the catalogue
+    def save(self, name: str, asset: Any):
+        """Save the asset using the artefact name.
 
         Args:
-            name ([type]): [description]
-            asset ([type]): [description]
-
-        Raises:
-            BaseException: [description]
+            name (str): the name of the arteface
+            asset (Any): the underlying artefact to store
         """
 
-        pass
+        artefact = self._get_artefact(name)
+        connector = self._get_connector(artefact)
+
+        interactor: ArtefactInteractor = self._get_interactor(artefact)(
+            artefact=artefact, connector=connector, **self._context
+        )
+
+        interactor.save(asset)
 
 
 #############################################################################

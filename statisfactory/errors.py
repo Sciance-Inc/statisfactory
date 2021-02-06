@@ -166,6 +166,9 @@ class Errors(metaclass=Singleton):
     E022 = "data interactor : failed to save the dataframe as a csv to '{path}'"
     E023 = "data interactor : MixinLocalFileSystem : want not none 'data_path' and 'path'. got : '{data_path}' and '{path}' "
     E024 = "data interactor : '{path}' does not exists"
+    E025 = (
+        "data interactor : '{interactor}' interactor only accept {accept} : got '{got}'"
+    )
 
     # Catalog
     E030 = "catalog : the '{name}' artefact  does not exists"

@@ -17,6 +17,7 @@
 # system
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
+from typing import Any, Union
 
 # project
 from .errors import errors
@@ -52,23 +53,17 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         super().__init__(*args, **kwargs)
 
     @abstractmethod
-    def load(self) -> pd.DataFrame:
+    def load(self) -> Any:
         """
-        Return the underlying concrete dataset as a pandas dataframe
-
-        Returns:
-            pd.DataFrame: [description]
+        Return the underlying asset.
         """
 
         raise NotImplementedError("must be implemented in the concrete class")
 
     @abstractmethod
-    def save(self, df: pd.DataFrame):
+    def save(self, asset: Any):
         """
-        Saved the underlying
-
-        Returns:
-            pd.DataFrame: [description]
+        Save the underlying asset.
         """
 
         raise NotImplementedError("must be implemented in the concrete class")
@@ -110,6 +105,16 @@ class MixinLocalFileSystem:
 
         return path.absolute()
 
+    def _create_parents(self, path: Path):
+        """
+        Create all the parents of a given path.
+
+        Args:
+            path (Path): the path to create the parent from
+        """
+
+        path.parents[0].mkdir(parents=True, exist_ok=True)
+
 
 # ------------------------------------------------------------------------- #
 
@@ -140,6 +145,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
         Returns:
             pd.DataFrame: the parsed dataframe
         """
+
         self.debug(f"loading 'csv' : {self._path}")
 
         try:
@@ -152,7 +158,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
         return df
 
     # TODO : controle contravariance
-    def save(self, df: pd.DataFrame):
+    def save(self, asset: Union[pd.DataFrame, pd.Series]):
         """
         Save the 'data' dataframe as csv.
         Args:
@@ -161,8 +167,13 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
 
         self.debug(f"saving 'csv' : {self._path}")
 
+        if not isinstance(asset, (pd.DataFrame, pd.Series)):
+            raise errors.E025(__name__, "csv", "pd.DataFrame, pd.Series", type(asset))
+
+        self._create_parents(self._path)
+
         try:
-            df.to_csv(self._path)
+            asset.to_csv(self._path)
         except BaseException as err:
             raise errors.E022(__name__, path=self._path) from err
 
@@ -198,6 +209,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
 
         TODO : add a wrapper for kwargs
         """
+
         self.debug(f"loading 'xslx' : {self._path}")
 
         try:
@@ -210,17 +222,22 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
         return df
 
     # TODO : controle contravariance
-    def save(self, df: pd.DataFrame):
+    def save(self, asset: Union[pd.DataFrame, pd.Series]):
         """
         Save the 'data' dataframe as csv.
         Args:
             data (pandas.DataFrame): the dataframe to be saved
         """
 
-        self.debug(f"loading 'xslx' : {self._path}")
+        self.debug(f"saving 'xslx' : {self._path}")
+
+        if not isinstance(asset, (pd.DataFrame, pd.Series)):
+            raise errors.E025(__name__, "xslx", "pd.DataFrame, pd.Series", type(asset))
+
+        self._create_parents(self._path)
 
         try:
-            df.to_excel(self._path)
+            asset.to_excel(self._path)
         except BaseException as err:
             raise errors.E022(__name__, path=self._path) from err
 
@@ -262,7 +279,7 @@ class ODBCInteractor(ArtefactInteractor):
 
         raise BaseException("Will be implemented in few more beers !")
 
-    def save(self, df: pd.DataFrame):
+    def save(self, asset: Any):
         raise errors.E999
 
 
