@@ -68,7 +68,6 @@ class Artefact:
     """
 
     type: str
-    abstract: Optional[bool] = False
     path: Optional[str] = None
     query: Optional[str] = None
     connector: Optional[Connector] = None
