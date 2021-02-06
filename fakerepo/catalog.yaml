@@ -1,0 +1,16 @@
+version: "0.0.1"
+connectors:
+  - sqlserver:
+      connectionString: "foo:bar@spam.sql:12234"
+    
+artefacts:
+  - testDataset:
+      type: csv
+      path: foo
+  - masterFile:
+      type: xslx
+      path: 10_raw/foobar.xlsx
+  - testSQL:
+      type: odbc
+      connector: sql
+      query: foo
