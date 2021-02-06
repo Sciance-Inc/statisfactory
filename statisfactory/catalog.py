@@ -52,7 +52,7 @@ class Catalog(MixinLogable):
         "xslx": XLSXInteractor,
     }
 
-    def __init__(self, path: str, context=None):
+    def __init__(self, path: str, **kwargs):
         """Build a new catalog for the root 'path'.
 
         The catalog loads:
@@ -61,8 +61,6 @@ class Catalog(MixinLogable):
 
         super().__init__()
         self.debug("preflight : check...")
-
-        self._context = context
 
         # Check that the path exists
         path = Path(path)
@@ -90,6 +88,11 @@ class Catalog(MixinLogable):
                 self._data = CatalogData.from_file(catalog_path)
             except BaseException as err:
                 raise errors.E013 from err
+
+        # Create a context from the path an any surnumerary arguments.
+        context = {"data_path": data_path}
+        self._context = {**context, **kwargs}
+        self.debug(f"initiaing Catalog with context : '{self._context}'")
 
         self.debug("preflight : ...ok")
 
@@ -144,16 +147,15 @@ class Catalog(MixinLogable):
 
         Args:
             name (str): the name of the artefact to load.
-
-        TODO : Add context injection from pipeline
         """
 
         artefact = self._get_artefact(name)
         connector = self._get_connector(artefact)
-        # BUILD A GET CONTEXT METHOD
 
-        # INJECT A CONTEXT DATACLASS WITH THE CURRENT PATH
-        interactor = self._get_interactor(artefact)(artefact, connector=connector)
+        # build the interactor with the artefact and the catalog context.
+        interactor = self._get_interactor(artefact)(
+            artefact=artefact, connector=connector, **self._context
+        )
 
         return interactor.load()
 

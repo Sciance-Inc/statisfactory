@@ -16,6 +16,7 @@
 
 # system
 from abc import ABCMeta, abstractmethod
+from pathlib import Path
 
 # project
 from .errors import errors
@@ -41,7 +42,7 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def __init__(self, artefact: Artefact, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """
         Instanciate a new interactor.
 
@@ -76,7 +77,44 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
 # ------------------------------------------------------------------------- #
 
 
-class CSVInteractor(ArtefactInteractor):
+class MixinLocalFileSystem:
+    """
+    Implements helpers to manipulate a local file system.
+    """
+
+    def __init__(self, *args, **kwargs):
+        """
+        Instanciate a MixinLocalFileSystem. For cooperative multiple inheritance only.
+        """
+
+        super().__init__(*args, **kwargs)
+
+    def _interpolate_path(self, data_path: Path, path: str, **kwargs) -> Path:
+        """
+        Build a local path from minimally a root path and a path.
+        The string is interpolated the named variadics arguments.
+
+        Args:
+            data_path (str): the root path (aka, the catalog root dir)
+            path (str): the artefact path (relative from the catalog root dir)
+            **kwargs : the varaibles to be interpolated in the path
+
+        Returns:
+            Path: the fully qualified canonical path to the artefact.
+        """
+
+        if data_path == Path("") or path == "":
+            raise errors.E023(__name__, data_path=data_path, path=path)
+
+        path = data_path / Path(path.format(**kwargs))
+
+        return path.absolute()
+
+
+# ------------------------------------------------------------------------- #
+
+
+class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
     """
     Concrete implementation of a csv interactor
     """
@@ -90,10 +128,10 @@ class CSVInteractor(ArtefactInteractor):
             kwargs: named-arguments to be fowarded to the pandas.read_csv method.
         """
 
-        self._path = artefact.path
-        self._kwargs = kwargs
-
         super().__init__(artefact, *args, **kwargs)
+
+        self._path = self._interpolate_path(path=artefact.path, **kwargs)
+        self._kwargs = kwargs
 
     def load(self) -> pd.DataFrame:
         """
@@ -105,7 +143,9 @@ class CSVInteractor(ArtefactInteractor):
         self.debug(f"loading 'csv' : {self._path}")
 
         try:
-            df = pd.read_csv(self._path, **self._kwargs)
+            df = pd.read_csv(self._path)
+        except FileNotFoundError as err:
+            raise errors.E024(__name__, path=self._path) from err
         except BaseException as err:
             raise errors.E021(__name__, method="csv", path=self._path) from err
 
@@ -122,7 +162,65 @@ class CSVInteractor(ArtefactInteractor):
         self.debug(f"saving 'csv' : {self._path}")
 
         try:
-            df.to_csv(self._path, **self._kwargs)
+            df.to_csv(self._path)
+        except BaseException as err:
+            raise errors.E022(__name__, path=self._path) from err
+
+
+# ------------------------------------------------------------------------- #
+
+
+class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
+    """
+    Concrete implementation of an XLSX interactor
+    """
+
+    def __init__(self, artefact: Artefact, *args, **kwargs):
+        """
+        Instanciate an interactor on a local file xslsx
+
+        Args:
+            artefact (Artefact): the artefact to load
+            kwargs: named-arguments.
+        """
+
+        super().__init__(artefact, *args, **kwargs)
+
+        self._path = self._interpolate_path(path=artefact.path, **kwargs)
+        self._kwargs = kwargs
+
+    def load(self) -> pd.DataFrame:
+        """
+        Parse 'path' as a pandas dataframe and return it
+
+        Returns:
+            pd.DataFrame: the parsed dataframe
+
+        TODO : add a wrapper for kwargs
+        """
+        self.debug(f"loading 'xslx' : {self._path}")
+
+        try:
+            df = pd.read_excel(self._path)
+        except FileNotFoundError as err:
+            raise errors.E024(__name__, path=self._path) from err
+        except BaseException as err:
+            raise errors.E021(__name__, method="xslx", path=self._path) from err
+
+        return df
+
+    # TODO : controle contravariance
+    def save(self, df: pd.DataFrame):
+        """
+        Save the 'data' dataframe as csv.
+        Args:
+            data (pandas.DataFrame): the dataframe to be saved
+        """
+
+        self.debug(f"loading 'xslx' : {self._path}")
+
+        try:
+            df.to_excel(self._path)
         except BaseException as err:
             raise errors.E022(__name__, path=self._path) from err
 
@@ -166,62 +264,6 @@ class ODBCInteractor(ArtefactInteractor):
 
     def save(self, df: pd.DataFrame):
         raise errors.E999
-
-
-# ------------------------------------------------------------------------- #
-
-
-class XLSXInteractor(ArtefactInteractor):
-    """
-    Concrete implementation of an XLSX interactor
-    """
-
-    def __init__(self, artefact: Artefact, *args, **kwargs):
-        """
-        Instanciate an interactor on a local file xslsx
-
-        Args:
-            path (Path): the path to load the file from.
-            kwargs: named-arguments to be fowarded to the pandas.read_excel method.
-        """
-
-        self._path = artefact.path
-        self._kwargs = kwargs
-
-        super().__init__(artefact, *args, **kwargs)
-
-    def load(self) -> pd.DataFrame:
-        """
-        Parse 'path' as a pandas dataframe and return it
-
-        Returns:
-            pd.DataFrame: the parsed dataframe
-
-        TODO : add a wrapper for kwargs
-        """
-        self.debug(f"loading 'xslx' : {self._path}")
-
-        try:
-            df = pd.read_excel(self._path)
-        except BaseException as err:
-            raise errors.E021(__name__, method="xslx", path=self._path) from err
-
-        return df
-
-    # TODO : controle contravariance
-    def save(self, df: pd.DataFrame):
-        """
-        Save the 'data' dataframe as csv.
-        Args:
-            data (pandas.DataFrame): the dataframe to be saved
-        """
-
-        self.debug(f"loading 'xslx' : {self._path}")
-
-        try:
-            df.to_excel(self._path, **self._kwargs)
-        except BaseException as err:
-            raise errors.E022(__name__, path=self._path) from err
 
 
 #############################################################################

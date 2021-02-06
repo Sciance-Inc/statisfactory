@@ -6,7 +6,7 @@ connectors:
 artefacts:
   - testDataset:
       type: csv
-      path: foo
+      path: 20_transformed/{PIPELINE}/testDataset.csv
   - masterFile:
       type: xslx
       path: 10_raw/foobar.xlsx
