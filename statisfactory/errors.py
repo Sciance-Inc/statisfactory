@@ -169,6 +169,7 @@ class Errors(metaclass=Singleton):
     E025 = (
         "data interactor : '{interactor}' interactor only accept {accept} : got '{got}'"
     )
+    E026 = "data interactor : path '{path}' is incomplettely formatted, missing parameters from context"
 
     # Catalog
     E030 = "catalog : the '{name}' artefact  does not exists"

@@ -3,7 +3,7 @@ from statisfactory import Craft, Artefact, Catalog, Pipeline
 
 catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo")
 # Create some craft
-@Craft(catalog)
+@Craft()
 def add_beer(masterFile: Artefact):
 
     bar = masterFile.copy()

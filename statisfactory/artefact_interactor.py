@@ -18,6 +18,7 @@
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from typing import Any, Union
+import re
 
 # project
 from .errors import errors
@@ -103,7 +104,10 @@ class MixinLocalFileSystem:
         if data_path == Path("") or path == "":
             raise errors.E023(__name__, data_path=data_path, path=path)
 
-        path = data_path / Path(path.format(**kwargs))
+        try:
+            path = data_path / Path(path.format(**kwargs))
+        except KeyError as err:
+            raise errors.E026(__name__, path=path) from err
 
         return path.absolute()
 
