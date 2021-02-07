@@ -75,6 +75,8 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
 class MixinLocalFileSystem:
     """
     Implements helpers to manipulate a local file system.
+
+    TODO : make sure that there is not residual {} in the path
     """
 
     def __init__(self, *args, **kwargs):
@@ -180,7 +182,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
         try:
             asset.to_csv(self._path)
         except BaseException as err:
-            raise errors.E022(__name__, path=self._path) from err
+            raise errors.E022(__name__, method="csv", path=self._path) from err
 
 
 # ------------------------------------------------------------------------- #
@@ -249,7 +251,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
         try:
             asset.to_excel(self._path)
         except BaseException as err:
-            raise errors.E022(__name__, path=self._path) from err
+            raise errors.E022(__name__, method="xslx", path=self._path) from err
 
 
 # ------------------------------------------------------------------------- #

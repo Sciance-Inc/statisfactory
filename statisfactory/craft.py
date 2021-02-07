@@ -7,7 +7,7 @@
 #
 # description:
 """
-    implemts a wrapper to handler assets loading / saving for a given craf
+    implements a wrapper to handler assets loading / saving for an arbitrary function.
 """
 
 #############################################################################
@@ -34,6 +34,8 @@ from .models import Artefact
 class Craft(MixinLogable):
     """
     Craft wraps a task and take care of data retrieval from / data storage to the catalogue
+
+    TODO : rewirte the functor, craft binding with a proper injected object
     """
 
     _valids_annotations = ["<class 'statisfactory.models.Artefact'>"]
@@ -52,12 +54,33 @@ class Craft(MixinLogable):
         )  # The name of the underlying function, for error messages.
 
     @property
-    def catalog(self):
+    def name(self) -> str:
         """
-        TODO : implements None checks
+        Get the name of the craft
         """
 
+        return self._func_name
+
+    @property
+    def catalog(self):
+        """
+        Catalog getter
+        """
+        if not self._catalog:
+            raise errors.E044(__name__, func=self._func_name)
+
         return self._catalog
+
+    @catalog.setter
+    def catalog(self, catalog: Catalog):
+        """
+        Catalog setter to enforce PDC.
+        """
+
+        if not self._catalog:
+            self._catalog = catalog
+        else:
+            raise errors.E045(__name__, func=self.__func_name)
 
     def __call__(self, func, *args, **kwargs):
         """
@@ -66,9 +89,10 @@ class Craft(MixinLogable):
 
         self._func_name = func.__name__
         update_wrapper(self, func)
-        artefacts = self._get_artefacts(func)
 
         def _(*args, **kwargs):
+            artefacts = self._get_artefacts(func)
+
             try:
                 out = func(*args, **kwargs, **artefacts)
             except BaseException as err:
@@ -77,6 +101,10 @@ class Craft(MixinLogable):
             out = self._capture_artefacts(out)
 
             return out
+
+        # Bind the craft the function attributes (i'havent find a pretty way to preserve the interface and make the catalog injectable)
+        # (maybe just return a proper object with explicit dependency injection ;)
+        _.craft = self
 
         return _
 

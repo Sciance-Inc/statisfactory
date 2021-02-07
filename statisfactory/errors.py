@@ -163,7 +163,7 @@ class Errors(metaclass=Singleton):
 
     # FS interactors
     E021 = "data interactor : failed to read '{method}' '{path}'"
-    E022 = "data interactor : failed to save the dataframe as a csv to '{path}'"
+    E022 = "data interactor : failed to save the dataframe with '{method}' to '{path}'"
     E023 = "data interactor : MixinLocalFileSystem : want not none 'data_path' and 'path'. got : '{data_path}' and '{path}' "
     E024 = "data interactor : '{path}' does not exists"
     E025 = (
@@ -174,12 +174,21 @@ class Errors(metaclass=Singleton):
     E030 = "catalog : the '{name}' artefact  does not exists"
     E031 = "catalog : the '{name}' interactor does not exists"
     E032 = "catalog : the '{name}' connector does not exists"
+    E033 = "catalog : context update : key conflict : '{keys}'"
 
     # Craft
     E040 = "craft : failed to execute callable '{func}'"
     E041 = "craft : the object outputed by {func} schould be a dict. Got : {got}"
     E042 = "craft : failed to load artefact for callable '{func}'"
     E043 = "craft : failed to save artefact for callable '{func}'"
+    E044 = "craft : the craft '{func}' has no catalog attached to it"
+    E045 = "craft : the craft '{func}' has already a catalog. Here, have some data immutability !"
+
+    # Pipeline
+    E050 = "pipeline : other is of type '{other}' and not a Craft"
+    E051 = "pipeline : craft '{func}' has already a catalog setted. Remove-it from the craft definition"
+    E052 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
+    E053 = "pipeline : failed to run craft '{func}'"
 
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"

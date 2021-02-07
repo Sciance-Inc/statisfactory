@@ -1,5 +1,30 @@
 # Smoke test the Craft
-from statisfactory import Craft, Artefact, Catalog
+from statisfactory import Craft, Artefact, Catalog, Pipeline
+
+catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo")
+# Create some craft
+@Craft(catalog)
+def add_beer(masterFile: Artefact):
+
+    bar = masterFile.copy()
+    bar["beer"] = "yes !"
+
+    return {"testDataset": bar}
+
+
+@Craft()
+def print_beer(testDataset: Artefact):
+    print(testDataset)
+
+
+# Create a context in which run the pipline
+catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo")
+P = Pipeline("beers dispenser", catalog) + add_beer + print_beer
+
+# Run it with a given context
+P(PIPELINE="vdc_P6_S4")
+print("done")
+
 
 # Open a catalog on the root of the project
 root = "/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo"

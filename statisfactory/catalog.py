@@ -43,7 +43,6 @@ class Catalog(MixinLogable):
     The catalog mixes a monitor with a facade pattern (yeup, quick dev)
 
     TODO : test a replication flow with a context
-    TODO : Add context injection from pipeline
     """
 
     # Map each artefact type to it's corresponding interactor
@@ -96,6 +95,17 @@ class Catalog(MixinLogable):
         self.debug(f"initiaing Catalog with context : '{self._context}'")
 
         self.debug("preflight : ...ok")
+
+    def update_context(self, **kwargs):
+        """
+        Update the context of the catalog
+        """
+
+        common = set(self._context.keys()).intersection(set(kwargs.keys()))
+        if len(common) > 0:
+            raise errors.E033(__name__, keys=", ".join(common))
+
+        self._context = {**self._context, **kwargs}
 
     def __contains__(self, name: str) -> bool:
         """
