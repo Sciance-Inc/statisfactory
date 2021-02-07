@@ -2,27 +2,38 @@
 from statisfactory import Craft, Artefact, Catalog, Pipeline
 
 catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo")
+
+
+@Craft(catalog)
+def show_object(qaiData: Artefact):
+    print(qaiData)
+
+
+show_object()
+print("done")
+
 # Create some craft
 @Craft()
-def add_beer(masterFile: Artefact):
+def add_beer(val, masterFile: Artefact, **kwargs):
 
     bar = masterFile.copy()
-    bar["beer"] = "yes !"
+    bar["beer"] = val
 
     return {"testDataset": bar}
 
 
 @Craft()
-def print_beer(testDataset: Artefact):
+def print_beer(testDataset: Artefact, **kwargs):
     print(testDataset)
 
 
 # Create a context in which run the pipline
 catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo")
-P = Pipeline("beers dispenser", catalog) + add_beer + print_beer
+P1 = Pipeline("first pip", catalog) + add_beer + print_beer
 
 # Run it with a given context
-P(PIPELINE="vdc_P6_S4")
+P1(PIPELINE="vdc_P6_S4", val=1)
+# P2(PIPELINE="vdc_P3_S1", val=2)
 print("done")
 
 

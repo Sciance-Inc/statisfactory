@@ -18,7 +18,7 @@
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from typing import Any, Union
-import re
+from contextlib import contextmanager
 
 # project
 from .errors import errors
@@ -27,6 +27,7 @@ from .logger import MixinLogable
 
 # third party
 import pandas as pd
+import pyodbc
 
 #############################################################################
 #                                  Script                                   #
@@ -284,6 +285,27 @@ class ODBCInteractor(ArtefactInteractor):
 
         super().__init__(artefact, *args, **kwargs)
 
+    @contextmanager
+    def _get_connection(self):
+        """
+        Parse the connector and return the connection objecté
+
+        Args:
+            connector (Connector): the connector object to parse.
+
+        TODO : add support for parameters
+        """
+        self.debug(f"requesting connection to {self._connector.name}")
+
+        try:
+            with pyodbc.connect(self._connector.connString) as cnxn:
+                yield cnxn
+        except BaseException as error:
+            raise errors.E027(__name__, name=self._connector.name) from error
+
+        self.debug(f"closing connection to {self._connector.name}")
+        return
+
     def load(self) -> pd.DataFrame:
         """
         Parse 'path' as a pandas dataframe and return it
@@ -291,9 +313,18 @@ class ODBCInteractor(ArtefactInteractor):
         Returns:
             pd.DataFrame: the parsed dataframe
         """
-        self.debug(f"loading 'odbc' : {self._path}")
+        self.debug(f"loading 'odbc' : {self._connector.name}")
 
-        raise BaseException("Will be implemented in few more beers !")
+        data = None
+        with self._get_connection() as cnxn:
+            try:
+                data = pd.read_sql(self._query, cnxn)
+            except BaseException as error:
+                raise errors.E028(
+                    __name__, query=self._query, name=self._connector.name
+                ) from error
+
+        return data
 
     def save(self, asset: Any):
         raise errors.E999

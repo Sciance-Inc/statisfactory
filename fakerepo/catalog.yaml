@@ -1,9 +1,17 @@
 version: "0.0.1"
 connectors:
+  - ibesServer:
+      connString: 'DRIVER={ODBC Driver 17 for SQL Server};SERVER=server;DATABASE=db;UID=user;PWD=passwd'
   - sqlserver:
-      connectionString: "foo:bar@spam.sql:12234"
+      connString: "foo:bar@spam.sql:12234"
+
     
 artefacts:
+  - qaiData:
+      type: odbc
+      connector: ibesServer
+      query: SELECT TOP 10 * FROM SYSOBJECTS WHERE xtype = 'U';
+
   - testDataset:
       type: csv
       path: 20_transformed/{PIPELINE}/testDataset.csv

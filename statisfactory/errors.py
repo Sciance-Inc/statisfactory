@@ -170,6 +170,8 @@ class Errors(metaclass=Singleton):
         "data interactor : '{interactor}' interactor only accept {accept} : got '{got}'"
     )
     E026 = "data interactor : path '{path}' is incomplettely formatted, missing parameters from context"
+    E027 = "data interactor : failed to connect to {name} connector"
+    E028 = "data interactor : failed to execute query {query} agains {name} connector"
 
     # Catalog
     E030 = "catalog : the '{name}' artefact  does not exists"

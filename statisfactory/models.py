@@ -43,7 +43,8 @@ class Connector:
     Represents an odbc connection.
     """
 
-    connectionString: str
+    connString: str
+    name: str = None
 
 
 class ConnectorSchema(Schema):
@@ -51,7 +52,7 @@ class ConnectorSchema(Schema):
     Connector's marshmaller
     """
 
-    connectionString = fields.Str()
+    connString = fields.Str()
 
     @post_load
     def make_connector(self, data, **kwargs):
@@ -68,9 +69,10 @@ class Artefact:
     """
 
     type: str
+    name: str = None
     path: Optional[str] = None
-    query: Optional[str] = None
     connector: Optional[Connector] = None
+    query: Optional[str] = None
 
 
 class ArtefactSchema(Schema):
@@ -103,10 +105,10 @@ class ArtefactSchema(Schema):
     def validate_query(self, data, **kwargs):
         errors = {}
         if data["type"] == "odbc":
-            if "query" not in data:
-                errors["odbc"] = ["missing query for type odbc"]
             if "connector" not in data:
                 errors["odbc"] = ["missing connector for type odbc"]
+            if "query" not in data:
+                errors["odbc"] = ["missing query for type odbc"]
 
         if errors:
             raise ValidationError(errors)
@@ -148,6 +150,14 @@ class CatalogData:
 
         self.artefacts = _merge_dict(self.artefacts)
         self.connectors = _merge_dict(self.connectors)
+
+        # Set the name attribute to each artefact
+        for name, artefact in self.artefacts.items():
+            artefact.name = name
+
+        # Set the name attribute to each connector
+        for name, conn in self.connectors.items():
+            conn.name = name
 
     @staticmethod
     def from_file(file: str) -> "CatalogData":

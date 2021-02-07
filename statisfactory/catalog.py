@@ -126,7 +126,7 @@ class Catalog(MixinLogable):
         conn = None
         if name:
 
-            for key, connector in self._data.connectors:
+            for key, connector in self._data.connectors.items():
                 if key == name:
                     break
             else:
