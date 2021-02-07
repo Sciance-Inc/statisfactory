@@ -97,7 +97,7 @@ class Pipeline(MixinLogable):
             except TypeError as err:
                 raise errors.E052(__name__, func=functor.craft.name) from err
             except BaseException as err:
-                raise errors.E053 from err
+                raise errors.E053(__name__, func=functor.craft.name) from err
 
         self.info(f"pipeline : '{self._name}' success (or silently failed).")
 
