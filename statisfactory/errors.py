@@ -187,6 +187,7 @@ class Errors(metaclass=Singleton):
     E043 = "craft : failed to save artefact for callable '{func}'"
     E044 = "craft : the craft '{func}' has no catalog attached to it"
     E045 = "craft : the craft '{func}' has already a catalog. Here, have some data immutability !"
+    E046 = "craft : arguments orders : craft '{name}' requiers the Artefacts to be the lasts arguments"
 
     # Pipeline
     E050 = "pipeline : other is of type '{other}' and not a Craft"

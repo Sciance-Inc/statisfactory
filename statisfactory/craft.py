@@ -34,24 +34,53 @@ from .models import Artefact
 class Craft(MixinLogable):
     """
     Craft wraps a task and take care of data retrieval from / data storage to the catalogue
-
-    TODO : rewirte the functor, craft binding with a proper injected object
     """
 
     _valids_annotations = ["<class 'statisfactory.models.Artefact'>"]
 
-    def __init__(self, catalog: Catalog = None):
+    @staticmethod
+    def make(catalog: Catalog):
         """
-        Wrapf a callable with the given catalog
+        Decorator transfroming a callable into a Craft
+
+        Args:
+            catalog (Catalog): the catalog to bind the craft to.
+        """
+
+        def _(func: Callable):
+
+            return Craft(catalog, func)
+
+        return _
+
+    def __init__(self, catalog: Catalog, callable: Callable):
+        """
+        Wrap a callable in a craft binded to the given catalog.
         """
 
         super().__init__()
         self._catalog = catalog
+        self._callable = callable
+        self._name = callable.__name__
+        update_wrapper(self, callable)
 
-        # Placeholders
-        self._func_name = (
-            None
-        )  # The name of the underlying function, for error messages.
+    def __call__(self, *args, **kwargs):
+        """
+        Call the underlying callable
+        """
+
+        artefacts = self._get_artefacts(self._callable)
+
+        try:
+            out = self._callable(*args, **kwargs, **artefacts)
+        except TypeError as err:
+            raise errors.E046(__name__, name=self._name) from err
+        except BaseException as err:
+            raise errors.E040(__name__, func=self._name) from err
+
+        out = self._capture_artefacts(out)
+
+        return out
 
     @property
     def name(self) -> str:
@@ -59,7 +88,7 @@ class Craft(MixinLogable):
         Get the name of the craft
         """
 
-        return self._func_name
+        return self._name
 
     @property
     def catalog(self):
@@ -67,7 +96,7 @@ class Craft(MixinLogable):
         Catalog getter
         """
         if not self._catalog:
-            raise errors.E044(__name__, func=self._func_name)
+            raise errors.E044(__name__, func=self._name)
 
         return self._catalog
 
@@ -82,32 +111,6 @@ class Craft(MixinLogable):
         else:
             raise errors.E045(__name__, func=self.__func_name)
 
-    def __call__(self, func, *args, **kwargs):
-        """
-        Decorate the called func
-        """
-
-        self._func_name = func.__name__
-        update_wrapper(self, func)
-
-        def _(*args, **kwargs):
-            artefacts = self._get_artefacts(func)
-
-            try:
-                out = func(*args, **kwargs, **artefacts)
-            except BaseException as err:
-                raise errors.E040(__name__, func=self._func_name) from err
-
-            out = self._capture_artefacts(out)
-
-            return out
-
-        # Bind the craft the function attributes (i'havent find a pretty way to preserve the interface and make the catalog injectable)
-        # (maybe just return a proper object with explicit dependency injection ;)
-        _.craft = self
-
-        return _
-
     def _capture_artefacts(self, in_: Mapping) -> Mapping:
         """
         Extract and save the artefact of an output dict
@@ -116,14 +119,14 @@ class Craft(MixinLogable):
             out (Dict): the dictionnary to extract artefacts from.
         """
 
-        self.debug(f"craft : capturing artefacts from '{self._func_name}'")
+        self.debug(f"craft : capturing artefacts from '{self._name}'")
 
         if not in_:
             return
 
         # Only support dictionaries
         if not isinstance(in_, Mapping):
-            raise errors.E041(__name__, func=self._func_name, got=str(type(in_)))
+            raise errors.E041(__name__, func=self._name, got=str(type(in_)))
 
         # Iterate over the artefacts and persist the one existing in the catalog.
         # return only the non-persisted items
@@ -134,14 +137,14 @@ class Craft(MixinLogable):
                 try:
                     self.catalog.save(name, artefact)
                 except BaseException as err:  # add details about the callable making the bad call
-                    raise errors.E043(__name__, func=self._func_name) from err
+                    raise errors.E043(__name__, func=self._name) from err
                 artefacts.append(name)
             else:
                 out[name] = in_[name]
 
         if artefacts:
             self.info(
-                f"craft : artefacts saved from '{self._func_name}' : '{', '.join(artefacts)}'."
+                f"craft : artefacts saved from '{self._name}' : '{', '.join(artefacts)}'."
             )
 
         return out
@@ -154,7 +157,7 @@ class Craft(MixinLogable):
             Dict[str, Artefact]: a mapping of artefacts
         """
 
-        self.debug(f"craft : loading artefacts for '{self._func_name}'")
+        self.debug(f"craft : loading artefacts for '{self._name}'")
 
         artefacts = {}
         for param in signature(func).parameters.values():
@@ -162,11 +165,11 @@ class Craft(MixinLogable):
                 try:
                     artefacts[param.name] = self.catalog.load(param.name)
                 except BaseException as err:  # add details about the callable making the bad call
-                    raise errors.E042(__name__, func=self._func_name) from err
+                    raise errors.E042(__name__, func=self._name) from err
 
         if artefacts:
             self.info(
-                f"craft : artefacts loaded for '{self._func_name}' : '{' ,'.join(artefacts.keys())}'."
+                f"craft : artefacts loaded for '{self._name}' : '{' ,'.join(artefacts.keys())}'."
             )
 
         return artefacts
