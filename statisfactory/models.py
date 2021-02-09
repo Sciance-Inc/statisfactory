@@ -80,8 +80,10 @@ class ArtefactSchema(Schema):
     Artefact's marshaller.
     """
 
+    _valids_artefacts = ["odbc", "csv", "xslx", "datapane"]
+
     # Shared
-    type = fields.Str(required=True, validate=validate.OneOf(["odbc", "csv", "xslx"]))
+    type = fields.Str(required=True, validate=validate.OneOf(_valids_artefacts))
     abstract = fields.Bool(required=False)
 
     # file
@@ -109,6 +111,16 @@ class ArtefactSchema(Schema):
                 errors["odbc"] = ["missing connector for type odbc"]
             if "query" not in data:
                 errors["odbc"] = ["missing query for type odbc"]
+
+        if errors:
+            raise ValidationError(errors)
+
+    @validates_schema
+    def validate_datapane(self, data, **kwargs):
+        errors = {}
+        if data["type"] == "datapane":
+            if "path" not in data:
+                errors["datapane"] = ["missing path for type datapane"]
 
         if errors:
             raise ValidationError(errors)

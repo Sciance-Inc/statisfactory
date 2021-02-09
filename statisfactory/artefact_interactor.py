@@ -28,6 +28,7 @@ from .logger import MixinLogable
 # third party
 import pandas as pd
 import pyodbc
+import datapane as dp
 
 #############################################################################
 #                                  Script                                   #
@@ -328,6 +329,50 @@ class ODBCInteractor(ArtefactInteractor):
 
     def save(self, asset: Any):
         raise errors.E999
+
+
+# ------------------------------------------------------------------------- #
+
+
+class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
+    """
+    Implements saving / loading for datapane object.
+    """
+
+    def __init__(self, artefact: Artefact, *args, **kwargs):
+        """
+        Return a new Datapane Interactor initiated with a a particular interactor
+        """
+
+        super().__init__(*args, **kwargs)
+        self._path = self._interpolate_path(path=artefact.path, **kwargs)
+        self._name = artefact.name
+
+    def load(self):
+        """
+        Not implemented since I don't want a report to be altered as for now­
+        Raises:
+            NotImplementedErrord
+        """
+
+        raise errors.E999
+
+    def save(self, asset: dp.Report, open=False):
+        """
+        Save a datapane assert
+
+        Args:
+            artefact (dp.Report): the datapane report object to be saved.
+            open (bool): whether open the report on saving.
+        """
+
+        self.debug(f"saving 'datapan' : {self._name}")
+
+        try:
+            self._create_parents(self._path)
+            asset.save(self._path, open=open)
+        except BaseException as error:
+            raise errors.E029(__name__, name=self._name) from error
 
 
 #############################################################################

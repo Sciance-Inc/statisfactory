@@ -56,6 +56,8 @@ class Pipeline(MixinLogable):
         Add a Craft to the pipeline
 
         TODO : Maybe use a Visitor to double dispatch between Pipeline and Crafts
+        TODO : Implement a __copy__ for the functor
+        TODO : remove the notion of catalog from the pipeline. Schould be defined as a Craft attribute
         """
 
         # if not isinstance(craft, Craft):
@@ -93,13 +95,13 @@ class Pipeline(MixinLogable):
                 f"pipeline : '{self._name}' running craft '{functor.craft.name}'."
             )
             try:
-                functor()
+                functor(**kwargs)
             except TypeError as err:
                 raise errors.E052(__name__, func=functor.craft.name) from err
             except BaseException as err:
                 raise errors.E053(__name__, func=functor.craft.name) from err
 
-        self.info(f"pipeline : '{self._name}' success (or silently failed).")
+        self.info(f"pipeline : '{self._name}' succeded.")
 
 
 #############################################################################

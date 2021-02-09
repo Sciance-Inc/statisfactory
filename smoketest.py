@@ -1,38 +1,56 @@
+import altair as alt
+import datapane as dp
+import pandas as pd
+
 # Smoke test the Craft
 from statisfactory import Craft, Artefact, Catalog, Pipeline
 
-catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo")
+
+#
+# @Craft(catalog)
+# def show_object(qaiData: Artefact):
+#    print(qaiData)
+#
+#
+# show_object()
+# print("done")
+#
+## Create some craft
+# @Craft()
+# def add_beer(val, masterFile: Artefact, **kwargs):
+#
+#    bar = masterFile.copy()
+#    bar["beer"] = val
+#
+#    return {"testDataset": bar}
 
 
-@Craft(catalog)
-def show_object(qaiData: Artefact):
-    print(qaiData)
-
-
-show_object()
-print("done")
-
-# Create some craft
 @Craft()
-def add_beer(val, masterFile: Artefact, **kwargs):
+def get_data(**kwargs):
+    df = pd.read_csv(
+        "https://query1.finance.yahoo.com/v7/finance/download/GOOG?period2=1585222905&interval=1mo&events=history"
+    )
 
-    bar = masterFile.copy()
-    bar["beer"] = val
-
-    return {"testDataset": bar}
+    return {"googleFinance": df}
 
 
 @Craft()
-def print_beer(testDataset: Artefact, **kwargs):
-    print(testDataset)
+def build_report(googleFinance: Artefact, **kwargs):
+    chart = (
+        alt.Chart(googleFinance).encode(x="Date:T", y="Open").mark_line().interactive()
+    )
+
+    r = dp.Report(dp.DataTable(googleFinance), dp.Plot(chart))
+
+    return {"report": r}
 
 
 # Create a context in which run the pipline
 catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo")
-P1 = Pipeline("first pip", catalog) + add_beer + print_beer
+P1 = Pipeline("first pip", catalog) + get_data + build_report
 
 # Run it with a given context
-P1(PIPELINE="vdc_P6_S4", val=1)
+P1()
 # P2(PIPELINE="vdc_P3_S1", val=2)
 print("done")
 

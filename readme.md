@@ -23,3 +23,7 @@ Don't. <span style="font-size:1.5mm"> Or, maybe, you can buy me a beer.</span>
 ### The Craft object and how did I finally find a way to mess up with the `inspect` package
 
 ### Writting a Pipeline for lazzy Statisticians
+
+## Hic sunt dracones
+* How to inject a spark runner ? 
+

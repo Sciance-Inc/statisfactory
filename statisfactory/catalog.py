@@ -27,6 +27,7 @@ from .artefact_interactor import (
     ODBCInteractor,
     XLSXInteractor,
     ArtefactInteractor,
+    DatapaneInteractor,
 )
 
 # third party
@@ -50,6 +51,7 @@ class Catalog(MixinLogable):
         "odbc": ODBCInteractor,
         "csv": CSVInteractor,
         "xslx": XLSXInteractor,
+        "datapane": DatapaneInteractor,
     }
 
     def __init__(self, path: str, **kwargs):
@@ -156,7 +158,7 @@ class Catalog(MixinLogable):
         try:
             interactor = Catalog.interactorMapper[artefact.type]
         except KeyError:
-            raise errors.E031.format(name=artefact.type)
+            raise errors.E031(__name__, name=artefact.type)
 
         return interactor
 

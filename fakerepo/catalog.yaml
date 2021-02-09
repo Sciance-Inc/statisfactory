@@ -18,7 +18,10 @@ artefacts:
   - masterFile:
       type: xslx
       path: 10_raw/foobar.xlsx
-  - testSQL:
-      type: odbc
-      connector: sql
-      query: foo
+  - googleFinance:
+      type: csv
+      path: googFinance.csv
+  - report:
+      type: datapane
+      path: "30_outputs/reports.html"
+
