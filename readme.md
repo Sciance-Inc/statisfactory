@@ -14,7 +14,7 @@ Statisfactory is a toolbox to apply and replicate a Statistical pipeline. The pu
 * V2 : add / rework the framework to add the notion of "runner" with a localRunner and  sparkRunner.
 
 ## How to contribute.
-Don't. <span style="font-size:1.5mm"> Or, maybe, you can buy me a beer.</span>
+Don't
 
 ## How to use.
 
@@ -23,6 +23,19 @@ Don't. <span style="font-size:1.5mm"> Or, maybe, you can buy me a beer.</span>
 ### The Craft object and how did I finally find a way to mess up with the `inspect` package
 
 ### Writting a Pipeline for lazzy Statisticians
+
+#### Plumbing pipelines together
+
+## Implementation Details
+
+### On the typed returned API
+The v1 uses a dictionnary mapping type. The v2 could be using something more ellegant, but the named returned are not yet supported
+
+```[python]
+@Craft.make(catalog)
+def identity(masterFile: Artefact, testFile: Artefact) -> Tuple["masterFile":Artefact, "testFile":Artefact]:
+    return masterFile, testFile
+```
 
 ## Hic sunt dracones
 * How to inject a spark runner ? 
