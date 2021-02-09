@@ -19,6 +19,7 @@ from functools import update_wrapper
 from typing import Callable, Dict
 from inspect import signature
 from collections.abc import Mapping
+from copy import copy
 
 # project
 from .errors import errors
@@ -41,7 +42,7 @@ class Craft(MixinLogable):
     @staticmethod
     def make(catalog: Catalog):
         """
-        Decorator transfroming a callable into a Craft
+        Decorator to make a Craft binded to the catalog from a callable
 
         Args:
             catalog (Catalog): the catalog to bind the craft to.
@@ -73,14 +74,21 @@ class Craft(MixinLogable):
 
         try:
             out = self._callable(*args, **kwargs, **artefacts)
-        except TypeError as err:
-            raise errors.E046(__name__, name=self._name) from err
         except BaseException as err:
             raise errors.E040(__name__, func=self._name) from err
 
         out = self._capture_artefacts(out)
 
         return out
+
+    def __copy__(self) -> "Craft":
+        """
+        Implements the shallow copy protocol for the Craft.
+        Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
+        """
+
+        craft = Craft(copy(self.catalog), self._callable)
+        return craft
 
     @property
     def name(self) -> str:

@@ -41,17 +41,16 @@ class Pipeline(MixinLogable):
     the context of a catalog.
     """
 
-    def __init__(self, name: str, catalog: Catalog):
+    def __init__(self, name: str):
         """
         Return a new pipeline. The new pipeline execute a list of crafts with only the parametrisation from the catalogue.
         """
 
         super().__init__()
         self._name = name
-        self._functors: Union[Craft] = []
-        self._catalog = copy(catalog)
+        self._crafts: Union[Craft] = []
 
-    def __add__(self, functor: Callable) -> "Pipeline":
+    def __add__(self, craft: Craft) -> "Pipeline":
         """
         Add a Craft to the pipeline
 
@@ -60,22 +59,12 @@ class Pipeline(MixinLogable):
         TODO : remove the notion of catalog from the pipeline. Schould be defined as a Craft attribute
         """
 
-        # if not isinstance(craft, Craft):
-        #    raise errors.E050(__name__, str(type(craft)))
+        # Check that the craft has a catalog.
+        craft.catalog
 
-        try:
-            if functor.craft.catalog:
-                raise errors.E051(__name__, func=functor.craft.name)
-        except errors.E044:
-            pass
+        self._crafts.append(craft)
 
-        # Isolate the craft
-        functor = copy(functor)
-        functor.craft.catalog = self._catalog
-
-        self._functors.append(functor)
-
-        self.debug(f"adding craft '{functor.craft.name} to the pipeline {self._name}'")
+        self.debug(f"adding craft '{craft.name} to the pipeline {self._name}'")
 
         return self
 
@@ -87,19 +76,21 @@ class Pipeline(MixinLogable):
         TODO : test interface with direct injection of kwargs into the functor
         """
 
-        # Update the catalog, so that every craft now use the current context.
-        self._catalog.update_context(**kwargs)
+        for craft in self._crafts:
+            self.info(f"pipeline : '{self._name}' running craft '{craft.name}'.")
 
-        for functor in self._functors:
-            self.info(
-                f"pipeline : '{self._name}' running craft '{functor.craft.name}'."
-            )
+            # Copy the craft (and it's catalog) to make it thread safe
+            craft = copy(craft)
+
+            # Update the craft's catalog context,
+            craft.catalog.update_context(**kwargs)
+
             try:
-                functor(**kwargs)
+                craft(**kwargs)
             except TypeError as err:
-                raise errors.E052(__name__, func=functor.craft.name) from err
+                raise errors.E052(__name__, func=craft.name) from err
             except BaseException as err:
-                raise errors.E053(__name__, func=functor.craft.name) from err
+                raise errors.E053(__name__, func=craft.name) from err
 
         self.info(f"pipeline : '{self._name}' succeded.")
 
