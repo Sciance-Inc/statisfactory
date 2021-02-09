@@ -11,6 +11,7 @@ Statisfactory is a toolbox to apply and replicate a Statistical pipeline. The pu
 
 ### Roadmap
 * V1 : the V1 is an (exploratory) work to bounce off some ideas about the proper design of such a tool. Spark support, pipelines 's parallelisation, graph inference are (volountary) out of scope. The v1 is not design to cope with big data, but could definetely handles some analysis on a, let'say, scholar dropout project. 
+    * V0.1 focuses on the `Craft` and `Catalog` objects and does not include CLI nor pipelines orchestration (orther than devlopment hooks or bear minmal implementation)
 * V2 : add / rework the framework to add the notion of "runner" with a localRunner and  sparkRunner.
 
 ## How to contribute.
