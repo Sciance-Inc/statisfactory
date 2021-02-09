@@ -23,13 +23,14 @@ from inspect import Signature, Parameter
 from .errors import errors
 from .logger import MixinLogable
 from .craft import Craft
+from .mergeable import MergeableInterface
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
-class Pipeline(MixinLogable):
+class Pipeline(MergeableInterface, MixinLogable):
     """
     Implements a way to run crafs.
 
