@@ -1,5 +1,6 @@
 #### Custom  ###
 *.ignoreMe.*
+fakerepo/Data/*
 
 ### IDE ###
 *.vscode/
