@@ -1,6 +1,7 @@
 #### Custom  ###
 *.ignoreMe.*
 fakerepo/Data/*
+db-cache/*
 
 ### IDE ###
 *.vscode/
@@ -133,3 +134,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
