@@ -17,7 +17,7 @@
 # system
 from functools import update_wrapper
 from typing import Callable, Dict
-from inspect import signature
+from inspect import signature, Signature
 from collections.abc import Mapping
 from copy import copy
 
@@ -63,6 +63,7 @@ class Craft(MixinLogable):
         self._catalog = catalog
         self._callable = callable
         self._name = callable.__name__
+        self._signature = signature(callable).parameters.values()
         update_wrapper(self, callable)
 
     def __call__(self, *args, **kwargs):
@@ -107,6 +108,14 @@ class Craft(MixinLogable):
             raise errors.E044(__name__, func=self._name)
 
         return self._catalog
+
+    @property
+    def signature(self) -> Signature:
+        """
+        Return the signature of the craft's underlying signature.
+        """
+
+        return self._signature
 
     @catalog.setter
     def catalog(self, catalog: Catalog):
@@ -168,7 +177,7 @@ class Craft(MixinLogable):
         self.debug(f"craft : loading artefacts for '{self._name}'")
 
         artefacts = {}
-        for param in signature(func).parameters.values():
+        for param in self.signature:
             if str(param.annotation) in Craft._valids_annotations:
                 try:
                     artefacts[param.name] = self.catalog.load(param.name)

@@ -10,7 +10,7 @@ catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakere
 
 
 @Craft.make(catalog)
-def add_item(foo: str, masterFile: Artefact, **kwargs):
+def add_item(foo: str, masterFile: Artefact, spam=5):
 
     masterFile["val"] = foo
 
@@ -18,8 +18,11 @@ def add_item(foo: str, masterFile: Artefact, **kwargs):
 
 
 @Craft.make(catalog)
-def show_item(testDataset: Artefact, **kwargs):
-    print(testDataset)
+def show_item(spam, masterFile: Artefact):
+    print(masterFile)
+
+
+show_item(1)
 
 
 p = Pipeline("smoktest") + add_item + show_item

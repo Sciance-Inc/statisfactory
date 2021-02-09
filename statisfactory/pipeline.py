@@ -15,13 +15,13 @@
 #############################################################################
 
 # system
-from typing import Union, Callable
+from typing import Union, Dict
 from copy import copy
+from inspect import Signature, Parameter
 
 # project
 from .errors import errors
 from .logger import MixinLogable
-from .catalog import Catalog
 from .craft import Craft
 
 #############################################################################
@@ -41,6 +41,8 @@ class Pipeline(MixinLogable):
     the context of a catalog.
     """
 
+    _valids_annotations = ["<class 'statisfactory.models.Artefact'>"]
+
     def __init__(self, name: str):
         """
         Return a new pipeline. The new pipeline execute a list of crafts with only the parametrisation from the catalogue.
@@ -55,8 +57,6 @@ class Pipeline(MixinLogable):
         Add a Craft to the pipeline
 
         TODO : Maybe use a Visitor to double dispatch between Pipeline and Crafts
-        TODO : Implement a __copy__ for the functor
-        TODO : remove the notion of catalog from the pipeline. Schould be defined as a Craft attribute
         """
 
         # Check that the craft has a catalog.
@@ -68,12 +68,34 @@ class Pipeline(MixinLogable):
 
         return self
 
+    def _filter_context(self, signature: Signature, ctx: Dict) -> Dict:
+        """
+        Return a subset of ctx with only the keys contained in signature OR all context if the Craft accept a variadic named parameters.
+        """
+        # Short-circuit : check if **kwargs is in the signature
+        if any(param.kind == "VAR_KEYWORD" for param in signature):
+            return ctx
+
+        # Extract the subset of required params
+        out = {}
+        for param in signature:
+            anno = str(param.annotation) not in Craft._valids_annotations
+            kind = param.kind == Parameter.POSITIONAL_OR_KEYWORD
+            default = param.default != Parameter.empty
+            if kind and anno:
+                try:
+                    out[param.name] = ctx[param.name]
+                except KeyError:
+                    if default:
+                        pass
+                    else:
+                        raise errors.E054(__name__, param=param.name) from None
+
+        return out
+
     def __call__(self, **kwargs):
         """
         Run the pipeline with a concrete context.
-
-        TODO : improve error shunt / switch
-        TODO : test interface with direct injection of kwargs into the functor
         """
 
         for craft in self._crafts:
@@ -85,8 +107,11 @@ class Pipeline(MixinLogable):
             # Update the craft's catalog context,
             craft.catalog.update_context(**kwargs)
 
+            # Filter the arguments of the craft to only send the expected ones.
+            kwargs_filtered = self._filter_context(craft.signature, kwargs)
+
             try:
-                craft(**kwargs)
+                craft(**kwargs_filtered)
             except TypeError as err:
                 raise errors.E052(__name__, func=craft.name) from err
             except BaseException as err:
