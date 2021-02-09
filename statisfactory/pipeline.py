@@ -53,19 +53,27 @@ class Pipeline(MergeableInterface, MixinLogable):
         self._name = name
         self._crafts: Union[Craft] = []
 
-    def __add__(self, craft: Craft) -> "Pipeline":
+    @property
+    def name(self):
+        return self._name
+
+    def visit_pipeline(self, pipeline: "Pipeline"):
+        """
+        Return the first pipeline augmented with the crafts from the current one and an updated context
+
+        Args:
+            pipeline (Pipeline): the pipeline to update and return
+        """
+        self.debug(f"merging pipeline '{self._name}' into '{pipeline._name}'")
+
+        pipeline._crafts.extend(self._crafts)
+
+    def __add__(self, visitor: MergeableInterface) -> "Pipeline":
         """
         Add a Craft to the pipeline
-
-        TODO : Maybe use a Visitor to double dispatch between Pipeline and Crafts
         """
 
-        # Check that the craft has a catalog.
-        craft.catalog
-
-        self._crafts.append(craft)
-
-        self.debug(f"adding craft '{craft.name} to the pipeline {self._name}'")
+        visitor.visit_pipeline(self)
 
         return self
 

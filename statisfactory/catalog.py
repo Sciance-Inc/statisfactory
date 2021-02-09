@@ -2,7 +2,7 @@
 
 # main.py
 #
-# Project name: Caisse Dépôts et Placements du Québec.
+# Project name: statisfactory
 # Author: Hugo Juhel
 #
 # description:

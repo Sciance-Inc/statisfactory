@@ -26,13 +26,14 @@ from .errors import errors
 from .logger import MixinLogable
 from .catalog import Catalog
 from .models import Artefact
+from .mergeable import MergeableInterface
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
-class Craft(MixinLogable):
+class Craft(MergeableInterface, MixinLogable):
     """
     Craft wraps a task and take care of data retrieval from / data storage to the catalogue
     """
@@ -190,6 +191,18 @@ class Craft(MixinLogable):
             )
 
         return artefacts
+
+    def visit_pipeline(self, pipeline: MergeableInterface):
+        """
+        Add the craft to the visiting pipeline
+        """
+        self.info(f"adding craft {self._name} into {pipeline.name}")
+
+        #  Make sure that the craft has a catalog setted
+        self.catalog
+
+        # Add the craft
+        pipeline._crafts.append(self)
 
 
 #############################################################################
