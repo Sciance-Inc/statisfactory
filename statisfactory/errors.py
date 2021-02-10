@@ -163,7 +163,7 @@ class Errors(metaclass=Singleton):
 
     # FS interactors
     E021 = "data interactor : failed to read '{method}' '{path}'"
-    E022 = "data interactor : failed to save the dataframe with '{method}' to '{path}'"
+    E022 = "data interactor : failed to save the asset with '{method}' to '{path}'"
     E023 = "data interactor : MixinLocalFileSystem : want not none 'data_path' and 'path'. got : '{data_path}' and '{path}' "
     E024 = "data interactor : '{path}' does not exists"
     E025 = (
@@ -181,10 +181,10 @@ class Errors(metaclass=Singleton):
     E033 = "catalog : context update : key conflict : '{keys}'"
 
     # Craft
-    E040 = "craft : failed to execute callable '{func}'"
+    E040 = "craft : failed to execute craft '{func}'"
     E041 = "craft : the object outputed by {func} schould be a dict. Got : {got}"
-    E042 = "craft : failed to load artefact for callable '{func}'"
-    E043 = "craft : failed to save artefact for callable '{func}'"
+    E042 = "craft : failed to load artefact for craft '{func}'"
+    E043 = "craft : failed to save artefact for craft '{func}'"
     E044 = "craft : the craft '{func}' has no catalog attached to it"
     E045 = "craft : the craft '{func}' has already a catalog. Here, have some data immutability !"
 

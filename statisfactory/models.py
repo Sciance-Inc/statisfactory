@@ -80,7 +80,7 @@ class ArtefactSchema(Schema):
     Artefact's marshaller.
     """
 
-    _valids_artefacts = ["odbc", "csv", "xslx", "datapane"]
+    _valids_artefacts = ["odbc", "csv", "xslx", "datapane", "pickle"]
 
     # Shared
     type = fields.Str(required=True, validate=validate.OneOf(_valids_artefacts))

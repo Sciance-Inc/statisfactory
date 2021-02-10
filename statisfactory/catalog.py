@@ -28,6 +28,7 @@ from .artefact_interactor import (
     XLSXInteractor,
     ArtefactInteractor,
     DatapaneInteractor,
+    PicklerInteractor,
 )
 
 # third party
@@ -52,6 +53,7 @@ class Catalog(MixinLogable):
         "csv": CSVInteractor,
         "xslx": XLSXInteractor,
         "datapane": DatapaneInteractor,
+        "pickle": PicklerInteractor,
     }
 
     def __init__(self, path: str, **kwargs):

@@ -21,3 +21,6 @@ artefacts:
   - report:
       type: datapane
       path: 30_outputs/reports.html
+  - toPickle:
+      type: pickle
+      path: 30_output/model.pkl

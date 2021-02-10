@@ -19,6 +19,7 @@ from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from typing import Any, Union
 from contextlib import contextmanager
+import pickle
 
 # project
 from .errors import errors
@@ -258,6 +259,68 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
             asset.to_excel(self._path)
         except BaseException as err:
             raise errors.E022(__name__, method="xslx", path=self._path) from err
+
+
+# ------------------------------------------------------------------------- #
+
+
+class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
+    """
+    Concrete implementation of a Pickle interactor.
+    """
+
+    def __init__(self, artefact: Artefact, *args, **kwargs):
+        """
+        Instanciate an interactor on a local file pickle file
+
+        Args:
+            artefact (Artefact): the artefact to load
+            kwargs: named-arguments.
+        """
+
+        super().__init__(artefact, *args, **kwargs)
+
+        self._path = self._interpolate_path(path=artefact.path, **kwargs)
+        self._kwargs = kwargs
+
+    def load(self) -> Any:
+        """
+        Unserialize the object located at 'path'
+
+        Returns:
+            Any: the unpickled object
+
+        TODO : add a wrapper for kwargs
+        """
+
+        self.debug(f"loading 'pickle' : {self._path}")
+
+        try:
+            with open(self._path, "rb") as f:
+                obj = pickle.load(f)
+        except FileNotFoundError as err:
+            raise errors.E024(__name__, path=self._path) from err
+        except BaseException as err:
+            raise errors.E021(__name__, method="pickle", path=self._path) from err
+
+        return obj
+
+    def save(self, asset: Any):
+        """
+        Serialize the 'asset'
+        Args:
+            asset (Any ): the artefact to be saved
+        """
+
+        self.debug(f"saving 'pickle' : {self._path}")
+
+        self._create_parents(self._path)
+
+        try:
+            with open(self._path, "wb+") as f:
+                pickle.dump(asset, f)
+        except BaseException as err:
+            raise errors.E022(__name__, method="pickle", path=self._path) from err
 
 
 # ------------------------------------------------------------------------- #

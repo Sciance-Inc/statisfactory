@@ -6,8 +6,27 @@ from typing import Tuple
 # Smoke test the Craft
 from statisfactory import Craft, Artefact, Catalog, Pipeline
 
+from sklearn.linear_model import LogisticRegression
+
 
 catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakerepo")
+
+
+@Craft.make(catalog)
+def train_regression():
+    model = LogisticRegression()
+
+    return {"toPickle": model}
+
+
+@Craft.make(catalog)
+def load_regression(toPickle: Artefact):
+    print(toPickle)
+
+
+p = Pipeline("dummy") + train_regression + load_regression
+p()
+print("done")
 
 
 @Craft.make(catalog)
