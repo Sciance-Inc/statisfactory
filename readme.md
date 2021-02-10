@@ -68,7 +68,7 @@ __tl;dr : a tl;dr section is available at the end of the documentation__
 
 * The following `.yaml` shows a `catalog.yaml` sample :
 
-```
+```yaml
 version: 0.0.1
 connectors:
   - ibesServer:
@@ -98,7 +98,7 @@ artefacts:
 
 * The `Catalog` can be used to load a `catalog.yml` and save, retrieve `Artefacts` from, using the __name__ of the `Artefact`.
 
-```[python]
+```python
 from statisfactory import Catalog
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
@@ -112,7 +112,7 @@ catalog.save("masterFile", df)
 
 * if required, named arguments can be used as context to interpolate the strings in the artefacts declaration.
 
-```
+```python
 from statisfactory import Catalog
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
@@ -136,7 +136,7 @@ catalog.save("testDataset", df, PIPELINE="foobar")
 * Use the `Artefact` type hinting to flag an `Artefact` to load:
 
 
-```[python]
+```python
 from statisfactory import Catalog, Craft, Artefact
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
@@ -153,7 +153,7 @@ show_df()
 
 * Return dictionnary mapping names to object. Use the `Artefact`'s __name__ to save it
 
-```[python]
+```python
 from statisfactory import Catalog, Craft, Artefact
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
@@ -173,7 +173,7 @@ add_col()
 
 * You can use normal parameter definitions in your function, the `Craft` will defers them to the callable :
 
-```[python]
+```python
 from statisfactory import Catalog, Craft, Artefact
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
@@ -197,7 +197,7 @@ show_top(10)
 * Once defined, a `Pipeline` must be called to be executed.
 * One way to declare pipeline, is to __add__ some crafts togethers. Craft are going to be executed in the order they are added to the pipeline. There is no auto-dep builder in the v1.
 
-```[python]
+```python
 from statisfactory import Catalog, Craft, Artefact
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
@@ -226,7 +226,7 @@ p()
 
 * If you want to add a name to your `Pipeline` or change the parameters, you need to explicitely define the `Pipeline`.
 
-```[python]
+```python
 from statisfactory import Catalog, Craft, Artefact, Pipeline
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
@@ -256,7 +256,7 @@ p()
 #### "Same-same but different", contextualizing pipelines
 * As for the `Crafts`, you can pass options, or interpolating variables for the path interpolation to the `Pipeline` when calling it. The following example shows how you can execute the the same `Pipeline` with differents options.
 
-```[python]
+```python
 from statisfactory import Catalog, Craft, Artefact
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
@@ -288,7 +288,7 @@ p(top=10, val="boum")  # Val set to "boum"
 
 * You can merge `Pipelines` togethers using the __+__ operator. The `Crafts` are executed in the order they are added
 
-```[python]
+```python
 p1 = Pipeline() + craft_1
 p = craft_2 + craft_3
 
@@ -300,7 +300,7 @@ y = p + p1 # 2 > 3 > 1
 
 * Variables returned by a `Craft` but __not__ declared in the `Catalog` will be added to the context and cascaded to the subsequent `Crafts` requiring them. Warning / error will be raised if keys collide.
 
-```[python]
+```python
 from statisfactory import Craft, Catalog
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
@@ -331,7 +331,7 @@ def print_var(myValue):
 * The following example create a pipeline that create a dataframe, run a regression on it and save the coeff of the regression. The `Pipeline` is personnalized by the number of samples to generate. The `catalog.yaml` uses a variable path, to store the differents coeffiencts.
 * The pipeline uses the `catalog.yaml` defined in the introduction.
 
-```[python]
+```python
 from statisfactory import Craft, Artefact, Catalog, Pipeline
 from sklearn.linear_model import LinearRegression
 from sklearn import datasets
@@ -405,7 +405,7 @@ c2 = catalog.load("coeffs", samples=500)
 ## On the typed returned API
 The v1 uses a dictionnary mapping type. The v2 could be using something more ellegant, but the named returned are not yet supported
 
-```[python]
+```python
 @Craft.make(catalog)
 def identity(masterFile: Artefact, testFile: Artefact) -> Tuple["masterFile":Artefact, "testFile":Artefact]:
     return masterFile, testFile
