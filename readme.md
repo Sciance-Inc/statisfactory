@@ -3,24 +3,7 @@ _A (not yet) Satisfying Statistical Factory_
 
 Primatives for statistical pipelines replication and data centralization (we put the fun out of "statistics").
 
-
-- [Statisfactory](#statisfactory)
-  * [Motivation and Scope](#motivation-and-scope)
-    + [Roadmap](#roadmap)
-  * [How to contribute.](#how-to-contribute)
-  * [High level presentation](#high-level-presentation)
-  * [How to use it](#how-to-use-it)
-    + [The not pythonic part : writting the `catalog.yaml`](#the-not-pythonic-part---writting-the--catalogyaml-)
-    + [The `Catalog` object and the fabulous tale of data persistence.](#the--catalog--object-and-the-fabulous-tale-of-data-persistence)
-    + [The `Craft` object and how did I finally find a way to mess up with the `inspect` package](#the--craft--object-and-how-did-i-finally-find-a-way-to-mess-up-with-the--inspect--package)
-    + [Writting a `Pipeline` for lazzy Statisticians](#writting-a--pipeline--for-lazzy-statisticians)
-      - ["Same-same but different", contextualizing pipelines](#-same-same-but-different---contextualizing-pipelines)
-      - [Plumbing pipelines together](#plumbing-pipelines-together)
-      - [~~Fantastics~~ Volatile beasts and where to ~~find~~ persists them.](#--fantastics---volatile-beasts-and-where-to-find-them)
-- [tl;dr show-me-the-money](#tl-dr-show-me-the-money)
-- [Implementation Details](#implementation-details)
-  * [On the typed returned API](#on-the-typed-returned-api)
-- [Hic sunt dracones](#hic-sunt-dracones)
+[[_TOC_]]
 
 
 ## Motivation and Scope
