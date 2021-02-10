@@ -17,12 +17,11 @@
 # system
 from typing import Union, Dict
 from copy import copy
-from inspect import Signature, Parameter
+from inspect import Parameter
 
 # project
 from .errors import errors, warnings
 from .logger import MixinLogable
-from .craft import Craft
 from .mergeable import MergeableInterface
 
 #############################################################################
@@ -55,16 +54,34 @@ class Pipeline(MergeableInterface, MixinLogable):
 
         super().__init__()
         self._name = name
-        self._crafts: Union[Craft] = []
+        self._crafts: Union["Craft"] = []
         self._error_on_overwrting = error_on_overwriting
 
     @property
     def name(self):
         return self._name
 
+    def __add__(self, visitor: MergeableInterface) -> "Pipeline":
+        """
+        Add a Mergeable to the pipeline.
+        Implements the accept part of the visitor pattern.
+        """
+
+        visitor.visit_pipeline(self)
+
+        return self
+
+    def visit_craft(self, craft) -> "Pipeline":
+        """
+        Insert the given craft in the first position of the pipeline.
+        """
+
+        self._crafts.insert(0, craft)
+        return self
+
     def visit_pipeline(self, pipeline: "Pipeline"):
         """
-        Return the first pipeline augmented with the crafts from the current one and an updated context
+        Update self by adding the crafts from 'pipeline'.
 
         Args:
             pipeline (Pipeline): the pipeline to update and return
@@ -73,16 +90,7 @@ class Pipeline(MergeableInterface, MixinLogable):
 
         pipeline._crafts.extend(self._crafts)
 
-    def __add__(self, visitor: MergeableInterface) -> "Pipeline":
-        """
-        Add a Craft to the pipeline
-        """
-
-        visitor.visit_pipeline(self)
-
-        return self
-
-    def _build_context(self, craft: Craft, context: Dict, volatile: Dict) -> Dict:
+    def _build_context(self, craft: "Craft", context: Dict, volatile: Dict) -> Dict:
         """
         Return a subset of context with only the keys contained in signature OR all context if the Craft accept a variadic named parameters.
         """
@@ -98,7 +106,7 @@ class Pipeline(MergeableInterface, MixinLogable):
         # Extract the subset of required params
         out = {}
         for param in craft.signature:
-            anno = str(param.annotation) not in Craft._valids_annotations
+            anno = str(param.annotation) not in Pipeline._valids_annotations
             kind = param.kind == Parameter.POSITIONAL_OR_KEYWORD
             default = param.default != Parameter.empty
             if kind and anno:

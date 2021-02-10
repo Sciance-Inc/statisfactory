@@ -27,6 +27,7 @@ from .logger import MixinLogable
 from .catalog import Catalog
 from .models import Artefact
 from .mergeable import MergeableInterface
+from .pipeline import Pipeline
 
 #############################################################################
 #                                  Script                                   #
@@ -192,9 +193,32 @@ class Craft(MergeableInterface, MixinLogable):
 
         return artefacts
 
+    def __add__(self, visitor: MergeableInterface):
+        """
+        Combine two crafts into a pipeline.
+        Implements the accept part of the visitor pattern.
+
+        Args:
+            visitor (MergeableInterface): the craft / pipeline to combine
+        """
+
+        return visitor.visit_craft(self)
+
+    def visit_craft(self, craft: "Craft"):
+        """
+        Combine two crafts into a pipeline
+
+        Args:
+            craft (Craft): the other craft to add
+        """
+
+        return (
+            Pipeline("noName") + craft + self
+        )  # Since it's called by "visiting", self is actually the Right object in L + R
+
     def visit_pipeline(self, pipeline: MergeableInterface):
         """
-        Add the craft to the visiting pipeline
+        Add the craft in last position to the visiting pipeline
         """
         self.info(f"adding craft {self._name} into {pipeline.name}")
 
