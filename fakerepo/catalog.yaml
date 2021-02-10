@@ -23,4 +23,4 @@ artefacts:
       path: 30_outputs/reports.html
   - coeffs:
       type: pickle
-      path: 30_output/coeff.pkl
+      path: 30_output/model_{samples}/coeff.pkl

@@ -17,10 +17,12 @@
 # system
 from pathlib import Path
 from typing import Any
+from contextlib import contextmanager
+from copy import copy
 
 # project
 from .logger import MixinLogable
-from .errors import errors
+from .errors import errors, warnings
 from .models import CatalogData, Artefact, Connector
 from .artefact_interactor import (
     CSVInteractor,
@@ -44,7 +46,7 @@ class Catalog(MixinLogable):
     """Catalog represent a loadable / savabale set of dataframes living locally or in far, far aways distributed system.
     The catalog mixes a monitor with a facade pattern (yeup, quick dev)
 
-    TODO : test a replication flow with a context
+    TODO : Rework the way catalog'context and pipeline's context are combined : create a new object for context and pass it independlyt
     """
 
     # Map each artefact type to it's corresponding interactor
@@ -56,7 +58,7 @@ class Catalog(MixinLogable):
         "pickle": PicklerInteractor,
     }
 
-    def __init__(self, path: str, **kwargs):
+    def __init__(self, path: str, context_overwrite_strict: bool = True, **kwargs):
         """Build a new catalog for the root 'path'.
 
         The catalog loads:
@@ -65,6 +67,7 @@ class Catalog(MixinLogable):
 
         super().__init__()
         self.debug("preflight : check...")
+        self._context_overwrite_strict = context_overwrite_strict
 
         # Check that the path exists
         path = Path(path)
@@ -100,6 +103,23 @@ class Catalog(MixinLogable):
 
         self.debug("preflight : ...ok")
 
+    @contextmanager
+    def _temp_context(self, **kwargs):
+        """
+        Temporaly update the context
+        """
+        if not kwargs:
+            yield
+            return
+
+        old = copy(self._context)
+        self._context_overwrite_strict = False
+        self.update_context(**kwargs)
+        yield
+        self._context = old
+        self._context_overwrite_strict = True
+        return
+
     def update_context(self, **kwargs):
         """
         Update the context of the catalog
@@ -107,7 +127,10 @@ class Catalog(MixinLogable):
 
         common = set(self._context.keys()).intersection(set(kwargs.keys()))
         if len(common) > 0:
-            raise errors.E033(__name__, keys=", ".join(common))
+            if self._context_overwrite_strict:
+                raise errors.E033(__name__, keys=", ".join(common))
+            else:
+                warnings.W033(__name__, keys=", ".join(common))
 
         self._context = {**self._context, **kwargs}
 
@@ -164,37 +187,40 @@ class Catalog(MixinLogable):
 
         return interactor
 
-    def load(self, name: str) -> pd.DataFrame:
-        """Load an asset from the catalogue
+    def load(self, name: str, **kwargs) -> pd.DataFrame:
+        """Load an asset from the catalogue.
+        A context can be provided through named variadic args.
+        if a context is provided, the update of the context won't raised any error
 
         Args:
             name (str): the name of the artefact to load.
         """
 
-        artefact = self._get_artefact(name)
-        connector = self._get_connector(artefact)
-
-        # build the interactor with the artefact and the catalog context.
-        interactor: ArtefactInteractor = self._get_interactor(artefact)(
-            artefact=artefact, connector=connector, **self._context
-        )
+        with self._temp_context(**kwargs):
+            artefact = self._get_artefact(name)
+            connector = self._get_connector(artefact)
+            interactor: ArtefactInteractor = self._get_interactor(artefact)(
+                artefact=artefact, connector=connector, **self._context
+            )
 
         return interactor.load()
 
-    def save(self, name: str, asset: Any):
+    def save(self, name: str, asset: Any, **kwargs):
         """Save the asset using the artefact name.
+        A context can be provided through named variadic args.
+        if a context is provided, the update of the context won't raised any error
 
         Args:
             name (str): the name of the arteface
             asset (Any): the underlying artefact to store
         """
 
-        artefact = self._get_artefact(name)
-        connector = self._get_connector(artefact)
-
-        interactor: ArtefactInteractor = self._get_interactor(artefact)(
-            artefact=artefact, connector=connector, **self._context
-        )
+        with self._temp_context(**kwargs):
+            artefact = self._get_artefact(name)
+            connector = self._get_connector(artefact)
+            interactor: ArtefactInteractor = self._get_interactor(artefact)(
+                artefact=artefact, connector=connector, **self._context
+            )
 
         interactor.save(asset)
 

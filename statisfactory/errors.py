@@ -203,6 +203,9 @@ class Errors(metaclass=Singleton):
 @_raisable_attributes_factory(StatisfactoryWarning)
 class Warnings(UserWarning):
 
+    # Catalog
+    W033 = "catalog : context update : key conflict : '{keys}'"
+
     # Pipeline
     W055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
 

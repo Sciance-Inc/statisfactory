@@ -90,7 +90,7 @@ class Pipeline(MergeableInterface, MixinLogable):
 
         pipeline._crafts.extend(self._crafts)
 
-    def _build_context(self, craft: "Craft", context: Dict, volatile: Dict) -> Dict:
+    def _build_context(self, craft, context: Dict, volatile: Dict) -> Dict:
         """
         Return a subset of context with only the keys contained in signature OR all context if the Craft accept a variadic named parameters.
         """
