@@ -72,7 +72,7 @@ class Craft(MergeableInterface, MixinLogable):
         Call the underlying callable
         """
 
-        artefacts = self._get_artefacts(self._callable)
+        artefacts = self._load_artefacts(self._callable)
 
         try:
             out = self._callable(*args, **kwargs, **artefacts)
@@ -167,7 +167,7 @@ class Craft(MergeableInterface, MixinLogable):
 
         return out
 
-    def _get_artefacts(self, func: Callable) -> Dict[str, Artefact]:
+    def _load_artefacts(self, func: Callable) -> Dict[str, Artefact]:
         """
         Load the artefacts matching a given function.
 

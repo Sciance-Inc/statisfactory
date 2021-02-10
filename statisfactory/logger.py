@@ -50,8 +50,10 @@ def get_module_logger(mod_name):
 
 class MixinLogable:
     def __init__(self, *args, **kwargs):
-
         self._logger = get_module_logger("statisfactory")
+
+    def warn(self, msg):
+        self._logger.warn(msg)
 
     def info(self, msg):
         self._logger.info(msg)

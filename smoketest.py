@@ -1,6 +1,7 @@
 import altair as alt
 import datapane as dp
 import pandas as pd
+from typing import Tuple
 
 # Smoke test the Craft
 from statisfactory import Craft, Artefact, Catalog, Pipeline
@@ -10,25 +11,43 @@ catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakere
 
 
 @Craft.make(catalog)
-def add_item(foo: str, masterFile: Artefact, spam=5):
-
-    masterFile["val"] = foo
-
-    return {"testDataset": masterFile}
+def compute_dummy():
+    return {"val": 5}
 
 
 @Craft.make(catalog)
-def show_item(spam, masterFile: Artefact):
-    print(masterFile)
+def print_dummy(val):
+    print(val)
 
 
-show_item(1)
+p = Pipeline("jean_bobby", error_on_overwriting=False) + compute_dummy + print_dummy
+out = p(val=1)
 
+print("done7")
 
-p = Pipeline("smoktest") + add_item + show_item
-p(PIPELINE="test_1", foo="yup")
-
-print("done")
+# @Craft.make(catalog)
+# def add_item(foo: str, masterFile: Artefact):
+#
+# masterFile["val"] = foo
+#
+# return {"testDataset": masterFile}
+#
+#
+# @Craft.make(catalog)
+# def show_item(testDataset: Artefact, spam=3):
+# print(spam)
+#
+#
+# p0 = Pipeline("first") + add_item
+# p1 = Pipeline("second") + show_item
+# p0 = p0 + p1
+#
+# p0(PIPELINE="test_1", foo="yup", spam="nop")
+#
+# p = Pipeline("smoktest") + add_item + show_item
+# p(PIPELINE="test_1", foo="yup", spam="nop")
+#
+# print("done")
 
 #
 # @Craft(catalog)

@@ -194,6 +194,7 @@ class Errors(metaclass=Singleton):
     E052 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
     E053 = "pipeline : failed to run craft '{func}'"
     E054 = "pipeline : missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
+    E055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
 
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
@@ -201,10 +202,13 @@ class Errors(metaclass=Singleton):
 
 @_raisable_attributes_factory(StatisfactoryWarning)
 class Warnings(UserWarning):
-    pass
+
+    # Pipeline
+    W055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
 
 
 errors = Errors()
+warnings = Warnings()
 
 if __name__ == "__main__":
     sys.exit()
