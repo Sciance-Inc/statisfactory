@@ -62,12 +62,12 @@ def save_coeff(reg):
 
 # Combine the three crafts
 p = build_dataframe + train_regression + save_coeff
-p(samples=200)  # Call the pipeline with specific arguments (once)
 p(samples=500)  # Call the pipeline with specific arguments (once)
+p(samples=499, fit_intercept=False)  # Call the pipeline with specific arguments (once)
 
 
 # Finally use the catalog to control the coeff
-c1 = catalog.load("coeffs", samples=200)
+c1 = catalog.load("coeffs", samples=499)
 c2 = catalog.load("coeffs", samples=500)
 # and copy c2 to 0
 catalog.save("coeffs", c2, samples=0)
