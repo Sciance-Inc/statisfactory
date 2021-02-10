@@ -149,7 +149,6 @@ class Craft(MergeableInterface, MixinLogable):
 
         # Iterate over the artefacts and persist the one existing in the catalog.
         # return only the non-persisted items
-        out = {}
         artefacts = []
         for name, artefact in in_.items():
             if name in self.catalog:
@@ -158,15 +157,13 @@ class Craft(MergeableInterface, MixinLogable):
                 except BaseException as err:  # add details about the callable making the bad call
                     raise errors.E043(__name__, func=self._name) from err
                 artefacts.append(name)
-            else:
-                out[name] = in_[name]
 
         if artefacts:
             self.info(
                 f"craft : artefacts saved from '{self._name}' : '{', '.join(artefacts)}'."
             )
 
-        return out
+        return in_
 
     def _load_artefacts(self, func: Callable) -> Dict[str, Artefact]:
         """
