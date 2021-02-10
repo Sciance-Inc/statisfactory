@@ -3,6 +3,7 @@ _A (not yet) Satisfying Statistical Factory_
 
 Primatives for statistical pipelines replication and data centralization (we put the fun out of "statistics").
 
+[[_TOC_]]
 
 - [Statisfactory](#statisfactory)
   * [Motivation and Scope](#motivation-and-scope)
