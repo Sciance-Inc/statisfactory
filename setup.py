@@ -39,13 +39,13 @@ setup(
     include_package_data=True,
     install_requires=[
         "marshmallow==3.10.0",
-        "pandas==1.1.2",
+        "pandas>=1.1.2",
         "filelock==3.0.12",
         "dataclasses==0.6",
         "click==7.0",
-        "pyodbc==4.0.30",
+        "pyodbc>=4.0.30",
         "typing==3.7.4",
-        "datapane==0.9.2",
+        "datapane>=0.9.2",
         "PyYAML==5.4.1",
     ],
 )
