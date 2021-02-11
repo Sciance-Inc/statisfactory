@@ -9,18 +9,9 @@ artefacts:
       type: odbc
       connector: ibesServer
       query: SELECT TOP 10 * FROM SYSOBJECTS WHERE xtype = 'U';
-  - testDataset:
-      type: csv
-      path: '20_transformed/{PIPELINE}/testDataset.csv'
   - masterFile:
       type: xslx
       path: 10_raw/foobar.xlsx
-  - googleFinance:
-      type: csv
-      path: googFinance.csv
-  - report:
-      type: datapane
-      path: 30_outputs/reports.html
   - coeffs:
       type: pickle
       path: 30_output/model_{samples}/coeff.pkl
