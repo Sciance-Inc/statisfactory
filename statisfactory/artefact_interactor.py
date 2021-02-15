@@ -189,7 +189,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
         try:
             asset.to_csv(self._path)
         except BaseException as err:
-            raise errors.E022(__name__, method="csv", path=self._path) from err
+            raise errors.E022(__name__, method="csv", name=self._name) from err
 
 
 # ------------------------------------------------------------------------- #
@@ -258,7 +258,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
         try:
             asset.to_excel(self._path)
         except BaseException as err:
-            raise errors.E022(__name__, method="xslx", path=self._path) from err
+            raise errors.E022(__name__, method="xslx", name=self._name) from err
 
 
 # ------------------------------------------------------------------------- #
@@ -320,7 +320,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
             with open(self._path, "wb+") as f:
                 pickle.dump(asset, f)
         except BaseException as err:
-            raise errors.E022(__name__, method="pickle", path=self._path) from err
+            raise errors.E022(__name__, method="pickle", name=self._name) from err
 
 
 # ------------------------------------------------------------------------- #
@@ -435,7 +435,59 @@ class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
             self._create_parents(self._path)
             asset.save(self._path, open=open)
         except BaseException as error:
-            raise errors.E029(__name__, name=self._name) from error
+            raise errors.E022(__name__, method="datapane", name=self._name) from error
+
+
+# ------------------------------------------------------------------------- #
+
+
+class BinaryInteractory(ArtefactInteractor, MixinLocalFileSystem):
+    """
+    Implements saving / loading for binary raw object
+    """
+
+    def __init__(self, artefact: Artefact, *args, **kwargs):
+        """
+        Return a new Binary Interactor initiated with a a particular interactor
+        """
+
+        super().__init__(*args, **kwargs)
+        self._path = self._interpolate_path(path=artefact.path, **kwargs)
+        self._name = artefact.name
+
+    def load(self):
+        """
+        Return the content of a binary artefact.
+        """
+
+        self.debug(f"loading 'binary' : {self._path}")
+
+        try:
+            with open(self._path, "rb") as f:
+                obj = f.read()
+        except FileNotFoundError as err:
+            raise errors.E024(__name__, path=self._path) from err
+        except BaseException as err:
+            raise errors.E021(__name__, method="binary", path=self._path) from err
+
+        return obj
+
+    def save(self, asset: Any, open=False):
+        """
+        Save a datapane assert
+
+        Args:
+            artefact (Any): the binary content to write
+        """
+
+        self.debug(f"saving 'binary' : {self._name}")
+
+        try:
+            self._create_parents(self._path)
+            with open(self._path, "wb+") as f:
+                f.write(asset)
+        except BaseException as error:
+            raise errors.E022(__name__, method="binary", name=self._name) from error
 
 
 #############################################################################
