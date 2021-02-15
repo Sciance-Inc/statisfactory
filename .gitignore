@@ -135,3 +135,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+catalog.yaml
+remove.py
+Data/
