@@ -17,12 +17,10 @@
 # system
 from pathlib import Path
 from typing import Any
-from contextlib import contextmanager
-from copy import copy
 
 # project
 from .logger import MixinLogable
-from .errors import errors, warnings
+from .errors import errors
 from .models import CatalogData, Artefact, Connector
 from .artefact_interactor import (
     CSVInteractor,
@@ -60,7 +58,7 @@ class Catalog(MixinLogable):
         "binary": BinaryInteractor,
     }
 
-    def __init__(self, path: str, context_overwrite_strict: bool = True, **kwargs):
+    def __init__(self, path: str, context_overwrite_strict: bool = True):
         """Build a new catalog for the root 'path'.
 
         The catalog loads:
@@ -99,42 +97,9 @@ class Catalog(MixinLogable):
                 raise errors.E013 from err
 
         # Create a context from the path an any surnumerary arguments.
-        context = {"data_path": data_path}
-        self._context = {**context, **kwargs}
-        self.debug(f"initiaing Catalog with context : '{self._context}'")
+        self._data_path = data_path
 
         self.debug("preflight : ...ok")
-
-    @contextmanager
-    def _temp_context(self, **kwargs):
-        """
-        Temporaly update the context
-        """
-        if not kwargs:
-            yield
-            return
-
-        old = copy(self._context)
-        self._context_overwrite_strict = False
-        self.update_context(**kwargs)
-        yield
-        self._context = old
-        self._context_overwrite_strict = True
-        return
-
-    def update_context(self, **kwargs):
-        """
-        Update the context of the catalog
-        """
-
-        common = set(self._context.keys()).intersection(set(kwargs.keys()))
-        if len(common) > 0:
-            if self._context_overwrite_strict:
-                raise errors.E033(__name__, keys=", ".join(common))
-            else:
-                warnings.W033(__name__, keys=", ".join(common))
-
-        self._context = {**self._context, **kwargs}
 
     def __contains__(self, name: str) -> bool:
         """
@@ -189,7 +154,7 @@ class Catalog(MixinLogable):
 
         return interactor
 
-    def load(self, name: str, **kwargs) -> pd.DataFrame:
+    def load(self, name: str, **context) -> pd.DataFrame:
         """Load an asset from the catalogue.
         A context can be provided through named variadic args.
         if a context is provided, the update of the context won't raised any error
@@ -198,16 +163,17 @@ class Catalog(MixinLogable):
             name (str): the name of the artefact to load.
         """
 
-        with self._temp_context(**kwargs):
-            artefact = self._get_artefact(name)
-            connector = self._get_connector(artefact)
-            interactor: ArtefactInteractor = self._get_interactor(artefact)(
-                artefact=artefact, connector=connector, **self._context
-            )
+        context["data_path"] = self._data_path
+
+        artefact = self._get_artefact(name)
+        connector = self._get_connector(artefact)
+        interactor: ArtefactInteractor = self._get_interactor(artefact)(
+            artefact=artefact, connector=connector, **context
+        )
 
         return interactor.load()
 
-    def save(self, name: str, asset: Any, **kwargs):
+    def save(self, name: str, asset: Any, **context):
         """Save the asset using the artefact name.
         A context can be provided through named variadic args.
         if a context is provided, the update of the context won't raised any error
@@ -217,12 +183,13 @@ class Catalog(MixinLogable):
             asset (Any): the underlying artefact to store
         """
 
-        with self._temp_context(**kwargs):
-            artefact = self._get_artefact(name)
-            connector = self._get_connector(artefact)
-            interactor: ArtefactInteractor = self._get_interactor(artefact)(
-                artefact=artefact, connector=connector, **self._context
-            )
+        context["data_path"] = self._data_path
+
+        artefact = self._get_artefact(name)
+        connector = self._get_connector(artefact)
+        interactor: ArtefactInteractor = self._get_interactor(artefact)(
+            artefact=artefact, connector=connector, **context
+        )
 
         interactor.save(asset)
 

@@ -90,35 +90,6 @@ class Pipeline(MergeableInterface, MixinLogable):
 
         pipeline._crafts.extend(self._crafts)
 
-    def _build_context(self, craft, context: Dict, volatile: Dict) -> Dict:
-        """
-        Return a subset of context with only the keys contained in signature OR all context if the Craft accept a variadic named parameters.
-        """
-        # Short-circuit : check if **kwargs is in the signature, if we don't have to filter.
-        if any(param.kind == "VAR_KEYWORD" for param in craft.signature):
-            return context
-
-        # Merge the context with the volatile
-        context = self._merge_dictionnaries(
-            context, volatile, craft.name, kind="context/volatile"
-        )
-
-        # Extract the subset of required params
-        out = {}
-        for param in craft.signature:
-            anno = str(param.annotation) not in Pipeline._valids_annotations
-            kind = param.kind == Parameter.POSITIONAL_OR_KEYWORD
-            default = param.default != Parameter.empty
-            if kind and anno:
-                # Try to fetch the argument in the context.  Raises an error if no value is found and if no defualt is found.
-                try:
-                    out[param.name] = context[param.name]
-                except KeyError:
-                    if not default:
-                        raise errors.E054(__name__, param=param.name) from None
-
-        return out
-
     def _merge_dictionnaries(
         self, left: Dict, right: Dict, craft_name: str, kind: str
     ) -> Dict:
@@ -151,7 +122,7 @@ class Pipeline(MergeableInterface, MixinLogable):
 
         return {**left, **right}
 
-    def __call__(self, **kwargs) -> Dict:
+    def __call__(self, **context) -> Dict:
         """
         Run the pipeline with a concrete context.
 
@@ -168,13 +139,8 @@ class Pipeline(MergeableInterface, MixinLogable):
             # Copy the craft (and it's catalog) to make it thread safe
             craft = copy(craft)
 
-            # Update the craft's catalog context,
-            craft.catalog.update_context(**kwargs)
-
-            # Filter the arguments of the craft to only send the expected ones.
-            full_context = self._build_context(
-                craft, craft.catalog._context, volatile_outputs
-            )
+            # Combine the volatile dictionary with the context one and send them to the craft
+            full_context = self._merge_dictionnaries(context, volatile_outputs, craft.name, "craftContext")
 
             try:
                 #  Apply the craft

@@ -17,7 +17,7 @@
 # system
 from functools import update_wrapper
 from typing import Callable, Dict
-from inspect import signature, Signature
+from inspect import signature, Signature, Parameter
 from collections.abc import Mapping
 from copy import copy
 
@@ -68,19 +68,46 @@ class Craft(MergeableInterface, MixinLogable):
         self._signature = signature(callable).parameters.values()
         update_wrapper(self, callable)
 
-    def __call__(self, *args, **kwargs):
+    def _filter_signature(self, context: Dict) -> Dict:
+        """
+        Return a subset of context with only the keys contained in signature OR all context if the Craft accept a variadic named parameters.
+        """
+        # Short-circuit : check if **kwargs is in the signature, if we don't have to filter.
+        if any(param.kind == "VAR_KEYWORD" for param in self._signature):
+            return context
+
+        # Extract the subset of required params
+        out = {}
+        for param in self._signature:
+            anno = str(param.annotation) not in Pipeline._valids_annotations
+            kind = param.kind == Parameter.POSITIONAL_OR_KEYWORD
+            default = param.default != Parameter.empty
+            if kind and anno:
+                # Try to fetch the argument in the context.  Raises an error if no value is found and if no defualt is found.
+                try:
+                    out[param.name] = context[param.name]
+                except KeyError:
+                    if not default:
+                        raise errors.E046(
+                            __name__, name=self._name, param=param.name
+                        ) from None
+
+        return out
+
+    def __call__(self, *args, **context):
         """
         Call the underlying callable
         """
 
-        artefacts = self._load_artefacts(self._callable)
-
+        artefacts = self._load_artefacts(self._callable, **context)
+        context_signature = self._filter_signature(context)
+        full = {**artefacts, **context_signature}
         try:
-            out = self._callable(*args, **kwargs, **artefacts)
+            out = self._callable(*args, **full)
         except BaseException as err:
             raise errors.E040(__name__, func=self._name) from err
 
-        out = self._capture_artefacts(out)
+        out = self._capture_artefacts(out, **context)
 
         return out
 
@@ -130,7 +157,7 @@ class Craft(MergeableInterface, MixinLogable):
         else:
             raise errors.E045(__name__, func=self.__func_name)
 
-    def _capture_artefacts(self, in_: Mapping) -> Mapping:
+    def _capture_artefacts(self, in_: Mapping, **context) -> Mapping:
         """
         Extract and save the artefact of an output dict
 
@@ -153,7 +180,7 @@ class Craft(MergeableInterface, MixinLogable):
         for name, artefact in in_.items():
             if name in self.catalog:
                 try:
-                    self.catalog.save(name, artefact)
+                    self.catalog.save(name, artefact, **context)
                 except BaseException as err:  # add details about the callable making the bad call
                     raise errors.E043(__name__, func=self._name) from err
                 artefacts.append(name)
@@ -165,7 +192,7 @@ class Craft(MergeableInterface, MixinLogable):
 
         return in_
 
-    def _load_artefacts(self, func: Callable) -> Dict[str, Artefact]:
+    def _load_artefacts(self, func: Callable, **context) -> Dict[str, Artefact]:
         """
         Load the artefacts matching a given function.
 
@@ -179,7 +206,7 @@ class Craft(MergeableInterface, MixinLogable):
         for param in self.signature:
             if str(param.annotation) in Craft._valids_annotations:
                 try:
-                    artefacts[param.name] = self.catalog.load(param.name)
+                    artefacts[param.name] = self.catalog.load(param.name, **context)
                 except BaseException as err:  # add details about the callable making the bad call
                     raise errors.E042(__name__, func=self._name) from err
 

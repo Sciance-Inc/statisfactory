@@ -186,13 +186,13 @@ class Errors(metaclass=Singleton):
     E043 = "craft : failed to save artefact for craft '{func}'"
     E044 = "craft : the craft '{func}' has no catalog attached to it"
     E045 = "craft : the craft '{func}' has already a catalog. Here, have some data immutability !"
+    E046 = "craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
 
     # Pipeline
     E050 = "pipeline : other is of type '{other}' and not a Craft"
     E051 = "pipeline : craft '{func}' has already a catalog setted. Remove-it from the craft definition"
     E052 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
     E053 = "pipeline : failed to run craft '{func}'"
-    E054 = "pipeline : missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
     E055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
 
     # Ad hoc
