@@ -163,7 +163,7 @@ class Errors(metaclass=Singleton):
 
     # FS interactors
     E021 = "data interactor : failed to read '{method}' '{path}'"
-    E022 = "data interactor : failed to save the asset with '{method}' to '{path}'"
+    E022 = "data interactor : failed to save the asset '{name}' with '{method}' "
     E023 = "data interactor : MixinLocalFileSystem : want not none 'data_path' and 'path'. got : '{data_path}' and '{path}' "
     E024 = "data interactor : '{path}' does not exists"
     E025 = (
@@ -172,7 +172,6 @@ class Errors(metaclass=Singleton):
     E026 = "data interactor : path '{path}' is incomplettely formatted, missing parameters from context"
     E027 = "data interactor : failed to connect to {name} connector"
     E028 = "data interactor : failed to execute query {query} agains {name} connector"
-    E029 = "data interactor : failed to save the DataPane object '{name}'"
 
     # Catalog
     E030 = "catalog : the '{name}' artefact  does not exists"
