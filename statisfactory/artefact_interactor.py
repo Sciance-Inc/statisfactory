@@ -441,7 +441,7 @@ class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class BinaryInteractory(ArtefactInteractor, MixinLocalFileSystem):
+class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
     """
     Implements saving / loading for binary raw object
     """
@@ -472,7 +472,7 @@ class BinaryInteractory(ArtefactInteractor, MixinLocalFileSystem):
 
         return obj
 
-    def save(self, asset: Any, open=False):
+    def save(self, asset: Any):
         """
         Save a datapane assert
 

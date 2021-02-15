@@ -31,6 +31,7 @@ from .artefact_interactor import (
     ArtefactInteractor,
     DatapaneInteractor,
     PicklerInteractor,
+    BinaryInteractor,
 )
 
 # third party
@@ -56,6 +57,7 @@ class Catalog(MixinLogable):
         "xslx": XLSXInteractor,
         "datapane": DatapaneInteractor,
         "pickle": PicklerInteractor,
+        "binary": BinaryInteractor,
     }
 
     def __init__(self, path: str, context_overwrite_strict: bool = True, **kwargs):
