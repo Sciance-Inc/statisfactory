@@ -21,7 +21,7 @@ import yaml
 # project
 
 # third party
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from marshmallow import (
     Schema,
     fields,
@@ -80,7 +80,7 @@ class ArtefactSchema(Schema):
     Artefact's marshaller.
     """
 
-    _valids_artefacts = ["odbc", "csv", "xslx", "datapane", "pickle"]
+    _valids_artefacts = ["odbc", "csv", "xslx", "datapane", "pickle", "binary"]
 
     # Shared
     type = fields.Str(required=True, validate=validate.OneOf(_valids_artefacts))
@@ -137,6 +137,9 @@ def _merge_dict(dicts: List[Dict]) -> Dict:
     """
     Merge a list of dict in a python 3.5 comptible way
     """
+    if not dicts:
+        return {}
+
     out = {}
     for dict in dicts:
         out.update(dict)
@@ -151,7 +154,7 @@ class CatalogData:
 
     version: str
     artefacts: List[Dict[str, Artefact]]
-    connectors: List[Dict[str, Connector]]
+    connectors: List[Dict[str, Connector]] = field(default_factory=list)
 
     def __post_init__(self):
         """
@@ -200,7 +203,7 @@ class CatalogDataSchema(Schema):
     )
 
     connectors = fields.List(
-        fields.Mapping(fields.Str, fields.Nested(ConnectorSchema)), required=True
+        fields.Mapping(fields.Str, fields.Nested(ConnectorSchema)), allow_none=True
     )
 
     @post_load
