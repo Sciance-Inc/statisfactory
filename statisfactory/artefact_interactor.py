@@ -429,7 +429,7 @@ class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
             open (bool): whether open the report on saving.
         """
 
-        self.debug(f"saving 'datapan' : {self._name}")
+        self.debug(f"saving 'datapane' : {self._name}")
 
         try:
             self._create_parents(self._path)
