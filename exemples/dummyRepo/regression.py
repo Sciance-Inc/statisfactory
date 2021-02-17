@@ -25,6 +25,13 @@ from sklearn import datasets
 HERE = pathlib.Path(__file__).parent
 catalog = Catalog(HERE)
 
+# Now that the catalog is loaded, the librairies defined in Lib are avalable
+from dummylib import foo
+
+foo()
+
+print("done")
+
 
 @Craft.make(catalog)
 def build_dataframe(samples: int = 500):

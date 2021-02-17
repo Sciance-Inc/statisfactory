@@ -17,10 +17,12 @@
 # system
 from pathlib import Path
 from typing import Any
+import os
+import sys
 
 # project
 from .logger import MixinLogable
-from .errors import errors
+from .errors import errors, warnings
 from .models import CatalogData, Artefact, Connector
 from .artefact_interactor import (
     CSVInteractor,
@@ -98,6 +100,20 @@ class Catalog(MixinLogable):
 
         # Create a context from the path an any surnumerary arguments.
         self._data_path = data_path
+
+        # Insert Lib into the Path
+        src_path = str(path.joinpath("Lib"))
+        if src_path not in sys.path:
+            sys.path.insert(0, src_path)
+            self.info("adding 'Lib' to PATH")
+
+        # Create / update the python path
+        try:
+            os.environ["PYTHONPATH"]
+            warnings.W010(__name__)
+        except KeyError:
+            os.environ["PYTHONPATH"] = src_path
+            self.info("adding 'Lib' to PYTHONPATH")
 
         self.debug("preflight : ...ok")
 
