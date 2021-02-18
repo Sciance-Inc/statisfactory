@@ -27,7 +27,7 @@ import os
 _LOGGERS = dict()
 
 
-def get_module_logger(mod_name: str):
+def get_module_logger(mod_name):
     """
     Retrieve the current formatted logger
     """
@@ -36,17 +36,14 @@ def get_module_logger(mod_name: str):
         logger = _LOGGERS[mod_name]
     except KeyError:
         logger = logging.getLogger(mod_name)
-
-        if not logger.handlers:
-            handler = logging.StreamHandler()
-            formatter = logging.Formatter(
-                "%(asctime)s [%(mod_name)-4s] %(levelmod_name)-8s %(message)s"
-            )
-            handler.setFormatter(formatter)
-            logger.addHandler(handler)
-            logger.setLevel(os.environ.get("LOG_LEVEL", "DEBUG").upper())
-            logger.propagate = False
-
+        handler = logging.StreamHandler()
+        formatter = logging.Formatter(
+            "%(asctime)s [%(name)-12s] %(levelname)-8s %(message)s"
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        logger.setLevel(os.environ.get("LOG_LEVEL", "DEBUG").upper())
+        logger.propagate = False
         _LOGGERS[mod_name] = logger
 
     return logger
