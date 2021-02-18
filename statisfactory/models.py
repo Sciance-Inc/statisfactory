@@ -73,6 +73,16 @@ class Artefact:
     path: Optional[str] = None
     connector: Optional[Connector] = None
     query: Optional[str] = None
+    save_options: Optional[Dict] = field(default_factory=dict)
+    load_options: Optional[Dict] = field(default_factory=dict)
+
+    def __post_init__(self):
+        """
+        Transform the marshmalling's list-of-dicts to a dict
+        """
+
+        self.save_options = _merge_dict(self.save_options)
+        self.load_options = _merge_dict(self.load_options)
 
 
 class ArtefactSchema(Schema):
@@ -92,6 +102,10 @@ class ArtefactSchema(Schema):
     # Sql
     query = fields.Str()
     connector = fields.Str()
+
+    # Options
+    save_options = fields.List(fields.Mapping(keys=fields.Str, required=False))
+    load_options = fields.List(fields.Mapping(keys=fields.Str, required=False))
 
     @validates_schema
     def validate_file(self, data, **kwargs):
@@ -159,8 +173,6 @@ class CatalogData:
     def __post_init__(self):
         """
         Transform the marshmalling's list-of-dicts to a dict
-
-        python 3.5
         """
 
         self.artefacts = _merge_dict(self.artefacts)

@@ -47,14 +47,16 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
     """
 
     @abstractmethod
-    def __init__(self, *args, **kwargs):
+    def __init__(self, artefact, *args, **kwargs):
         """
         Instanciate a new interactor.
 
         The interactors implements cooperative inheritance, only the artefact is mandatory.
         """
 
-        super().__init__(*args, **kwargs)
+        super().__init__(artefact, *args, **kwargs)
+        self._save_options = artefact.save_options
+        self._load_options = artefact.load_options
 
     @abstractmethod
     def load(self) -> Any:
@@ -83,12 +85,12 @@ class MixinLocalFileSystem:
     TODO : make sure that there is not residual {} in the path
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, artefact, *args, **kwargs):
         """
         Instanciate a MixinLocalFileSystem. For cooperative multiple inheritance only.
         """
 
-        super().__init__(*args, **kwargs)
+        super().__init__(artefact, *args, **kwargs)
 
     def _interpolate_path(self, data_path: Path, path: str, **kwargs) -> Path:
         """
@@ -158,7 +160,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
         self.debug(f"loading 'csv' : {self._path}")
 
         try:
-            df = pd.read_csv(self._path)
+            df = pd.read_csv(self._path, **self._load_options)
         except FileNotFoundError as err:
             raise errors.E024(__name__, path=self._path) from err
         except BaseException as err:
@@ -187,7 +189,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
         self._create_parents(self._path)
 
         try:
-            asset.to_csv(self._path)
+            asset.to_csv(self._path, **self._save_options)
         except BaseException as err:
             raise errors.E022(__name__, method="csv", name=self._name) from err
 
@@ -227,7 +229,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
         self.debug(f"loading 'xslx' : {self._path}")
 
         try:
-            df = pd.read_excel(self._path)
+            df = pd.read_excel(self._path, **self._load_options)
         except FileNotFoundError as err:
             raise errors.E024(__name__, path=self._path) from err
         except BaseException as err:
@@ -256,7 +258,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
         self._create_parents(self._path)
 
         try:
-            asset.to_excel(self._path)
+            asset.to_excel(self._path, **self._save_options)
         except BaseException as err:
             raise errors.E022(__name__, method="xslx", name=self._name) from err
 
@@ -297,7 +299,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
 
         try:
             with open(self._path, "rb") as f:
-                obj = pickle.load(f)
+                obj = pickle.load(f, **self._load_options)
         except FileNotFoundError as err:
             raise errors.E024(__name__, path=self._path) from err
         except BaseException as err:
@@ -318,7 +320,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
 
         try:
             with open(self._path, "wb+") as f:
-                pickle.dump(asset, f)
+                pickle.dump(asset, f, **self._save_options)
         except BaseException as err:
             raise errors.E022(__name__, method="pickle", name=self._name) from err
 
@@ -382,7 +384,7 @@ class ODBCInteractor(ArtefactInteractor):
         data = None
         with self._get_connection() as cnxn:
             try:
-                data = pd.read_sql(self._query, cnxn)
+                data = pd.read_sql(self._query, cnxn, **self._load_options)
             except BaseException as error:
                 raise errors.E028(
                     __name__, query=self._query, name=self._connector.name
@@ -407,7 +409,7 @@ class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
         Return a new Datapane Interactor initiated with a a particular interactor
         """
 
-        super().__init__(*args, **kwargs)
+        super().__init__(artefact, *args, **kwargs)
         self._path = self._interpolate_path(path=artefact.path, **kwargs)
         self._name = artefact.name
 
@@ -433,7 +435,7 @@ class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
 
         try:
             self._create_parents(self._path)
-            asset.save(self._path, open=open)
+            asset.save(self._path, open=open, **self._load_options)
         except BaseException as error:
             raise errors.E022(__name__, method="datapane", name=self._name) from error
 
@@ -451,7 +453,7 @@ class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
         Return a new Binary Interactor initiated with a a particular interactor
         """
 
-        super().__init__(*args, **kwargs)
+        super().__init__(artefact, *args, **kwargs)
         self._path = self._interpolate_path(path=artefact.path, **kwargs)
         self._name = artefact.name
 
@@ -464,7 +466,7 @@ class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
 
         try:
             with open(self._path, "rb") as f:
-                obj = f.read()
+                obj = f.read(**self._load_options)
         except FileNotFoundError as err:
             raise errors.E024(__name__, path=self._path) from err
         except BaseException as err:
@@ -485,7 +487,7 @@ class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
         try:
             self._create_parents(self._path)
             with open(self._path, "wb+") as f:
-                f.write(asset)
+                f.write(asset, **self._save_options)
         except BaseException as error:
             raise errors.E022(__name__, method="binary", name=self._name) from error
 
