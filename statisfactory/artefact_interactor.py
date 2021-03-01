@@ -158,7 +158,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
             pd.DataFrame: the parsed dataframe
         """
 
-        self.debug(f"loading 'csv' : {self.name}")
+        self.debug(f"loading 'csv' : {self._name}")
 
         try:
             df = pd.read_csv(self._path, **self._load_options)
@@ -227,7 +227,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
         TODO : add a wrapper for kwargs
         """
 
-        self.debug(f"loading 'xslx' : {self.name}")
+        self.debug(f"loading 'xslx' : {self._name}")
 
         try:
             df = pd.read_excel(self._path, **self._load_options)
@@ -246,7 +246,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
             data (pandas.DataFrame): the dataframe to be saved
         """
 
-        self.debug(f"saving 'xslx' : {self.name}")
+        self.debug(f"saving 'xslx' : {self._name}")
 
         if not isinstance(asset, (pd.DataFrame, pd.Series)):
             raise errors.E025(
@@ -296,7 +296,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
         TODO : add a wrapper for kwargs
         """
 
-        self.debug(f"loading 'pickle' : {self.name}")
+        self.debug(f"loading 'pickle' : {self._name}")
 
         try:
             with open(self._path, "rb") as f:
@@ -315,7 +315,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
             asset (Any ): the artefact to be saved
         """
 
-        self.debug(f"saving 'pickle' : {self.name}")
+        self.debug(f"saving 'pickle' : {self._name}")
 
         self._create_parents(self._path)
 
@@ -455,14 +455,13 @@ class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
 
         super().__init__(artefact, *args, **kwargs)
         self._path = self._interpolate_path(path=artefact.path, **kwargs)
-        self._name = artefact.name
 
     def load(self):
         """
         Return the content of a binary artefact.
         """
 
-        self.debug(f"loading 'binary' : {self.name}")
+        self.debug(f"loading 'binary' : {self._name}")
 
         try:
             with open(self._path, "rb") as f:
