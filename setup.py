@@ -24,7 +24,7 @@ README = (HERE / "readme.md").read_text()
 
 
 setup(
-    version="0.0.2-dev0",
+    version="0.0.3-dev0",
     setup_requires=["setuptools-git-versioning"],
     name="statisfactory",
     description="Satisfying Statistical Factory",
