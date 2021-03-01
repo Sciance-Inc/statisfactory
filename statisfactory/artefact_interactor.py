@@ -55,6 +55,7 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         """
 
         super().__init__(artefact, *args, **kwargs)
+        self._name = artefact.name
         self._save_options = artefact.save_options
         self._load_options = artefact.load_options
 
@@ -411,7 +412,6 @@ class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
 
         super().__init__(artefact, *args, **kwargs)
         self._path = self._interpolate_path(path=artefact.path, **kwargs)
-        self._name = artefact.name
 
     def load(self):
         """
