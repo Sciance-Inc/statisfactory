@@ -39,7 +39,7 @@ class Craft(MergeableInterface, MixinLogable):
     Craft wraps a task and take care of data retrieval from / data storage to the catalogue
     """
 
-    _valids_annotations = ["<class 'statisfactory.models.Artefact'>"]
+    _valids_annotations = [Artefact]
 
     @staticmethod
     def make(catalog: Catalog, *args):
@@ -88,7 +88,7 @@ class Craft(MergeableInterface, MixinLogable):
         # Extract the subset of required params
         out = {}
         for param in self._signature:
-            anno = str(param.annotation) not in Pipeline._valids_annotations
+            anno = param.annotation not in Pipeline._valids_annotations
             kind = param.kind == Parameter.POSITIONAL_OR_KEYWORD
             default = param.default != Parameter.empty
             if kind and anno:
@@ -220,7 +220,7 @@ class Craft(MergeableInterface, MixinLogable):
 
         artefacts = {}
         for param in self.signature:
-            if str(param.annotation) in Craft._valids_annotations:
+            if param.annotation in Craft._valids_annotations:
                 try:
                     artefacts[param.name] = self.catalog.load(param.name, **context)
                 except BaseException as err:  # add details about the callable making the bad call
