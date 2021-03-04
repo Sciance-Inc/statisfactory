@@ -18,16 +18,82 @@
 from typing import Union, Dict
 from copy import copy
 from inspect import Parameter
+from collections import defaultdict
+
+# Third party
+import networkx as nx
 
 # project
 from .errors import errors, warnings
 from .logger import MixinLogable
 from .mergeable import MergeableInterface
+from .artefact_interactor import Artefact
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
+class DependenciesSolver():
+    """
+    DAG dependency solver
+    """
+
+    _valids_annotations = [Artefact]
+
+    def __init__(self, crafts):
+        """
+        Return a new Dependency solver
+
+        Implementation details:
+            To reduce complexity from O(n^2) to O(n), a mapper is used to invert dependencies so that the graph does not have to be used to search for dependecies
+        """
+
+        G = nx.DiGraph()
+        m_producer = {}
+        
+        # First pass, create all nodes and map them to the artefacts they create
+        for craft in crafts:
+            outputs = (output for output, T in craft.fields.items() if T in self._valids_annotations)
+            for output in outputs:
+                # Check that no craft is already creating this artefact
+                if m_producer.get(output, None):
+                    raise errors.E056(__name__, artefact=output, L=craft.name, R= m_producer.get(output))
+            
+                m_producer[output] = craft.name
+            
+            G.add_node(craft.name)
+
+        # Second pass, drow an edge between all nodes and the craft they require
+        for craft in crafts:
+            inputs = (param.name for param in craft.signature if param.annotation in self._valids_annotations)
+            for input_ in inputs:
+                try:
+                    after = m_producer[input_]
+                    G.add_edge(after, craft.name)
+                except KeyError:
+                    warnings.W056(__name__, craft=craft.name, artefact=input_)
+
+        self._G = G
+        self._m_crafts = {craft.name: craft for craft in crafts}
+
+    def __iter__(self):
+        """
+        Implements a grouped topological sort 
+        """
+
+        G = self._G
+
+        indegree_map = {v: d for v, d in G.in_degree() if d > 0}
+        zero_indegree = [v for v, d in G.in_degree() if d == 0]
+        while zero_indegree:
+            yield [self._m_crafts[c] for c in zero_indegree]
+            new_zero_indegree = []
+            for v in zero_indegree:
+                for _, child in G.edges(v):
+                    indegree_map[child] -= 1
+                    if not indegree_map[child]:
+                        new_zero_indegree.append(child)
+            zero_indegree = new_zero_indegree
 
 class Pipeline(MergeableInterface, MixinLogable):
     """
@@ -41,7 +107,7 @@ class Pipeline(MergeableInterface, MixinLogable):
     the context of a catalog.
     """
 
-    _valids_annotations = ["<class 'statisfactory.models.Artefact'>"]
+    _valids_annotations = [Artefact]
 
     def __init__(self, name: str, error_on_overwriting: bool = True):
         """
@@ -121,39 +187,55 @@ class Pipeline(MergeableInterface, MixinLogable):
                 )
 
         return {**left, **right}
+    
+    def __str__(self):
+        """
+        Implements the print method to display the pipeline
+        """
+
+        
+        batchs = (batch for batch in DependenciesSolver(self._crafts))
+        batchs_repr = "\t - \n".join(", ".join(craft.name for craft in batch) for batch in batchs)
+        return "Pipeline steps :\n" + batchs_repr
+
 
     def __call__(self, **context) -> Dict:
         """
         Run the pipeline with a concrete context.
 
         Return :
-            the volatile state get after applying all craftsé
+            the volatile state get after applying all crafts
+
+        TODO: inject a runner to multiproc
         """
         # Prepare a dictionary to keep in memory the non-persisten ouput of the successives Crafts
         volatile_outputs = {}
 
         # Sequentially applies the crafts
-        for craft in self._crafts:
-            self.info(f"pipeline : '{self._name}' running craft '{craft.name}'.")
+        for batch in DependenciesSolver(self._crafts):
 
-            # Copy the craft (and it's catalog) to make it thread safe
-            craft = copy(craft)
+            for craft in batch:
 
-            # Combine the volatile dictionary with the context one and send them to the craft
-            full_context = self._merge_dictionnaries(context, volatile_outputs, craft.name, "craftContext")
+                self.info(f"pipeline : '{self._name}' running craft '{craft.name}'.")
 
-            try:
-                #  Apply the craft
-                out = craft(**full_context)
-            except TypeError as err:
-                raise errors.E052(__name__, func=craft.name) from err
-            except BaseException as err:
-                raise errors.E053(__name__, func=craft.name) from err
+                # Copy the craft (and it's catalog) to make it thread safe
+                craft = copy(craft)
 
-            # Update the non persisted output
-            volatile_outputs = self._merge_dictionnaries(
-                volatile_outputs, out, craft.name, "volatile"
-            )
+                # Combine the volatile dictionary with the context one and send them to the craft
+                full_context = self._merge_dictionnaries(context, volatile_outputs, craft.name, "craftContext")
+
+                try:
+                    #  Apply the craft
+                    out = craft(**full_context)
+                except TypeError as err:
+                    raise errors.E052(__name__, func=craft.name) from err
+                except BaseException as err:
+                    raise errors.E053(__name__, func=craft.name) from err
+
+                # Update the non persisted output
+                volatile_outputs = self._merge_dictionnaries(
+                    volatile_outputs, out, craft.name, "volatile"
+                )
 
         return volatile_outputs
 

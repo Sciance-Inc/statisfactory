@@ -194,6 +194,7 @@ class Errors(metaclass=Singleton):
     E052 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
     E053 = "pipeline : failed to run craft '{func}'"
     E055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
+    E056 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
 
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
@@ -206,7 +207,7 @@ class Warnings(UserWarning):
 
     # Pipeline
     W055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
-
+    W056 = "pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'"
 
 errors = Errors()
 warnings = Warnings()

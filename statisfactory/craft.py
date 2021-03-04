@@ -16,7 +16,7 @@
 
 # system
 from functools import update_wrapper
-from typing import Callable, Dict
+from typing import Callable, Dict, Any
 from inspect import signature, Signature, Parameter
 from collections.abc import Mapping
 from copy import copy
@@ -42,21 +42,27 @@ class Craft(MergeableInterface, MixinLogable):
     _valids_annotations = ["<class 'statisfactory.models.Artefact'>"]
 
     @staticmethod
-    def make(catalog: Catalog):
+    def make(catalog: Catalog, *args):
         """
         Decorator to make a Craft binded to the catalog from a callable
 
         Args:
             catalog (Catalog): the catalog to bind the craft to.
+            args: the output fields
         """
+
+        if args:
+            fields, = args
+        else:
+            fields = None
 
         def _(func: Callable):
 
-            return Craft(catalog, func)
+            return Craft(catalog, func, fields)
 
         return _
 
-    def __init__(self, catalog: Catalog, callable: Callable):
+    def __init__(self, catalog: Catalog, callable: Callable, fields: Dict = None):
         """
         Wrap a callable in a craft binded to the given catalog.
         """
@@ -66,7 +72,10 @@ class Craft(MergeableInterface, MixinLogable):
         self._callable = callable
         self._name = callable.__name__
         self._signature = signature(callable).parameters.values()
+        self._fields = fields if fields else {}
+        
         update_wrapper(self, callable)
+
 
     def _filter_signature(self, context: Dict) -> Dict:
         """
@@ -119,6 +128,14 @@ class Craft(MergeableInterface, MixinLogable):
 
         craft = Craft(copy(self.catalog), self._callable)
         return craft
+
+    @property
+    def fields(self) -> Dict:
+        """
+        Get the fields property of the Craft
+        """
+
+        return self._fields
 
     @property
     def name(self) -> str:
@@ -175,7 +192,6 @@ class Craft(MergeableInterface, MixinLogable):
             raise errors.E041(__name__, func=self._name, got=str(type(in_)))
 
         # Iterate over the artefacts and persist the one existing in the catalog.
-        # return only the non-persisted items
         artefacts = []
         for name, artefact in in_.items():
             if name in self.catalog:
