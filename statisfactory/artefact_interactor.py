@@ -55,7 +55,7 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         """
 
         super().__init__(artefact, *args, **kwargs)
-        self._name = artefact.name
+        self.name = artefact.name
         self._save_options = artefact.save_options
         self._load_options = artefact.load_options
 
@@ -158,7 +158,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
             pd.DataFrame: the parsed dataframe
         """
 
-        self.debug(f"loading 'csv' : {self._name}")
+        self.debug(f"loading 'csv' : {self.name}")
 
         try:
             df = pd.read_csv(self._path, **self._load_options)
@@ -192,7 +192,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
         try:
             asset.to_csv(self._path, **self._save_options)
         except BaseException as err:
-            raise errors.E022(__name__, method="csv", name=self._name) from err
+            raise errors.E022(__name__, method="csv", name=self.name) from err
 
 
 # ------------------------------------------------------------------------- #
@@ -227,7 +227,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
         TODO : add a wrapper for kwargs
         """
 
-        self.debug(f"loading 'xslx' : {self._name}")
+        self.debug(f"loading 'xslx' : {self.name}")
 
         try:
             df = pd.read_excel(self._path, **self._load_options)
@@ -246,7 +246,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
             data (pandas.DataFrame): the dataframe to be saved
         """
 
-        self.debug(f"saving 'xslx' : {self._name}")
+        self.debug(f"saving 'xslx' : {self.name}")
 
         if not isinstance(asset, (pd.DataFrame, pd.Series)):
             raise errors.E025(
@@ -261,7 +261,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
         try:
             asset.to_excel(self._path, **self._save_options)
         except BaseException as err:
-            raise errors.E022(__name__, method="xslx", name=self._name) from err
+            raise errors.E022(__name__, method="xslx", name=self.name) from err
 
 
 # ------------------------------------------------------------------------- #
