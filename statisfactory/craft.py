@@ -25,7 +25,7 @@ from copy import copy
 from .errors import errors
 from .logger import MixinLogable
 from .catalog import Catalog
-from .models import Artefact
+from .models import Artefact, Volatile
 from .mergeable import MergeableInterface
 from .pipeline import Pipeline
 
@@ -42,7 +42,7 @@ class Craft(MergeableInterface, MixinLogable):
     _valids_annotations = [Artefact]
 
     @staticmethod
-    def make(catalog: Catalog, *args):
+    def make(catalog: Catalog):
         """
         Decorator to make a Craft binded to the catalog from a callable
 
@@ -51,30 +51,66 @@ class Craft(MergeableInterface, MixinLogable):
             args: the output fields
         """
 
-        if args:
-            fields, = args
-        else:
-            fields = None
-
         def _(func: Callable):
 
-            return Craft(catalog, func, fields)
+            return Craft(catalog, func)
 
         return _
 
-    def __init__(self, catalog: Catalog, callable: Callable, fields: Dict = None):
+
+    def _extract_annotations(self, c: Callable):
+        """
+        Extract all the input parameters and a tuple of Volatile / Artefact from the annotated return of the callable.
+        """
+        
+        s = signature(c)
+
+        # Extract the input parameters to flag the artefacts
+        in_ = list(s.parameters.values())
+        
+        # Make sure that the output is Iterable 
+        out = s.return_annotation
+        if isinstance(out, (Artefact, Volatile)):
+            out_ = out,
+        elif isinstance(out, tuple):
+            out_ = out
+            if any(not isinstance(item, (Artefact, Volatile)) for item in out_):
+                raise errors.E048(__name__, name=self.name)
+        else: 
+            raise errors.E047(__name__, name=self.name, got=str(type(out_)))
+        
+        return in_, out_
+        
+
+    def __init__(self, catalog: Catalog, callable: Callable):
         """
         Wrap a callable in a craft binded to the given catalog.
         """
 
         super().__init__()
+        
         self._catalog = catalog
         self._callable = callable
         self._name = callable.__name__
-        self._signature = signature(callable).parameters.values()
-        self._fields = fields if fields else {}
+        self._in_anno, self._out_anno = self._extract_annotations(callable)
         
         update_wrapper(self, callable)
+
+    @property
+    def input_annotation(self):
+        """
+        Return the input annotation of the Craft 
+        """
+
+        return self._in_anno
+
+    @property
+    def output_annotation(self):
+        """
+        Return the output annotation of the Craft 
+        """
+
+        return self._out_anno
 
 
     def _filter_signature(self, context: Dict) -> Dict:
@@ -82,12 +118,12 @@ class Craft(MergeableInterface, MixinLogable):
         Return a subset of context with only the keys contained in signature OR all context if the Craft accept a variadic named parameters.
         """
         # Short-circuit : check if **kwargs is in the signature, if we don't have to filter.
-        if any(param.kind == "VAR_KEYWORD" for param in self._signature):
+        if any(param.kind == "VAR_KEYWORD" for param in self._in_anno):
             return context
 
         # Extract the subset of required params
         out = {}
-        for param in self._signature:
+        for param in self._in_anno:
             anno = param.annotation not in Pipeline._valids_annotations
             kind = param.kind == Parameter.POSITIONAL_OR_KEYWORD
             default = param.default != Parameter.empty
@@ -108,7 +144,7 @@ class Craft(MergeableInterface, MixinLogable):
         Call the underlying callable
         """
 
-        artefacts = self._load_artefacts(self._callable, **context)
+        artefacts = self._load_artefacts(**context)
         context_signature = self._filter_signature(context)
         full = {**artefacts, **context_signature}
         try:
@@ -116,7 +152,7 @@ class Craft(MergeableInterface, MixinLogable):
         except BaseException as err:
             raise errors.E040(__name__, func=self._name) from err
 
-        out = self._capture_artefacts(out, **context)
+        self._capture_artefacts(out, **context)
 
         return out
 
@@ -126,16 +162,8 @@ class Craft(MergeableInterface, MixinLogable):
         Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
         """
 
-        craft = Craft(copy(self.catalog), self._callable)
+        craft = Craft(copy(self._catalog), self._callable)
         return craft
-
-    @property
-    def fields(self) -> Dict:
-        """
-        Get the fields property of the Craft
-        """
-
-        return self._fields
 
     @property
     def name(self) -> str:
@@ -148,35 +176,15 @@ class Craft(MergeableInterface, MixinLogable):
     @property
     def catalog(self):
         """
-        Catalog getter
+        Getter for the catalog
         """
-        if not self._catalog:
-            raise errors.E044(__name__, func=self._name)
-
+        
         return self._catalog
 
-    @property
-    def signature(self) -> Signature:
-        """
-        Return the signature of the craft's underlying signature.
-        """
 
-        return self._signature
-
-    @catalog.setter
-    def catalog(self, catalog: Catalog):
+    def _capture_artefacts(self, out_, **context) -> Mapping:
         """
-        Catalog setter to enforce PDC.
-        """
-
-        if not self._catalog:
-            self._catalog = catalog
-        else:
-            raise errors.E045(__name__, func=self.__func_name)
-
-    def _capture_artefacts(self, in_: Mapping, **context) -> Mapping:
-        """
-        Extract and save the artefact of an output dict
+        Extract and save the artefact of an output
 
         Args:
             out (Dict): the dictionnary to extract artefacts from.
@@ -184,31 +192,32 @@ class Craft(MergeableInterface, MixinLogable):
 
         self.debug(f"craft : capturing artefacts from '{self._name}'")
 
-        if not in_:
-            return
+        # Ensure iterable
+        if not isinstance(out_, (tuple, list)):
+            out = out_, 
+        else:
+            out = out_
+        
+        if len(out) != len(self._out_anno):
+            raise errors.E0401(__name__, name=self._name, sign=len(self._out_anno), got=len(out))
 
-        # Only support dictionaries
-        if not isinstance(in_, Mapping):
-            raise errors.E041(__name__, func=self._name, got=str(type(in_)))
-
-        # Iterate over the artefacts and persist the one existing in the catalog.
         artefacts = []
-        for name, artefact in in_.items():
-            if name in self.catalog:
+        for anno, data in zip(self._out_anno, out):
+            if isinstance(anno, Artefact):
                 try:
-                    self.catalog.save(name, artefact, **context)
+                    self._catalog.save(anno.name, data, **context)
                 except BaseException as err:  # add details about the callable making the bad call
                     raise errors.E043(__name__, func=self._name) from err
-                artefacts.append(name)
-
+                artefacts.append(anno.name)
+        
+        # Iterate over the artefacts and persist the one existing in the catalog.
+        
         if artefacts:
             self.info(
-                f"craft : artefacts saved from '{self._name}' : '{', '.join(artefacts)}'."
+                f"craft : artefacts saved from '{self._name}' : {', '.join(artefacts)}."
             )
 
-        return in_
-
-    def _load_artefacts(self, func: Callable, **context) -> Dict[str, Artefact]:
+    def _load_artefacts(self, **context) -> Dict[str, Artefact]:
         """
         Load the artefacts matching a given function.
 
@@ -219,12 +228,12 @@ class Craft(MergeableInterface, MixinLogable):
         self.debug(f"craft : loading artefacts for '{self._name}'")
 
         artefacts = {}
-        for param in self.signature:
+        for param in self._in_anno:
             if param.annotation in Craft._valids_annotations:
                 try:
                     artefacts[param.name] = self.catalog.load(param.name, **context)
                 except BaseException as err:  # add details about the callable making the bad call
-                    raise errors.E042(__name__, func=self._name) from err
+                    raise errors.E042(__name__, craft=self._name) from err
 
         if artefacts:
             self.info(
@@ -261,9 +270,6 @@ class Craft(MergeableInterface, MixinLogable):
         Add the craft in last position to the visiting pipeline
         """
         self.info(f"adding craft {self._name} into {pipeline.name}")
-
-        #  Make sure that the craft has a catalog setted
-        self.catalog
 
         # Add the craft
         pipeline._crafts.append(self)

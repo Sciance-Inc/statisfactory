@@ -28,6 +28,7 @@ from .errors import errors, warnings
 from .logger import MixinLogable
 from .mergeable import MergeableInterface
 from .artefact_interactor import Artefact
+from .models import Volatile, Artefact
 
 #############################################################################
 #                                  Script                                   #
@@ -38,7 +39,7 @@ class DependenciesSolver():
     DAG dependency solver
     """
 
-    _valids_annotations = [Artefact]
+    _valids_annotations = (Artefact, Volatile)
 
     def __init__(self, crafts):
         """
@@ -53,7 +54,7 @@ class DependenciesSolver():
         
         # First pass, create all nodes and map them to the artefacts they create
         for craft in crafts:
-            outputs = (output for output, T in craft.fields.items() if T in self._valids_annotations)
+            outputs = (anno.name for anno in craft.output_annotation if isinstance(anno, self._valids_annotations))
             for output in outputs:
                 # Check that no craft is already creating this artefact
                 if m_producer.get(output, None):
@@ -65,7 +66,7 @@ class DependenciesSolver():
 
         # Second pass, drow an edge between all nodes and the craft they require
         for craft in crafts:
-            inputs = (param.name for param in craft.signature if param.annotation in self._valids_annotations)
+            inputs = (anno.name for anno in craft.input_annotation if issubclass(anno.annotation, self._valids_annotations))
             for input_ in inputs:
                 try:
                     after = m_producer[input_]
@@ -198,6 +199,23 @@ class Pipeline(MergeableInterface, MixinLogable):
         batchs_repr = "\t - \n".join(", ".join(craft.name for craft in batch) for batch in batchs)
         return "Pipeline steps :\n" + batchs_repr
 
+    def _craft_out_to_dict(self, craft, out):
+        """
+        Transform the output of a Craft to a dictionary to be mergeable on the context
+        """
+
+        if not isinstance(out, (tuple, list)):
+            out = out,
+
+
+        m = {}
+        for anno, data in zip(craft.output_annotation, out):
+            if isinstance(anno, Artefact):
+                pass
+            elif isinstance(anno, Volatile):
+                m[anno.name] = data
+
+        return m
 
     def __call__(self, **context) -> Dict:
         """
@@ -233,8 +251,9 @@ class Pipeline(MergeableInterface, MixinLogable):
                     raise errors.E053(__name__, func=craft.name) from err
 
                 # Update the non persisted output
+                m = self._craft_out_to_dict(craft, out)
                 volatile_outputs = self._merge_dictionnaries(
-                    volatile_outputs, out, craft.name, "volatile"
+                    volatile_outputs, m, craft.name, "volatile"
                 )
 
         return volatile_outputs

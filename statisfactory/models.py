@@ -61,6 +61,13 @@ class ConnectorSchema(Schema):
 
 # ------------------------------------------------------------------------- #
 
+@dataclass
+class Volatile:
+    """
+    Represents data outputed by the Craft but not to be persisted in the catalog
+    """
+
+    name: str
 
 @dataclass
 class Artefact:
@@ -68,8 +75,8 @@ class Artefact:
     Represents an Artefact : the I/O of a statisfactory node.
     """
 
-    type: str
-    name: str = None
+    name: str
+    type: str = None
     path: Optional[str] = None
     connector: Optional[Connector] = None
     query: Optional[str] = None
@@ -141,7 +148,7 @@ class ArtefactSchema(Schema):
 
     @post_load
     def make_artefact(self, data, **kwargs):
-        return Artefact(**data)
+        return Artefact(name=None, **data)
 
 
 # ------------------------------------------------------------------------- #
