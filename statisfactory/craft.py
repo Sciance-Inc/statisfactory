@@ -57,30 +57,28 @@ class Craft(MergeableInterface, MixinLogable):
 
         return _
 
-
     def _extract_annotations(self, c: Callable):
         """
         Extract all the input parameters and a tuple of Volatile / Artefact from the annotated return of the callable.
         """
-        
+
         s = signature(c)
 
         # Extract the input parameters to flag the artefacts
         in_ = list(s.parameters.values())
-        
-        # Make sure that the output is Iterable 
+
+        # Make sure that the output is Iterable
         out = s.return_annotation
         if isinstance(out, (Artefact, Volatile)):
-            out_ = out,
+            out_ = (out,)
         elif isinstance(out, tuple):
             out_ = out
             if any(not isinstance(item, (Artefact, Volatile)) for item in out_):
                 raise errors.E048(__name__, name=self.name)
-        else: 
-            raise errors.E047(__name__, name=self.name, got=str(type(out_)))
-        
+        else:
+            raise errors.E047(__name__, name=self.name, got=str(type(out)))
+
         return in_, out_
-        
 
     def __init__(self, catalog: Catalog, callable: Callable):
         """
@@ -88,18 +86,18 @@ class Craft(MergeableInterface, MixinLogable):
         """
 
         super().__init__()
-        
+
         self._catalog = catalog
         self._callable = callable
         self._name = callable.__name__
         self._in_anno, self._out_anno = self._extract_annotations(callable)
-        
+
         update_wrapper(self, callable)
 
     @property
     def input_annotation(self):
         """
-        Return the input annotation of the Craft 
+        Return the input annotation of the Craft
         """
 
         return self._in_anno
@@ -107,11 +105,10 @@ class Craft(MergeableInterface, MixinLogable):
     @property
     def output_annotation(self):
         """
-        Return the output annotation of the Craft 
+        Return the output annotation of the Craft
         """
 
         return self._out_anno
-
 
     def _filter_signature(self, context: Dict) -> Dict:
         """
@@ -178,9 +175,8 @@ class Craft(MergeableInterface, MixinLogable):
         """
         Getter for the catalog
         """
-        
-        return self._catalog
 
+        return self._catalog
 
     def _capture_artefacts(self, out_, **context) -> Mapping:
         """
@@ -194,12 +190,14 @@ class Craft(MergeableInterface, MixinLogable):
 
         # Ensure iterable
         if not isinstance(out_, (tuple, list)):
-            out = out_, 
+            out = (out_,)
         else:
             out = out_
-        
+
         if len(out) != len(self._out_anno):
-            raise errors.E0401(__name__, name=self._name, sign=len(self._out_anno), got=len(out))
+            raise errors.E0401(
+                __name__, name=self._name, sign=len(self._out_anno), got=len(out)
+            )
 
         artefacts = []
         for anno, data in zip(self._out_anno, out):
@@ -209,9 +207,9 @@ class Craft(MergeableInterface, MixinLogable):
                 except BaseException as err:  # add details about the callable making the bad call
                     raise errors.E043(__name__, func=self._name) from err
                 artefacts.append(anno.name)
-        
+
         # Iterate over the artefacts and persist the one existing in the catalog.
-        
+
         if artefacts:
             self.info(
                 f"craft : artefacts saved from '{self._name}' : {', '.join(artefacts)}."
