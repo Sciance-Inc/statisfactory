@@ -154,7 +154,7 @@ class Catalog(MixinLogable):
         try:
             artefact = self._data.artefacts[name]
         except KeyError:
-            raise errors.E030.format(name=name)
+            raise errors.E030(__name__, name=name)
 
         return artefact
 
