@@ -162,7 +162,7 @@ class Errors(metaclass=Singleton):
     E013 = "start-up : failed to unmarshall the catalog"
 
     # FS interactors
-    E021 = "data interactor : failed to read '{method}' '{path}'"
+    E021 = "data interactor : failed to read '{method}' '{name}'"
     E022 = "data interactor : failed to save the asset '{name}' with '{method}' "
     E023 = "data interactor : MixinLocalFileSystem : want not none 'data_path' and 'path'. got : '{data_path}' and '{path}' "
     E024 = "data interactor : '{path}' does not exists"
@@ -181,12 +181,16 @@ class Errors(metaclass=Singleton):
 
     # Craft
     E040 = "craft : failed to execute craft '{func}'"
-    E041 = "craft : the object outputed by {func} schould be a dict. Got : {got}"
-    E042 = "craft : failed to load artefact for craft '{func}'"
+    E041 = "craft : the object outputed by '{craft}' schould be an Artefact, a Volatile, or a tuple of Artefact / Volatile. Got : {got}"
+    E042 = "craft : failed to load artefact for craft '{craft}'"
     E043 = "craft : failed to save artefact for craft '{func}'"
-    E044 = "craft : the craft '{func}' has no catalog attached to it"
-    E045 = "craft : the craft '{func}' has already a catalog. Here, have some data immutability !"
+    #E044 = "craft : the craft '{func}' has no catalog attached to it"
+    #E045 = "craft : the craft '{func}' has already a catalog. Here, have some data immutability !"
     E046 = "craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
+    E047 = "craft : the craft '{name}'s signature must be of type Tuple, Volatile or Artefact. Got '{got}'"
+    E048 = "craft : the craft signature '{name}' returns a non Volatile/Artefact nested value"
+    E049 = "craft : the craft '{name}' returns a non Volatile/Artefact nested value"
+    E0401 = "craft : the craft '{name}' signature expect {sign} items. Got {got}"
 
     # Pipeline
     E050 = "pipeline : other is of type '{other}' and not a Craft"
