@@ -13,8 +13,10 @@ Statisfactory is a toolbox to apply and replicate a Statistical pipeline. The pu
 
 ### Roadmap
 * V1 : the V1 is an (exploratory) work to bounce off some ideas about the proper design of such a tool. Spark support, pipelines 's parallelisation, graph inference are (volountary) out of scope. The v1 is not design to cope with big data, but could definetely handles some analysis on a, let'say, scholar dropout project. 
-    * V0.1 focuses on the `Craft` and `Catalog` objects and does not include CLI nor pipelines orchestration (orther than devlopment hooks or bear minmal implementation)
+    * V0.1 focuses on the `Craft` and `Catalog` objects and does not include CLI
 * V2 : add / rework the framework to add the notion of "runner" with a localRunner and  sparkRunner.
+
+__Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver as well as a new way to indicates `Artefacts` to save.
 
 ## How to contribute.
 Don't.
@@ -24,7 +26,7 @@ Don't.
 * _Statisfactory_ abstracts away the definition of the `Artefact` from it's utilisation and storage. The library uses a map between an `Artefact`'s declaration and it's location called a `catalog` ;
 * Any callable that interacts with the `catalog`, by producing or using an `Artefact` can be wraps in a `Craft` ;
 * The `Craft` handles the `Artefact` retrieval and storage from the `Catalog` ;
-* Multiples `Craft` can be chained together, forming a `Pipeline`. Any `Pipeline` can be personnalized through the use of a `Context`.
+* Multiples `Craft` can be chained together, forming a `Pipeline`. Any `Pipeline` can be personnalized through the use of a `Context` and some `Volatile` objects.
 
 ## How to use it
 
@@ -151,7 +153,7 @@ def show_df(masterFile: Artefact):
 show_df()
 ```
 
-* Return dictionnary mapping names to object. Use the `Artefact`'s __name__ to save it
+* Return are indicated through the Typed signature. Use the `Artefact`'s and `Volatile`'s name to (resp.) persist them or add them to the context.
 
 ```python
 from statisfactory import Catalog, Craft, Artefact
@@ -161,11 +163,10 @@ catalog = Catalog("/home/me/myProject")
 
 # Declare and wraps a funtion that UPDATE an artefact
 @Craft.make(catalog)
-def add_col(masterFile: Artefact):
+def add_col(masterFile: Artefact) -> Artefact("masterFile"):
     masterFile["foo"] = 1
-    return {
-        "masterFile": masterFile
-    }
+    
+    return masterFile
 
 # Use the function : the craft will fetch the data and saved the outputed masterFile, since the name is the catalog.
 add_col()
@@ -191,11 +192,33 @@ show_top()
 show_top(10)
 ```
 
+* You can return multiples `Artefacts` and `Volatile` with the `tuple` notation.
+
+
+```python
+from statisfactory import Catalog, Craft, Artefact
+
+# Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
+catalog = Catalog("/home/me/myProject")
+
+# Declare and wraps a funtion that uses an artefact
+@Craft.make(catalog)
+def duplicate( masterFile: Artefact) -> (Artefact("masterFile"), Artefact("DuplicatedMasterFile")):
+    
+    return masterFile, masterFile
+
+# Use the function : with default params
+show_top()
+
+# Use the function : overwritting the default param :
+show_top(10)
+```
+
 ### Writting a `Pipeline` for lazzy Statisticians
 
 * `Pipelines` are built from `Craft`.
 * Once defined, a `Pipeline` must be called to be executed.
-* One way to declare pipeline, is to __add__ some crafts togethers. Craft are going to be executed in the order they are added to the pipeline. There is no auto-dep builder in the v1.
+* One way to declare pipeline, is to __add__ some crafts togethers. Crafts are executed by solving dependencies between `Craft` if possible, or in the order theyre are given
 
 ```python
 from statisfactory import Catalog, Craft, Artefact
@@ -205,11 +228,11 @@ catalog = Catalog("/home/me/myProject")
 
 # Declare and wraps a funtion that UPDATE an artefact
 @Craft.make(catalog)
-def add_col(masterFile: Artefact):
+def add_col(masterFile: Artefact) -> Artefact('augmentedFile'):
     masterFile["foo"] = 1
-    return {
-        "augmentedFile": masterFile
-    }
+    
+    return masterFile
+    
 
 # Declare and wraps a funtion that uses an artefact
 @Craft.make(catalog)
@@ -224,6 +247,19 @@ p = add_col + show_top
 p()
 ```
 
+* You can check the dependencies between `Craft` using `print`:
+
+```python
+
+p = show_top + add_col
+
+#  Note that dependencies have been corected.
+print(p)
+```
+
+
+
+
 * If you want to add a name to your `Pipeline` or change the parameters, you need to explicitely define the `Pipeline`.
 
 ```python
@@ -234,11 +270,11 @@ catalog = Catalog("/home/me/myProject")
 
 # Declare and wraps a funtion that UPDATE an artefact
 @Craft.make(catalog)
-def add_col(masterFile: Artefact):
+def add_col(masterFile: Artefact) -> Artefact('augmentedFile'):
     masterFile["foo"] = 1
-    return {
-        "augmentedFile": masterFile
-    }
+
+    return masterFile
+    
 
 # Declare and wraps a funtion that uses an artefact
 @Craft.make(catalog)
@@ -264,11 +300,8 @@ catalog = Catalog("/home/me/myProject")
 
 # Declare and wraps a funtion that UPDATE an artefact with a value called val and defaulted to 1
 @Craft.make(catalog)
-def add_col(masterFile: Artefact, val = 1):
-    masterFile["foo"] = val
-    return {
-        "augmentedFile": masterFile
-    }
+def add_col(masterFile: Artefact) -> Artefact('augmentedFile'):
+    masterFile["foo"] = 1
 
 # Declare and wraps a funtion that uses an artefact
 @Craft.make(catalog)
@@ -298,21 +331,19 @@ y = p + p1 # 2 > 3 > 1
 
 #### ~~Fantastics~~ Volatile beasts and where to ~~find~~ persists them.
 
-* Variables returned by a `Craft` but __not__ declared in the `Catalog` will be added to the context and cascaded to the subsequent `Crafts` requiring them. Warning / error will be raised if keys collide.
+* Variables returned by a `Craft` but __not__ declared in the `Catalog` will be added to the context and cascaded to the subsequent `Crafts` requiring them. Use the `Volatile` class to indicate the name of the objects to keep. Warning / error will be raised if keys collide.
 
 ```python
-from statisfactory import Craft, Catalog
+from statisfactory import Craft, Catalog, Volatile
 
 # Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
 catalog = Catalog("/home/me/myProject")
 
 @Craft.make(catalog)
-def create_var():
+def create_var() -> Volatile("myValue"):
     """Create a variable called myValue"""
     
-    return {
-        "myValue": 10,
-    }
+    return 10
     
 @Craft.make(catalog)
 def print_var(myValue):
@@ -321,8 +352,8 @@ def print_var(myValue):
     print(myValue)
 
 
-# Create / Execute the pipeline
-(create_var + print_var)()
+# Create / Execute the pipeline (dependencies have been resolved :))
+(print_var + create_var )()
 
 ```
 
@@ -332,7 +363,7 @@ def print_var(myValue):
 * The pipeline uses the `catalog.yaml` defined in the introduction.
 
 ```python
-from statisfactory import Craft, Artefact, Catalog, Pipeline
+from statisfactory import Craft, Artefact, Catalog, Pipeline, Volatile
 from sklearn.linear_model import LinearRegression
 from sklearn import datasets
 
@@ -340,7 +371,7 @@ catalog = Catalog("/home/dev/Documents/10_projets/stratemia/statisfactory/fakere
 
 
 @Craft.make(catalog)
-def build_dataframe(samples: int = 500):
+def build_dataframe(samples: int = 500) -> Artefact("masterFile"):
     """
     Generate a dataframe for a regression of "samples" datapoints.
     "samples" can be overwrited through the craft call or the pipeline context.
@@ -348,9 +379,8 @@ def build_dataframe(samples: int = 500):
     x, y = datasets.make_regression(n_samples=samples, n_features=5, n_informative=3)
     df = pd.DataFrame(x, columns=[str(i) for i in range(0, 5)]).assign(y=y)
 
-    return {
-        "masterFile": df
-    }  # Persist the df, since "masterFile" is defined in catalog
+
+    return df  # Persist the df, since "masterFile" is defined as an Artefact in the signature
 
 
 # Optionaly, check the generated dataframe : the craft still accept function paramters as usual.
@@ -359,7 +389,7 @@ def build_dataframe(samples: int = 500):
 
 
 @Craft.make(catalog)
-def train_regression(masterFile: Artefact, fit_intercept=True):
+def train_regression(masterFile: Artefact, fit_intercept=True) -> Volatile('reg'):
     """
     Train a regression on masterfile.
     The craft will propagate non artefact parameters from the pipeline context
@@ -372,27 +402,32 @@ def train_regression(masterFile: Artefact, fit_intercept=True):
     x = df[df.columns.difference(["y"])]
     reg = LinearRegression(fit_intercept=fit_intercept).fit(x, y)
 
-    return {
-        "reg": reg
-    }  # Reg is not defined in the catalog, the object will not be persisted
+    
+    return reg # Reg is not defined as an Arteface but as a Volatile. the object will not be persisted.
 
 
 @Craft.make(catalog)
-def save_coeff(reg):
+def save_coeff(reg) -> Artefact('coeffs'):
     """
     The function pickles the coefficients of the model.
     The craft can access to the volatile context in which "reg" lives.
     """
 
     to_pickle = reg.coef_
-    return {"coeffs": to_pickle}  # Coeffs is defined in Catalog. The object will be persisted
+
+    return to_pickle  # Coeffs is defined as an Artefact. The object will be persisted
 
 
 # Combine the three crafts into a pipeline
-p = build_dataframe + train_regression + save_coeff
-p(samples=500)  # Call the pipeline with specific arguments (once)
-p(samples=100, fit_intercept=False)  # Call the pipeline with specific arguments (once)
+p = save_coeff + build_dataframe + train_regression
 
+# Check that the Dependencies have been fixed.
+print(p)
+
+# Call the pipeline with specific arguments (once)
+p(samples=500)  
+# Call the pipeline with specific arguments (once)
+p(samples=100, fit_intercept=False) 
 
 # Finally use the catalog to control the coeff
 c1 = catalog.load("coeffs", samples=100)
@@ -401,15 +436,6 @@ c2 = catalog.load("coeffs", samples=500)
 ```
 
 # Implementation Details
-
-## On the typed returned API
-The v1 uses a dictionnary mapping type. The v2 could be using something more ellegant, but the named returned are not yet supported
-
-```python
-@Craft.make(catalog)
-def identity(masterFile: Artefact, testFile: Artefact) -> Tuple["masterFile":Artefact, "testFile":Artefact]:
-    return masterFile, testFile
-```
 
 # Hic sunt dracones
 * How to inject a spark runner ? 
