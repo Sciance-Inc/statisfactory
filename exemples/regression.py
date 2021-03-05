@@ -16,25 +16,17 @@
 
 import pathlib
 import pandas as pd
-from statisfactory import Craft, Artefact, Catalog
+from statisfactory import Craft, Artefact, Catalog, Volatile
 from sklearn.linear_model import LinearRegression
 from sklearn import datasets
 
 
 # The directory containing this file
-HERE = pathlib.Path(__file__).parent
-catalog = Catalog(HERE)
-
-# Now that the catalog is loaded, the librairies defined in Lib are avalable
-from dummylib import foo
-
-foo()
-
-print("done")
+catalog = Catalog("exemples/dummyRepo")
 
 
 @Craft.make(catalog)
-def build_dataframe(samples: int = 500):
+def build_dataframe(samples: int = 500) -> Artefact("masterFile"):
     """
     Generate a dataframe for a regression of "samples" datapoints.
     "samples" can be overwrited through the craft call or the pipeline context.
@@ -42,9 +34,7 @@ def build_dataframe(samples: int = 500):
     x, y = datasets.make_regression(n_samples=samples, n_features=5, n_informative=3)
     df = pd.DataFrame(x, columns=[str(i) for i in range(0, 5)]).assign(y=y)
 
-    return {
-        "masterFile": df
-    }  # Persist the df, since "masterFile" is defined in catalog
+    return df
 
 
 # Optionaly, check the generated dataframe : the craft still accept function paramters as usual.
@@ -53,39 +43,44 @@ def build_dataframe(samples: int = 500):
 
 
 @Craft.make(catalog)
-def train_regression(masterFile: Artefact, fit_intercept=True):
+def train_regression(masterFile: Artefact, fit_intercept=True) -> Volatile("reg"):
     """
     Train a regression on masterfile.
     The craft will propagate non artefact parameters from the pipeline context
     """
-    df = (
-        masterFile
-    )  # Automagiccaly loaded from the filesystem since masterfile is annotated with Artefact
+    df = masterFile  # Automagiccaly loaded from the filesystem since masterfile is annotated with Artefact
 
     y = df.y
     x = df[df.columns.difference(["y"])]
     reg = LinearRegression(fit_intercept=fit_intercept).fit(x, y)
 
-    return {
-        "reg": reg
-    }  # Reg is not defined in the catalog, the object will not be persisted
+    return reg
+    # Reg is not defined in the catalog, the object will not be persisted
 
 
 @Craft.make(catalog)
-def save_coeff(reg):
+def save_coeff(reg: Volatile) -> Artefact("coeffs"):
     """
     The function pickles the coefficients of the model.
     The craft can access to the volatile context in which "reg" lives.
     """
 
     to_pickle = reg.coef_
-    return {"coeffs": to_pickle}
+    return to_pickle
 
 
+df = build_dataframe(samples=500)
+print("done")
 # Combine the three crafts
 p = build_dataframe + train_regression + save_coeff
-p(samples=500)  # Call the pipeline with specific arguments (once)
-p(samples=499, fit_intercept=False)  # Call the pipeline with specific arguments (once)
+print(p)
+print("done")
+p(samples=10)
+print("done")
+
+# print(p)
+# p(samples=500)  # Call the pipeline with specific arguments (once)
+# p(samples=499, fit_intercept=False)  # Call the pipeline with specific arguments (once)
 
 
 # Finally use the catalog to control the coeff
