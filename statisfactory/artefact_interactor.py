@@ -296,7 +296,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
         TODO : add a wrapper for kwargs
         """
 
-        self.debug(f"loading 'pickle' : {self._name}")
+        self.debug(f"loading 'pickle' : {self.name}")
 
         try:
             with open(self._path, "rb") as f:
@@ -315,7 +315,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
             asset (Any ): the artefact to be saved
         """
 
-        self.debug(f"saving 'pickle' : {self._name}")
+        self.debug(f"saving 'pickle' : {self.name}")
 
         self._create_parents(self._path)
 
@@ -323,7 +323,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
             with open(self._path, "wb+") as f:
                 pickle.dump(asset, f, **self._save_options)
         except BaseException as err:
-            raise errors.E022(__name__, method="pickle", name=self._name) from err
+            raise errors.E022(__name__, method="pickle", name=self.name) from err
 
 
 # ------------------------------------------------------------------------- #
@@ -431,13 +431,13 @@ class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
             open (bool): whether open the report on saving.
         """
 
-        self.debug(f"saving 'datapane' : {self._name}")
+        self.debug(f"saving 'datapane' : {self.name}")
 
         try:
             self._create_parents(self._path)
             asset.save(self._path, open=open, **self._load_options)
         except BaseException as error:
-            raise errors.E022(__name__, method="datapane", name=self._name) from error
+            raise errors.E022(__name__, method="datapane", name=self.name) from error
 
 
 # ------------------------------------------------------------------------- #
@@ -461,7 +461,7 @@ class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
         Return the content of a binary artefact.
         """
 
-        self.debug(f"loading 'binary' : {self._name}")
+        self.debug(f"loading 'binary' : {self.name}")
 
         try:
             with open(self._path, "rb") as f:
@@ -469,7 +469,7 @@ class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
         except FileNotFoundError as err:
             raise errors.E024(__name__, path=self._path) from err
         except BaseException as err:
-            raise errors.E021(__name__, method="binary", path=self._path) from err
+            raise errors.E021(__name__, method="binary", name=self.name) from err
 
         return obj
 
@@ -481,14 +481,14 @@ class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
             artefact (Any): the binary content to write
         """
 
-        self.debug(f"saving 'binary' : {self._name}")
+        self.debug(f"saving 'binary' : {self.name}")
 
         try:
             self._create_parents(self._path)
             with open(self._path, "wb+") as f:
                 f.write(asset, **self._save_options)
         except BaseException as error:
-            raise errors.E022(__name__, method="binary", name=self._name) from error
+            raise errors.E022(__name__, method="binary", name=self.name) from error
 
 
 #############################################################################
