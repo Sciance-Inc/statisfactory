@@ -177,24 +177,17 @@ class Errors(metaclass=Singleton):
     E030 = "catalog : the '{name}' artefact  does not exists"
     E031 = "catalog : the '{name}' interactor does not exists"
     E032 = "catalog : the '{name}' connector does not exists"
-    E033 = "catalog : context update : key conflict : '{keys}'"
 
     # Craft
     E040 = "craft : failed to execute craft '{func}'"
-    E041 = "craft : the object outputed by '{craft}' schould be an Artefact, a Volatile, or a tuple of Artefact / Volatile. Got : {got}"
     E042 = "craft : failed to load artefact for craft '{craft}'"
     E043 = "craft : failed to save artefact for craft '{func}'"
-    #E044 = "craft : the craft '{func}' has no catalog attached to it"
-    #E045 = "craft : the craft '{func}' has already a catalog. Here, have some data immutability !"
     E046 = "craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
     E047 = "craft : the craft '{name}'s signature must be of type Tuple, Volatile or Artefact. Got '{got}'"
     E048 = "craft : the craft signature '{name}' returns a non Volatile/Artefact nested value"
-    E049 = "craft : the craft '{name}' returns a non Volatile/Artefact nested value"
     E0401 = "craft : the craft '{name}' signature expect {sign} items. Got {got}"
 
     # Pipeline
-    E050 = "pipeline : other is of type '{other}' and not a Craft"
-    E051 = "pipeline : craft '{func}' has already a catalog setted. Remove-it from the craft definition"
     E052 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
     E053 = "pipeline : failed to run craft '{func}'"
     E055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
@@ -211,7 +204,10 @@ class Warnings(UserWarning):
 
     # Pipeline
     W055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
-    W056 = "pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'"
+    W056 = (
+        "pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'"
+    )
+
 
 errors = Errors()
 warnings = Warnings()
