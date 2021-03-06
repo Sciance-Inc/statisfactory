@@ -204,6 +204,7 @@ class Craft(MergeableInterface, MixinLogable):
         """
 
         self.debug(f"craft : capturing artefacts from '{self._name}'")
+        out_not_none = out_ != None
 
         # Ensure iterable
         if not isinstance(out_, (tuple, list)):
@@ -211,7 +212,8 @@ class Craft(MergeableInterface, MixinLogable):
         else:
             out = out_
 
-        if len(out) != len(self._out_anno):
+        out_mismatch_expected = len(out) != len(self._out_anno)
+        if out_mismatch_expected and out_not_none:
             raise errors.E0401(
                 __name__, name=self._name, sign=len(self._out_anno), got=len(out)
             )
