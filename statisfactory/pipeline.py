@@ -34,7 +34,8 @@ from .models import Volatile, Artefact
 #                                  Script                                   #
 #############################################################################
 
-class DependenciesSolver():
+
+class DependenciesSolver:
     """
     DAG dependency solver
     """
@@ -51,22 +52,35 @@ class DependenciesSolver():
 
         G = nx.DiGraph()
         m_producer = {}
-        
+
         # First pass, create all nodes and map them to the artefacts they create
         for craft in crafts:
-            outputs = (anno.name for anno in craft.output_annotation if isinstance(anno, self._valids_annotations))
+            outputs = (
+                anno.name
+                for anno in craft.output_annotation
+                if isinstance(anno, self._valids_annotations)
+            )
             for output in outputs:
                 # Check that no craft is already creating this artefact
                 if m_producer.get(output, None):
-                    raise errors.E056(__name__, artefact=output, L=craft.name, R= m_producer.get(output))
-            
+                    raise errors.E056(
+                        __name__,
+                        artefact=output,
+                        L=craft.name,
+                        R=m_producer.get(output),
+                    )
+
                 m_producer[output] = craft.name
-            
+
             G.add_node(craft.name)
 
         # Second pass, drow an edge between all nodes and the craft they require
         for craft in crafts:
-            inputs = (anno.name for anno in craft.input_annotation if issubclass(anno.annotation, self._valids_annotations))
+            inputs = (
+                anno.name
+                for anno in craft.input_annotation
+                if issubclass(anno.annotation, self._valids_annotations)
+            )
             for input_ in inputs:
                 try:
                     after = m_producer[input_]
@@ -79,7 +93,7 @@ class DependenciesSolver():
 
     def __iter__(self):
         """
-        Implements a grouped topological sort 
+        Implements a grouped topological sort
         """
 
         G = self._G
@@ -95,6 +109,7 @@ class DependenciesSolver():
                     if not indegree_map[child]:
                         new_zero_indegree.append(child)
             zero_indegree = new_zero_indegree
+
 
 class Pipeline(MergeableInterface, MixinLogable):
     """
@@ -188,16 +203,17 @@ class Pipeline(MergeableInterface, MixinLogable):
                 )
 
         return {**left, **right}
-    
+
     def __str__(self):
         """
         Implements the print method to display the pipeline
         """
 
-        
         batchs = (batch for batch in DependenciesSolver(self._crafts))
-        batchs_repr = "\t - \n".join(", ".join(craft.name for craft in batch) for batch in batchs)
-        return "Pipeline steps :\n" + batchs_repr
+        batchs_repr = "\n\t- ".join(
+            ", ".join(craft.name for craft in batch) for batch in batchs
+        )
+        return "Pipeline steps :\n\t- " + batchs_repr
 
     def _craft_out_to_dict(self, craft, out):
         """
@@ -205,8 +221,7 @@ class Pipeline(MergeableInterface, MixinLogable):
         """
 
         if not isinstance(out, (tuple, list)):
-            out = out,
-
+            out = (out,)
 
         m = {}
         for anno, data in zip(craft.output_annotation, out):
@@ -240,7 +255,9 @@ class Pipeline(MergeableInterface, MixinLogable):
                 craft = copy(craft)
 
                 # Combine the volatile dictionary with the context one and send them to the craft
-                full_context = self._merge_dictionnaries(context, volatile_outputs, craft.name, "craftContext")
+                full_context = self._merge_dictionnaries(
+                    context, volatile_outputs, craft.name, "craftContext"
+                )
 
                 try:
                     #  Apply the craft

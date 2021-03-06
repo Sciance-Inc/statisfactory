@@ -39,7 +39,7 @@ class Craft(MergeableInterface, MixinLogable):
     Craft wraps a task and take care of data retrieval from / data storage to the catalogue
     """
 
-    _valids_annotations = [Artefact]
+    _artefacts_annotation = [Artefact]
 
     @staticmethod
     def make(catalog: Catalog):
@@ -67,8 +67,12 @@ class Craft(MergeableInterface, MixinLogable):
         # Extract the input parameters to flag the artefacts
         in_ = list(s.parameters.values())
 
-        # Make sure that the output is Iterable
+        # Check that a return annotation exists
         out = s.return_annotation
+        if out == Signature.empty:
+            return in_, []
+
+        # Make sure that the output is Iterable
         if isinstance(out, (Artefact, Volatile)):
             out_ = (out,)
         elif isinstance(out, tuple):
@@ -110,42 +114,55 @@ class Craft(MergeableInterface, MixinLogable):
 
         return self._out_anno
 
-    def _filter_signature(self, context: Dict) -> Dict:
+    def _build_args(self, context: Dict) -> Dict:
         """
-        Return a subset of context with only the keys contained in signature OR all context if the Craft accept a variadic named parameters.
+        Build the dictionnary mapping from a Craft's signature
         """
-        # Short-circuit : check if **kwargs is in the signature, if we don't have to filter.
+
+        built_args = {}
+        artefact_only = False
+        loaded_artefacts = []
+
+        # Short-circuit : check if **kwargs is in the signature, if so, we only have to load the artefacts
         if any(param.kind == "VAR_KEYWORD" for param in self._in_anno):
-            return context
+            built_args = context
+            artefact_only = True
 
-        # Extract the subset of required params
-        out = {}
         for param in self._in_anno:
-            anno = param.annotation not in Pipeline._valids_annotations
-            kind = param.kind == Parameter.POSITIONAL_OR_KEYWORD
-            default = param.default != Parameter.empty
-            if kind and anno:
-                # Try to fetch the argument in the context.  Raises an error if no value is found and if no defualt is found.
+            if param.annotation in self._artefacts_annotation:
                 try:
-                    out[param.name] = context[param.name]
-                except KeyError:
-                    if not default:
-                        raise errors.E046(
-                            __name__, name=self._name, param=param.name
-                        ) from None
+                    built_args[param.name] = self.catalog.load(param.name, **context)
+                    loaded_artefacts.append(param.name)
+                except BaseException as err:
+                    raise errors.E042(__name__, craft=self._name) from err
+            else:
+                if artefact_only:
+                    continue
+                if param.kind == Parameter.POSITIONAL_OR_KEYWORD:
+                    try:
+                        built_args[param.name] = context[param.name]
+                    except KeyError:
+                        is_required = param.default == Parameter.empty
+                        if is_required:
+                            raise errors.E046(
+                                __name__, name=self._name, param=param.name
+                            ) from None
 
-        return out
+        if loaded_artefacts:
+            self.info(
+                f"craft : artefacts loaded for '{self._name}' : {', '.join(loaded_artefacts)}."
+            )
+
+        return built_args
 
     def __call__(self, *args, **context):
         """
         Call the underlying callable
         """
 
-        artefacts = self._load_artefacts(**context)
-        context_signature = self._filter_signature(context)
-        full = {**artefacts, **context_signature}
+        params = self._build_args(context)
         try:
-            out = self._callable(*args, **full)
+            out = self._callable(*args, **params)
         except BaseException as err:
             raise errors.E040(__name__, func=self._name) from err
 
@@ -214,31 +231,6 @@ class Craft(MergeableInterface, MixinLogable):
             self.info(
                 f"craft : artefacts saved from '{self._name}' : {', '.join(artefacts)}."
             )
-
-    def _load_artefacts(self, **context) -> Dict[str, Artefact]:
-        """
-        Load the artefacts matching a given function.
-
-        Returns:
-            Dict[str, Artefact]: a mapping of artefacts
-        """
-
-        self.debug(f"craft : loading artefacts for '{self._name}'")
-
-        artefacts = {}
-        for param in self._in_anno:
-            if param.annotation in Craft._valids_annotations:
-                try:
-                    artefacts[param.name] = self.catalog.load(param.name, **context)
-                except BaseException as err:  # add details about the callable making the bad call
-                    raise errors.E042(__name__, craft=self._name) from err
-
-        if artefacts:
-            self.info(
-                f"craft : artefacts loaded for '{self._name}' : '{' ,'.join(artefacts.keys())}'."
-            )
-
-        return artefacts
 
     def __add__(self, visitor: MergeableInterface):
         """
