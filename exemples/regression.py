@@ -69,10 +69,16 @@ def save_coeff(reg: Volatile) -> Artefact("coeffs"):
     return to_pickle
 
 
+@Craft.make(catalog)
+def no_op(coeffs: Artefact):
+    """do nothing"""
+    pass
+
+
 df = build_dataframe(samples=500)
 print("done")
 # Combine the three crafts
-p = build_dataframe + train_regression + save_coeff
+p = no_op + build_dataframe + train_regression + save_coeff
 print(p)
 print("done")
 p(samples=10)
