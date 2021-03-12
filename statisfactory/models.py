@@ -61,6 +61,7 @@ class ConnectorSchema(Schema):
 
 # ------------------------------------------------------------------------- #
 
+
 @dataclass
 class Volatile:
     """
@@ -68,6 +69,7 @@ class Volatile:
     """
 
     name: str
+
 
 @dataclass
 class Artefact:
@@ -206,7 +208,7 @@ class CatalogData:
         """
 
         with open(file) as f:
-            catalog = CatalogDataSchema().load(yaml.load(f))
+            catalog = CatalogDataSchema().load(yaml.safe_load(f))
 
         return catalog
 
