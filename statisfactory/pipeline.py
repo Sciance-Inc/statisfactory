@@ -156,7 +156,7 @@ class Pipeline(MergeableInterface, MixinLogable):
         return self._name
 
     @property
-    def solver(self, crafts):
+    def solver(self):
         """
         Return the DependenciesSolver
         """
@@ -186,7 +186,7 @@ class Pipeline(MergeableInterface, MixinLogable):
         G = transitive_reduction(G)
 
         # Tranform the Graph into an AGraph one
-        A = nx.nx_agraph.to_agraph(D)
+        A = nx.nx_agraph.to_agraph(G)
         A.layout("dot")
 
         return graphviz.Source(A.to_string())
