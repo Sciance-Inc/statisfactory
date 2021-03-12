@@ -80,6 +80,8 @@ print("done")
 # Combine the three crafts
 p = no_op + build_dataframe + train_regression + save_coeff
 print(p)
+p.plot()
+
 print("done")
 p(samples=10)
 print("done")
