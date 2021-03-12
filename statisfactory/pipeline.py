@@ -22,6 +22,7 @@ from collections import defaultdict
 
 # Third party
 import networkx as nx
+from networkx.algorithms.dag import transitive_reduction
 
 # project
 from .errors import errors, warnings
@@ -41,6 +42,14 @@ class DependenciesSolver:
     """
 
     _valids_annotations = (Artefact, Volatile)
+
+    @property
+    def G(self):
+        """
+        Return the dependency DiGraph.
+        """
+
+        return self._G
 
     def __init__(self, crafts):
         """
@@ -139,9 +148,48 @@ class Pipeline(MergeableInterface, MixinLogable):
         self._crafts: Union["Craft"] = []
         self._error_on_overwrting = error_on_overwriting
 
+        # Placeholder
+        self._solver = None
+
     @property
     def name(self):
         return self._name
+
+    @property
+    def solver(self, crafts):
+        """
+        Return the DependenciesSolver
+        """
+
+        if not self._solver:
+            self._solver = DependenciesSolver(self._crafts)
+
+        return self._solver
+
+    def plot(self):
+        """
+        Plot the graph in GraphViz
+        """
+
+        try:
+            import graphviz
+        except ImportError:
+            raise errors.E057(__name__, dep="graphviz")
+
+        try:
+            import pygraphviz
+        except ImportError:
+            raise errors.E057(__name__, dep="pygraphviz")
+
+        # get the transitive reduction of the Digraph
+        G = self.solver.G
+        G = transitive_reduction(G)
+
+        # Tranform the Graph into an AGraph one
+        A = nx.nx_agraph.to_agraph(D)
+        A.layout("dot")
+
+        return graphviz.Source(A.to_string())
 
     def __add__(self, visitor: MergeableInterface) -> "Pipeline":
         """
@@ -245,7 +293,7 @@ class Pipeline(MergeableInterface, MixinLogable):
         volatile_outputs = {}
 
         # Sequentially applies the crafts
-        for batch in DependenciesSolver(self._crafts):
+        for batch in self.solver:
 
             for craft in batch:
 

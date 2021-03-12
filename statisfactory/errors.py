@@ -192,6 +192,7 @@ class Errors(metaclass=Singleton):
     E053 = "pipeline : failed to run craft '{func}'"
     E055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
     E056 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
+    E057 = "pipeline : '{dep}' is required to plot the Pipeline."
 
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
