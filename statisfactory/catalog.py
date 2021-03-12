@@ -60,6 +60,22 @@ class Catalog(MixinLogable):
         "binary": BinaryInteractor,
     }
 
+    @staticmethod
+    def find():
+        """
+        Build a Catalog by searching for a Git repo in parents
+        """
+
+        root = Path("/")
+        trg = Path().resolve().parent
+
+        while True:
+            if (trg / ".git").exists():
+                return Catalog(trg)
+            trg = trg.parent
+            if trg == root:
+                raise errors.E033(__name__)
+
     def __init__(self, path: str, context_overwrite_strict: bool = True):
         """Build a new catalog for the root 'path'.
 
@@ -69,6 +85,7 @@ class Catalog(MixinLogable):
 
         super().__init__()
         self.debug("preflight : check...")
+        self.info(f"Initiating Catalog to : '{path}'")
         self._context_overwrite_strict = context_overwrite_strict
 
         # Check that the path exists

@@ -177,6 +177,7 @@ class Errors(metaclass=Singleton):
     E030 = "catalog : the '{name}' artefact  does not exists"
     E031 = "catalog : the '{name}' interactor does not exists"
     E032 = "catalog : the '{name}' connector does not exists"
+    E033 = "catalog : the file does not appears to belong to a Git repo"
 
     # Craft
     E040 = "craft : failed to execute craft '{func}'"
@@ -192,7 +193,6 @@ class Errors(metaclass=Singleton):
     E053 = "pipeline : failed to run craft '{func}'"
     E055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
     E056 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
-    E057 = "pipeline : '{dep}' is required to plot the Pipeline."
 
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
