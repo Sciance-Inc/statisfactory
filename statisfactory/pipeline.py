@@ -59,6 +59,9 @@ class DependenciesSolver:
             To reduce complexity from O(n^2) to O(n), a mapper is used to invert dependencies so that the graph does not have to be used to search for dependecies
         """
 
+        # Remove duplicated crafts
+        crafts = list(set(crafts))
+
         G = nx.DiGraph()
         m_producer = {}
 
@@ -147,6 +150,7 @@ class Pipeline(MergeableInterface, MixinLogable):
         self._name = name
         self._crafts: Union["Craft"] = []
         self._error_on_overwrting = error_on_overwriting
+        self._DAG_recycle = False
 
         # Placeholder
         self._solver = None
@@ -161,8 +165,9 @@ class Pipeline(MergeableInterface, MixinLogable):
         Return the DependenciesSolver
         """
 
-        if not self._solver:
+        if not self._solver or self._DAG_recycle:
             self._solver = DependenciesSolver(self._crafts)
+            self._DAG_recycle = False
 
         return self._solver
 
@@ -198,6 +203,9 @@ class Pipeline(MergeableInterface, MixinLogable):
         """
 
         visitor.visit_pipeline(self)
+
+        # Flag the DAG for recycling
+        self._DAG_recycle = True
 
         return self
 
@@ -257,7 +265,7 @@ class Pipeline(MergeableInterface, MixinLogable):
         Implements the print method to display the pipeline
         """
 
-        batchs = (batch for batch in DependenciesSolver(self._crafts))
+        batchs = (batch for batch in self.solver)
         batchs_repr = "\n\t- ".join(
             ", ".join(craft.name for craft in batch) for batch in batchs
         )
