@@ -79,6 +79,34 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
 # ------------------------------------------------------------------------- #
 
 
+class MixinInterpolable:
+    """
+    Implements helpers to interpolate a string
+    """
+
+    def __init__(self, artefact, *args, **kwargs):
+        """
+        Instanciate the MixinInterpolable
+        """
+
+        super().__init__(artefact, *args, **kwargs)
+
+    def _interpolate_string(self, string_, **kwargs):
+        """
+        Interpolate a fiven string with a provided context
+        """
+
+        if not string_:
+            raise errors.E029(__name__)
+
+        try:
+            string_ = string_.format(**kwargs)
+        except KeyError as err:
+            raise errors.E0201(__name__, trg=string_) from err
+
+        return string_
+
+
 class MixinLocalFileSystem:
     """
     Implements helpers to manipulate a local file system.
@@ -329,7 +357,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class ODBCInteractor(ArtefactInteractor):
+class ODBCInteractor(ArtefactInteractor, MixinInterpolable:
     """
     Concrete implementation of an odbc interactor
 
@@ -346,7 +374,7 @@ class ODBCInteractor(ArtefactInteractor):
             connector (Connector): [description]
         """
 
-        self._query = artefact.query
+        self._query = self._interpolate_string(artefact.query, **kwargs)
         self._connector = connector
         self._kwargs = kwargs
 
