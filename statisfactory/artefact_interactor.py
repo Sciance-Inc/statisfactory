@@ -357,7 +357,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class ODBCInteractor(ArtefactInteractor, MixinInterpolable:
+class ODBCInteractor(ArtefactInteractor, MixinInterpolable):
     """
     Concrete implementation of an odbc interactor
 
