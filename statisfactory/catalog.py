@@ -35,7 +35,6 @@ from .artefact_interactor import (
 )
 
 # third party
-from filelock import FileLock
 import pandas as pd
 
 #############################################################################
@@ -95,25 +94,23 @@ class Catalog(MixinLogable):
                 __name__, path=path
             )  # moups, pas d'erreur dans un init ;)
 
-        # If so, lock the folder
-        lock_path = FileLock(path.joinpath("statisfactory.lock"))
-        with lock_path:
 
-            # Check that a data folder exists
-            data_path = path.joinpath("Data")
-            if not data_path.exists() or not data_path.is_dir:
-                raise errors.E011
 
-            # Check that the catalog.yaml file exits
-            catalog_path = path.joinpath("catalog.yaml")
-            if not catalog_path.exists():
-                raise errors.E012
+        # Check that a data folder exists
+        data_path = path.joinpath("Data")
+        if not data_path.exists() or not data_path.is_dir:
+            raise errors.E011
 
-            # load it
-            try:
-                self._data = CatalogData.from_file(catalog_path)
-            except BaseException as err:
-                raise errors.E013 from err
+        # Check that the catalog.yaml file exits
+        catalog_path = path.joinpath("catalog.yaml")
+        if not catalog_path.exists():
+            raise errors.E012(__name__)
+
+        # load it
+        try:
+            self._data = CatalogData.from_file(catalog_path)
+        except BaseException as err:
+            raise errors.E013(__name__) from err
 
         # Create a context from the path an any surnumerary arguments.
         self._data_path = data_path

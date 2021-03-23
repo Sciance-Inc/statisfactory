@@ -34,15 +34,13 @@ setup(
     author_email="juhel.hugo@stratemia.com",
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.8",
     ],
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
         "marshmallow==3.10.0",
         "pandas>=1.1.2",
-        "filelock==3.0.12",
-        "dataclasses==0.6",
         "click>=7.0",
         "pyodbc>=4.0.30",
         "datapane>=0.9.2",

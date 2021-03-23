@@ -173,7 +173,7 @@ class Errors(metaclass=Singleton):
     E027 = "data interactor : failed to connect to {name} connector"
     E028 = "data interactor : failed to execute query {query} agains {name} connector"
     E029 = "data interactor : only not-null string can be interpolated"
-    E0201 = "data interactor : string '{string}' is incomplettely formatted, missing parameters from context"
+    E0201 = "data interactor : string '{trg}' is incomplettely formatted, missing parameters from context"
 
     # Catalog
     E030 = "catalog : the '{name}' artefact  does not exists"
