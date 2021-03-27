@@ -102,7 +102,7 @@ class ArtefactSchema(Schema):
     valids_artefacts = set()
 
     # Shared
-    type_ = fields.Str(required=True, validate=validate.OneOf(valids_artefacts))
+    type = fields.Str(required=True, validate=validate.OneOf(valids_artefacts))
     abstract = fields.Bool(required=False)
 
     # file
