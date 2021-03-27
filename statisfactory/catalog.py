@@ -112,7 +112,8 @@ class Catalog(MixinLogable):
         Show all artefacts entries
         """
 
-        msg = "\n\t- ".join(self._data.artefacts.keys())
+        keys = sorted(self._data.artefacts.keys())
+        msg = "\n\t- ".join(keys)
 
         return "Catalog entries :\n\t- " + msg
 
