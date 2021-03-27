@@ -144,7 +144,7 @@ __Warning__ : the class definition must preceds the catalog instancation
 ```python
 from statisfactory import ArtefactInteractor, Catalog
 
-print(ArtefactInteractor.interactors) # Print the 'default' registered interactors
+print(ArtefactInteractor.interactors()) # Print the 'default' registered interactors
 
 
 class Foobar(ArtefactInteractor, interactor_name="foobarer"):
@@ -158,7 +158,7 @@ class Foobar(ArtefactInteractor, interactor_name="foobarer"):
         print("saved")
 
 
-print(ArtefactInteractor.interactors)  # Print all registered interactors
+print(ArtefactInteractor.interactors())  # Print all registered interactors
 
 
 # Instanciate the catalog as usal
