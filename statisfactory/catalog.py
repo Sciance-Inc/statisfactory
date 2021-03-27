@@ -163,7 +163,7 @@ class Catalog(MixinLogable):
         """
 
         try:
-            interactor = ArtefactInteractor.interactors[artefact.type]
+            interactor = ArtefactInteractor.interactors()[artefact.type]
         except KeyError:
             raise errors.E031(__name__, name=artefact.type)
 
