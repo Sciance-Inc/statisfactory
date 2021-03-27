@@ -3,6 +3,8 @@ _A (not yet) Satisfying Statistical Factory_
 
 Primatives for statistical pipelines replication and data centralization (we put the fun out of "statistics").
 
+_maintener_ : hugo juhel : juhel.hugo@stratemia.com
+
 [[_TOC_]]
 
 
@@ -19,7 +21,11 @@ Statisfactory is a toolbox to apply and replicate a Statistical pipeline. The pu
 __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver as well as a new way to indicates `Artefacts` to save.
 
 ## How to contribute.
-Don't.
+Keep it classy, boys :
+* Use `git flow` and don't directly publish to `master`;
+* Rebase/merge before integrating your changes;
+* Use proper commit messages and follow `commitizen` commits conventions;
+* Use `bump2verion` to ... bump the version.
 
 ## High level presentation 
 * _Statisfactory_ is based on the idea of `Artefacts`. `Artefacts` are something produced or used by a statistical analysis such as a dataset, a report, a trained model ;
