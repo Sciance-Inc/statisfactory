@@ -3,7 +3,7 @@ _A (not yet) Satisfying Statistical Factory_
 
 Primatives for statistical pipelines replication and data centralization (we put the fun out of "statistics").
 
-_maintener_ : hugo juhel : juhel.hugo@stratemia.com
+_maintainer_ : hugo juhel : juhel.hugo@stratemia.com
 
 [[_TOC_]]
 
@@ -26,7 +26,7 @@ Keep it classy, boys :
 * Rebase/merge before integrating your changes;
 * Use proper commit messages and follow `commitizen` commits conventions;
 * Use `bump2verion` to ... bump the version.
-* I like my code formatted the same way I like my coffe `Black`. Use-it for code formatting bedore committing.
+* I like my code formatted the same way I like my coffee : `Black`. Use-it for code formatting bedore committing.
 
 ## High level presentation 
 * _Statisfactory_ is based on the idea of `Artefacts`. `Artefacts` are something produced or used by a statistical analysis such as a dataset, a report, a trained model ;
