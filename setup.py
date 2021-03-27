@@ -43,7 +43,8 @@ setup(
         "pandas>=1.1.2",
         "click>=7.0",
         "pyodbc>=4.0.30",
-        "datapane>=0.9.2",
+        "datapane==0.9.2",
         "PyYAML==5.4.1",
+        "xlrd==1.2.0",
     ],
 )
