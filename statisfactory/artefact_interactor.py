@@ -258,7 +258,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="c
 # ------------------------------------------------------------------------- #
 
 
-class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="xls"):
+class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="xslx"):
     """
     Concrete implementation of an XLSX interactor
     """
