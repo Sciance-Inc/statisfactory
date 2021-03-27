@@ -28,7 +28,6 @@ from networkx.algorithms.dag import transitive_reduction
 from .errors import errors, warnings
 from .logger import MixinLogable
 from .mergeable import MergeableInterface
-from .artefact_interactor import Artefact
 from .models import Volatile, Artefact
 
 #############################################################################
