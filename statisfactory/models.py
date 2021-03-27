@@ -99,10 +99,10 @@ class ArtefactSchema(Schema):
     Artefact's marshaller.
     """
 
-    _valids_artefacts = ["odbc", "csv", "xslx", "datapane", "pickle", "binary"]
+    valids_artefacts = set()
 
     # Shared
-    type = fields.Str(required=True, validate=validate.OneOf(_valids_artefacts))
+    type = fields.Str(required=True, validate=validate.OneOf(valids_artefacts))
     abstract = fields.Bool(required=False)
 
     # file

@@ -24,15 +24,7 @@ import sys
 from .logger import MixinLogable
 from .errors import errors, warnings
 from .models import CatalogData, Artefact, Connector
-from .artefact_interactor import (
-    CSVInteractor,
-    ODBCInteractor,
-    XLSXInteractor,
-    ArtefactInteractor,
-    DatapaneInteractor,
-    PicklerInteractor,
-    BinaryInteractor,
-)
+from .artefact_interactor import ArtefactInteractor
 
 # third party
 import pandas as pd
@@ -48,16 +40,6 @@ class Catalog(MixinLogable):
 
     TODO : Rework the way catalog'context and pipeline's context are combined : create a new object for context and pass it independlyt
     """
-
-    # Map each artefact type to it's corresponding interactor
-    interactorMapper = {
-        "odbc": ODBCInteractor,
-        "csv": CSVInteractor,
-        "xslx": XLSXInteractor,
-        "datapane": DatapaneInteractor,
-        "pickle": PicklerInteractor,
-        "binary": BinaryInteractor,
-    }
 
     @staticmethod
     def find():
@@ -93,8 +75,6 @@ class Catalog(MixinLogable):
             raise errors.E010(
                 __name__, path=path
             )  # moups, pas d'erreur dans un init ;)
-
-
 
         # Check that a data folder exists
         data_path = path.joinpath("Data")
@@ -178,7 +158,7 @@ class Catalog(MixinLogable):
         """
 
         try:
-            interactor = Catalog.interactorMapper[artefact.type]
+            interactor = ArtefactInteractor.interactors[artefact.type]
         except KeyError:
             raise errors.E031(__name__, name=artefact.type)
 

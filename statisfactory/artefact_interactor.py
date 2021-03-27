@@ -23,7 +23,10 @@ import pickle
 
 # project
 from .errors import errors
-from .models import Connector, Artefact
+from .logger import get_module_logger
+from .models import ArtefactSchema
+
+# from .models import Artefact
 from .logger import MixinLogable
 
 # third party
@@ -45,6 +48,35 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
     TODO : v2 (oos) add support for batchs retrieval
     TODO : v2 (oos) add support for writting files (parceque csv en s3...)
     """
+
+    # A placeholder for all registered interactors
+    _interactors = dict()
+
+    def __init_subclass__(cls, interactor_name, **kwargs):
+        """
+        Implement the registration of a child class into the artefact class.
+        By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
+        See PEP-487 for details.
+        """
+
+        super().__init_subclass__(**kwargs)
+
+        # Register the new interactors into the artefactclass
+        if ArtefactInteractor._interactors.get(interactor_name):
+            raise errors.E020(__name__, name=interactor_name)
+
+        ArtefactInteractor._interactors[interactor_name] = cls
+
+        # Propagate the change to the model validator
+        ArtefactSchema.valids_artefacts.add(interactor_name)
+
+        get_module_logger("statisfactory").debug(
+            f"registering '{interactor_name}' interactor"
+        )
+
+    @classmethod
+    def interactors(cls):
+        return cls._interactors
 
     @abstractmethod
     def __init__(self, artefact, *args, **kwargs):
@@ -159,12 +191,12 @@ class MixinLocalFileSystem:
 # ------------------------------------------------------------------------- #
 
 
-class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="csv"):
     """
     Concrete implementation of a csv interactor
     """
 
-    def __init__(self, artefact: Artefact, *args, **kwargs):
+    def __init__(self, artefact: "Artefact", *args, **kwargs):
         """
         Instanciate an interactor on a local file csv
 
@@ -226,12 +258,12 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="xslx"):
     """
     Concrete implementation of an XLSX interactor
     """
 
-    def __init__(self, artefact: Artefact, *args, **kwargs):
+    def __init__(self, artefact: "Artefact", *args, **kwargs):
         """
         Instanciate an interactor on a local file xslsx
 
@@ -295,12 +327,14 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class PicklerInteractor(
+    ArtefactInteractor, MixinLocalFileSystem, interactor_name="pickle"
+):
     """
     Concrete implementation of a Pickle interactor.
     """
 
-    def __init__(self, artefact: Artefact, *args, **kwargs):
+    def __init__(self, artefact: "Artefact", *args, **kwargs):
         """
         Instanciate an interactor on a local file pickle file
 
@@ -357,7 +391,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class ODBCInteractor(ArtefactInteractor, MixinInterpolable):
+class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odbc"):
     """
     Concrete implementation of an odbc interactor
 
@@ -365,7 +399,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable):
     TODO : implements the saving strategy
     """
 
-    def __init__(self, artefact: Artefact, connector: Connector, *args, **kwargs):
+    def __init__(self, artefact: "Artefact", connector: "Connector", *args, **kwargs):
         """
         Instanciate an interactor against an odbc
 
@@ -428,12 +462,14 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable):
 # ------------------------------------------------------------------------- #
 
 
-class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class DatapaneInteractor(
+    ArtefactInteractor, MixinLocalFileSystem, interactor_name="datapane"
+):
     """
     Implements saving / loading for datapane object.
     """
 
-    def __init__(self, artefact: Artefact, *args, **kwargs):
+    def __init__(self, artefact: "Artefact", *args, **kwargs):
         """
         Return a new Datapane Interactor initiated with a a particular interactor
         """
@@ -471,12 +507,14 @@ class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class BinaryInteractor(
+    ArtefactInteractor, MixinLocalFileSystem, interactor_name="binary"
+):
     """
     Implements saving / loading for binary raw object
     """
 
-    def __init__(self, artefact: Artefact, *args, **kwargs):
+    def __init__(self, artefact: "Artefact", *args, **kwargs):
         """
         Return a new Binary Interactor initiated with a a particular interactor
         """

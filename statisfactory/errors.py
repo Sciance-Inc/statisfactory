@@ -162,6 +162,7 @@ class Errors(metaclass=Singleton):
     E013 = "start-up : failed to unmarshall the catalog"
 
     # FS interactors
+    E020 = "data interactor : there is already an interactor named '{name}'"
     E021 = "data interactor : failed to read '{method}' '{name}'"
     E022 = "data interactor : failed to save the asset '{name}' with '{method}' "
     E023 = "data interactor : MixinLocalFileSystem : want not none 'data_path' and 'path'. got : '{data_path}' and '{path}' "
