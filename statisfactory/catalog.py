@@ -48,7 +48,7 @@ class Catalog(MixinLogable):
         """
 
         root = Path("/")
-        trg = Path().resolve().parent
+        trg = Path().resolve()
 
         while True:
             if (trg / ".git").exists():
