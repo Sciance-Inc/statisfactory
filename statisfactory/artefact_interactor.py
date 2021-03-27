@@ -46,6 +46,19 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
     TODO : v2 (oos) add support for writting files (parceque csv en s3...)
     """
 
+    # A placeholder for all registered interactors
+    _interactors = dict()
+
+    def __init_subclass__(cls, interactor_name, **kwargs):
+        """
+        Implement the registration of a child class into the artefact class.
+        By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
+        See PEP-487 for details.
+        """
+
+        super().__init_subclass__(**kwargs)
+        ArtefactInteractor._interactors[interactor_name] = cls
+
     @abstractmethod
     def __init__(self, artefact, *args, **kwargs):
         """
@@ -159,7 +172,7 @@ class MixinLocalFileSystem:
 # ------------------------------------------------------------------------- #
 
 
-class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="csv"):
     """
     Concrete implementation of a csv interactor
     """
@@ -226,7 +239,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="xls"):
     """
     Concrete implementation of an XLSX interactor
     """
@@ -295,7 +308,9 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class PicklerInteractor(
+    ArtefactInteractor, MixinLocalFileSystem, interactor_name="pickle"
+):
     """
     Concrete implementation of a Pickle interactor.
     """
@@ -357,7 +372,7 @@ class PicklerInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class ODBCInteractor(ArtefactInteractor, MixinInterpolable):
+class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odbc"):
     """
     Concrete implementation of an odbc interactor
 
@@ -428,7 +443,9 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable):
 # ------------------------------------------------------------------------- #
 
 
-class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class DatapaneInteractor(
+    ArtefactInteractor, MixinLocalFileSystem, interactor_name="datapane"
+):
     """
     Implements saving / loading for datapane object.
     """
@@ -471,7 +488,9 @@ class DatapaneInteractor(ArtefactInteractor, MixinLocalFileSystem):
 # ------------------------------------------------------------------------- #
 
 
-class BinaryInteractor(ArtefactInteractor, MixinLocalFileSystem):
+class BinaryInteractor(
+    ArtefactInteractor, MixinLocalFileSystem, interactor_name="binary"
+):
     """
     Implements saving / loading for binary raw object
     """
