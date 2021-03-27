@@ -35,11 +35,7 @@ import pandas as pd
 
 
 class Catalog(MixinLogable):
-    """Catalog represent a loadable / savabale set of dataframes living locally or in far, far aways distributed system.
-    The catalog mixes a monitor with a facade pattern (yeup, quick dev)
-
-    TODO : Rework the way catalog'context and pipeline's context are combined : create a new object for context and pass it independlyt
-    """
+    """Catalog represent a loadable / savabale set of dataframes living locally or in far, far aways distributed system."""
 
     @staticmethod
     def find():
@@ -110,6 +106,15 @@ class Catalog(MixinLogable):
             self.info("adding 'Lib' to PYTHONPATH")
 
         self.debug("preflight : ...ok")
+
+    def __str__(self):
+        """
+        Show all artefacts entries
+        """
+
+        msg = "\n\t- ".join(self._data.artefacts.keys())
+
+        return "Catalog entries :\n\t- " + msg
 
     def __contains__(self, name: str) -> bool:
         """
