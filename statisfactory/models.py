@@ -119,7 +119,7 @@ class ArtefactSchema(Schema):
     @validates_schema
     def validate_file(self, data, **kwargs):
         errors = {}
-        if data["type_"] in ["csv", "xslx"]:
+        if data["type"] in ["csv", "xslx"]:
             if "path" not in data:
                 errors["path"] = ["missing path for csvdataset"]
 
@@ -129,7 +129,7 @@ class ArtefactSchema(Schema):
     @validates_schema
     def validate_query(self, data, **kwargs):
         errors = {}
-        if data["type_"] == "odbc":
+        if data["type"] == "odbc":
             if "connector" not in data:
                 errors["odbc"] = ["missing connector for type odbc"]
             if "query" not in data:
@@ -141,7 +141,7 @@ class ArtefactSchema(Schema):
     @validates_schema
     def validate_datapane(self, data, **kwargs):
         errors = {}
-        if data["type_"] == "datapane":
+        if data["type"] == "datapane":
             if "path" not in data:
                 errors["datapane"] = ["missing path for type datapane"]
 
