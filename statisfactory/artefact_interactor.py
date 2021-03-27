@@ -57,6 +57,9 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         """
 
         super().__init_subclass__(**kwargs)
+        if ArtefactInteractor._interactors.get(interactor_name):
+            raise errors.E020(__name__, name=interactor_name)
+
         ArtefactInteractor._interactors[interactor_name] = cls
 
     @abstractmethod
