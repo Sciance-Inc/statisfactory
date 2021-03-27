@@ -126,6 +126,37 @@ df['foo'] = 'foo'
 catalog.save("testDataset", df, PIPELINE="foobar")
 ```
 
+#### I have special "special needs", _statisfactory_ got you covered.
+
+* You can register you own interactors by creating a class inheritating from `ArtefactInteractor`. Your class must implements the interface defined by `ArtefactInteractor` and must uses a unique name. The following snipet show the creation of a custom `foobarer` interactor. 
+* Registering artefact's custom fields as well as custom fields validation is unsuported as of `v0.1`, but one could implements it using the `make_dataclass(base=Artefact)` or by properly using metaprogramming.
+* Once defined, you can use the `interactor_name` in the `catalog.yaml` to use your custom interactor.
+
+__Warning__ : the class definition must preceds the catalog instancation
+
+```python
+from statisfactory import ArtefactInteractor, Catalog
+
+print(ArtefactInteractor.interactors) # Print the 'default' registered interactors
+
+
+class Foobar(ArtefactInteractor, interactor_name="foobarer"):
+    def __init__(artefact, *args, **kwargs):
+        pass
+
+    def load(self):
+        print("loaded")
+
+    def save(self, asset):
+        print("saved")
+
+
+print(ArtefactInteractor.interactors)  # Print all registered interactors
+
+
+# Instanciate the catalog as usal
+catalog = Catalog("exemples/dummyRepo")
+```
 
 ### The `Craft` object and how did I finally find a way to mess up with the `inspect` package
 
@@ -219,6 +250,8 @@ show_top(10)
 * `Pipelines` are built from `Craft`.
 * Once defined, a `Pipeline` must be called to be executed.
 * One way to declare pipeline, is to __add__ some crafts togethers. Crafts are executed by solving dependencies between `Craft` if possible, or in the order theyre are given
+* You can call `print` on a pipeline to display a textual representation of the DAG (with it's execution order)
+* You can call the `plot()` method on a pipeline to display the DAG. The `graphviz` and `pygraphviz` must have been installed.
 
 ```python
 from statisfactory import Catalog, Craft, Artefact
@@ -247,7 +280,7 @@ p = add_col + show_top
 p()
 ```
 
-* You can check the dependencies between `Craft` using `print`:
+* You can check the dependencies between `Craft` using `print` or `.plot()`:
 
 ```python
 
@@ -255,6 +288,10 @@ p = show_top + add_col
 
 #  Note that dependencies have been corected.
 print(p)
+
+
+#  Note that dependencies have been corected.
+p.plot()  # Require graphviz
 ```
 
 
@@ -300,8 +337,8 @@ catalog = Catalog("/home/me/myProject")
 
 # Declare and wraps a funtion that UPDATE an artefact with a value called val and defaulted to 1
 @Craft.make(catalog)
-def add_col(masterFile: Artefact) -> Artefact('augmentedFile'):
-    masterFile["foo"] = 1
+def add_col(masterFile: Artefact, val=1) -> Artefact('augmentedFile'):
+    masterFile["foo"] = val
 
 # Declare and wraps a funtion that uses an artefact
 @Craft.make(catalog)
@@ -424,10 +461,14 @@ p = save_coeff + build_dataframe + train_regression
 # Check that the Dependencies have been fixed.
 print(p)
 
+# Graphically checks the fix, graphviz must be installed
+p.plot()
+
 # Call the pipeline with specific arguments (once)
 p(samples=500)  
 # Call the pipeline with specific arguments (once)
 p(samples=100, fit_intercept=False) 
+
 
 # Finally use the catalog to control the coeff
 c1 = catalog.load("coeffs", samples=100)
@@ -438,5 +479,7 @@ c2 = catalog.load("coeffs", samples=500)
 # Implementation Details
 
 # Hic sunt dracones
-* How to inject a spark runner ? 
+Road to v0.2
+* Inject a spark runner ? 
+* Custom definition of artefacts fields and custom field validation
 
