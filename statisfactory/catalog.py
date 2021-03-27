@@ -61,7 +61,6 @@ class Catalog(MixinLogable):
         """
 
         super().__init__()
-        self.debug("preflight : check...")
         self.info(f"Initiating Catalog to : '{path}'")
         self._context_overwrite_strict = context_overwrite_strict
 
@@ -105,7 +104,7 @@ class Catalog(MixinLogable):
             os.environ["PYTHONPATH"] = src_path
             self.info("adding 'Lib' to PYTHONPATH")
 
-        self.debug("preflight : ...ok")
+        self.info("All done ! You are ready to go ! \U00002728 \U0001F370 \U00002728")
 
     def __str__(self):
         """
