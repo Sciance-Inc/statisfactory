@@ -39,6 +39,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
+        "netowrkx==2.5",
         "marshmallow==3.10.0",
         "pandas>=1.1.2",
         "click>=7.0",
