@@ -26,7 +26,7 @@ Keep it classy, boys :
 * Rebase/merge before integrating your changes;
 * Use proper commit messages and follow `commitizen` commits conventions;
 * Use `bump2verion` to ... bump the version.
-* I like my code formatted the same way I like my coffee : `Black`. Use-it for code formatting bedore committing.
+* I like my code formatted the same way I like my coffee : `Black`. Use-it for code formatting before committing.
 
 ## High level presentation 
 * _Statisfactory_ is based on the idea of `Artefacts`. `Artefacts` are something produced or used by a statistical analysis such as a dataset, a report, a trained model ;
@@ -144,7 +144,7 @@ __Warning__ : the class definition must preceds the catalog instancation
 ```python
 from statisfactory import ArtefactInteractor, Catalog
 
-print(ArtefactInteractor.interactors) # Print the 'default' registered interactors
+print(ArtefactInteractor.interactors()) # Print the 'default' registered interactors
 
 
 class Foobar(ArtefactInteractor, interactor_name="foobarer"):
@@ -158,7 +158,7 @@ class Foobar(ArtefactInteractor, interactor_name="foobarer"):
         print("saved")
 
 
-print(ArtefactInteractor.interactors)  # Print all registered interactors
+print(ArtefactInteractor.interactors())  # Print all registered interactors
 
 
 # Instanciate the catalog as usal

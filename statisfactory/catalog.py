@@ -61,7 +61,6 @@ class Catalog(MixinLogable):
         """
 
         super().__init__()
-        self.debug("preflight : check...")
         self.info(f"Initiating Catalog to : '{path}'")
         self._context_overwrite_strict = context_overwrite_strict
 
@@ -105,14 +104,15 @@ class Catalog(MixinLogable):
             os.environ["PYTHONPATH"] = src_path
             self.info("adding 'Lib' to PYTHONPATH")
 
-        self.debug("preflight : ...ok")
+        self.info("All done ! You are ready to go ! \U00002728 \U0001F370 \U00002728")
 
     def __str__(self):
         """
         Show all artefacts entries
         """
 
-        msg = "\n\t- ".join(self._data.artefacts.keys())
+        keys = sorted(self._data.artefacts.keys())
+        msg = "\n\t- ".join(keys)
 
         return "Catalog entries :\n\t- " + msg
 
@@ -163,7 +163,7 @@ class Catalog(MixinLogable):
         """
 
         try:
-            interactor = ArtefactInteractor.interactors[artefact.type]
+            interactor = ArtefactInteractor.interactors()[artefact.type]
         except KeyError:
             raise errors.E031(__name__, name=artefact.type)
 
