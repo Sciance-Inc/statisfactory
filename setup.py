@@ -24,7 +24,7 @@ README = (HERE / "readme.md").read_text()
 
 
 setup(
-    version="0.1.0-dev6",
+    version="0.1.0-rc0",
     setup_requires=["setuptools-git-versioning"],
     name="statisfactory",
     description="Satisfying Statistical Factory",
@@ -43,7 +43,8 @@ setup(
         "pandas>=1.1.2",
         "click>=7.0",
         "pyodbc>=4.0.30",
-        "datapane>=0.9.2",
+        "datapane==0.9.2",
         "PyYAML==5.4.1",
+        "xlrd==1.2.0",
     ],
 )

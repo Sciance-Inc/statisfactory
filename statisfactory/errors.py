@@ -204,7 +204,7 @@ class Errors(metaclass=Singleton):
 @_raisable_attributes_factory(StatisfactoryWarning)
 class Warnings(UserWarning):
     # Instanciation
-    W010 = "start-up : PYTHONPATH is already set and won't be overwritted by Statisfactoy : the sources from 'Lib' won't be reachable"
+    W010 = "start-up : PYTHONPATH is already set and won't be overwritted by Statisfactoy : the sources from 'Lib' MIGHT not be reachable"
 
     # Pipeline
     W055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
