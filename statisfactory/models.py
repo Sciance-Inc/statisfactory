@@ -150,8 +150,8 @@ class ArtefactSchema(Schema):
 
     @post_load
     def make_artefact(self, data, **kwargs):
-        if self.type not in self.valids_artefacts:
-            warnings.W020(__name__, inter_type=self.type)
+        if data["type"] not in ArtefactSchema.valids_artefacts:
+            warnings.W020(__name__, inter_type=data["type"])
 
         return Artefact(name=None, **data)
 
