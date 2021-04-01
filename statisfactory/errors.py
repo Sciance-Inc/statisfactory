@@ -206,6 +206,9 @@ class Warnings(UserWarning):
     # Instanciation
     W010 = "start-up : PYTHONPATH is already set and won't be overwritted by Statisfactoy : the sources from 'Lib' MIGHT not be reachable"
 
+    # Interactor
+    W020 = "data interactor : '{inter_type}' is not a registered interactor."
+
     # Pipeline
     W055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
     W056 = (

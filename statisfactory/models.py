@@ -17,17 +17,17 @@
 # system
 from typing import List, Dict, Optional
 import yaml
+from dataclasses import dataclass, field
 
 # project
 
 # third party
-from dataclasses import dataclass, field
+from .errors import warnings
 from marshmallow import (
     Schema,
     fields,
     validates_schema,
     ValidationError,
-    validate,
     post_load,
 )
 
@@ -102,7 +102,7 @@ class ArtefactSchema(Schema):
     valids_artefacts = set()
 
     # Shared
-    type = fields.Str(required=True, validate=validate.OneOf(valids_artefacts))
+    type = fields.Str(required=True)
     abstract = fields.Bool(required=False)
 
     # file
@@ -150,6 +150,9 @@ class ArtefactSchema(Schema):
 
     @post_load
     def make_artefact(self, data, **kwargs):
+        if self.type not in self.valids_artefacts:
+            warnings.W020(__name__, inter_type=self.type)
+
         return Artefact(name=None, **data)
 
 
