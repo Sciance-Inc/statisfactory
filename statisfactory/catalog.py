@@ -34,7 +34,32 @@ import pandas as pd
 #############################################################################
 
 
-class Catalog(MixinLogable):
+class CatalogSingleton(type, MixinLogable):
+    """
+    Implements a Singleton metaclass for the Catalog : allowing for the following behaviour
+    * Registered extensions schould be attached to all instanciated catalog
+    * When multiple crafts wraps calls to the catalog : the catalog schould only be instanciated once.
+    """
+
+    _instances = {}
+
+    def __call__(cls, path, *args, **kwargs):
+        """
+        Return an instance of a catalog pointing to 'path'.
+        Create a new instance if none exists.
+        """
+
+        try:
+            instance = cls._instances[path]
+        except KeyError:
+            instance = cls._instances[path] = super(CatalogSingleton, cls).__call__(
+                path, *args, **kwargs
+            )
+
+        return instance
+
+
+class Catalog(MixinLogable, metaclass=CatalogSingleton):
     """Catalog represent a loadable / savabale set of dataframes living locally or in far, far aways distributed system."""
 
     @staticmethod
