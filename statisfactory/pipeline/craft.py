@@ -24,13 +24,11 @@ from collections.abc import Mapping
 from copy import copy
 
 # project
-from .errors import errors
-from .logger import MixinLogable
-from .catalog import Catalog
-from .models import Artefact, Volatile
-from .mergeable import MergeableInterface
+from ..errors import errors
+from ..logger import MixinLogable
+from ..IO import Catalog, Artefact, Volatile
 from .pipeline import Pipeline
-from .utils import merge_dictionaries
+from .utils import merge_dictionaries, MergeableInterface
 
 #############################################################################
 #                                  Script                                   #

@@ -20,6 +20,14 @@ Statisfactory is a toolbox to apply and replicate a Statistical pipeline. The pu
 
 __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver as well as a new way to indicates `Artefacts` to save.
 
+#### Road to 0.2.0
+- [x] Refactor the Craft object to improve the Annotation parsing
+- [ ] Add support for data layers and environement in a config file
+- [ ] Add support for global and local config files
+- [ ] Add support for Craft's level configuration in yaml
+- [ ] Add support for Pipeline definition in yaml
+- [ ] Create a CLI to parse and execute Pipeline definitions for specific configuration
+
 ## How to contribute.
 Keep it classy, boys :
 * Use `git flow` and don't directly publish to `master`;

@@ -24,10 +24,10 @@ from networkx.algorithms.dag import transitive_reduction
 # project
 from .solver import DependenciesSolver
 from .viz import Graphviz
+from .utils import merge_dictionaries, MergeableInterface
 from ..errors import errors
 from ..logger import MixinLogable
-from ..mergeable import MergeableInterface
-from ..utils import merge_dictionaries
+
 
 #############################################################################
 #                                  Script                                   #

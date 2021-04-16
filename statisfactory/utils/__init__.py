@@ -1,1 +1,0 @@
-from .dictionaryMerger import merge_dictionaries  # noqa

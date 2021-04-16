@@ -22,7 +22,7 @@ from dataclasses import dataclass, field
 # project
 
 # third party
-from .errors import warnings
+from ..errors import warnings
 from marshmallow import (
     Schema,
     fields,

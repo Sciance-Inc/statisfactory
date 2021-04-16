@@ -22,12 +22,10 @@ from contextlib import contextmanager
 import pickle
 
 # project
-from .errors import errors
-from .logger import get_module_logger
 from .models import ArtefactSchema
+from ..errors import errors
+from ..logger import get_module_logger, MixinLogable
 
-# from .models import Artefact
-from .logger import MixinLogable
 
 # third party
 import pandas as pd

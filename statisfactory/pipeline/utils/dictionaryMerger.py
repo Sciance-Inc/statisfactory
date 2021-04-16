@@ -18,7 +18,7 @@
 from typing import Dict
 
 # Project
-from ..errors import warnings
+from ...errors import warnings
 
 #############################################################################
 #                                 Packages                                  #

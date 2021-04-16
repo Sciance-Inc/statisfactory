@@ -21,10 +21,10 @@ import os
 import sys
 
 # project
-from .logger import MixinLogable
-from .errors import errors, warnings
 from .models import CatalogData, Artefact, Connector
 from .artefact_interactor import ArtefactInteractor
+from ..logger import MixinLogable
+from ..errors import errors, warnings
 
 # third party
 import pandas as pd
