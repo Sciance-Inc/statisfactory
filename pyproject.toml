@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "statisfactory"
+version = "0.1.0"
+description = "A Satisfying Statistical Factory"
+authors = ["hugo juhel"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+networkx = "2.5"
+marshmallow = "3.10.0"
+pandas = "^1.2.4"
+click = "^7.1.2"
+pyodbc = "^4.0.30"
+datapane = "0.9.2"
+PyYAML = "^5.4.1"
+xlrd = "1.2.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
