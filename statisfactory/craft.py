@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-# main.py
+# craft.py
 #
 # Project name: statisfactory
 # Author: Hugo Juhel
@@ -15,8 +15,10 @@
 #############################################################################
 
 # system
+from dataclasses import dataclass
+from enum import Enum, auto
 from functools import update_wrapper
-from typing import Callable, Dict, Any
+from typing import Callable, List, Tuple
 from inspect import signature, Signature, Parameter
 from collections.abc import Mapping
 from copy import copy
@@ -28,15 +30,57 @@ from .catalog import Catalog
 from .models import Artefact, Volatile
 from .mergeable import MergeableInterface
 from .pipeline import Pipeline
+from .utils import merge_dictionaries
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
+class SElementKind(Enum):
+    """
+    Admissibles values for signature elements
+    """
+
+    ARTEFACT = auto()  # An artefact to load
+    VOLATILE = auto()  # A Volatile object from a previously Executed craft
+    VAR_POSITIONAL = auto()  # A variadic positional argument (*args)
+    VAR_KEYWORD = auto()  # A variadic named arguments (**kwargs)
+    POS = auto()
+    KEY = auto()
+    POS_OR_KEY = auto()
+
+
+@dataclass
+class SElement:
+    """
+    Represents a elements of a Craft's signature.
+    Holds the underlaying parameter with it's SElementKind.
+    The SElement kind is used to implements the strategy in the Craft's _parse_args method.
+    """
+
+    annotation: Parameter
+    kind: SElementKind
+
+    @property
+    def name(self) -> str:
+        """
+        Parameter's name getter.
+        """
+        return self.annotation.name
+
+    @property
+    def has_default(self) -> bool:
+        """
+        Return true if the parameter has a default value.
+        """
+
+        return self.annotation.default != Parameter.empty
+
+
 class Craft(MergeableInterface, MixinLogable):
     """
-    Craft wraps a task and take care of data retrieval from / data storage to the catalogue
+    Craft wraps a task and take care of data retrieval from / storage to the catalogue.
     """
 
     _artefacts_annotation = [Artefact]
@@ -57,32 +101,58 @@ class Craft(MergeableInterface, MixinLogable):
 
         return _
 
-    def _extract_annotations(self, c: Callable):
+    def _input_to_SElements(self, annos: List[Parameter]) -> List[SElement]:
         """
-        Extract all the input parameters and a tuple of Volatile / Artefact from the annotated return of the callable.
+        Convert a Python's callable annotation, as returned by Signature to a list of SElement
         """
 
-        s = signature(c)
+        e = []
+        for anno in annos:
+            if anno.annotation == Artefact:
+                e.append(SElement(anno, SElementKind.ARTEFACT))
+            elif anno.annotation == Volatile:
+                e.append(SElement(anno, SElementKind.VOLATILE))
+            elif anno.kind == Parameter.VAR_POSITIONAL:
+                e.append(SElement(anno, SElementKind.VAR_POSITIONAL))
+            elif anno.kind == Parameter.VAR_KEYWORD:
+                e.append(SElement(anno, SElementKind.VAR_KEYWORD))
+            elif anno.kind == Parameter.POSITIONAL_OR_KEYWORD:
+                e.append(SElement(anno, SElementKind.POS_OR_KEY))
+            elif anno.kind == Parameter.POSITIONAL_ONLY:
+                e.append(SElement(anno, SElementKind.POS))
+            elif anno.kind == Parameter.KEYWORD_ONLY:
+                e.append(SElement(anno, SElementKind.KEY))
+            else:
+                raise BaseException("Moups !")
 
-        # Extract the input parameters to flag the artefacts
-        in_ = list(s.parameters.values())
+        return e
 
-        # Check that a return annotation exists
-        out = s.return_annotation
-        if out == Signature.empty:
-            return in_, []
+    def _output_to_SElements(self, annos) -> List[SElement]:
+        """
+        Convert a Python's callable return value to a list of SElement.
+        """
 
-        # Make sure that the output is Iterable
-        if isinstance(out, (Artefact, Volatile)):
-            out_ = (out,)
-        elif isinstance(out, tuple):
-            out_ = out
-            if any(not isinstance(item, (Artefact, Volatile)) for item in out_):
-                raise errors.E048(__name__, name=self.name)
-        else:
-            raise errors.E047(__name__, name=self.name, got=str(type(out)))
+        # Make sure that there is items to be parsed
+        if annos == Signature.empty:
+            return []
 
-        return in_, out_
+        # Make sure that the item to be parsed as iterable
+        if isinstance(annos, (Artefact, Volatile)):
+            annos = [annos]
+
+        # Make sure that all items returned by the Craft are either Artefact or Volatile
+        if any(not isinstance(anno, (Artefact, Volatile)) for anno in annos):
+            raise errors.E047(__name__, name=self.name)
+
+        # Convert all items to a SElement
+        e = []
+        for anno in annos:
+            if isinstance(anno, Artefact):
+                e.append(SElement(anno, SElementKind.ARTEFACT))
+            elif isinstance(anno, Volatile):
+                e.append(SElement(anno, SElementKind.VOLATILE))
+
+        return e
 
     def __init__(self, catalog: Catalog, callable: Callable):
         """
@@ -94,90 +164,13 @@ class Craft(MergeableInterface, MixinLogable):
         self._catalog = catalog
         self._callable = callable
         self._name = callable.__name__
-        self._in_anno, self._out_anno = self._extract_annotations(callable)
+
+        # Parse the signature of the craft
+        S = signature(self._callable)
+        self._in_anno = self._input_to_SElements(S.parameters.values())
+        self._out_anno = self._output_to_SElements(S.return_annotation)
 
         update_wrapper(self, callable)
-
-    @property
-    def input_annotation(self):
-        """
-        Return the input annotation of the Craft
-        """
-
-        return self._in_anno
-
-    @property
-    def output_annotation(self):
-        """
-        Return the output annotation of the Craft
-        """
-
-        return self._out_anno
-
-    def _build_args(self, context: Dict) -> Dict:
-        """
-        Build the dictionnary mapping from a Craft's signature
-        """
-
-        built_args = {}
-        artefact_only = False
-        loaded_artefacts = []
-
-        # Short-circuit : check if **kwargs is in the signature, if so, we only have to load the artefacts
-        if any(param.kind == "VAR_KEYWORD" for param in self._in_anno):
-            built_args = context
-            artefact_only = True
-
-        for param in self._in_anno:
-            if param.annotation in self._artefacts_annotation:
-                try:
-                    built_args[param.name] = self.catalog.load(param.name, **context)
-                    loaded_artefacts.append(param.name)
-                except BaseException as err:
-                    raise errors.E042(__name__, craft=self._name) from err
-            else:
-                if artefact_only:
-                    continue
-                if param.kind == Parameter.POSITIONAL_OR_KEYWORD:
-                    try:
-                        built_args[param.name] = context[param.name]
-                    except KeyError:
-                        is_required = param.default == Parameter.empty
-                        if is_required:
-                            raise errors.E046(
-                                __name__, name=self._name, param=param.name
-                            ) from None
-
-        if loaded_artefacts:
-            self.info(
-                f"craft : artefacts loaded for '{self._name}' : {', '.join(loaded_artefacts)}."
-            )
-
-        return built_args
-
-    def __call__(self, *args, **context):
-        """
-        Call the underlying callable
-        """
-
-        params = self._build_args(context)
-        try:
-            out = self._callable(*args, **params)
-        except BaseException as err:
-            raise errors.E040(__name__, func=self._name) from err
-
-        self._capture_artefacts(out, **context)
-
-        return out
-
-    def __copy__(self) -> "Craft":
-        """
-        Implements the shallow copy protocol for the Craft.
-        Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
-        """
-
-        craft = Craft(copy(self._catalog), self._callable)
-        return craft
 
     @property
     def name(self) -> str:
@@ -188,14 +181,127 @@ class Craft(MergeableInterface, MixinLogable):
         return self._name
 
     @property
-    def catalog(self):
+    def requires(self) -> Tuple[str]:
         """
-        Getter for the catalog
+        Return the name of the volatiles and artefact required by the craft
         """
 
-        return self._catalog
+        return tuple(
+            anno.name
+            for anno in self._in_anno
+            if anno.kind in (SElementKind.ARTEFACT, SElementKind.VOLATILE)
+        )
 
-    def _capture_artefacts(self, out_, **context) -> Mapping:
+    @property
+    def produces(self) -> Tuple[str]:
+        """
+        Return the names of the volatiles and artefacts produced by the Craft.
+        """
+
+        return tuple(anno.name for anno in self._out_anno)
+
+    def _parse_args(self, args, kwargs):
+        """
+        Map variadic arguments to the named arguments of the Craft's inner callable
+        """
+
+        # Transform the variadic arguments to a generator, so that nexting items from it will consume the tokens : the remainer will be sent to VAR_POSITIONAL
+        args = (i for i in args)
+
+        # Iter over the Craft's callable signature and map them values from args and kwargs
+        args_ = []
+        kwargs_ = {}
+        for e in self._in_anno:
+            # Load the artefact from the catalog catalog
+            if e.kind == SElementKind.ARTEFACT:
+                kwargs_[e.name] = self._catalog.load(e.name, **kwargs)
+
+            # Load the value from the context
+            if e.kind in (SElementKind.VOLATILE, SElementKind.KEY):
+                kwargs_[e.name] = kwargs[e.name]
+
+            # Consume the NEXT positional argument
+            if e.kind == SElementKind.POS:
+                kwargs_[e.name] = next(args)
+
+            # Use the full context
+            if e.kind == SElementKind.VAR_KEYWORD:
+                try:
+                    kwargs = merge_dictionaries(kwargs_, kwargs)
+                except KeyError as error:
+                    raise errors.E055(
+                        __name__, name=self.name, kind="variadic keywords"
+                    ) from error
+
+            # Exhaust the generator
+            if e.kind == SElementKind.VAR_POSITIONAL:
+                args_ = list(args)  # Consume the remaining items
+
+            # Retrieve from Kwargs, otherwise consume the next token. If no token left, check for default values. If there is not, raise an error.
+            if e.kind == SElementKind.POS_OR_KEY:
+
+                try:
+
+                    if e.name in kwargs:
+                        kwargs_[e.name] = kwargs[e.name]
+                    else:
+                        kwargs_[e.name] = next(args)
+
+                except StopIteration:
+                    if not e.has_default:
+                        raise errors.E046(__name__, name=self._name, param=e.name)
+
+        return args_, kwargs_
+
+    def __call__(self, *args, **kwargs):
+        """
+        Call the underlying callable
+        """
+
+        args_, kwargs_ = self._parse_args(args, kwargs)
+
+        try:
+            out = self._callable(*args_, **kwargs_)
+        except BaseException as err:
+            raise errors.E040(__name__, func=self._name) from err
+
+        self._save_artefacts(out, **kwargs)
+
+        return out
+
+    def call_and_split(self, *args, **kwargs) -> Tuple[Mapping, Mapping]:
+        """
+        Call the underlying callable and split the returned values between Volatile and Artefacts
+        """
+
+        # get the tuple returned by the fonction
+        out = self.__call__(*args, **kwargs)
+        if not isinstance(out, tuple):
+            out = (out,)
+
+        volatiles_mapping = {
+            anno.name: value
+            for anno, value in zip(self._out_anno, out)
+            if anno.kind == SElementKind.VOLATILE
+        }
+        artefacts_mapping = {
+            anno.name: value
+            for anno, value in zip(self._out_anno, out)
+            if anno.kind == SElementKind.ARTEFACT
+        }
+
+        return volatiles_mapping, artefacts_mapping
+
+    def __copy__(self) -> "Craft":
+        """
+        Implements the shallow copy protocol for the Craft.
+        Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
+        """
+
+        craft = Craft(copy(self._catalog), self._callable)
+        return craft
+
+    def _save_artefacts(self, output, **context) -> Mapping:
         """
         Extract and save the artefact of an output
 
@@ -203,36 +309,24 @@ class Craft(MergeableInterface, MixinLogable):
             out (Dict): the dictionnary to extract artefacts from.
         """
 
-        self.debug(f"craft : capturing artefacts from '{self._name}'")
-        out_not_none = out_ != None
+        # Convert the output to a tuple
+        if not isinstance(output, tuple):
+            output = (output,)
 
-        # Ensure iterable
-        if not isinstance(out_, (tuple, list)):
-            out = (out_,)
-        else:
-            out = out_
-
-        out_mismatch_expected = len(out) != len(self._out_anno)
-        if out_mismatch_expected and out_not_none:
+        # Make sure the lengths matchs
+        expected = len(self._out_anno)
+        got = len(output)
+        if expected != got:
             raise errors.E0401(
-                __name__, name=self._name, sign=len(self._out_anno), got=len(out)
+                __name__, name=self._name, sign=len(self._out_anno), got=len(output)
             )
 
-        artefacts = []
-        for anno, data in zip(self._out_anno, out):
-            if isinstance(anno, Artefact):
-                try:
-                    self._catalog.save(anno.name, data, **context)
-                except BaseException as err:  # add details about the callable making the bad call
-                    raise errors.E043(__name__, func=self._name) from err
-                artefacts.append(anno.name)
-
-        # Iterate over the artefacts and persist the one existing in the catalog.
-
-        if artefacts:
-            self.info(
-                f"craft : artefacts saved from '{self._name}' : {', '.join(artefacts)}."
-            )
+        for item, anno in zip(output, self._out_anno):
+            if anno.kind == SElementKind.ARTEFACT:
+                self._catalog.save(anno.name, item, **context)
+                self.debug(
+                    f"craft '{self._name}' : capturing artefacts : '{anno.name}'"
+                )
 
     def __add__(self, visitor: MergeableInterface):
         """

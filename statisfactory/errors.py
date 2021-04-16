@@ -184,17 +184,17 @@ class Errors(metaclass=Singleton):
 
     # Craft
     E040 = "craft : failed to execute craft '{func}'"
+    E041 = "craft : the craft '{name}' schould return a type implementing the container interface. Got '{T}'"
     E042 = "craft : failed to load artefact for craft '{craft}'"
     E043 = "craft : failed to save artefact for craft '{func}'"
     E046 = "craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
-    E047 = "craft : the craft '{name}'s signature must be of type Tuple, Volatile or Artefact. Got '{got}'"
-    E048 = "craft : the craft signature '{name}' returns a non Volatile/Artefact nested value"
+    E047 = "craft : the craft '{name}'s signature must be a Volatile, Artefact or a Tuple of Volatiles and Artefacts. Got '{got}'"
     E0401 = "craft : the craft '{name}' signature expect {sign} items. Got {got}"
 
     # Pipeline
     E052 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
     E053 = "pipeline : failed to run craft '{func}'"
-    E055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
+    E055 = "pipeline : '{kind}' keys collision : for craft '{name}'"
     E056 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
     E057 = "pipeline : viz : missing '{dep}' package"
 
@@ -209,6 +209,9 @@ class Warnings(UserWarning):
 
     # Interactor
     W020 = "data interactor : '{inter_type}' is not a registered interactor."
+
+    # Craft
+    W040 = "craft '{craft}' was expecting 'something' but got 'nothing'. Make sure that this 'nothing' is the right 'something' !"
 
     # Pipeline
     W055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"

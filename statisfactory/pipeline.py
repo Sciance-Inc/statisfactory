@@ -17,8 +17,6 @@
 # system
 from typing import Union, Dict
 from copy import copy
-from inspect import Parameter
-from collections import defaultdict
 
 # Third party
 import networkx as nx
@@ -28,7 +26,7 @@ from networkx.algorithms.dag import transitive_reduction
 from .errors import errors, warnings
 from .logger import MixinLogable
 from .mergeable import MergeableInterface
-from .models import Volatile, Artefact
+from .utils import merge_dictionaries
 
 #############################################################################
 #                                  Script                                   #
@@ -39,8 +37,6 @@ class DependenciesSolver:
     """
     DAG dependency solver
     """
-
-    _valids_annotations = (Artefact, Volatile)
 
     @property
     def G(self):
@@ -66,14 +62,10 @@ class DependenciesSolver:
 
         # First pass, create all nodes and map them to the artefacts they create
         for craft in crafts:
-            outputs = (
-                anno.name
-                for anno in craft.output_annotation
-                if isinstance(anno, self._valids_annotations)
-            )
-            for output in outputs:
+
+            for output in craft.produces:
                 # Check that no craft is already creating this artefact
-                if m_producer.get(output, None):
+                if output in m_producer:
                     raise errors.E056(
                         __name__,
                         artefact=output,
@@ -87,17 +79,12 @@ class DependenciesSolver:
 
         # Second pass, drow an edge between all nodes and the craft they require
         for craft in crafts:
-            inputs = (
-                anno.name
-                for anno in craft.input_annotation
-                if issubclass(anno.annotation, self._valids_annotations)
-            )
-            for input_ in inputs:
+            for requirement in craft.requires:
                 try:
-                    after = m_producer[input_]
+                    after = m_producer[requirement]
                     G.add_edge(after, craft.name)
                 except KeyError:
-                    warnings.W056(__name__, craft=craft.name, artefact=input_)
+                    warnings.W056(__name__, craft=craft.name, artefact=requirement)
 
         self._G = G
         self._m_crafts = {craft.name: craft for craft in crafts}
@@ -125,16 +112,7 @@ class DependenciesSolver:
 class Pipeline(MergeableInterface, MixinLogable):
     """
     Implements a way to run crafs.
-
-    Implementation details
-    =====================
-    The pipeline works whith shallow copy, not deep one. I choosed shallow copy so that
-    I can always copy a Craft or a pipeline without having the user (future me) to implements
-    a custom serialiser for each objects in the craft. The shallow copy allows me to replace
-    the context of a catalog.
     """
-
-    _valids_annotations = [Artefact]
 
     def __init__(self, name: str, error_on_overwriting: bool = True):
         """
@@ -147,7 +125,7 @@ class Pipeline(MergeableInterface, MixinLogable):
 
         super().__init__()
         self._name = name
-        self._crafts: Union["Craft"] = []
+        self._crafts: Union["Craft"] = []  # noqa
         self._error_on_overwrting = error_on_overwriting
         self._DAG_recycle = False
 
@@ -181,7 +159,7 @@ class Pipeline(MergeableInterface, MixinLogable):
             raise errors.E057(__name__, dep="graphviz")
 
         try:
-            import pygraphviz
+            import pygraphviz  # noqa
         except ImportError:
             raise errors.E057(__name__, dep="pygraphviz")
 
@@ -227,38 +205,6 @@ class Pipeline(MergeableInterface, MixinLogable):
 
         pipeline._crafts.extend(self._crafts)
 
-    def _merge_dictionnaries(
-        self, left: Dict, right: Dict, craft_name: str, kind: str
-    ) -> Dict:
-        """
-        Return a new dictionnary from right and left. If the Pipeline in strict mode, overwritting keys will raises an error,
-        otherwise a warning will be emitted. Overwriting keys option favors right values.
-        Args:
-            left (Dict): the first dictionnaries to be updated
-            right (Dict): The increment to add to the volatile output
-            craft_name (str) : the name of the craft, used for debugging
-            kind (str) : the type of the merger, used for debugging
-        """
-
-        # Prevents dealing with one dict or two being None
-        left = left or {}
-        right = right or {}
-
-        colliding_keys = set(left.keys()).intersection(set(right.keys()))
-        is_collision = len(colliding_keys) > 0
-
-        if is_collision:
-            if self._error_on_overwrting:
-                raise errors.E055(
-                    __name__, keys=",".join(colliding_keys), name=craft_name, kind=kind
-                )
-            else:
-                warnings.W055(
-                    __name__, keys=",".join(colliding_keys), name=craft_name, kind=kind
-                )
-
-        return {**left, **right}
-
     def __str__(self):
         """
         Implements the print method to display the pipeline
@@ -270,23 +216,6 @@ class Pipeline(MergeableInterface, MixinLogable):
         )
         return "Pipeline steps :\n\t- " + batchs_repr
 
-    def _craft_out_to_dict(self, craft, out):
-        """
-        Transform the output of a Craft to a dictionary to be mergeable on the context
-        """
-
-        if not isinstance(out, (tuple, list)):
-            out = (out,)
-
-        m = {}
-        for anno, data in zip(craft.output_annotation, out):
-            if isinstance(anno, Artefact):
-                pass
-            elif isinstance(anno, Volatile):
-                m[anno.name] = data
-
-        return m
-
     def __call__(self, **context) -> Dict:
         """
         Run the pipeline with a concrete context.
@@ -297,7 +226,13 @@ class Pipeline(MergeableInterface, MixinLogable):
         TODO: inject a runner to multiproc
         """
         # Prepare a dictionary to keep in memory the non-persisten ouput of the successives Crafts
-        volatile_outputs = {}
+        running_volatile_mapping = {}
+
+        def strict_merge(L, R, kind, craft):
+            try:
+                return merge_dictionaries(L, R)
+            except KeyError as error:
+                raise errors.E055(__name__, name=craft.name, kind=kind) from error
 
         # Sequentially applies the crafts
         for batch in self.solver:
@@ -309,26 +244,23 @@ class Pipeline(MergeableInterface, MixinLogable):
                 # Copy the craft (and it's catalog) to make it thread safe
                 craft = copy(craft)
 
-                # Combine the volatile dictionary with the context one and send them to the craft
-                full_context = self._merge_dictionnaries(
-                    context, volatile_outputs, craft.name, "craftContext"
+                full_context = strict_merge(
+                    context, running_volatile_mapping, "context", craft
                 )
-
                 try:
-                    #  Apply the craft
-                    out = craft(**full_context)
+                    # Apply the craft and only keep the volatile part
+                    volatiles_mapping, _ = craft.call_and_split(**full_context)
                 except TypeError as err:
                     raise errors.E052(__name__, func=craft.name) from err
                 except BaseException as err:
                     raise errors.E053(__name__, func=craft.name) from err
 
                 # Update the non persisted output
-                m = self._craft_out_to_dict(craft, out)
-                volatile_outputs = self._merge_dictionnaries(
-                    volatile_outputs, m, craft.name, "volatile"
+                running_volatile_mapping = strict_merge(
+                    volatiles_mapping, running_volatile_mapping, "volatile", craft
                 )
 
-        return volatile_outputs
+        return running_volatile_mapping
 
         self.info(f"pipeline : '{self._name}' succeded.")
 
