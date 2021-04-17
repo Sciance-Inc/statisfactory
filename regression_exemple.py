@@ -23,8 +23,10 @@ from sklearn import datasets
 # Import Statisfactory
 from statisfactory import Context, Craft, Artefact, Volatile
 
+
 # Load a context and get the catalog from it.
 catalog = Context(root_folder="exemples/dummyRepo").catalog
+
 
 # Create a craft that returns an "abstract" artefact : masterFile, for which location is determined at runtime thanks to the provided context (here, the samples)
 
@@ -47,6 +49,18 @@ df = build_dataframe()
 _ = build_dataframe(samples=10)
 
 print("pause")
+
+# Create craft able to retrieve an Abstract dataframe par parsing it's own default arg : note that the kwargs only contains the residual
+@Craft.make(catalog)
+def count_rows(masterFile: Artefact, samples=500, **kwargs):
+
+    print(kwargs)
+
+    print(f"{len(masterFile)} rows")
+
+
+count_rows(foobar=1)
+print("done")
 
 
 # Create a craft that depends on an "abstract" artefact and that returns, a Volatile, non persisted Artefact. Volatile artefacts are usefull to transfert data between succesives Craft without necessarily storing them.

@@ -18,9 +18,8 @@
 from dataclasses import dataclass
 from enum import Enum, auto
 from functools import update_wrapper
-from typing import Callable, List, Tuple
+from typing import Callable, List, Tuple, Mapping
 from inspect import signature, Signature, Parameter
-from collections.abc import Mapping
 from copy import copy
 
 # project
@@ -198,50 +197,78 @@ class Craft(MergeableInterface, MixinLogable):
 
         return tuple(anno.name for anno in self._out_anno)
 
-    def _parse_args(self, args, kwargs):
+    def _parse_args(self, args, context, volatile: Mapping = None):
         """
         Map variadic arguments to the named arguments of the Craft's inner callable
         """
 
-        # Transform the variadic arguments to a generator, so that nexting items from it will consume the tokens : the remainer will be sent to VAR_POSITIONAL
+        # Copy the context to not alter it outside of the scope
+        context = copy(context)
+
+        volatile = volatile or {}
+
+        # Transform the variadic arguments to a generator, so that nexting items from it will consume the tokens : the remainer will extracted as a variadic argument
         args = (i for i in args)
 
-        # Iter over the Craft's callable signature and map them values from args and kwargs
+        # For the artefact, the loading_context is the union of the default's value callable and the craft context
+        loading_context = {
+            anno.name: anno.annotation.default
+            for anno in self._in_anno
+            if anno.has_default
+        }
+        loading_context = {**loading_context, **context}
+
+        # Iter over the Craft's callable signature and map them to values from args, kwargs and the volatile mapping.
         args_ = []
         kwargs_ = {}
+        default_context = {}  # To track new args
         for e in self._in_anno:
-            # Load the artefact from the catalog catalog
-            if e.kind == SElementKind.ARTEFACT:
-                kwargs_[e.name] = self._catalog.load(e.name, **kwargs)
 
-            # Load the value from the context
-            if e.kind in (SElementKind.VOLATILE, SElementKind.KEY):
-                kwargs_[e.name] = kwargs[e.name]
+            # If the argument is an Artefact, it schould be loaded using the loading_context
+            if e.kind is SElementKind.ARTEFACT:
+                kwargs_[e.name] = self._catalog.load(e.name, **loading_context)
 
-            # Consume the NEXT positional argument
+            # If the argument is KEYWORD only, it must either be in the context or have a default value
+            if e.kind is SElementKind.KEY:
+                if e.name in context:
+                    kwargs_[e.name] = context[e.name]
+                    # Consume the token, so that there is not duplication with VAR_KEY
+                    del context[e.name]
+                else:
+                    if not e.has_default:
+                        raise errors.E041(__name__, name=self._name, param=e.name)
+                    default_context[e.name] = kwargs_[e.name] = e.annotation.default
+
+            # A volatile must be in the the volatile mapping
+            if e.kind is SElementKind.VOLATILE:
+                kwargs_[e.name] = volatile[e.name]
+
+            # If the argument is only positional, the argument must be fetched by consuming the next token of "args"
             if e.kind == SElementKind.POS:
                 kwargs_[e.name] = next(args)
 
-            # Use the full context
+            # If the argument is variadic position, it schould take all the remaining token from "args"
+            if e.kind == SElementKind.VAR_POSITIONAL:
+                args_ = list(args)  # Consume the remaining items
+
+            # If the argument is variadic positional, it must take the remaining of the context
             if e.kind == SElementKind.VAR_KEYWORD:
                 try:
-                    kwargs = merge_dictionaries(kwargs_, kwargs)
+                    kwargs_ = merge_dictionaries(kwargs_, context)
                 except KeyError as error:
                     raise errors.E052(
                         __name__, name=self.name, kind="variadic keywords"
                     ) from error
-
-            # Exhaust the generator
-            if e.kind == SElementKind.VAR_POSITIONAL:
-                args_ = list(args)  # Consume the remaining items
 
             # Retrieve from Kwargs, otherwise consume the next token. If no token left, check for default values. If there is not, raise an error.
             if e.kind == SElementKind.POS_OR_KEY:
 
                 try:
 
-                    if e.name in kwargs:
-                        kwargs_[e.name] = kwargs[e.name]
+                    if e.name in context:
+                        kwargs_[e.name] = context[e.name]
+                        # Consume the token, so that there is not duplication with VAR_KEY
+                        del context[e.name]
                     else:
                         kwargs_[e.name] = next(args)
 
@@ -250,45 +277,49 @@ class Craft(MergeableInterface, MixinLogable):
                         raise errors.E041(__name__, name=self._name, param=e.name)
 
                     # Explicitely add the default value to the context, to make it avaialbe to the Catalog context
-                    kwargs_[e.name] = e.annotation.default
+                    default_context[e.name] = kwargs_[e.name] = e.annotation.default
 
-        return args_, kwargs_
+        return args_, kwargs_, default_context
 
-    def _call(self, *args, **kwargs):
+    def _call(self, *args, volatile=None, **kwargs):
         """
         Call the underlying callable and return the output as well as the context updated from the default values of the underlying callable.
         """
 
         # Extract, from args and kwargs, the item required by the craft and and to kwargs_ the default value, if unspecified by kwargs.
-        args_, kwargs_ = self._parse_args(args, kwargs)
+        craft_args, craft_kwargs, default_context = self._parse_args(
+            args, kwargs, volatile
+        )
 
         try:
-            out = self._callable(*args_, **kwargs_)
+            out = self._callable(*craft_args, **craft_kwargs)
         except BaseException as err:
             raise errors.E040(__name__, func=self._name) from err
 
-        # kwargs_ contains the arguments required by the function (possibly it's default values). Add the values from the context kwargs, so that the craft's saving as all the requiredi nformation.
-        context = {**kwargs_, **kwargs}
-        self._save_artefacts(out, **context)
+        # The saving_context is the union of the initial context and the default_context of the craft
+        saving_context = {**default_context, **kwargs}
+        self._save_artefacts(out, **saving_context)
 
-        return out, kwargs_
+        # Return the new value to be added to the context
+        return out, default_context
 
     def __call__(self, *args, **kwargs):
         """
         Call the underlying callable and return the output
         """
 
-        out, _ = self._call(*args, **kwargs)
+        # A craft can't access volatile outside of a Pipeline
+        out, *_ = self._call(*args, volatile=None, **kwargs)
 
         return out
 
-    def call_and_split(self, *args, **kwargs) -> Tuple[Mapping, Mapping]:
+    def call_from_pipeline(self, volatiles=None, **kwargs) -> Tuple[Mapping, Mapping]:
         """
         Call the underlying callable and split the returned values splitted between Volatile and Artefacts
         """
 
         # get the tuple returned by the fonction
-        out, context = self._call(*args, **kwargs)
+        out, default_context = self._call((), volatile=volatiles, **kwargs)
         if not isinstance(out, tuple):
             out = (out,)
 
@@ -303,7 +334,7 @@ class Craft(MergeableInterface, MixinLogable):
             if anno.kind == SElementKind.ARTEFACT
         }
 
-        return volatiles_mapping, artefacts_mapping, context
+        return volatiles_mapping, artefacts_mapping, default_context
 
     def __copy__(self) -> "Craft":
         """

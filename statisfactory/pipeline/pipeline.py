@@ -142,13 +142,10 @@ class Pipeline(MergeableInterface, MixinLogable):
                 # Copy the craft (and it's catalog) to make it thread safe
                 craft = copy(craft)
 
-                full_context = strict_merge(
-                    context, running_volatile_mapping, "context", craft
-                )
                 try:
                     # Apply the craft and only keep the volatile part as well as the context augmented with default calues from the craft
-                    volatiles_mapping, _, defaulted_context = craft.call_and_split(
-                        **full_context
+                    volatiles_mapping, _, default_context = craft.call_from_pipeline(
+                        running_volatile_mapping, **context
                     )
                 except TypeError as err:
                     raise errors.E051(__name__, func=craft.name) from err
@@ -160,8 +157,8 @@ class Pipeline(MergeableInterface, MixinLogable):
                     volatiles_mapping, running_volatile_mapping, "volatile", craft
                 )
 
-                # Overwrite the defaulted_context, with the context given in input
-                context = {**defaulted_context, **context}
+                # Overwrite the default_context, with the context given in input
+                context = {**default_context, **context}
 
                 self.info(
                     f"pipeline : '{self._name}' : Completeted {cursor} out of {total} tasks."
