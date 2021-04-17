@@ -193,7 +193,6 @@ class Errors(metaclass=Singleton):
 
     # Pipeline
     E050 = "pipeline : failed to run craft '{func}'"
-    E051 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
     E052 = "pipeline : '{kind}' keys collision : for craft '{name}'"
     E053 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
     E054 = "pipeline : viz : missing '{dep}' package"

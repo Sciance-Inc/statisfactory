@@ -313,13 +313,15 @@ class Craft(MergeableInterface, MixinLogable):
 
         return out
 
-    def call_from_pipeline(self, volatiles=None, **kwargs) -> Tuple[Mapping, Mapping]:
+    def call_from_pipeline(
+        self, *, context: Mapping, volatiles: Mapping = None
+    ) -> Tuple[Mapping, Mapping, Mapping]:
         """
         Call the underlying callable and split the returned values splitted between Volatile and Artefacts
         """
 
         # get the tuple returned by the fonction
-        out, default_context = self._call((), volatile=volatiles, **kwargs)
+        out, default_context = self._call((), volatile=volatiles, **context)
         if not isinstance(out, tuple):
             out = (out,)
 
@@ -334,7 +336,7 @@ class Craft(MergeableInterface, MixinLogable):
             if anno.kind == SElementKind.ARTEFACT
         }
 
-        return volatiles_mapping, artefacts_mapping, default_context
+        return volatiles_mapping, default_context, artefacts_mapping
 
     def __copy__(self) -> "Craft":
         """

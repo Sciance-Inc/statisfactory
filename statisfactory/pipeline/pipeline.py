@@ -15,7 +15,7 @@
 #############################################################################
 
 # system
-from typing import Union, Dict
+from typing import Union, Dict, Mapping
 from copy import copy
 
 # Third party
@@ -112,23 +112,33 @@ class Pipeline(MergeableInterface, MixinLogable):
         )
         return "Pipeline steps :\n\t- " + batchs_repr
 
-    def __call__(self, **context) -> Dict:
+    def __call__(self, **context: Mapping) -> Dict:
         """
         Run the pipeline with a concrete context.
 
+        Arguments:
+            context (Mapping): A Mapping parameters to be used through the subsequent call to the crafts.
+
         Return :
-            the volatile state get after applying all crafts
-
-        TODO: inject a runner to multiproc
+            The final Volatile state.
         """
-        # Prepare a dictionary to keep in memory the non-persisten ouput of the successives Crafts
-        running_volatile_mapping = {}
 
-        def strict_merge(L, R, kind, craft):
+        # Prepare a running_context to be dispatched to each craft, initiated as the context and updated with the default values returned from the Crafts
+        running_context = context
+
+        # Prepare a dictionary to keep in memory the non-persisted ouputs of the successives Crafts
+        running_volatile = {}
+
+        # Create an helpers to merge to running context and the running volatile
+        def strict_merge(L, R, kind, name):
+            """
+            Stricly merge to dictionaries and raise an error if keys collide
+            """
+
             try:
                 return merge_dictionaries(L, R)
             except KeyError as error:
-                raise errors.E052(__name__, name=craft.name, kind=kind) from error
+                raise errors.E052(__name__, name=name, kind=kind) from error
 
         # Sequentially applies the crafts
         cursor = 1
@@ -139,33 +149,31 @@ class Pipeline(MergeableInterface, MixinLogable):
 
                 self.info(f"pipeline : '{self._name}' running craft '{craft.name}'.")
 
-                # Copy the craft (and it's catalog) to make it thread safe
+                # Copy the craft avoid any side effect
                 craft = copy(craft)
 
                 try:
-                    # Apply the craft and only keep the volatile part as well as the context augmented with default calues from the craft
-                    volatiles_mapping, _, default_context = craft.call_from_pipeline(
-                        running_volatile_mapping, **context
+                    # Get the volatile created by the craft execution and the default values to add to the running context
+                    volatiles, default_context, *_ = craft.call_from_pipeline(
+                        context=running_context, volatiles=running_volatile
                     )
-                except TypeError as err:
-                    raise errors.E051(__name__, func=craft.name) from err
                 except BaseException as err:
                     raise errors.E050(__name__, func=craft.name) from err
 
-                # Update the non persisted output
-                running_volatile_mapping = strict_merge(
-                    volatiles_mapping, running_volatile_mapping, "volatile", craft
+                running_volatile = strict_merge(
+                    volatiles, running_volatile, "volatile", craft.name
                 )
 
-                # Overwrite the default_context, with the context given in input
-                context = {**default_context, **context}
+                running_context = strict_merge(
+                    default_context, running_context, "context", craft.name
+                )
 
                 self.info(
                     f"pipeline : '{self._name}' : Completeted {cursor} out of {total} tasks."
                 )
                 cursor += 1
 
-        return running_volatile_mapping
+        return running_volatile
 
         self.info(f"pipeline : '{self._name}' succeded.")
 
