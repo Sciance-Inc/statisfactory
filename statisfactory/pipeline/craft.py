@@ -157,7 +157,7 @@ class Craft(MergeableInterface, MixinLogable):
         Wrap a callable in a craft binded to the given catalog.
         """
 
-        super().__init__()
+        super().__init__(loger_name=__name__)
 
         self._catalog = catalog
         self._callable = callable
@@ -249,13 +249,17 @@ class Craft(MergeableInterface, MixinLogable):
                     if not e.has_default:
                         raise errors.E046(__name__, name=self._name, param=e.name)
 
+                    # Explicitely add the default value to the context, to make it avaialbe to the Catalog context
+                    kwargs_[e.name] = e.annotation.default
+
         return args_, kwargs_
 
-    def __call__(self, *args, **kwargs):
+    def _call(self, *args, **kwargs):
         """
-        Call the underlying callable
+        Call the underlying callable and return the output as well as the context updated from the default values of the underlying callable.
         """
 
+        # Extract, from args and kwargs, the item required by the craft and and to kwargs_ the default value, if unspecified by kwargs.
         args_, kwargs_ = self._parse_args(args, kwargs)
 
         try:
@@ -263,17 +267,28 @@ class Craft(MergeableInterface, MixinLogable):
         except BaseException as err:
             raise errors.E040(__name__, func=self._name) from err
 
-        self._save_artefacts(out, **kwargs)
+        # kwargs_ contains the arguments required by the function (possibly it's default values). Add the values from the context kwargs, so that the craft's saving as all the requiredi nformation.
+        context = {**kwargs_, **kwargs}
+        self._save_artefacts(out, **context)
+
+        return out, kwargs_
+
+    def __call__(self, *args, **kwargs):
+        """
+        Call the underlying callable and return the output
+        """
+
+        out, _ = self._call(*args, **kwargs)
 
         return out
 
     def call_and_split(self, *args, **kwargs) -> Tuple[Mapping, Mapping]:
         """
-        Call the underlying callable and split the returned values between Volatile and Artefacts
+        Call the underlying callable and split the returned values splitted between Volatile and Artefacts
         """
 
         # get the tuple returned by the fonction
-        out = self.__call__(*args, **kwargs)
+        out, context = self._call(*args, **kwargs)
         if not isinstance(out, tuple):
             out = (out,)
 
@@ -288,7 +303,7 @@ class Craft(MergeableInterface, MixinLogable):
             if anno.kind == SElementKind.ARTEFACT
         }
 
-        return volatiles_mapping, artefacts_mapping
+        return volatiles_mapping, artefacts_mapping, context
 
     def __copy__(self) -> "Craft":
         """
@@ -314,6 +329,14 @@ class Craft(MergeableInterface, MixinLogable):
         # Make sure the lengths matchs
         expected = len(self._out_anno)
         got = len(output)
+
+        # The callable always returns at least one element : None
+        if not expected and got == 1:
+            if output[0] is None:
+                return
+            else:
+                raise errors.E0402(__name__, name=self._name)
+
         if expected != got:
             raise errors.E0401(
                 __name__, name=self._name, sign=len(self._out_anno), got=len(output)

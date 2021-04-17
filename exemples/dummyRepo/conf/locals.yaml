@@ -1,0 +1,12 @@
+# The locals.yaml overwrite the globals definitioné
+# The file SHOULD NOT BE GITED (ie : add it to .gitignore) since it's might contains secrets !
+
+# Overwrite the environnement to not mess with the artefacts from the other.
+environment: croustibat_env
+
+# Alright then, write your secrets
+user: croustibat
+password: croustibat
+
+# Overwirte the path to my local path since I'm not using a remote storing
+base_path: /home/hugoj/10_projets/statisfactory/exemples/dummyRepo/Data

@@ -15,16 +15,13 @@
 #############################################################################
 
 # system
-from pathlib import Path
 from typing import Any
-import os
-import sys
 
 # project
 from .models import CatalogData, Artefact, Connector
 from .artefact_interactor import ArtefactInteractor
 from ..logger import MixinLogable
-from ..errors import errors, warnings
+from ..errors import errors
 
 # third party
 import pandas as pd
@@ -34,102 +31,36 @@ import pandas as pd
 #############################################################################
 
 
-class CatalogSingleton(type, MixinLogable):
+class Catalog(MixinLogable):
     """
-    Implements a Singleton metaclass for the Catalog : allowing for the following behaviour
-    * Registered extensions schould be attached to all instanciated catalog
-    * When multiple crafts wraps calls to the catalog : the catalog schould only be instanciated once.
+    Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
     """
 
-    _instances = {}
+    _instance = None
 
-    def __call__(cls, path, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):
         """
-        Return an instance of a catalog pointing to 'path'.
-        Create a new instance if none exists.
-        """
-
-        try:
-            instance = cls._instances[path]
-        except KeyError:
-            instance = cls._instances[path] = super(CatalogSingleton, cls).__call__(
-                path, *args, **kwargs
-            )
-
-        return instance
-
-
-class Catalog(MixinLogable, metaclass=CatalogSingleton):
-    """Catalog represent a loadable / savabale set of dataframes living locally or in far, far aways distributed system."""
-
-    @staticmethod
-    def find():
-        """
-        Build a Catalog by searching for a Git repo in parents
+        Implements a Singleton for the Catalog
         """
 
-        root = Path("/")
-        trg = Path().resolve()
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
 
-        while True:
-            if (trg / ".git").exists():
-                return Catalog(trg)
-            trg = trg.parent
-            if trg == root:
-                raise errors.E033(__name__)
+        return cls._instance
 
-    def __init__(self, path: str, context_overwrite_strict: bool = True):
-        """Build a new catalog for the root 'path'.
-
-        The catalog loads:
-            * a "catalog.yaml" file
+    def __init__(self, dump: str, context_overwrite_strict: bool = True):
+        """
+        Build a new Catalog from an iterator of dumps
         """
 
-        super().__init__()
-        self.info(f"Initiating Catalog to : '{path}'")
+        super().__init__(__name__)
+
         self._context_overwrite_strict = context_overwrite_strict
 
-        # Check that the path exists
-        path = Path(path)
-        if not path.exists():
-            raise errors.E010(
-                __name__, path=path
-            )  # moups, pas d'erreur dans un init ;)
-
-        # Check that a data folder exists
-        data_path = path.joinpath("Data")
-        if not data_path.exists() or not data_path.is_dir:
-            raise errors.E011
-
-        # Check that the catalog.yaml file exits
-        catalog_path = path.joinpath("catalog.yaml")
-        if not catalog_path.exists():
-            raise errors.E012(__name__)
-
-        # load it
         try:
-            self._data = CatalogData.from_file(catalog_path)
+            self._data = CatalogData.from_string(dump)
         except BaseException as err:
             raise errors.E013(__name__) from err
-
-        # Create a context from the path an any surnumerary arguments.
-        self._data_path = data_path
-
-        # Insert Lib into the Path
-        src_path = str(path.joinpath("Lib"))
-        if src_path not in sys.path:
-            sys.path.insert(0, src_path)
-            self.info("adding 'Lib' to PATH")
-
-        # Create / update the python path
-        try:
-            os.environ["PYTHONPATH"]
-            warnings.W010(__name__)
-        except KeyError:
-            os.environ["PYTHONPATH"] = src_path
-            self.info("adding 'Lib' to PYTHONPATH")
-
-        self.info("All done ! You are ready to go ! \U00002728 \U0001F370 \U00002728")
 
     def __str__(self):
         """
@@ -203,8 +134,6 @@ class Catalog(MixinLogable, metaclass=CatalogSingleton):
             name (str): the name of the artefact to load.
         """
 
-        context["data_path"] = self._data_path
-
         artefact = self._get_artefact(name)
         connector = self._get_connector(artefact)
         interactor: ArtefactInteractor = self._get_interactor(artefact)(
@@ -222,8 +151,6 @@ class Catalog(MixinLogable, metaclass=CatalogSingleton):
             name (str): the name of the arteface
             asset (Any): the underlying artefact to store
         """
-
-        context["data_path"] = self._data_path
 
         artefact = self._get_artefact(name)
         connector = self._get_connector(artefact)

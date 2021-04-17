@@ -1,0 +1,14 @@
+# Statisfactory bootstrap file
+
+# The directory containing the globals and locals variables
+configuration: conf
+
+# The path to the Catalog file.
+catalog: conf/catalog.yaml
+
+# The directory containing sources and packages to be made available to pipelines and crafts
+sources: Lib
+
+# The directory containing the pipeline definition and configurations.
+pipelines_definitions: pipelines
+

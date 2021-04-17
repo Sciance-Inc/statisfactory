@@ -22,11 +22,23 @@ __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver a
 
 #### Road to 0.2.0
 - [x] Refactor the Craft object to improve the Annotation parsing
-- [ ] Add support for data layers and environement in a config file
-- [ ] Add support for global and local config files
+- [x] Add new folder structure and implements the parsing of the `statisfactory.yaml` file
+- [x] Add support for data layers and environement in a config file
+- [x] Add support for global and local config files
+- [ ] Implement the `@{}` notation for dynamic intepolation
+- [ ] Rework the `Craft`, `Pipeline`, `Volatile` tracking mechanisme with the help of a `State` object.
 - [ ] Add support for Craft's level configuration in yaml
 - [ ] Add support for Pipeline definition in yaml
 - [ ] Create a CLI to parse and execute Pipeline definitions for specific configuration
+- [ ] Create a small `cookiecutter` to kicstart a project
+- [ ] Update documentation with the `@{}` and `${}` syntaxes
+
+#### Road to 0.3.0
+- [ ] Properly inject a loggers and Handler into the craft, maybe by exposing settings to the craft ?
+- [ ] Rewrite the Interactors and add support for `pandas.csv`, `pandas.xlsx`, `pandas.parquet`
+- [ ] Add support for multiples catalogs
+- [ ] Refactor the Pipeline to be wraps in a SequentialRunner, a ParrallelRunner or an AirflowTranspiler
+- [ ] Solve parameters context between pipeline
 
 ## How to contribute.
 Keep it classy, boys :
@@ -44,6 +56,8 @@ Keep it classy, boys :
 * Multiples `Craft` can be chained together, forming a `Pipeline`. Any `Pipeline` can be personnalized through the use of a `Context` and some `Volatile` objects.
 
 ## How to use it
+
+__WARNING__ The documentation is for the `v0.1.0` version only.
 
 __tl;dr : a tl;dr section is available at the end of the documentation__
 

@@ -22,7 +22,7 @@ from contextlib import contextmanager
 import pickle
 
 # project
-from .models import ArtefactSchema
+from .models import _ArtefactSchema
 from ..errors import errors
 from ..logger import get_module_logger, MixinLogable
 
@@ -66,7 +66,7 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         ArtefactInteractor._interactors[interactor_name] = cls
 
         # Propagate the change to the model validator
-        ArtefactSchema.valids_artefacts.add(interactor_name)
+        _ArtefactSchema.valids_artefacts.add(interactor_name)
 
         get_module_logger("statisfactory").debug(
             f"registering '{interactor_name}' interactor"
@@ -84,7 +84,7 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         The interactors implements cooperative inheritance, only the artefact is mandatory.
         """
 
-        super().__init__(artefact, *args, **kwargs)
+        super().__init__(__name__, *args, **kwargs)
         self.name = artefact.name
         self._save_options = artefact.save_options
         self._load_options = artefact.load_options
@@ -151,25 +151,20 @@ class MixinLocalFileSystem:
 
         super().__init__(artefact, *args, **kwargs)
 
-    def _interpolate_path(self, data_path: Path, path: str, **kwargs) -> Path:
+    def _interpolate_path(self, path: Union[str, Path], **kwargs) -> Path:
         """
-        Build a local path from minimally a root path and a path.
+        Interpolate the string from a context
         The string is interpolated the named variadics arguments.
-
-        Args:
-            data_path (str): the root path (aka, the catalog root dir)
-            path (str): the artefact path (relative from the catalog root dir)
-            **kwargs : the varaibles to be interpolated in the path
 
         Returns:
             Path: the fully qualified canonical path to the artefact.
         """
 
-        if data_path == Path("") or path == "":
-            raise errors.E023(__name__, data_path=data_path, path=path)
+        if path == "":
+            raise errors.E023(__name__)
 
         try:
-            path = data_path / Path(path.format(**kwargs))
+            path = Path(str(path).format(**kwargs))
         except KeyError as err:
             raise errors.E026(__name__, path=path) from err
 

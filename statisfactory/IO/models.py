@@ -7,7 +7,7 @@
 #
 # description:
 """
-    implements models serialization for yaml config files.
+    implements models serialization for yaml IO files.
 """
 
 #############################################################################
@@ -47,7 +47,7 @@ class Connector:
     name: str = None
 
 
-class ConnectorSchema(Schema):
+class _ConnectorSchema(Schema):
     """
     Connector's marshmaller
     """
@@ -94,7 +94,7 @@ class Artefact:
         self.load_options = _merge_dict(self.load_options)
 
 
-class ArtefactSchema(Schema):
+class _ArtefactSchema(Schema):
     """
     Artefact's marshaller.
     """
@@ -150,7 +150,7 @@ class ArtefactSchema(Schema):
 
     @post_load
     def make_artefact(self, data, **kwargs):
-        if data["type"] not in ArtefactSchema.valids_artefacts:
+        if data["type"] not in _ArtefactSchema.valids_artefacts:
             warnings.W020(__name__, inter_type=data["type"])
 
         return Artefact(name=None, **data)
@@ -178,7 +178,6 @@ class CatalogData:
     State of the catalogue.
     """
 
-    version: str
     artefacts: List[Dict[str, Artefact]]
     connectors: List[Dict[str, Connector]] = field(default_factory=list)
 
@@ -199,35 +198,25 @@ class CatalogData:
             conn.name = name
 
     @staticmethod
-    def from_file(file: str) -> "CatalogData":
+    def from_string(s: str) -> "CatalogData":
         """
-        Build a catalog from a dictionary dump.
-
-        Args:
-            data (Dict): the dictionary representation of the data
-
-        Returns:
-            CatalogData: a catalogue to push and retriece data from.
+        Build a catalog data from a string
         """
 
-        with open(file) as f:
-            catalog = CatalogDataSchema().load(yaml.safe_load(f))
-
-        return catalog
+        return _CatalogDataSchema().load(yaml.safe_load(s))
 
 
-class CatalogDataSchema(Schema):
+class _CatalogDataSchema(Schema):
     """
     CatalogueData's marshaller.
     """
 
-    version = fields.String(required=True)
     artefacts = fields.List(
-        fields.Mapping(fields.Str, fields.Nested(ArtefactSchema)), required=True
+        fields.Mapping(fields.Str, fields.Nested(_ArtefactSchema)), required=True
     )
 
     connectors = fields.List(
-        fields.Mapping(fields.Str, fields.Nested(ConnectorSchema)), allow_none=True
+        fields.Mapping(fields.Str, fields.Nested(_ConnectorSchema)), allow_none=True
     )
 
     @post_load

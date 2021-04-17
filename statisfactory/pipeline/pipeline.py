@@ -48,7 +48,7 @@ class Pipeline(MergeableInterface, MixinLogable):
             error_on_overwriting (bool, optional): schould an error be raised when overwritting volatile values. Defaults to True.
         """
 
-        super().__init__()
+        super().__init__(loger_name=__name__)
         self._name = name
         self._crafts: Union["Craft"] = []  # noqa
         self._error_on_overwrting = error_on_overwriting
@@ -146,8 +146,10 @@ class Pipeline(MergeableInterface, MixinLogable):
                     context, running_volatile_mapping, "context", craft
                 )
                 try:
-                    # Apply the craft and only keep the volatile part
-                    volatiles_mapping, _ = craft.call_and_split(**full_context)
+                    # Apply the craft and only keep the volatile part as well as the context augmented with default calues from the craft
+                    volatiles_mapping, _, defaulted_context = craft.call_and_split(
+                        **full_context
+                    )
                 except TypeError as err:
                     raise errors.E052(__name__, func=craft.name) from err
                 except BaseException as err:
@@ -157,6 +159,9 @@ class Pipeline(MergeableInterface, MixinLogable):
                 running_volatile_mapping = strict_merge(
                     volatiles_mapping, running_volatile_mapping, "volatile", craft
                 )
+
+                # Overwrite the defaulted_context, with the context given in input
+                context = {**defaulted_context, **context}
 
                 self.info(
                     f"pipeline : '{self._name}' : Completeted {cursor} out of {total} tasks."

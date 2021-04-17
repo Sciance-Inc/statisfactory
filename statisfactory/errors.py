@@ -156,16 +156,19 @@ class Critical(metaclass=Singleton):
 class Errors(metaclass=Singleton):
 
     # Init and connection related errors
-    E010 = "start-up : '{path}' is not a folder"
-    E011 = "start-up : statisfactory required a 'data' folder"
-    E012 = "start-up : missing 'catalog.yam' file"
+    E010 = "start-up : statisfactory must be called from a folder, or the child of a folder, containing a 'statisfactory.yaml' file"
+    E011 = "start-up : the Catalog file does not exists : '{path}'."
+    E012 = "start-up : failed to parse the Statisfactory configuration file : {path}"
     E013 = "start-up : failed to unmarshall the catalog"
+    E014 = (
+        "start-up : failed to interpolate the catalog with the settings from 'conf/'."
+    )
 
     # FS interactors
     E020 = "data interactor : there is already an interactor named '{name}'"
     E021 = "data interactor : failed to read '{method}' '{name}'"
     E022 = "data interactor : failed to save the asset '{name}' with '{method}' "
-    E023 = "data interactor : MixinLocalFileSystem : want not none 'data_path' and 'path'. got : '{data_path}' and '{path}' "
+    E023 = "data interactor : MixinLocalFileSystem : got a 'None' to interpolate."
     E024 = "data interactor : '{path}' does not exists"
     E025 = (
         "data interactor : '{interactor}' interactor only accept {accept} : got '{got}'"
@@ -180,7 +183,6 @@ class Errors(metaclass=Singleton):
     E030 = "catalog : the '{name}' artefact  does not exists"
     E031 = "catalog : the '{name}' interactor does not exists"
     E032 = "catalog : the '{name}' connector does not exists"
-    E033 = "catalog : the file does not appears to belong to a Git repo"
 
     # Craft
     E040 = "craft : failed to execute craft '{func}'"
@@ -190,6 +192,9 @@ class Errors(metaclass=Singleton):
     E046 = "craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
     E047 = "craft : the craft '{name}'s signature must be a Volatile, Artefact or a Tuple of Volatiles and Artefacts. Got '{got}'"
     E0401 = "craft : the craft '{name}' signature expect {sign} items. Got {got}"
+    E0402 = (
+        "craft : the craft '{name}' signature expect nothing but got a not None value."
+    )
 
     # Pipeline
     E052 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
@@ -206,6 +211,8 @@ class Errors(metaclass=Singleton):
 class Warnings(UserWarning):
     # Instanciation
     W010 = "start-up : PYTHONPATH is already set and won't be overwritted by Statisfactoy : the sources from 'Lib' MIGHT not be reachable"
+    w011 = "start-up : no globals.yaml config found. Defaulting to locals.yaml."
+    w012 = "start-up : no locals.yaml config found. Catalogs might not be inteprolated."
 
     # Interactor
     W020 = "data interactor : '{inter_type}' is not a registered interactor."
