@@ -128,7 +128,7 @@ class Pipeline(MergeableInterface, MixinLogable):
             try:
                 return merge_dictionaries(L, R)
             except KeyError as error:
-                raise errors.E055(__name__, name=craft.name, kind=kind) from error
+                raise errors.E052(__name__, name=craft.name, kind=kind) from error
 
         # Sequentially applies the crafts
         cursor = 1
@@ -151,9 +151,9 @@ class Pipeline(MergeableInterface, MixinLogable):
                         **full_context
                     )
                 except TypeError as err:
-                    raise errors.E052(__name__, func=craft.name) from err
+                    raise errors.E051(__name__, func=craft.name) from err
                 except BaseException as err:
-                    raise errors.E053(__name__, func=craft.name) from err
+                    raise errors.E050(__name__, func=craft.name) from err
 
                 # Update the non persisted output
                 running_volatile_mapping = strict_merge(

@@ -168,16 +168,14 @@ class Errors(metaclass=Singleton):
     E020 = "data interactor : there is already an interactor named '{name}'"
     E021 = "data interactor : failed to read '{method}' '{name}'"
     E022 = "data interactor : failed to save the asset '{name}' with '{method}' "
-    E023 = "data interactor : MixinLocalFileSystem : got a 'None' to interpolate."
-    E024 = "data interactor : '{path}' does not exists"
-    E025 = (
+    E023 = (
         "data interactor : '{interactor}' interactor only accept {accept} : got '{got}'"
     )
-    E026 = "data interactor : path '{path}' is incomplettely formatted, missing parameters from context"
-    E027 = "data interactor : failed to connect to {name} connector"
-    E028 = "data interactor : failed to execute query {query} agains {name} connector"
-    E029 = "data interactor : only not-null string can be interpolated"
-    E0201 = "data interactor : string '{trg}' is incomplettely formatted, missing parameters from context"
+    E024 = "data interactor : '{path}' does not exists"
+    E025 = "data interactor : failed to connect to {name} connector"
+    E026 = "data interactor : failed to execute query {query} agains {name} connector"
+    E027 = "data interactor : only not-null string can be interpolated"
+    E028 = "data interactor : string '{trg}' is incomplettely formatted, missing parameters from context"
 
     # Catalog
     E030 = "catalog : the '{name}' artefact  does not exists"
@@ -186,22 +184,19 @@ class Errors(metaclass=Singleton):
 
     # Craft
     E040 = "craft : failed to execute craft '{func}'"
-    E041 = "craft : the craft '{name}' schould return a type implementing the container interface. Got '{T}'"
-    E042 = "craft : failed to load artefact for craft '{craft}'"
-    E043 = "craft : failed to save artefact for craft '{func}'"
-    E046 = "craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
-    E047 = "craft : the craft '{name}'s signature must be a Volatile, Artefact or a Tuple of Volatiles and Artefacts. Got '{got}'"
-    E0401 = "craft : the craft '{name}' signature expect {sign} items. Got {got}"
-    E0402 = (
+    E041 = "craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
+    E042 = "craft : the craft '{name}'s signature must be a Volatile, Artefact or a Tuple of Volatiles and Artefacts. Got '{got}'"
+    E043 = "craft : the craft '{name}' signature expect {sign} items. Got {got}"
+    E044 = (
         "craft : the craft '{name}' signature expect nothing but got a not None value."
     )
 
     # Pipeline
-    E052 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
-    E053 = "pipeline : failed to run craft '{func}'"
-    E055 = "pipeline : '{kind}' keys collision : for craft '{name}'"
-    E056 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
-    E057 = "pipeline : viz : missing '{dep}' package"
+    E050 = "pipeline : failed to run craft '{func}'"
+    E051 = "pipeline : failed to run craft '{func}'. Make sure that not required parameters are present in the callable definition"
+    E052 = "pipeline : '{kind}' keys collision : for craft '{name}'"
+    E053 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
+    E054 = "pipeline : viz : missing '{dep}' package"
 
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
@@ -217,12 +212,9 @@ class Warnings(UserWarning):
     # Interactor
     W020 = "data interactor : '{inter_type}' is not a registered interactor."
 
-    # Craft
-    W040 = "craft '{craft}' was expecting 'something' but got 'nothing'. Make sure that this 'nothing' is the right 'something' !"
-
     # Pipeline
-    W055 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
-    W056 = (
+    W050 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
+    W051 = (
         "pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'"
     )
 

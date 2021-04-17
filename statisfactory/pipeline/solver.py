@@ -56,7 +56,7 @@ class DependenciesSolver:
             for output in craft.produces:
                 # Check that no craft is already creating this artefact
                 if output in m_producer:
-                    raise errors.E056(
+                    raise errors.E053(
                         __name__,
                         artefact=output,
                         L=craft.name,
@@ -73,7 +73,7 @@ class DependenciesSolver:
                     after = m_producer[requirement]
                     G.add_edge(after, craft.name)
                 except KeyError:
-                    warnings.W056(__name__, craft=craft.name, artefact=requirement)
+                    warnings.W051(__name__, craft=craft.name, artefact=requirement)
 
         return G
 

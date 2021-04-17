@@ -42,7 +42,7 @@ def merge_dictionaries(left: Dict, right: Dict, strict=True) -> Dict:
         raise KeyError(f"Colliding keys : {', '.join(colliding_keys)}")
 
     if is_collision:
-        warnings.W055(__name__, keys=", ".join(colliding_keys))
+        warnings.W050(__name__, keys=", ".join(colliding_keys))
 
     return {**left, **right}
 

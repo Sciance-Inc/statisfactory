@@ -15,11 +15,13 @@
 #############################################################################
 
 # system
+
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
 from typing import Any, Union
 from contextlib import contextmanager
 import pickle
+from string import Template
 
 # project
 from .models import _ArtefactSchema
@@ -35,6 +37,25 @@ import datapane as dp
 #############################################################################
 #                                  Script                                   #
 #############################################################################
+
+
+class DynamicInterpolation(Template):
+    """
+    Implements the interpolation of the !{} for the artefact values.
+    Override the default template to :
+        * replace the $ used by the StaticInterpolation with ! (the @ might be used in connection string)
+        * disallow interpolation of non braced values.
+    """
+
+    delimiter = "!"
+    pattern = r"""
+    \!(?:
+      (?P<escaped>\!) |
+      {(?P<named>[_a-z][_a-z0-9]*)} |
+      {(?P<braced>[_a-z][_a-z0-9]*)} |
+      (?P<invalid>)
+    )
+    """
 
 
 class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
@@ -121,27 +142,25 @@ class MixinInterpolable:
 
         super().__init__(artefact, *args, **kwargs)
 
-    def _interpolate_string(self, string_, **kwargs):
+    def _interpolate_string(self, string, **kwargs):
         """
-        Interpolate a fiven string with a provided context
+        Interpolate a given string using the provided context
         """
 
-        if not string_:
-            raise errors.E029(__name__)
+        if not string:
+            raise errors.E027(__name__)
 
         try:
-            string_ = string_.format(**kwargs)
+            string = DynamicInterpolation(string).substitute(**kwargs)
         except KeyError as err:
-            raise errors.E0201(__name__, trg=string_) from err
+            raise errors.E028(__name__, trg=string) from err
 
-        return string_
+        return string
 
 
-class MixinLocalFileSystem:
+class MixinLocalFileSystem(MixinInterpolable):
     """
     Implements helpers to manipulate a local file system.
-
-    TODO : make sure that there is not residual {} in the path
     """
 
     def __init__(self, artefact, *args, **kwargs):
@@ -153,21 +172,14 @@ class MixinLocalFileSystem:
 
     def _interpolate_path(self, path: Union[str, Path], **kwargs) -> Path:
         """
-        Interpolate the string from a context
+        Interpolate the Path using a provided a context
         The string is interpolated the named variadics arguments.
 
         Returns:
             Path: the fully qualified canonical path to the artefact.
         """
 
-        if path == "":
-            raise errors.E023(__name__)
-
-        try:
-            path = Path(str(path).format(**kwargs))
-        except KeyError as err:
-            raise errors.E026(__name__, path=path) from err
-
+        path = Path(self._interpolate_string(str(path), **kwargs))
         return path.absolute()
 
     def _create_parents(self, path: Path):
@@ -189,7 +201,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="c
     Concrete implementation of a csv interactor
     """
 
-    def __init__(self, artefact: "Artefact", *args, **kwargs):
+    def __init__(self, artefact, *args, **kwargs):
         """
         Instanciate an interactor on a local file csv
 
@@ -222,7 +234,6 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="c
 
         return df
 
-    # TODO : controle contravariance
     def save(self, asset: Union[pd.DataFrame, pd.Series]):
         """
         Save the 'data' dataframe as csv.
@@ -233,7 +244,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="c
         self.debug(f"saving 'csv' : {self.name}")
 
         if not isinstance(asset, (pd.DataFrame, pd.Series)):
-            raise errors.E025(
+            raise errors.E023(
                 __name__,
                 interactor="csv",
                 accept="pd.DataFrame, pd.Series",
@@ -256,7 +267,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="
     Concrete implementation of an XLSX interactor
     """
 
-    def __init__(self, artefact: "Artefact", *args, **kwargs):
+    def __init__(self, artefact, *args, **kwargs):
         """
         Instanciate an interactor on a local file xslsx
 
@@ -291,7 +302,6 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="
 
         return df
 
-    # TODO : controle contravariance
     def save(self, asset: Union[pd.DataFrame, pd.Series]):
         """
         Save the 'data' dataframe as csv.
@@ -302,7 +312,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="
         self.debug(f"saving 'xslx' : {self.name}")
 
         if not isinstance(asset, (pd.DataFrame, pd.Series)):
-            raise errors.E025(
+            raise errors.E023(
                 __name__,
                 interactor="xlsx",
                 accept="pd.DataFrame, pd.Series",
@@ -327,7 +337,7 @@ class PicklerInteractor(
     Concrete implementation of a Pickle interactor.
     """
 
-    def __init__(self, artefact: "Artefact", *args, **kwargs):
+    def __init__(self, artefact, *args, **kwargs):
         """
         Instanciate an interactor on a local file pickle file
 
@@ -392,7 +402,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
     TODO : implements the saving strategy
     """
 
-    def __init__(self, artefact: "Artefact", connector: "Connector", *args, **kwargs):
+    def __init__(self, artefact, connector, *args, **kwargs):
         """
         Instanciate an interactor against an odbc
 
@@ -423,7 +433,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
             with pyodbc.connect(self._connector.connString) as cnxn:
                 yield cnxn
         except BaseException as error:
-            raise errors.E027(__name__, name=self._connector.name) from error
+            raise errors.E025(__name__, name=self._connector.name) from error
 
         self.debug(f"closing connection to {self._connector.name}")
         return
@@ -442,7 +452,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
             try:
                 data = pd.read_sql(self._query, cnxn, **self._load_options)
             except BaseException as error:
-                raise errors.E028(
+                raise errors.E026(
                     __name__, query=self._query, name=self._connector.name
                 ) from error
 
@@ -462,7 +472,7 @@ class DatapaneInteractor(
     Implements saving / loading for datapane object.
     """
 
-    def __init__(self, artefact: "Artefact", *args, **kwargs):
+    def __init__(self, artefact, *args, **kwargs):
         """
         Return a new Datapane Interactor initiated with a a particular interactor
         """
@@ -507,7 +517,7 @@ class BinaryInteractor(
     Implements saving / loading for binary raw object
     """
 
-    def __init__(self, artefact: "Artefact", *args, **kwargs):
+    def __init__(self, artefact, *args, **kwargs):
         """
         Return a new Binary Interactor initiated with a a particular interactor
         """

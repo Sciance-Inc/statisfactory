@@ -39,12 +39,12 @@ class Graphviz:
         try:
             import graphviz
         except ImportError:
-            raise errors.E057(__name__, dep="graphviz")
+            raise errors.E054(__name__, dep="graphviz")
 
         try:
             import pygraphviz  # noqa
         except ImportError:
-            raise errors.E057(__name__, dep="pygraphviz")
+            raise errors.E054(__name__, dep="pygraphviz")
 
         # Tranform the Graph into an AGraph one
         A = nx.nx_agraph.to_agraph(G)

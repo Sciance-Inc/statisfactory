@@ -140,7 +140,7 @@ class Craft(MergeableInterface, MixinLogable):
 
         # Make sure that all items returned by the Craft are either Artefact or Volatile
         if any(not isinstance(anno, (Artefact, Volatile)) for anno in annos):
-            raise errors.E047(__name__, name=self.name)
+            raise errors.E042(__name__, name=self.name)
 
         # Convert all items to a SElement
         e = []
@@ -227,7 +227,7 @@ class Craft(MergeableInterface, MixinLogable):
                 try:
                     kwargs = merge_dictionaries(kwargs_, kwargs)
                 except KeyError as error:
-                    raise errors.E055(
+                    raise errors.E052(
                         __name__, name=self.name, kind="variadic keywords"
                     ) from error
 
@@ -247,7 +247,7 @@ class Craft(MergeableInterface, MixinLogable):
 
                 except StopIteration:
                     if not e.has_default:
-                        raise errors.E046(__name__, name=self._name, param=e.name)
+                        raise errors.E041(__name__, name=self._name, param=e.name)
 
                     # Explicitely add the default value to the context, to make it avaialbe to the Catalog context
                     kwargs_[e.name] = e.annotation.default
@@ -335,10 +335,10 @@ class Craft(MergeableInterface, MixinLogable):
             if output[0] is None:
                 return
             else:
-                raise errors.E0402(__name__, name=self._name)
+                raise errors.E044(__name__, name=self._name)
 
         if expected != got:
-            raise errors.E0401(
+            raise errors.E043(
                 __name__, name=self._name, sign=len(self._out_anno), got=len(output)
             )
 
