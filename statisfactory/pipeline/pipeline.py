@@ -154,7 +154,7 @@ class Pipeline(MergeableInterface, MixinLogable):
 
                 try:
                     # Get the volatile created by the craft execution and the default values to add to the running context
-                    volatiles, default_context, *_ = craft.call_from_pipeline(
+                    volatiles, default_context, *_ = craft.call_with_volatiles(
                         context=running_context, volatiles=running_volatile
                     )
                 except BaseException as err:

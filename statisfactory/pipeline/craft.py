@@ -18,7 +18,7 @@
 from dataclasses import dataclass
 from enum import Enum, auto
 from functools import update_wrapper
-from typing import Callable, List, Tuple, Mapping
+from typing import Callable, List, Tuple, Mapping, Any
 from inspect import signature, Signature, Parameter
 from copy import copy
 
@@ -281,9 +281,17 @@ class Craft(MergeableInterface, MixinLogable):
 
         return args_, kwargs_, default_context
 
-    def _call(self, *args, volatile=None, **kwargs):
+    def _call(self, *args, volatile: Mapping = None, **kwargs) -> Tuple[Any, Mapping]:
         """
-        Call the underlying callable and return the output as well as the context updated from the default values of the underlying callable.
+        low level call to the underlying callable:
+
+        Arguments:
+            *args: Variadic arguments to defer to the underlaying callable
+            volatile: A mappping of volatiles objects, computed before the craft execution
+
+        Returns:
+            - The output of the underlaying callable execution
+            - A mapping of the default arguments to their values, used in the craft execution
         """
 
         # Extract, from args and kwargs, the item required by the craft and and to kwargs_ the default value, if unspecified by kwargs.
@@ -296,35 +304,41 @@ class Craft(MergeableInterface, MixinLogable):
         except BaseException as err:
             raise errors.E040(__name__, func=self._name) from err
 
-        # The saving_context is the union of the initial context and the default_context of the craft
+        # The saving_context is the union of the initial context and the default_context of the craft, since the default values might contains variables for the string interpolation.
         saving_context = {**default_context, **kwargs}
         self._save_artefacts(out, **saving_context)
 
         # Return the new value to be added to the context
         return out, default_context
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, **kwargs) -> Any:
         """
-        Call the underlying callable and return the output
+        Call the underlying callable and return the output.
+        This is the API to use to call a craft out of the blue, as there is no volatile involved, nor default arguments to return.
         """
 
-        # A craft can't access volatile outside of a Pipeline
+        # A craft :
+        #   * can't access volatile outside of a Pipeline
+        #   * can't return "default_context" outside of a Pipeline
+
         out, *_ = self._call(*args, volatile=None, **kwargs)
 
         return out
 
-    def call_from_pipeline(
-        self, *, context: Mapping, volatiles: Mapping = None
+    def call_with_volatiles(
+        self, *args, context: Mapping, volatiles: Mapping = None
     ) -> Tuple[Mapping, Mapping, Mapping]:
         """
-        Call the underlying callable and split the returned values splitted between Volatile and Artefacts
+        Call the underlying callable, with a volatile mapping and split the returned values splitted between Volatile,  Artefacts and context
+
         """
 
         # get the tuple returned by the fonction
-        out, default_context = self._call((), volatile=volatiles, **context)
+        out, default_context = self._call(*args, volatile=volatiles, **context)
         if not isinstance(out, tuple):
             out = (out,)
 
+        # Split the output between Volatile and Artefact using using the output signature
         volatiles_mapping = {
             anno.name: value
             for anno, value in zip(self._out_anno, out)
