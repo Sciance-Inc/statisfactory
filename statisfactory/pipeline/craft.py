@@ -197,7 +197,7 @@ class Craft(MergeableInterface, MixinLogable):
 
         return tuple(anno.name for anno in self._out_anno)
 
-    def _parse_args(self, args, context, volatile: Mapping = None):
+    def _parse_args(self, args, context, volatiles: Mapping = None):
         """
         Map variadic arguments to the named arguments of the Craft's inner callable
         """
@@ -205,7 +205,7 @@ class Craft(MergeableInterface, MixinLogable):
         # Copy the context to not alter it outside of the scope
         context = copy(context)
 
-        volatile = volatile or {}
+        volatiles = volatiles or {}
 
         # Transform the variadic arguments to a generator, so that nexting items from it will consume the tokens : the remainer will extracted as a variadic argument
         args = (i for i in args)
@@ -241,7 +241,7 @@ class Craft(MergeableInterface, MixinLogable):
 
             # A volatile must be in the the volatile mapping
             if e.kind is SElementKind.VOLATILE:
-                kwargs_[e.name] = volatile[e.name]
+                kwargs_[e.name] = volatiles[e.name]
 
             # If the argument is only positional, the argument must be fetched by consuming the next token of "args"
             if e.kind == SElementKind.POS:
@@ -329,8 +329,7 @@ class Craft(MergeableInterface, MixinLogable):
         self, *args, context: Mapping, volatiles: Mapping = None
     ) -> Tuple[Mapping, Mapping, Mapping]:
         """
-        Call the underlying callable, with a volatile mapping and split the returned values splitted between Volatile,  Artefacts and context
-
+        Call the underlying callable, with a volatile mapping and split the returned values splitted between Volatile,  Artefacts and context.
         """
 
         # get the tuple returned by the fonction
