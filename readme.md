@@ -27,7 +27,8 @@ __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver a
 - [x] Add support for global and local config files
 - [x] Catalog : implements the `${}` notation for statis interpolation
 - [X] Catalog : Implement the `!{}` notation for dynamic intepolation
-- [ ] Rework the `Craft`, `Pipeline`, `Volatile` tracking mechanisme with the help of a `State` object.
+- [X] Rework the `Craft`, `Pipeline`, `Volatile` tracking mechanisme to defers state tracking to the Pipeline
+- [ ] Streamline the `Pipeline` by delegating scheduling responsability to a `Runner` class
 - [ ] Add support for Craft's level configuration in yaml
 - [ ] Add support for Pipeline definition in yaml
 - [ ] Create a CLI to parse and execute Pipeline definitions for specific configuration

@@ -15,10 +15,8 @@
 #############################################################################
 
 # system
-from dataclasses import dataclass
-from enum import Enum, auto
 from functools import update_wrapper
-from typing import Callable, List, Tuple, Mapping, Any
+from typing import Callable, List, Tuple, Mapping
 from inspect import signature, Signature, Parameter
 from copy import copy
 
@@ -28,51 +26,11 @@ from ..logger import MixinLogable
 from ..IO import Catalog, Artefact, Volatile
 from .pipeline import Pipeline
 from .utils import merge_dictionaries, MergeableInterface
+from .selements import SElementKind, SElement
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
-
-
-class SElementKind(Enum):
-    """
-    Admissibles values for signature elements
-    """
-
-    ARTEFACT = auto()  # An artefact to load
-    VOLATILE = auto()  # A Volatile object from a previously Executed craft
-    VAR_POSITIONAL = auto()  # A variadic positional argument (*args)
-    VAR_KEYWORD = auto()  # A variadic named arguments (**kwargs)
-    POS = auto()
-    KEY = auto()
-    POS_OR_KEY = auto()
-
-
-@dataclass
-class SElement:
-    """
-    Represents a elements of a Craft's signature.
-    Holds the underlaying parameter with it's SElementKind.
-    The SElement kind is used to implements the strategy in the Craft's _parse_args method.
-    """
-
-    annotation: Parameter
-    kind: SElementKind
-
-    @property
-    def name(self) -> str:
-        """
-        Parameter's name getter.
-        """
-        return self.annotation.name
-
-    @property
-    def has_default(self) -> bool:
-        """
-        Return true if the parameter has a default value.
-        """
-
-        return self.annotation.default != Parameter.empty
 
 
 class Craft(MergeableInterface, MixinLogable):
@@ -197,14 +155,31 @@ class Craft(MergeableInterface, MixinLogable):
 
         return tuple(anno.name for anno in self._out_anno)
 
+    @property
+    def output_annotations(self) -> Tuple[SElement]:
+        """
+        Returns the full annotations of the items returned by the craft
+        """
+
+        return self._out_anno
+
+    @property
+    def input_annotations(self) -> Tuple[SElement]:
+        """
+        Returns the full annotations of the items ingested by the craft.
+        """
+
+        return self._in_anno
+
     def _parse_args(self, args, context, volatiles: Mapping = None):
         """
         Map variadic arguments to the named arguments of the Craft's inner callable
         """
 
-        # Copy the context to not alter it outside of the scope
+        # Copy the context to avoid alterig it outside of the local scope
         context = copy(context)
 
+        # Ensure mapping for volatiles.
         volatiles = volatiles or {}
 
         # Transform the variadic arguments to a generator, so that nexting items from it will consume the tokens : the remainer will extracted as a variadic argument
@@ -221,7 +196,9 @@ class Craft(MergeableInterface, MixinLogable):
         # Iter over the Craft's callable signature and map them to values from args, kwargs and the volatile mapping.
         args_ = []
         kwargs_ = {}
-        default_context = {}  # To track new args
+        # To track new args used in the loading context, but never explicited in the context
+        implicit_context = {}
+
         for e in self._in_anno:
 
             # If the argument is an Artefact, it schould be loaded using the loading_context
@@ -237,7 +214,7 @@ class Craft(MergeableInterface, MixinLogable):
                 else:
                     if not e.has_default:
                         raise errors.E041(__name__, name=self._name, param=e.name)
-                    default_context[e.name] = kwargs_[e.name] = e.annotation.default
+                    implicit_context[e.name] = kwargs_[e.name] = e.annotation.default
 
             # A volatile must be in the the volatile mapping
             if e.kind is SElementKind.VOLATILE:
@@ -277,26 +254,25 @@ class Craft(MergeableInterface, MixinLogable):
                         raise errors.E041(__name__, name=self._name, param=e.name)
 
                     # Explicitely add the default value to the context, to make it avaialbe to the Catalog context
-                    default_context[e.name] = kwargs_[e.name] = e.annotation.default
+                    implicit_context[e.name] = kwargs_[e.name] = e.annotation.default
 
-        return args_, kwargs_, default_context
+        return args_, kwargs_, implicit_context
 
-    def _call(self, *args, volatiles: Mapping = None, **kwargs) -> Tuple[Any, Mapping]:
+    def __call__(self, *args, volatiles_mapping: Mapping = None, **kwargs):
         """
-        low level call to the underlying callable:
+        Implements the call protocole for the Craft wrapper.
+        Load and save the Artefact for the undelryaing callable.
+        Defers the call to the underlying artefact.
 
         Arguments:
-            *args: Variadic arguments to defer to the underlaying callable
-            volatiles: A mappping of volatiles objects, computed before the craft execution
-
-        Returns:
-            - The output of the underlaying callable execution
-            - A mapping of the default arguments to their values, used in the craft execution
+            *args: Variadic arguments to be defered to the underlaying callable
+            volatiles_mapping: A mappping of volatiles objects, computed before the craft execution
+            **kwargs: variadic keywrods arguments to be defered to the underlaying callable.
         """
 
         # Extract, from args and kwargs, the item required by the craft and and to kwargs_ the default value, if unspecified by kwargs.
-        craft_args, craft_kwargs, default_context = self._parse_args(
-            args, kwargs, volatiles
+        craft_args, craft_kwargs, implicit_context = self._parse_args(
+            args, kwargs, volatiles_mapping
         )
 
         try:
@@ -304,52 +280,12 @@ class Craft(MergeableInterface, MixinLogable):
         except BaseException as err:
             raise errors.E040(__name__, func=self._name) from err
 
-        # The saving_context is the union of the initial context and the default_context of the craft, since the default values might contains variables for the string interpolation.
-        saving_context = {**default_context, **kwargs}
+        # The saving_context is the union of the initial context and the implicit_context of the craft, since the default values might contains variables for the string interpolation.
+        saving_context = {**implicit_context, **kwargs}
         self._save_artefacts(out, **saving_context)
 
-        # Return the new value to be added to the context
-        return out, default_context
-
-    def __call__(self, *args, **kwargs) -> Any:
-        """
-        Call the underlying callable and return the output.
-        This is the API to use to call a craft out of the blue, as there is no volatile involved, nor default arguments to return.
-        """
-
-        # A craft :
-        #   * can't access volatile outside of a Pipeline
-        #   * can't return "default_context" outside of a Pipeline
-
-        out, *_ = self._call(*args, volatiles=None, **kwargs)
-
+        # Return the output of the callable
         return out
-
-    def call_with_volatiles(
-        self, *args, context: Mapping, volatiles: Mapping = None
-    ) -> Tuple[Mapping, Mapping, Mapping]:
-        """
-        Call the underlying callable, with a volatile mapping and split the returned values splitted between Volatile,  Artefacts and context.
-        """
-
-        # get the tuple returned by the fonction
-        out, default_context = self._call(*args, volatiles=volatiles, **context)
-        if not isinstance(out, tuple):
-            out = (out,)
-
-        # Split the output between Volatile and Artefact using using the output signature
-        volatiles_mapping = {
-            anno.name: value
-            for anno, value in zip(self._out_anno, out)
-            if anno.kind == SElementKind.VOLATILE
-        }
-        artefacts_mapping = {
-            anno.name: value
-            for anno, value in zip(self._out_anno, out)
-            if anno.kind == SElementKind.ARTEFACT
-        }
-
-        return volatiles_mapping, default_context, artefacts_mapping
 
     def __copy__(self) -> "Craft":
         """

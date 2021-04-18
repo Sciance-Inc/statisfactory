@@ -193,7 +193,7 @@ class Errors(metaclass=Singleton):
 
     # Pipeline
     E050 = "pipeline : failed to run craft '{func}'"
-    E052 = "pipeline : '{kind}' keys collision : for craft '{name}'"
+    E052 = "pipeline : '{kind}' keys collides : for craft '{name}'"
     E053 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
     E054 = "pipeline : viz : missing '{dep}' package"
 
@@ -212,7 +212,7 @@ class Warnings(UserWarning):
     W020 = "data interactor : '{inter_type}' is not a registered interactor."
 
     # Pipeline
-    W050 = "pipeline : '{kind}' keys collision : '{keys}' for craft '{name}'"
+    W050 = "pipeline : keys collision : '{keys}'"
     W051 = (
         "pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'"
     )

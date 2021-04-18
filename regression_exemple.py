@@ -59,7 +59,7 @@ def count_rows(masterFile: Artefact, samples=500, **kwargs):
     print(f"{len(masterFile)} rows")
 
 
-count_rows(foobar=1)
+# count_rows(foobar=1)
 print("done")
 
 

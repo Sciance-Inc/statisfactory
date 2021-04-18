@@ -27,7 +27,7 @@ from .viz import Graphviz
 from .utils import merge_dictionaries, MergeableInterface
 from ..errors import errors
 from ..logger import MixinLogable
-
+from .selements import SElementKind
 
 #############################################################################
 #                                  Script                                   #
@@ -153,20 +153,37 @@ class Pipeline(MergeableInterface, MixinLogable):
                 craft = copy(craft)
 
                 try:
-                    # Get the volatile created by the craft execution and the default values to add to the running context
-                    volatiles, default_context, *_ = craft.call_with_volatiles(
-                        context=running_context, volatiles=running_volatile
-                    )
+                    # Call the craft with the current context and volatile mapping.
+                    # Since I'm in a pipeline, there is no variadic arguments
+                    out = craft(volatiles_mapping=running_volatile, **running_context)
                 except BaseException as err:
                     raise errors.E050(__name__, func=craft.name) from err
 
-                running_volatile = strict_merge(
-                    volatiles, running_volatile, "volatile", craft.name
-                )
+                # Convert the output to a tuple
+                if not isinstance(out, tuple):
+                    out = (out,)
 
-                running_context = strict_merge(
-                    default_context, running_context, "context", craft.name
-                )
+                # Extract the volatiles from the Craft's outputed values
+                if out is not None:
+                    volatiles = {
+                        anno.name: value
+                        for anno, value in zip(craft.output_annotations, out)
+                        if anno.kind == SElementKind.VOLATILE
+                    }
+
+                    running_volatile = strict_merge(
+                        volatiles, running_volatile, "volatile", craft.name
+                    )
+
+                # Extract the implicit context from the craft signature : since a pipeline does not use variadic positionals arguments, the implicit context is simply the default values of the craft's arguments
+                implicit_context = {
+                    anno.name: anno.annotation.default
+                    for anno in craft.input_annotations
+                    if anno.has_default
+                }
+
+                # Union the implicit context with the running context, but give priority to running context
+                running_context = {**implicit_context, **running_context}
 
                 self.info(
                     f"pipeline : '{self._name}' : Completeted {cursor} out of {total} tasks."
