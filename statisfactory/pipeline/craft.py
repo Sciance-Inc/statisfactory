@@ -281,13 +281,13 @@ class Craft(MergeableInterface, MixinLogable):
 
         return args_, kwargs_, default_context
 
-    def _call(self, *args, volatile: Mapping = None, **kwargs) -> Tuple[Any, Mapping]:
+    def _call(self, *args, volatiles: Mapping = None, **kwargs) -> Tuple[Any, Mapping]:
         """
         low level call to the underlying callable:
 
         Arguments:
             *args: Variadic arguments to defer to the underlaying callable
-            volatile: A mappping of volatiles objects, computed before the craft execution
+            volatiles: A mappping of volatiles objects, computed before the craft execution
 
         Returns:
             - The output of the underlaying callable execution
@@ -296,7 +296,7 @@ class Craft(MergeableInterface, MixinLogable):
 
         # Extract, from args and kwargs, the item required by the craft and and to kwargs_ the default value, if unspecified by kwargs.
         craft_args, craft_kwargs, default_context = self._parse_args(
-            args, kwargs, volatile
+            args, kwargs, volatiles
         )
 
         try:
@@ -321,7 +321,7 @@ class Craft(MergeableInterface, MixinLogable):
         #   * can't access volatile outside of a Pipeline
         #   * can't return "default_context" outside of a Pipeline
 
-        out, *_ = self._call(*args, volatile=None, **kwargs)
+        out, *_ = self._call(*args, volatiles=None, **kwargs)
 
         return out
 
@@ -333,7 +333,7 @@ class Craft(MergeableInterface, MixinLogable):
         """
 
         # get the tuple returned by the fonction
-        out, default_context = self._call(*args, volatile=volatiles, **context)
+        out, default_context = self._call(*args, volatiles=volatiles, **context)
         if not isinstance(out, tuple):
             out = (out,)
 
