@@ -50,18 +50,6 @@ _ = build_dataframe(samples=10)
 
 print("pause")
 
-# Create craft able to retrieve an Abstract dataframe par parsing it's own default arg : note that the kwargs only contains the residual
-@Craft.make(catalog)
-def count_rows(masterFile: Artefact, samples=500, **kwargs):
-
-    print(kwargs)
-
-    print(f"{len(masterFile)} rows")
-
-
-# count_rows(foobar=1)
-print("done")
-
 
 # Create a craft that depends on an "abstract" artefact and that returns, a Volatile, non persisted Artefact. Volatile artefacts are usefull to transfert data between succesives Craft without necessarily storing them.
 
@@ -111,30 +99,3 @@ p = save_coeff + build_dataframe + train_regression + count_rows
 
 # Execute the pipeline, note that samples is defaulted to it's value, allowing train_regression and save_coeff to work.
 out = p(samples=199)
-
-
-#
-#
-## df = build_dataframe()
-# print("done")
-## Combine the three crafts
-# p = build_dataframe + train_regression + save_coeff
-## print(p)
-## p.plot()
-#
-## print("done")
-# p(samples=10)
-# p(samples=500, fit_intercept=False)
-# print("done")
-#
-#
-## Finally use the catalog to control the coeff
-# c1 = catalog.load("coeffs", samples=10)
-# c2 = catalog.load("coeffs", samples=500)
-## and copy c2 to 0
-# catalog.save("coeffs", c2, samples=0)
-#
-# print(c1)
-# print(c2)
-#
-# print("done")

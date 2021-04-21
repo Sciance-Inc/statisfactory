@@ -15,6 +15,7 @@
 #############################################################################
 
 # System
+from typing import Any
 from dataclasses import dataclass
 from enum import Enum, auto
 from inspect import Parameter
@@ -64,6 +65,14 @@ class SElement:
         """
 
         return self.annotation.default != Parameter.empty
+
+    @property
+    def default(self) -> Any:
+        """
+        Annotation's default value getter
+        """
+
+        return self.annotation.default
 
 
 #############################################################################

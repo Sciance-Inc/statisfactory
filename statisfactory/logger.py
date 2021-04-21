@@ -38,7 +38,7 @@ def get_module_logger(mod_name):
         logger = logging.getLogger(mod_name)
         handler = logging.StreamHandler()
         formatter = logging.Formatter(
-            "%(asctime)s [%(name)-12s] %(levelname)-8s %(message)s"
+            "%(asctime)s [%(name)-12s] : %(levelname)-1s : %(message)s"
         )
         handler.setFormatter(formatter)
         logger.addHandler(handler)
@@ -50,8 +50,8 @@ def get_module_logger(mod_name):
 
 
 class MixinLogable:
-    def __init__(self, loger_name: str = "statisfactory", *args, **kwargs):
-        self._logger = get_module_logger(loger_name)
+    def __init__(self, logger_name: str = "statisfactory", *args, **kwargs):
+        self._logger = get_module_logger(logger_name)
 
     def warn(self, msg):
         self._logger.warn(msg)

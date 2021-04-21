@@ -17,10 +17,13 @@
 # system
 # Third party
 import networkx as nx
+from networkx.algorithms import transitive_reduction
 
 # project
 from ..errors import errors
 
+
+# TODO : To be fully reworked : "quick" way to get a graphical representation of the pipeline.
 #############################################################################
 #                                  Script                                   #
 #############################################################################
@@ -46,8 +49,11 @@ class Graphviz:
         except ImportError:
             raise errors.E054(__name__, dep="pygraphviz")
 
+        # Remove redondencies
+        reduction = transitive_reduction(G)
+
         # Tranform the Graph into an AGraph one
-        A = nx.nx_agraph.to_agraph(G)
+        A = nx.nx_agraph.to_agraph(reduction)
         A.layout("dot")
 
         return graphviz.Source(A.to_string())

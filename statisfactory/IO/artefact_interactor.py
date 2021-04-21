@@ -71,6 +71,19 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
     # A placeholder for all registered interactors
     _interactors = dict()
 
+    @abstractmethod
+    def __init__(self, artefact, *args, **kwargs):
+        """
+        Instanciate a new interactor.
+
+        The interactors implements cooperative inheritance, only the artefact is mandatory.
+        """
+
+        super().__init__(logger_name=__name__, *args, **kwargs)
+        self.name = artefact.name
+        self._save_options = artefact.save_options
+        self._load_options = artefact.load_options
+
     def __init_subclass__(cls, interactor_name, **kwargs):
         """
         Implement the registration of a child class into the artefact class.
@@ -89,26 +102,11 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         # Propagate the change to the model validator
         _ArtefactSchema.valids_artefacts.add(interactor_name)
 
-        get_module_logger("statisfactory").debug(
-            f"registering '{interactor_name}' interactor"
-        )
+        get_module_logger(__name__).debug(f"registering '{interactor_name}' interactor")
 
     @classmethod
     def interactors(cls):
         return cls._interactors
-
-    @abstractmethod
-    def __init__(self, artefact, *args, **kwargs):
-        """
-        Instanciate a new interactor.
-
-        The interactors implements cooperative inheritance, only the artefact is mandatory.
-        """
-
-        super().__init__(__name__, *args, **kwargs)
-        self.name = artefact.name
-        self._save_options = artefact.save_options
-        self._load_options = artefact.load_options
 
     @abstractmethod
     def load(self) -> Any:

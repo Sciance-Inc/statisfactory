@@ -20,20 +20,24 @@ Statisfactory is a toolbox to apply and replicate a Statistical pipeline. The pu
 
 __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver as well as a new way to indicates `Artefacts` to save.
 
+
+### Changelog
 #### Road to 0.2.0
 - [x] Refactor the Craft object to improve the Annotation parsing
 - [x] Add new folder structure and implements the parsing of the `statisfactory.yaml` file
 - [x] Add support for data layers and environement in a config file
 - [x] Add support for global and local config files
-- [x] Catalog : implements the `${}` notation for statis interpolation
+- [x] Catalog : implements the `${}` notation for static interpolation
 - [X] Catalog : Implement the `!{}` notation for dynamic intepolation
-- [X] Rework the `Craft`, `Pipeline`, `Volatile` tracking mechanisme to defers state tracking to the Pipeline
-- [ ] Streamline the `Pipeline` by delegating scheduling responsability to a `Runner` class
+- [X] Add support for default values (from craft's signature) in the artefact's context resolution.
+- [X] Rework the `Craft`, `Pipeline`, `Volatile` tracking mechanisme to defers state tracking to a `Runner` class.
+- [X] Streamline the `Pipeline` by delegating scheduling responsability to a `Runner` class
+- [X] Streamline the `Pipeline` by delegating dependencies solver to a `Solver`
 - [ ] Add support for Craft's level configuration in yaml
 - [ ] Add support for Pipeline definition in yaml
 - [ ] Create a CLI to parse and execute Pipeline definitions for specific configuration
-- [ ] Create a small `cookiecutter` to kicstart a project
-- [ ] Update documentation with the `!{}` and `${}` syntaxes
+- [ ] Create a small `cookiecutter` to kickstart a project
+- [ ] Update documentation with the `!{}` and `${}` syntaxes and the new pipeline definition
 
 #### Road to 0.3.0
 - [ ] Properly inject a loggers and Handler into the craft, maybe by exposing settings to the craft ?
@@ -41,13 +45,15 @@ __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver a
 - [ ] Add support for multiples catalogs
 - [ ] Refactor the Pipeline to be wraps in a SequentialRunner, a ParrallelRunner or an AirflowTranspiler
 - [ ] Solve parameters context between pipeline
+- [ ] Artefacts / Volatile schould be split between annotation (currently pipeline.SElement) and actual `artefact` SERDE to improve the Separation of Concerns
+- [ ] Rework interactors and add supports for Spark
 
 ## How to contribute.
 Keep it classy, boys :
 * Use `git flow` and don't directly publish to `master`;
 * Rebase/merge before integrating your changes;
 * Use proper commit messages and follow `commitizen` commits conventions;
-* Use `bump2verion` to ... bump the version.
+* Use `bump2version` to ... bump the version.
 * I like my code formatted the same way I like my coffee : `Black`. Use-it for code formatting before committing.
 
 ## High level presentation 

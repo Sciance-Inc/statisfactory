@@ -114,7 +114,7 @@ class Craft(MergeableInterface, MixinLogable):
         Wrap a callable in a craft binded to the given catalog.
         """
 
-        super().__init__(loger_name=__name__)
+        super().__init__(logger_name=__name__)
 
         self._catalog = catalog
         self._callable = callable
@@ -358,7 +358,7 @@ class Craft(MergeableInterface, MixinLogable):
         """
         Add the craft in last position to the visiting pipeline
         """
-        self.info(f"adding craft {self._name} into {pipeline.name}")
+        self.info(f"adding Craft '{self._name}' into '{pipeline.name}'")
 
         # Add the craft
         pipeline._crafts.append(self)

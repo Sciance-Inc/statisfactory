@@ -89,7 +89,7 @@ class Context(MixinLogable):
         TODO : Add Support for Multiples catalogs
         """
 
-        super().__init__()
+        super().__init__(logger_name=__name__)
 
         # Retrieve the location of the config file
         self._root = Path(root_folder) or self._get_path_to_root()
