@@ -24,15 +24,15 @@ from typing import TYPE_CHECKING
 # Third party
 
 # project
-from .utils import merge_dictionaries
-from .selements import SElementKind
 from .solver import Solver
-from ..errors import errors
-from ..logger import MixinLogable
+from ..utils import merge_dictionaries
+from ..selements import SElementKind
+from ...errors import errors
+from ...logger import MixinLogable
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from .craft import Craft
+    from ..craft import Craft
 
 #############################################################################
 #                                  Script                                   #

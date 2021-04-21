@@ -20,10 +20,9 @@ from typing import Union, Dict, Mapping
 # project
 from .solver import DAGSolver, Solver
 from .runner import SequentialRunner, Runner
-
 from .viz import Graphviz
-from .utils import MergeableInterface
-from ..logger import MixinLogable
+from ..utils import MergeableInterface
+from ...logger import MixinLogable
 
 #############################################################################
 #                                  Script                                   #

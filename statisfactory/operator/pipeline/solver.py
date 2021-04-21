@@ -24,12 +24,12 @@ from typing import TYPE_CHECKING
 import networkx as nx
 
 # project
-from ..logger import MixinLogable
-from ..errors import errors, warnings
+from ...logger import MixinLogable
+from ...errors import errors, warnings
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from .craft import Craft
+    from ..craft import Craft
 
 #############################################################################
 #                                  Script                                   #

@@ -1,3 +1,3 @@
-from .context import Context
+from .context import Context  # noqa
 from .IO import Catalog, ArtefactInteractor, Artefact, Volatile  # noqa
-from .pipeline import Craft, Pipeline  # noqa
+from .operator import Craft, Pipeline  # noqa
