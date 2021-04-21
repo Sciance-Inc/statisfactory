@@ -61,7 +61,7 @@ class StatisfactoryCricial(Exception):
 
     def __init__(self, *args, **kwargs):
 
-        super(Exception, self).__init__(self.msg.format(**kwargs))
+        super(StatisfactoryCricial, self).__init__(self.msg.format(**kwargs))
         if args:
             logger = get_module_logger(mod_name=args[0])
         else:
@@ -77,7 +77,7 @@ class SatisfactoryError(Exception):
 
     def __init__(self, *args, **kwargs):
 
-        super(Exception, self).__init__(self.msg.format(**kwargs))
+        super(SatisfactoryError, self).__init__(self.msg.format(**kwargs))
         if args:
             logger = get_module_logger(mod_name=args[0])
         else:
@@ -93,7 +93,7 @@ class StatisfactoryWarning(UserWarning):
 
     def __init__(self, *args, **kwargs):
 
-        super(UserWarning, self).__init__(self.msg.format(**kwargs))
+        super(StatisfactoryWarning, self).__init__(self.msg.format(**kwargs))
         if args:
             logger = get_module_logger(mod_name=args[0])
         else:
