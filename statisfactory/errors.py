@@ -158,8 +158,8 @@ class Errors(metaclass=Singleton):
     # Init and connection related errors
     E010 = "start-up : statisfactory must be called from a folder, or the child of a folder, containing a 'statisfactory.yaml' file"
     E011 = "start-up : the Catalog file does not exists : '{path}'."
-    E012 = "start-up : failed to parse the Statisfactory configuration file : {path}"
-    E013 = "start-up : failed to unmarshall the catalog"
+    E012 = "start-up : failed to parse the {file} file : {path}"
+    E013 = "start-up : failed to unmarshall the {file}"
     E014 = (
         "start-up : failed to interpolate the catalog with the settings from 'conf/'."
     )

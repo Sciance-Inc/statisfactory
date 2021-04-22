@@ -15,8 +15,8 @@
 #############################################################################
 
 # system
-from typing import Optional, List, Mapping
-from dataclasses import dataclass
+from typing import Optional, List, Mapping, Any
+import dataclasses
 import yaml
 
 # project
@@ -35,26 +35,14 @@ from marshmallow import (
 #############################################################################
 
 
-@dataclass
+@dataclasses.dataclass
 class PipelineDefinition:
     """
     Represents the definition of a Pipeline
     """
 
     crafts: List[str]
-    conf: Mapping
-
-
-class PipelineDefinitionShema(Schema):
-
-    crafts = fields.List(fields.Str(), required=True)
-    # conf = fields.Mapping(keys=fields.Str(), required=False)
-
-
-class PipelinesDefinitions(Schema):
-    """
-    PipelineDefinition's marshaller.
-    """
+    config: Optional[Mapping[str, Any]] = dataclasses.field(default_factory=dict)
 
     @staticmethod
     def from_file(file: str):
@@ -62,21 +50,32 @@ class PipelinesDefinitions(Schema):
         Build a statisfactory config from a file.
         """
 
-        # try:
+        try:
+            with open(file) as f:
+                data = yaml.safe_load(f)
+        except BaseException as error:
+            raise errors.E012(
+                __name__, file="Pipelines definition", path=file
+            ) from error
 
-        with open(file) as f:
-            data = yaml.safe_load(f)
-
-        schema = PipelinesDefinitions.from_dict(
-            {key: fields.Nested(PipelineDefinitionShema) for key in data}
+        schema = Schema.from_dict(
+            {key: fields.Nested(_PipelinesDefinitionsShema) for key in data}
         )
 
-        return schema().load(data)
+        try:
+            return schema().load(data)
+        except BaseException as error:
+            raise errors.E013(__name__, file="Pipelines definition") from error
 
-        # except BaseException as error:
-        #    raise errors.E012(__name__, path=file) from error
 
-        return config
+class _PipelinesDefinitionsShema(Schema):
+
+    crafts = fields.List(fields.Str(), required=True)
+    conf = fields.Mapping(keys=fields.Str(), required=False)
+
+    @post_load
+    def make_PipelinesDefinitions(self, data, **kwargs):
+        return PipelineDefinition(**data)
 
 
 #############################################################################

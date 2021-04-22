@@ -23,10 +23,10 @@ from sklearn import datasets
 # Import Statisfactory
 from statisfactory import Context, Craft, Artefact, Volatile
 
-from statisfactory.context.definitions.models import PipelinesDefinitions
+from statisfactory.context.definitions.models import PipelineDefinition
 
 
-foo = PipelinesDefinitions.from_file("exemples/dummyRepo/Pipelines/pipelines.yaml")
+foo = PipelineDefinition.from_file("exemples/dummyRepo/Pipelines/pipelines.yaml")
 
 print("done")
 

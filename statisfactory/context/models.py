@@ -56,7 +56,9 @@ class StatisfactoryConfig:
             with open(file) as f:
                 config = _StatisfactorySchema().load(yaml.safe_load(f))
         except BaseException as error:
-            raise errors.E012(__name__, path=file) from error
+            raise errors.logger_name(
+                __name__, file="Statisfactory config", path=file
+            ) from error
 
         return config
 
