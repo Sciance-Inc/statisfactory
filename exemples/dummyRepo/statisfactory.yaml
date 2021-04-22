@@ -10,5 +10,5 @@ catalog: conf/catalog.yaml
 sources: Lib
 
 # The directory containing the pipeline definition and configurations.
-pipelines_definitions: pipelines
+pipelines_definitions: Pipelines
 

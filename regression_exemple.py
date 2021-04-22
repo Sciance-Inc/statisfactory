@@ -23,6 +23,13 @@ from sklearn import datasets
 # Import Statisfactory
 from statisfactory import Context, Craft, Artefact, Volatile
 
+from statisfactory.context.definitions.models import PipelinesDefinitions
+
+
+foo = PipelinesDefinitions.from_file("exemples/dummyRepo/Pipelines/pipelines.yaml")
+
+print("done")
+
 
 # Load a context and get the catalog from it.
 catalog = Context(root_folder="exemples/dummyRepo").catalog
