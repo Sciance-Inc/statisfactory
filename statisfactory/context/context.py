@@ -15,7 +15,6 @@
 #############################################################################
 
 # system
-from typing import Mapping
 from string import Template
 from pathlib import Path
 import sys
