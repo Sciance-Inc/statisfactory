@@ -1,13 +1,13 @@
 # Pipelines deinitions are list of crafts. Crafts are namespaced.
 fooer:
-  crafts:
+  operators:
     - foobar.craft_foo
 
 spamer:
-  crafts:
+  operators:
     - spam.craft_spam
 
 full:
-  crafts:
+  operators:
     - fooer
     - spamer

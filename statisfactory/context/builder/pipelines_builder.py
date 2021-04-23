@@ -21,7 +21,7 @@ from importlib import import_module
 # project
 from .models import PipelineDefinition
 from ...operator import Pipeline
-from ..errors import errors
+from ...errors import errors
 
 
 #############################################################################
@@ -37,14 +37,14 @@ class PipelinesBuilder:
     def build_pipeline(self, name, definition: Mapping, raw: Mapping) -> Pipeline:
 
         P = Pipeline(name)
-        for target_name in definition.crafts:
+        for target_name in definition.operators:
 
             # If the name is declared in raw -> then it's a pipeline to be built
             is_pipeline = target_name in raw
             if is_pipeline:
                 P = P + self.build_pipeline(target_name, raw[target_name], raw)
 
-                # If not, then it's a Craft to be imported
+            # If not, then it's a Craft to be imported
             else:
                 callable_, *modules = target_name.split(".")[::-1]
                 modules = modules[::-1]

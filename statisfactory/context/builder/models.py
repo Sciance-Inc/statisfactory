@@ -40,7 +40,7 @@ class PipelineDefinition:
     Represents the definition of a Pipeline
     """
 
-    crafts: List[str]
+    operators: List[str]
     config: Optional[Mapping[str, Any]] = dataclasses.field(default_factory=dict)
 
     @staticmethod
@@ -69,7 +69,7 @@ class PipelineDefinition:
 
 class _PipelinesDefinitionsShema(Schema):
 
-    crafts = fields.List(fields.Str(), required=True)
+    operators = fields.List(fields.Str(), required=True)
     conf = fields.Mapping(keys=fields.Str(), required=False)
 
     @post_load
