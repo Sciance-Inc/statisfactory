@@ -163,6 +163,7 @@ class Errors(metaclass=Singleton):
     E014 = (
         "start-up : failed to interpolate the catalog with the settings from 'conf/'."
     )
+    EO15 = "start-up : Parsing pipeline '{pip_name}' : failed to import craft '{craft_name}')"
 
     # FS interactors
     E020 = "data interactor : there is already an interactor named '{name}'"
