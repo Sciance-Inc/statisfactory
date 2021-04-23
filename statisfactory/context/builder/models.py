@@ -7,7 +7,7 @@
 #
 # description:
 """
-    implements models serialization for Statisfactory Configuration files
+    implements models serialization for Pipelines definitions and Configuration files
 """
 
 #############################################################################
@@ -15,12 +15,12 @@
 #############################################################################
 
 # system
-from typing import Optional
-from dataclasses import dataclass
+from typing import Optional, List, Mapping, Any
+import dataclasses
 import yaml
 
 # project
-from ..errors import errors
+from ...errors import errors
 
 # third party
 from marshmallow import (
@@ -29,53 +29,52 @@ from marshmallow import (
     post_load,
 )
 
-
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
-@dataclass
-class StatisfactoryConfig:
+@dataclasses.dataclass
+class PipelineDefinition:
     """
-    Represents the configuration parsed from a statisfactory file
+    Represents the definition of a Pipeline
     """
 
-    configuration: str
-    catalog: str
-    sources: Optional[str] = None
-    pipelines_definitions: Optional[str] = None
+    operators: List[str]
+    config: Optional[Mapping[str, Any]] = dataclasses.field(default_factory=dict)
 
     @staticmethod
-    def from_file(file: str) -> "StatisfactoryConfig":
+    def from_file(file: str):
         """
         Build a statisfactory config from a file.
         """
 
         try:
             with open(file) as f:
-                config = _StatisfactorySchema().load(yaml.safe_load(f))
+                data = yaml.safe_load(f)
         except BaseException as error:
-            raise errors.logger_name(
-                __name__, file="Statisfactory config", path=file
+            raise errors.E012(
+                __name__, file="Pipelines definition", path=file
             ) from error
 
-        return config
+        schema = Schema.from_dict(
+            {key: fields.Nested(_PipelinesDefinitionsShema) for key in data}
+        )
+
+        try:
+            return schema().load(data)
+        except BaseException as error:
+            raise errors.E013(__name__, file="Pipelines definition") from error
 
 
-class _StatisfactorySchema(Schema):
-    """
-    Statisfactory Config's marshaller.
-    """
+class _PipelinesDefinitionsShema(Schema):
 
-    configuration = fields.Str(required=True)
-    catalog = fields.Str(required=True)
-    sources = fields.Str()
-    pipelines_definitions = fields.Str()
+    operators = fields.List(fields.Str(), required=True)
+    conf = fields.Mapping(keys=fields.Str(), required=False)
 
     @post_load
-    def make_StatisfactoryConfig(self, data, **kwargs):
-        return StatisfactoryConfig(**data)
+    def make_PipelinesDefinitions(self, data, **kwargs):
+        return PipelineDefinition(**data)
 
 
 #############################################################################

@@ -24,9 +24,12 @@ from sklearn import datasets
 from statisfactory import Context, Craft, Artefact, Volatile
 
 
+ctx = Context(root_folder="exemples/dummyRepo")
 # Load a context and get the catalog from it.
-catalog = Context(root_folder="exemples/dummyRepo").catalog
+catalog = ctx.catalog
+pipelines = ctx.pipelines
 
+print("done")
 
 # Create a craft that returns an "abstract" artefact : masterFile, for which location is determined at runtime thanks to the provided context (here, the samples)
 

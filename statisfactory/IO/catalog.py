@@ -60,7 +60,7 @@ class Catalog(MixinLogable):
         try:
             self._data = CatalogData.from_string(dump)
         except BaseException as err:
-            raise errors.E013(__name__) from err
+            raise errors.E013(__name__, file="Catalog") from err
 
     def __str__(self):
         """

@@ -358,7 +358,7 @@ class Craft(MergeableInterface, MixinLogable):
         """
         Add the craft in last position to the visiting pipeline
         """
-        self.info(f"adding Craft '{self._name}' into '{pipeline.name}'")
+        self.debug(f"adding Craft '{self._name}' into '{pipeline.name}'")
 
         # Add the craft
         pipeline._crafts.append(self)
