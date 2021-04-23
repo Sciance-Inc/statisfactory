@@ -25,6 +25,7 @@ import os
 from dynaconf import Dynaconf
 
 # project
+from .builder import PipelinesBuilder
 from .models import StatisfactoryConfig
 from ..IO import Catalog
 from ..logger import MixinLogable
@@ -66,21 +67,7 @@ class Context(MixinLogable):
     Only one Context per project can exists.
     """
 
-    _instance = None
-
-    def __new__(
-        cls,
-        *args,
-        **kwargs,
-    ):
-        """
-        Load the current context
-        """
-
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-
-        return cls._instance
+    __shared_state__ = {}
 
     def __init__(self, *, root_folder: str = None):
         """
@@ -89,10 +76,16 @@ class Context(MixinLogable):
         TODO : Add Support for Multiples catalogs
         """
 
+        self.__dict__ = self.__shared_state__
+        if self.__shared_state__:
+            self.debug("Using already loaded Statisfactory context.")
+            return
+
         super().__init__(logger_name=__name__)
 
         # Retrieve the location of the config file
-        self._root = Path(root_folder) or self._get_path_to_root()
+        self._root = Path(root_folder or self._get_path_to_root())
+
         self.info(f"Initiating Statisfactory to : '{self._root}'")
 
         # Parse the config_path, to extract the Catalog(s) and the Parameters locations
@@ -100,16 +93,38 @@ class Context(MixinLogable):
             self._root / "statisfactory.yaml"
         )
 
-        # Build the catalog
-        self._catalog = self._get_catalog()
+        # Parse the settings
+        self._set_settings()
 
-        # Add the Lib
+        # Build the catalog
+        self._set_catalog()
+
+        # Add the Lib to PATH
         self._add_to_path()
 
-        # Parse the pipeline
+        self._pipelines = None
+
         self.info("All done ! You are ready to go ! \U00002728 \U0001F370 \U00002728")
 
-    def _get_catalog(self) -> Catalog:
+    @property
+    def pipelines(self):
+        if not self._pipelines:
+            self._pipelines = self._set_pipelines()
+
+        return self._pipelines
+
+    def _set_pipelines(self):
+
+        if not self._stati_config.pipelines_definitions:
+            return
+
+        path = (self._root / self._stati_config.pipelines_definitions).resolve()
+
+        pipelines = PipelinesBuilder.build(path=path)
+
+        self._pipelines = pipelines
+
+    def _set_catalog(self) -> Catalog:
         """
         Get the Catalog object.
         """
@@ -123,17 +138,18 @@ class Context(MixinLogable):
             raise errors.E011(__name__, path=path) from error
 
         # Render the catalog with the settings
-        settings = self._get_settings()
-        if settings:
+        if self._settings:
             try:
-                catalog_representation = catalog_representation.substitute(settings)
+                catalog_representation = catalog_representation.substitute(
+                    self._settings
+                )
             except BaseException as error:
                 raise errors.E014 from error
 
         # Parse the catalog representation
-        return Catalog(catalog_representation)
+        self._catalog = Catalog(catalog_representation)
 
-    def _get_settings(self) -> Mapping:
+    def _set_settings(self):
         """
         Parse the settings file from the conf/ folder
         """
@@ -155,7 +171,7 @@ class Context(MixinLogable):
             load_dotenv=False,
         )
 
-        return settings
+        self._settings = settings
 
     def _add_to_path(self):
         """
@@ -165,11 +181,11 @@ class Context(MixinLogable):
         if not self._stati_config.sources:
             return
 
-        src_path = self._root / self._stati_config.sources
+        src_path = (self._root / self._stati_config.sources).resolve()
 
         # Insert Lib into the Path
         if src_path not in sys.path:
-            sys.path.insert(0, src_path)
+            sys.path.insert(0, str(src_path))
             self.info(f"adding '{self._stati_config.sources}' to PATH")
 
         # Create / update the python path
