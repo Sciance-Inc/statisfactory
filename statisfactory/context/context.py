@@ -108,7 +108,7 @@ class Context(MixinLogable):
     @property
     def pipelines(self):
         if not self._pipelines:
-            self._pipelines = self._set_pipelines()
+            self._set_pipelines()
 
         return self._pipelines
 
