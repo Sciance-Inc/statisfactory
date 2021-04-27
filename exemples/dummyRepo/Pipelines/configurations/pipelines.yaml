@@ -1,0 +1,21 @@
+base:
+  craft_foo:
+    param_1: 10
+  craft_spam:
+    param_1: 1
+    param_2:
+      - 10
+      - 15
+      - 20
+
+foo:
+  craft_spam:
+    param_1: 2
+
+custom:
+  _from:
+    - base
+    - foo
+  craft_foo:
+    param_1: 20
+

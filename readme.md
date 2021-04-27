@@ -34,8 +34,9 @@ __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver a
 - [X] Streamline the `Pipeline` by delegating scheduling responsability to a `Runner` class
 - [X] Streamline the `Pipeline` by delegating dependencies solver to a `Solver`
 - [ ] Add support for Craft's level configuration in yaml
-- [ ] Add support for Pipeline definition in yaml
+- [X] Add support for Pipeline definition in yaml
 - [ ] Create a CLI to parse and execute Pipeline definitions for specific configuration
+- [ ] Rename context to session and cascad it to the artefact loader
 - [ ] Create a small `cookiecutter` to kickstart a project
 - [ ] Update documentation with the `!{}` and `${}` syntaxes and the new pipeline definition
 

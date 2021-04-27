@@ -21,13 +21,14 @@ from sklearn.linear_model import LinearRegression
 from sklearn import datasets
 
 # Import Statisfactory
-from statisfactory import Context, Craft, Artefact, Volatile
+from statisfactory import Session, Craft, Artefact, Volatile
 
 
-ctx = Context(root_folder="exemples/dummyRepo")
+sess = Session(root_folder="exemples/dummyRepo")
 # Load a context and get the catalog from it.
-catalog = ctx.catalog
-pipelines = ctx.pipelines
+catalog = sess.catalog
+pipelines = sess.pipelines_definitions
+config = sess.pipelines_configurations
 
 print("done")
 

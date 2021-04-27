@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-# context.py
+# pipelines_loader.py
 #
 # Project name: statisfactory
 # Author: Hugo Juhel
@@ -29,12 +29,13 @@ from ...errors import errors
 #############################################################################
 
 
-class PipelinesBuilder:
+class PipelinesLoader:
     """
     Parse the Pipelines and definition files and and return operator.Pipeline objects.
     """
 
-    def build_pipeline(self, name, definition: Mapping, raw: Mapping) -> Pipeline:
+    @staticmethod
+    def _load_pipeline(name, definition: Mapping, raw: Mapping) -> Pipeline:
 
         P = Pipeline(name)
         for target_name in definition.operators:
@@ -42,7 +43,9 @@ class PipelinesBuilder:
             # If the name is declared in raw -> then it's a pipeline to be built
             is_pipeline = target_name in raw
             if is_pipeline:
-                P = P + self.build_pipeline(target_name, raw[target_name], raw)
+                P = P + PipelinesLoader._load_pipeline(
+                    target_name, raw[target_name], raw
+                )
 
             # If not, then it's a Craft to be imported
             else:
@@ -62,7 +65,7 @@ class PipelinesBuilder:
         return P
 
     @staticmethod
-    def build(*, path: str) -> Mapping[str, Pipeline]:
+    def load(*, path: str) -> Mapping[str, Pipeline]:
         """
         Build the pipelines by parsing file located in `path`.
         """
@@ -70,14 +73,12 @@ class PipelinesBuilder:
         # Parse the YAML
         m = PipelineDefinition.from_file(path)
 
-        builder = PipelinesBuilder()
-
         # Iterate over each Definition, and create the a Pipeline object.
-        builded = {}
+        loaded = {}
         for name, definition in m.items():
-            builded[name] = builder.build_pipeline(name, definition, m)
+            loaded[name] = PipelinesLoader._load_pipeline(name, definition, m)
 
-        return builded
+        return loaded
 
 
 #############################################################################

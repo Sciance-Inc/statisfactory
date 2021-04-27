@@ -1,8 +1,8 @@
-from statisfactory import Context, Craft, Volatile
+from statisfactory import Session, Craft, Volatile
 
-catalog = Context().catalog
+catalog = Session().catalog
 
 
 @Craft.make(catalog)
-def craft_spam(foo_out: Volatile) -> Volatile("spam_out"):
+def craft_spam(foo_out: Volatile, param_1, param_2) -> Volatile("spam_out"):
     return 3
