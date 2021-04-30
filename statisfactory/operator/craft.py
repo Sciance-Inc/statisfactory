@@ -62,7 +62,7 @@ class Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         return _
 
-    def __init__(self, callable: Callable, inject_session: bool):
+    def __init__(self, callable: Callable, inject_session: bool = False):
         """
         Wrap a callable in a craft binded to the given catalog.
         """
@@ -319,7 +319,7 @@ class Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
         """
 
-        craft = Craft(self._callable)
+        craft = Craft(self._callable, self._inject_session)
         return craft
 
     def _save_artefacts(self, *, output, **context) -> Mapping:
@@ -378,7 +378,7 @@ class Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         """
 
         return (
-            Pipeline("noName") + craft + self
+            Pipeline() + craft + self
         )  # Since it's called by "visiting", self is actually the Right object in L + R
 
     def visit_pipeline(self, pipeline: MergeableInterface):

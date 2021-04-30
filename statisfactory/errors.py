@@ -194,10 +194,11 @@ class Errors(metaclass=Singleton):
     )
 
     # Pipeline
-    E050 = "pipeline : failed to run craft '{func}'"
-    E052 = "pipeline : '{kind}' keys collides : for craft '{name}'"
-    E053 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
-    E054 = "pipeline : viz : missing '{dep}' package"
+    E050 = "Pipeline : failed to run craft '{func}'"
+    E052 = "Pipeline : '{kind}' keys collides : for craft '{name}'"
+    E053 = "Pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
+    E054 = "Pipeline : viz : missing '{dep}' package"
+    E055 = "Pipeline : NameSpacedSequentialRunner expects each craft's context to be mapping. Got '{got}'"
 
     # Session
     E060 = "Session : A Craft or a Pipeline must be executed in a 'with session:' statment. Use a context manager to execute the Craft / Pipeline."

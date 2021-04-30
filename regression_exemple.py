@@ -26,18 +26,33 @@ from statisfactory import Session, Craft, Artefact, Volatile, Pipeline
 sess = Session(root_folder="exemples/dummyRepo")
 # Load a context and get the catalog from it.
 catalog = sess.catalog
-# pipelines = sess.pipelines_definitions
+pipelines = sess.pipelines_definitions
 # config = sess.pipelines_configurations
 
+default = pd.DataFrame({"a": [1]})
 
 # Create a craft showcasing the session injection and the artifact default !
-@Craft.make(inject_session=True)
-def foobar(session, masterFile: Artefact = None, samples=666):
-    print(1)
+@Craft.make()
+def foobar(masterFile: Artefact = default, samples=666) -> Volatile("foo"):
+    return masterFile
 
+
+@Craft.make()
+def barfoo(foo: Volatile, samples):
+    print(samples)
+
+
+p = Pipeline() + foobar + barfoo
+with sess:
+    out = p()
+
+p = Pipeline(runner_name="NameSpacedSequentialRunner") + foobar + barfoo
+m = {"foobar": {"samples": 5555}, "barfoo": {"samples": 66656}}
 
 with sess:
-    foobar()
+    out = p(**m)
+
+print("done")
 
 
 @Pipeline.hook_pre_run

@@ -37,7 +37,7 @@ class PipelinesLoader:
     @staticmethod
     def _load_pipeline(name, definition: Mapping, raw: Mapping) -> Pipeline:
 
-        P = Pipeline(name)
+        P = Pipeline(name=name, **definition.config)
         for target_name in definition.operators:
 
             # If the name is declared in raw -> then it's a pipeline to be built

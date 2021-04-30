@@ -64,7 +64,7 @@ class SElement:
         Return true if the parameter has a default value.
         """
 
-        return self.annotation.default != Parameter.empty
+        return self.annotation.default is not Parameter.empty
 
     @property
     def default(self) -> Any:

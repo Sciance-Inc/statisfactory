@@ -19,7 +19,7 @@ from typing import Union, Dict, Mapping
 
 # project
 from .solver import DAGSolver, Solver
-from .runner import SequentialRunner, Runner
+from .runner import Runner
 from .viz import Graphviz
 from ..scoped import Scoped
 from ..mixinHookable import MixinHookable
@@ -40,9 +40,9 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
     def __init__(
         self,
-        name: str,
         *,
-        runner: Runner = SequentialRunner,
+        name: str = "noName",
+        runner_name: str = "SequentialRunner",
         solver: Solver = DAGSolver,
     ):
         """
@@ -58,7 +58,7 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         super().__init__(logger_name=__name__)
         self._name = name
-        self._runner = runner
+        self._runner = Runner.get_runner_by_name(runner_name)
         self._solver = solver
 
         # A placeholder to holds the added crafts.

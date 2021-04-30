@@ -70,7 +70,7 @@ class PipelineDefinition:
 class _PipelinesDefinitionsShema(Schema):
 
     operators = fields.List(fields.Str(), required=True)
-    conf = fields.Mapping(keys=fields.Str(), required=False)
+    config = fields.Mapping(keys=fields.Str(), required=False)
 
     @post_load
     def make_PipelinesDefinitions(self, data, **kwargs):
