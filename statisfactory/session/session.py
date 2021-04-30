@@ -188,19 +188,23 @@ class Session(MixinLogable):
         return self._pipelines_configurations
 
     @classmethod
-    def hook_post_init(cls, callable_: Callable) -> Callable:
+    def hook_post_init(cls, last=True) -> Callable:
         """
         Register a `callable_` to be executed after the session instanciation.
         """
 
-        LOGGER = get_module_logger(__name__)
-        LOGGER.debug(f"Registering session's hook : '{callable_.__name__}'")
-        cls._hooks.append(callable_)
+        def _(callable_: Callable):
 
-        return Callable
+            LOGGER = get_module_logger(__name__)
+            LOGGER.debug(f"Registering session's hook : '{callable_.__name__}'")
+            cls._hooks.append(callable_)
+
+            return callable_
+
+        return _
 
 
-class _DefaultHook:
+class _DefaultHooks:
     """
     Name spaces for the mandatory Session postinits hooks.
 
@@ -211,7 +215,7 @@ class _DefaultHook:
     """
 
     @staticmethod
-    @Session.hook_post_init
+    @Session.hook_post_init()
     def set_path_and_pythonpath(sess: Session) -> None:
         """
         Configure the Path to expose the Lib targets.
@@ -236,7 +240,7 @@ class _DefaultHook:
             sess.info(f"setting PYTHONPATH to '{sess.settings.sources}'")
 
     @staticmethod
-    @Session.hook_post_init
+    @Session.hook_post_init()
     def set_settings(sess: Session) -> None:
         """
         Parse the settings file from the conf/ folder and add the settings to the base statisfactory settings
@@ -262,7 +266,7 @@ class _DefaultHook:
         sess._settings.update(settings)
 
     @staticmethod
-    @Session.hook_post_init
+    @Session.hook_post_init()
     def set_catalog(sess: Session) -> None:
         """
         Attach the catalog to the session
@@ -288,7 +292,7 @@ class _DefaultHook:
         sess._catalog = Catalog(dump=catalog_representation, session=sess)
 
     @staticmethod
-    @Session.hook_post_init
+    @Session.hook_post_init()
     def set_pipelines_configurations(sess: Session) -> None:
         """
         Parse and attach pipelines configurations to the Session
@@ -304,7 +308,7 @@ class _DefaultHook:
         sess._pipelines_configurations = configurations
 
     @staticmethod
-    @Session.hook_post_init
+    @Session.hook_post_init()
     def set_pipelines_definitions(sess: Session) -> None:
         """
         Parse and attach pipelines to the Session

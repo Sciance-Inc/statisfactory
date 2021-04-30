@@ -15,14 +15,14 @@
 #############################################################################
 
 # system
-from typing import Union, Dict, Mapping, Callable
-from contextlib import contextmanager
+from typing import Union, Dict, Mapping
 
 # project
 from .solver import DAGSolver, Solver
 from .runner import SequentialRunner, Runner
 from .viz import Graphviz
 from ..scoped import Scoped
+from ..mixinHookable import MixinHookable
 from ..utils import MergeableInterface
 from ...logger import MixinLogable, get_module_logger
 
@@ -33,39 +33,10 @@ from ...logger import MixinLogable, get_module_logger
 _LOGGER = get_module_logger(__name__)
 
 
-class Pipeline(Scoped, MergeableInterface, MixinLogable):
+class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     """
     Implements a way to combine crafts and pipeline togetger
     """
-
-    _pre_run_hooks = []
-    _post_run_hooks = []
-
-    @classmethod
-    def hook_pre_run(cls, callable_: Callable) -> Callable:
-        """
-        Register a `callable_` to be executed before the pipeline execution.
-        The `callable` must have the signature (*, session, pipeline) -> None
-        """
-
-        _LOGGER.debug(f"Registering pipeline's pre run's hook : '{callable_.__name__}'")
-        cls._pre_run_hooks.append(callable_)
-
-        return Callable
-
-    @classmethod
-    def hook_post_run(cls, callable_: Callable) -> Callable:
-        """
-        Register a `callable_` to be executed before the pipeline execution.
-        The `callable` must have the signature (session, pipeline) -> None
-        """
-
-        _LOGGER.debug(
-            f"Registering pipeline's post run's hook : '{callable_.__name__}'"
-        )
-        cls._post_run_hooks.append(callable_)
-
-        return Callable
 
     def __init__(
         self,
@@ -92,24 +63,6 @@ class Pipeline(Scoped, MergeableInterface, MixinLogable):
 
         # A placeholder to holds the added crafts.
         self._crafts: Union["Craft"] = []  # noqa
-
-    @contextmanager
-    def _with_hooks(self):
-        """
-        Context manager that executes pre and post hooks.
-        """
-
-        for h in self._pre_run_hooks:
-            self.debug(f"{self.name} : running pre-hook : {h.__name__}")
-            h(session=self.get_session(), pipeline=self)
-
-        yield
-
-        for h in self._post_run_hooks:
-            self.debug(f"{self.name} : running post-hook : {h.__name__}")
-            h(session=self.get_session(), pipeline=self)
-
-        return
 
     @property
     def name(self):
@@ -193,11 +146,27 @@ class Pipeline(Scoped, MergeableInterface, MixinLogable):
         self.info(f"Starting pipeline '{self._name}' execution")
 
         with self._with_hooks():
-            final_state = runner(volatiles=running_volatile, context=running_context)
+            with self._with_error():
+                final_state = runner(
+                    volatiles=running_volatile, context=running_context
+                )
 
         self.info(f"pipeline '{self._name}' succeded.")
-
         return final_state
+
+
+class _DefaultHooks:
+    """
+    Namesapce for default hooks
+    """
+
+    @staticmethod
+    @Pipeline.hook_on_error()
+    def propagate(target, error):
+        """
+        A default hook to buble-up an error encountred while running a Pipeline.
+        """
+        raise error
 
 
 #############################################################################

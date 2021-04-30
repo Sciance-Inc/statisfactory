@@ -29,6 +29,7 @@ from .pipeline import Pipeline
 from .utils import merge_dictionaries, MergeableInterface
 from .selements import SElementKind, SElement
 from .scoped import Scoped
+from .mixinHookable import MixinHookable
 
 # Project type checks : see PEP563
 # if TYPE_CHECKING:
@@ -39,7 +40,7 @@ from .scoped import Scoped
 #############################################################################
 
 
-class Craft(Scoped, MergeableInterface, MixinLogable):
+class Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     """
     Craft wraps a task and take care of data retrieval from / storage to the catalogue.
     """
@@ -287,10 +288,9 @@ class Craft(Scoped, MergeableInterface, MixinLogable):
             args=args, context=kwargs, volatiles=volatiles_mapping
         )
 
-        try:
-            out = self._callable(*craft_args, **craft_kwargs)
-        except BaseException as err:
-            raise errors.E040(__name__, func=self._name) from err
+        with self._with_hooks():
+            with self._with_error():
+                out = self._callable(*craft_args, **craft_kwargs)
 
         # The saving_context is the union of the initial context and the implicit_context of the craft, since the default values might contains variables for the string interpolation.
         saving_context = {**implicit_context, **kwargs}
@@ -375,6 +375,21 @@ class Craft(Scoped, MergeableInterface, MixinLogable):
 
         # Add the craft
         pipeline._crafts.append(self)
+
+
+class _DefaultHooks:
+    """
+    Namesapce for default hooks
+    """
+
+    @staticmethod
+    @Craft.hook_on_error()
+    def propagate(target, error):
+        """
+        A default hook to buble-up an error encountred while running a Node.
+        """
+
+        raise errors.E040(__name__, func=target._name) from error
 
 
 #############################################################################

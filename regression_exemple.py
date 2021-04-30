@@ -115,14 +115,20 @@ def save_coeff(reg: Volatile) -> Artefact("coeffs"):
 def count_rows(masterFile: Artefact):
 
     print(f"{len(masterFile)} rows")
+    raise ValueError()
 
 
 # Combine the 3 crafts in a pipeline. Note that order of execution is solved, even for the volatile
 p = save_coeff + build_dataframe + train_regression + count_rows
 
+
+@Craft.hook_on_error(last=False)
+def debug(target, error):
+    import pdb
+
+    pdb.set_trace()
+
+
 # Execute the pipeline, note that samples is defaulted to it's value, allowing train_regression and save_coeff to work.
 with sess:
     out = p(samples=199)
-
-
-out = p(samples=199)
