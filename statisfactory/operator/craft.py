@@ -22,7 +22,7 @@ from inspect import signature, Signature, Parameter
 from copy import copy
 
 # project
-from ..errors import errors
+from ..errors import errors, warnings
 from ..logger import MixinLogable
 from ..IO import Artefact, Volatile
 from .pipeline import Pipeline
@@ -209,9 +209,18 @@ class Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
             # If the argument is an Artefact, it schould be loaded using the loading_context
             if e.kind is SElementKind.ARTEFACT:
-                kwargs_[e.name] = self.get_session().catalog.load(
-                    e.name, **loading_context
-                )
+                try:
+                    artefact = self.get_session().catalog.load(
+                        e.name, **loading_context
+                    )
+                except BaseException as error:
+                    if e.has_default:
+                        artefact = e.default
+                        warnings.W40(__name__, name=self._name, artefact=e.name)
+                    else:
+                        raise error
+
+                kwargs_[e.name] = artefact
 
             # If the argument is KEYWORD only, it must either be in the context or have a default value
             if e.kind is SElementKind.KEY:

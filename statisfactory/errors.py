@@ -216,6 +216,11 @@ class Warnings(UserWarning):
     # Interactor
     W020 = "data interactor : '{inter_type}' is not a registered interactor."
 
+    # Craft
+    W40 = (
+        "Craft : the Craft '{name}' failed to load '{artefact}' and has been defaulted."
+    )
+
     # Pipeline
     W050 = "pipeline : keys collision : '{keys}'"
     W051 = (

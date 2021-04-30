@@ -32,11 +32,12 @@ __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver a
 - [X] Add support for default values (from craft's signature) in the artefact's context resolution.
 - [X] Rework the `Craft`, `Pipeline`, `Volatile` tracking mechanisme to defers state tracking to a `Runner` class.
 - [X] Streamline the `Pipeline` by delegating scheduling responsability to a `Runner` class
-- [X] Streamline the `Pipeline` by delegating dependencies solver to a `Solver`
-- [ ] Add support for Craft's level configuration in yaml
-- [X] Add support for Pipeline definition in yaml
+- [x] Streamline the `Pipeline` by delegating dependencies solver to a `Solver`
+- [x] Add support for Craft's level configuration in yaml
+- [x] Add support for Pipeline definition in yaml
 - [ ] Create a CLI to parse and execute Pipeline definitions for specific configuration
-- [ ] Rename context to session and cascad it to the artefact loader
+- [x] Rename context to session and cascad it to the artefact loader
+- [x] Add support for default Artifact
 - [ ] Create a small `cookiecutter` to kickstart a project
 - [ ] Update documentation with the `!{}` and `${}` syntaxes and the new pipeline definition
 

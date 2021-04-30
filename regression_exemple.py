@@ -31,6 +31,15 @@ catalog = sess.catalog
 # config = sess.pipelines_configurations
 
 
+@Craft.make()
+def foobar(masterFile: Artefact = None, samples=666):
+    print(1)
+
+
+with sess:
+    foobar()
+
+
 @Pipeline.hook_pre_run
 def foobar(*, session, pipeline):
     """"""
@@ -115,7 +124,6 @@ def save_coeff(reg: Volatile) -> Artefact("coeffs"):
 def count_rows(masterFile: Artefact):
 
     print(f"{len(masterFile)} rows")
-    raise ValueError()
 
 
 # Combine the 3 crafts in a pipeline. Note that order of execution is solved, even for the volatile
