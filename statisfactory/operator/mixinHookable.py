@@ -54,7 +54,9 @@ class MixinHookable:
 
         def _(callable_: Callable):
 
-            _LOGGER.debug(f"Registering on-error hook : '{callable_.__name__}'")
+            _LOGGER.debug(
+                f"Registering {cls.__name__}'s on-error hook : '{callable_.__name__}'"
+            )
             if last:
                 cls._on_error_hooks.append(callable_)
             else:
@@ -73,7 +75,9 @@ class MixinHookable:
 
         def _(callable_: Callable):
 
-            _LOGGER.debug(f"Registering pre run's hook : '{callable_.__name__}'")
+            _LOGGER.debug(
+                f"Registering {cls.__name__}'s pre run's hook : '{callable_.__name__}'"
+            )
             if last:
                 cls._pre_run_hooks.append(callable_)
             else:
@@ -91,7 +95,9 @@ class MixinHookable:
         """
 
         def _(callable_: Callable):
-            _LOGGER.debug(f"Registering post run's hook : '{callable_.__name__}'")
+            _LOGGER.debug(
+                f"Registering {cls.__name__}'s post run's hook : '{callable_.__name__}'"
+            )
             if last:
                 cls._post_run_hooks.append(callable_)
             else:

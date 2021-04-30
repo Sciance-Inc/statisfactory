@@ -23,7 +23,6 @@ from sklearn import datasets
 # Import Statisfactory
 from statisfactory import Session, Craft, Artefact, Volatile, Pipeline
 
-
 sess = Session(root_folder="exemples/dummyRepo")
 # Load a context and get the catalog from it.
 catalog = sess.catalog
@@ -31,8 +30,9 @@ catalog = sess.catalog
 # config = sess.pipelines_configurations
 
 
-@Craft.make()
-def foobar(masterFile: Artefact = None, samples=666):
+# Create a craft showcasing the session injection and the artifact default !
+@Craft.make(inject_session=True)
+def foobar(session, masterFile: Artefact = None, samples=666):
     print(1)
 
 
