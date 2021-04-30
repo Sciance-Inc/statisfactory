@@ -20,12 +20,14 @@ from string import Template
 from pathlib import Path
 import sys
 import os
+import warnings as Warnings
 
 # Third party
 from dynaconf import Dynaconf, Validator
 
 # project
 from .loader import PipelinesLoader, ConfigsLoader
+from ..operator import Scoped
 from ..IO import Catalog
 from ..logger import MixinLogable, get_module_logger
 from ..errors import errors, warnings
@@ -97,6 +99,10 @@ class Session(MixinLogable):
         self.__dict__ = self.__shared_state__
         if self.__shared_state__:
             self.debug("Re-using already loaded Statisfactory session.")
+            Warnings.warn(
+                "The supper for monostate Session will be droped in 0.2.0",
+                PendingDeprecationWarning,
+            )
             return
 
         super().__init__(logger_name=__name__)
@@ -126,6 +132,20 @@ class Session(MixinLogable):
             h(self)
 
         self.info("All done ! You are ready to go ! \U00002728 \U0001F370 \U00002728")
+
+    def __enter__(self):
+        """
+        Push the Session on top of the thread-safe stack
+        """
+
+        Scoped.set_session(self)
+
+    def __exit__(self, exception_type, exception_value, exception_traceback):
+        """
+        Remove the topmost Session of the thread safe stack
+        """
+
+        Scoped.set_session(None)
 
     @property
     def root(self) -> Path:
@@ -192,20 +212,20 @@ class _DefaultHook:
 
     @staticmethod
     @Session.hook_post_init
-    def set_path_and_pythonpath(ctx: Session) -> None:
+    def set_path_and_pythonpath(sess: Session) -> None:
         """
         Configure the Path to expose the Lib targets.
         """
 
-        if not ctx.settings.sources:
+        if not sess.settings.sources:
             return
 
-        src_path = (ctx.root / ctx.settings.sources).resolve()
+        src_path = (sess.root / sess.settings.sources).resolve()
 
         # Insert Lib into the Path
         if src_path not in sys.path:
             sys.path.insert(0, str(src_path))
-            ctx.info(f"adding '{ctx.settings.sources}' to PATH")
+            sess.info(f"adding '{sess.settings.sources}' to PATH")
 
         # Create / update the python path
         try:
@@ -213,11 +233,11 @@ class _DefaultHook:
             warnings.W010(__name__)
         except KeyError:
             os.environ["PYTHONPATH"] = str(src_path)
-            ctx.info(f"setting PYTHONPATH to '{ctx.settings.sources}'")
+            sess.info(f"setting PYTHONPATH to '{sess.settings.sources}'")
 
     @staticmethod
     @Session.hook_post_init
-    def set_settings(ctx: Session) -> None:
+    def set_settings(sess: Session) -> None:
         """
         Parse the settings file from the conf/ folder and add the settings to the base statisfactory settings
         """
@@ -229,26 +249,26 @@ class _DefaultHook:
         }
 
         for target, w in targets.items():
-            if not (ctx.root / ctx.settings.configuration / target).exists():
+            if not (sess.root / sess.settings.configuration / target).exists():
                 w(__name__)
 
         # Fetch all the config file, in the reversed preceding order (to allow for variables shadowing)
-        base = ctx.root / ctx.settings.configuration
+        base = sess.root / sess.settings.configuration
         settings = Dynaconf(
             settings_files=[base / target for target in targets.keys()],
             load_dotenv=False,
         )
 
-        ctx._settings.update(settings)
+        sess._settings.update(settings)
 
     @staticmethod
     @Session.hook_post_init
-    def set_catalog(ctx: Session) -> None:
+    def set_catalog(sess: Session) -> None:
         """
         Attach the catalog to the session
         """
         # Read the raw catalog
-        path = ctx.root / ctx.settings.catalog
+        path = sess.root / sess.settings.catalog
         try:
             with open(path) as f:
                 catalog_representation = _CatalogTemplateParser(f.read())
@@ -256,45 +276,47 @@ class _DefaultHook:
             raise errors.E011(__name__, path=path) from error
 
         # Render the catalog with the settings
-        if ctx.settings:
+        if sess.settings:
             try:
-                catalog_representation = catalog_representation.substitute(ctx.settings)
+                catalog_representation = catalog_representation.substitute(
+                    sess.settings
+                )
             except BaseException as error:
                 raise errors.E014 from error
 
         # Parse the catalog representation
-        ctx._catalog = Catalog(catalog_representation)
+        sess._catalog = Catalog(dump=catalog_representation, session=sess)
 
     @staticmethod
     @Session.hook_post_init
-    def set_pipelines_configurations(ctx: Session) -> None:
+    def set_pipelines_configurations(sess: Session) -> None:
         """
         Parse and attach pipelines configurations to the Session
         """
-        if not ctx.settings.pipelines_configurations:
-            ctx.warn("No Pipelines configuration to set up.")
+        if not sess.settings.pipelines_configurations:
+            sess.warn("No Pipelines configuration to set up.")
             return
 
-        path = (ctx.root / ctx.settings.pipelines_configurations).resolve()
+        path = (sess.root / sess.settings.pipelines_configurations).resolve()
 
         configurations = ConfigsLoader.load(path=path)
 
-        ctx._pipelines_configurations = configurations
+        sess._pipelines_configurations = configurations
 
     @staticmethod
     @Session.hook_post_init
-    def set_pipelines_definitions(ctx: Session) -> None:
+    def set_pipelines_definitions(sess: Session) -> None:
         """
         Parse and attach pipelines to the Session
         """
-        if not ctx.settings.pipelines_definitions:
+        if not sess.settings.pipelines_definitions:
             return
 
-        path = (ctx.root / ctx.settings.pipelines_definitions).resolve()
+        path = (sess.root / sess.settings.pipelines_definitions).resolve()
 
         pipelines = PipelinesLoader.load(path=path)
 
-        ctx._pipelines_definitions = pipelines
+        sess._pipelines_definitions = pipelines
 
 
 #############################################################################

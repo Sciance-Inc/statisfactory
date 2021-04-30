@@ -15,10 +15,10 @@
 #############################################################################
 
 # system
-
+from __future__ import annotations  # noqa
 from abc import ABCMeta, abstractmethod
 from pathlib import Path
-from typing import Any, Union
+from typing import Any, Union, TYPE_CHECKING
 from contextlib import contextmanager
 import pickle
 from string import Template
@@ -33,6 +33,10 @@ from ..logger import get_module_logger, MixinLogable
 import pandas as pd
 import pyodbc
 import datapane as dp
+
+# Project type checks : see PEP563
+if TYPE_CHECKING:
+    from ..session import Session
 
 #############################################################################
 #                                  Script                                   #
@@ -60,19 +64,18 @@ class DynamicInterpolation(Template):
 
 class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
     """
-    An interactor wraps the loading and the saving of a dataframe.
-    A dataset is loaded as a pandas dataframe
-    The dataset can only saved pandas dataframe
-
-    TODO : v2 (oos) add support for batchs retrieval
-    TODO : v2 (oos) add support for writting files (parceque csv en s3...)
+    Describe the Interactor's interface.
+    An interactor wraps the loading and saving operations of a Artefact.
+    The user can implements custom interactors. To do so, the user should
+    implements the interface desbribes in this class. An artefact and a Session object
+    are available when the artefact is called by the Catalog.
     """
 
     # A placeholder for all registered interactors
     _interactors = dict()
 
     @abstractmethod
-    def __init__(self, artefact, *args, **kwargs):
+    def __init__(self, artefact, *args, session: Session = None, **kwargs):
         """
         Instanciate a new interactor.
 
@@ -83,6 +86,7 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         self.name = artefact.name
         self._save_options = artefact.save_options
         self._load_options = artefact.load_options
+        self._session = session
 
     def __init_subclass__(cls, interactor_name, **kwargs):
         """
@@ -109,7 +113,7 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         return cls._interactors
 
     @abstractmethod
-    def load(self) -> Any:
+    def load(self, *args, **kwargs) -> Any:
         """
         Return the underlying asset.
         """
@@ -117,7 +121,7 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         raise NotImplementedError("must be implemented in the concrete class")
 
     @abstractmethod
-    def save(self, asset: Any):
+    def save(self, *args, asset: Any, **kwargs):
         """
         Save the underlying asset.
         """
@@ -133,12 +137,12 @@ class MixinInterpolable:
     Implements helpers to interpolate a string
     """
 
-    def __init__(self, artefact, *args, **kwargs):
+    def __init__(self, artefact, *args, session: Session = None, **kwargs):
         """
         Instanciate the MixinInterpolable
         """
 
-        super().__init__(artefact, *args, **kwargs)
+        super().__init__(artefact, session=session, **kwargs)
 
     def _interpolate_string(self, string, **kwargs):
         """
@@ -161,12 +165,12 @@ class MixinLocalFileSystem(MixinInterpolable):
     Implements helpers to manipulate a local file system.
     """
 
-    def __init__(self, artefact, *args, **kwargs):
+    def __init__(self, artefact, *args, session: Session = None, **kwargs):
         """
         Instanciate a MixinLocalFileSystem. For cooperative multiple inheritance only.
         """
 
-        super().__init__(artefact, *args, **kwargs)
+        super().__init__(artefact, *args, session=Session, **kwargs)
 
     def _interpolate_path(self, path: Union[str, Path], **kwargs) -> Path:
         """
@@ -199,7 +203,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="c
     Concrete implementation of a csv interactor
     """
 
-    def __init__(self, artefact, *args, **kwargs):
+    def __init__(self, artefact, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor on a local file csv
 
@@ -208,7 +212,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="c
             kwargs: named-arguments to be fowarded to the pandas.read_csv method.
         """
 
-        super().__init__(artefact, *args, **kwargs)
+        super().__init__(artefact, *args, session=session, **kwargs)
 
         self._path = self._interpolate_path(path=artefact.path, **kwargs)
         self._kwargs = kwargs
@@ -265,7 +269,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="
     Concrete implementation of an XLSX interactor
     """
 
-    def __init__(self, artefact, *args, **kwargs):
+    def __init__(self, artefact, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor on a local file xslsx
 
@@ -274,7 +278,7 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="
             kwargs: named-arguments.
         """
 
-        super().__init__(artefact, *args, **kwargs)
+        super().__init__(artefact, *args, session=session, **kwargs)
 
         self._path = self._interpolate_path(path=artefact.path, **kwargs)
         self._kwargs = kwargs
@@ -335,7 +339,7 @@ class PicklerInteractor(
     Concrete implementation of a Pickle interactor.
     """
 
-    def __init__(self, artefact, *args, **kwargs):
+    def __init__(self, artefact, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor on a local file pickle file
 
@@ -344,7 +348,7 @@ class PicklerInteractor(
             kwargs: named-arguments.
         """
 
-        super().__init__(artefact, *args, **kwargs)
+        super().__init__(artefact, *args, session=session, **kwargs)
 
         self._path = self._interpolate_path(path=artefact.path, **kwargs)
         self._kwargs = kwargs
@@ -400,7 +404,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
     TODO : implements the saving strategy
     """
 
-    def __init__(self, artefact, connector, *args, **kwargs):
+    def __init__(self, artefact, connector, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor against an odbc
 
@@ -413,7 +417,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
         self._connector = connector
         self._kwargs = kwargs
 
-        super().__init__(artefact, *args, **kwargs)
+        super().__init__(artefact, *args, session=session, **kwargs)
 
     @contextmanager
     def _get_connection(self):
@@ -470,12 +474,12 @@ class DatapaneInteractor(
     Implements saving / loading for datapane object.
     """
 
-    def __init__(self, artefact, *args, **kwargs):
+    def __init__(self, artefact, *args, session: Session = None, **kwargs):
         """
         Return a new Datapane Interactor initiated with a a particular interactor
         """
 
-        super().__init__(artefact, *args, **kwargs)
+        super().__init__(artefact, *args, session=session, **kwargs)
         self._path = self._interpolate_path(path=artefact.path, **kwargs)
 
     def load(self):
@@ -515,12 +519,12 @@ class BinaryInteractor(
     Implements saving / loading for binary raw object
     """
 
-    def __init__(self, artefact, *args, **kwargs):
+    def __init__(self, artefact, *args, session: Session = None, **kwargs):
         """
         Return a new Binary Interactor initiated with a a particular interactor
         """
 
-        super().__init__(artefact, *args, **kwargs)
+        super().__init__(artefact, *args, session=session, **kwargs)
         self._path = self._interpolate_path(path=artefact.path, **kwargs)
 
     def load(self):

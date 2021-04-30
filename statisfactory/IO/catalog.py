@@ -15,7 +15,8 @@
 #############################################################################
 
 # system
-from typing import Any
+from __future__ import annotations  # noqa
+from typing import Any, TYPE_CHECKING
 
 # project
 from .models import CatalogData, Artefact, Connector
@@ -25,6 +26,10 @@ from ..errors import errors
 
 # third party
 import pandas as pd
+
+# Project type checks : see PEP563
+if TYPE_CHECKING:
+    from ..session import Session
 
 #############################################################################
 #                                  Script                                   #
@@ -48,14 +53,25 @@ class Catalog(MixinLogable):
 
         return cls._instance
 
-    def __init__(self, dump: str, context_overwrite_strict: bool = True):
+    def __init__(
+        self,
+        *,
+        dump: str,
+        session: Session = None,
+        context_overwrite_strict: bool = True
+    ):
         """
         Build a new Catalog from an iterator of dumps
+
+        Params:
+            dump (str): The string representaiton of the yaml to be parsed
+            session (Session): An optional statisfactory.session to be cascaded to the interactor
         """
 
         super().__init__(__name__)
 
         self._context_overwrite_strict = context_overwrite_strict
+        self._session = session
 
         try:
             self._data = CatalogData.from_string(dump)
@@ -137,7 +153,7 @@ class Catalog(MixinLogable):
         artefact = self._get_artefact(name)
         connector = self._get_connector(artefact)
         interactor: ArtefactInteractor = self._get_interactor(artefact)(
-            artefact=artefact, connector=connector, **context
+            artefact=artefact, connector=connector, session=self._session, **context
         )
 
         return interactor.load()
@@ -155,7 +171,7 @@ class Catalog(MixinLogable):
         artefact = self._get_artefact(name)
         connector = self._get_connector(artefact)
         interactor: ArtefactInteractor = self._get_interactor(artefact)(
-            artefact=artefact, connector=connector, **context
+            artefact=artefact, connector=connector, session=self._session, **context
         )
 
         interactor.save(asset)

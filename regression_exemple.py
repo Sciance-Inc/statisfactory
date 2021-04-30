@@ -21,21 +21,36 @@ from sklearn.linear_model import LinearRegression
 from sklearn import datasets
 
 # Import Statisfactory
-from statisfactory import Session, Craft, Artefact, Volatile
+from statisfactory import Session, Craft, Artefact, Volatile, Pipeline
 
 
 sess = Session(root_folder="exemples/dummyRepo")
 # Load a context and get the catalog from it.
 catalog = sess.catalog
-pipelines = sess.pipelines_definitions
-config = sess.pipelines_configurations
+# pipelines = sess.pipelines_definitions
+# config = sess.pipelines_configurations
+
+
+@Pipeline.hook_pre_run
+def foobar(*, session, pipeline):
+    """"""
+
+    print("LALALALAL")
+
+
+@Pipeline.hook_post_run
+def foobar(*, session, pipeline):
+    """"""
+
+    print("POUMPOUMPOUM")
+
 
 print("done")
 
 # Create a craft that returns an "abstract" artefact : masterFile, for which location is determined at runtime thanks to the provided context (here, the samples)
 
 
-@Craft.make(catalog)
+@Craft.make()
 def build_dataframe(samples: int = 500) -> Artefact("masterFile"):
     """
     Generate a dataframe for a regression of "samples" datapoints.
@@ -47,18 +62,22 @@ def build_dataframe(samples: int = 500) -> Artefact("masterFile"):
     return df
 
 
-# Call "as is"... Note that samples, in the catalog definition, is dynamically interpollated to the default value
-df = build_dataframe()
-# Call while overwritting the default parameters. Note that the saved dataframe's name has been interpolated with 10
-_ = build_dataframe(samples=10)
+with sess:
+    df = build_dataframe()
+    print("done")
 
-print("pause")
+# Call "as is"... Note that samples, in the catalog definition, is dynamically interpollated to the default value
+
+# Call while overwritting the default parameters. Note that the saved dataframe's name has been interpolated with 10
+# _ = build_dataframe(samples=10)
+
+# print("pause")
 
 
 # Create a craft that depends on an "abstract" artefact and that returns, a Volatile, non persisted Artefact. Volatile artefacts are usefull to transfert data between succesives Craft without necessarily storing them.
 
 
-@Craft.make(catalog)
+@Craft.make()
 def train_regression(masterFile: Artefact, fit_intercept=True) -> Volatile("reg"):
     """
     Train a regression on masterfile.
@@ -71,8 +90,8 @@ def train_regression(masterFile: Artefact, fit_intercept=True) -> Volatile("reg"
     return reg
 
 
-# Call train_regression. The craft depends of "masterFile". Masterfile is an abstract artefact, dynamically interpolated by samples, so samples must be provided to the craft's context.
-reg = train_regression(samples=500)
+## Call train_regression. The craft depends of "masterFile". Masterfile is an abstract artefact, dynamically interpolated by samples, so samples must be provided to the craft's context.
+# reg = train_regression(samples=500)
 
 
 print("pause")
@@ -80,7 +99,7 @@ print("pause")
 # Create a craft that depends on a Volatile Artefact ! The craft can't be executed standalone but can be executed in a pipeline
 
 
-@Craft.make(catalog)
+@Craft.make()
 def save_coeff(reg: Volatile) -> Artefact("coeffs"):
     """
     The function pickles the coefficients of the model.
@@ -92,7 +111,7 @@ def save_coeff(reg: Volatile) -> Artefact("coeffs"):
 
 
 # Create a craft that depends of an abstract artefact : can be run a in a pipeline by using the default value
-@Craft.make(catalog)
+@Craft.make()
 def count_rows(masterFile: Artefact):
 
     print(f"{len(masterFile)} rows")
@@ -102,4 +121,8 @@ def count_rows(masterFile: Artefact):
 p = save_coeff + build_dataframe + train_regression + count_rows
 
 # Execute the pipeline, note that samples is defaulted to it's value, allowing train_regression and save_coeff to work.
+with sess:
+    out = p(samples=199)
+
+
 out = p(samples=199)

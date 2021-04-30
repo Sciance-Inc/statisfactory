@@ -15,25 +15,31 @@
 #############################################################################
 
 # system
+# from __future__ import annotations  # noqa
 from functools import update_wrapper
-from typing import Callable, List, Tuple, Mapping
+from typing import Callable, List, Tuple, Mapping  # , TYPE_CHECKING
 from inspect import signature, Signature, Parameter
 from copy import copy
 
 # project
 from ..errors import errors
 from ..logger import MixinLogable
-from ..IO import Catalog, Artefact, Volatile
+from ..IO import Artefact, Volatile
 from .pipeline import Pipeline
 from .utils import merge_dictionaries, MergeableInterface
 from .selements import SElementKind, SElement
+from .scoped import Scoped
+
+# Project type checks : see PEP563
+# if TYPE_CHECKING:
+#    from ..session import Session
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
-class Craft(MergeableInterface, MixinLogable):
+class Craft(Scoped, MergeableInterface, MixinLogable):
     """
     Craft wraps a task and take care of data retrieval from / storage to the catalogue.
     """
@@ -41,7 +47,7 @@ class Craft(MergeableInterface, MixinLogable):
     _artefacts_annotation = [Artefact]
 
     @staticmethod
-    def make(catalog: Catalog):
+    def make():
         """
         Decorator to make a Craft binded to the catalog from a callable
 
@@ -52,9 +58,26 @@ class Craft(MergeableInterface, MixinLogable):
 
         def _(func: Callable):
 
-            return Craft(catalog, func)
+            return Craft(func)
 
         return _
+
+    def __init__(self, callable: Callable):
+        """
+        Wrap a callable in a craft binded to the given catalog.
+        """
+
+        super().__init__(logger_name=__name__)
+
+        self._callable = callable
+        self._name = callable.__name__
+
+        # Parse the signature of the craft
+        S = signature(self._callable)
+        self._in_anno = self._input_to_SElements(S.parameters.values())
+        self._out_anno = self._output_to_SElements(S.return_annotation)
+
+        update_wrapper(self, callable)
 
     def _input_to_SElements(self, annos: List[Parameter]) -> List[SElement]:
         """
@@ -109,24 +132,6 @@ class Craft(MergeableInterface, MixinLogable):
 
         return e
 
-    def __init__(self, catalog: Catalog, callable: Callable):
-        """
-        Wrap a callable in a craft binded to the given catalog.
-        """
-
-        super().__init__(logger_name=__name__)
-
-        self._catalog = catalog
-        self._callable = callable
-        self._name = callable.__name__
-
-        # Parse the signature of the craft
-        S = signature(self._callable)
-        self._in_anno = self._input_to_SElements(S.parameters.values())
-        self._out_anno = self._output_to_SElements(S.return_annotation)
-
-        update_wrapper(self, callable)
-
     @property
     def name(self) -> str:
         """
@@ -171,7 +176,7 @@ class Craft(MergeableInterface, MixinLogable):
 
         return self._in_anno
 
-    def _parse_args(self, args, context, volatiles: Mapping = None):
+    def _parse_args(self, *, args, context, volatiles: Mapping = None):
         """
         Map variadic arguments to the named arguments of the Craft's inner callable
         """
@@ -203,7 +208,9 @@ class Craft(MergeableInterface, MixinLogable):
 
             # If the argument is an Artefact, it schould be loaded using the loading_context
             if e.kind is SElementKind.ARTEFACT:
-                kwargs_[e.name] = self._catalog.load(e.name, **loading_context)
+                kwargs_[e.name] = self.get_session().catalog.load(
+                    e.name, **loading_context
+                )
 
             # If the argument is KEYWORD only, it must either be in the context or have a default value
             if e.kind is SElementKind.KEY:
@@ -258,7 +265,12 @@ class Craft(MergeableInterface, MixinLogable):
 
         return args_, kwargs_, implicit_context
 
-    def __call__(self, *args, volatiles_mapping: Mapping = None, **kwargs):
+    def __call__(
+        self,
+        *args,
+        volatiles_mapping: Mapping = None,
+        **kwargs,
+    ):
         """
         Implements the call protocole for the Craft wrapper.
         Load and save the Artefact for the undelryaing callable.
@@ -272,7 +284,7 @@ class Craft(MergeableInterface, MixinLogable):
 
         # Extract, from args and kwargs, the item required by the craft and and to kwargs_ the default value, if unspecified by kwargs.
         craft_args, craft_kwargs, implicit_context = self._parse_args(
-            args, kwargs, volatiles_mapping
+            args=args, context=kwargs, volatiles=volatiles_mapping
         )
 
         try:
@@ -282,7 +294,7 @@ class Craft(MergeableInterface, MixinLogable):
 
         # The saving_context is the union of the initial context and the implicit_context of the craft, since the default values might contains variables for the string interpolation.
         saving_context = {**implicit_context, **kwargs}
-        self._save_artefacts(out, **saving_context)
+        self._save_artefacts(output=out, **saving_context)
 
         # Return the output of the callable
         return out
@@ -293,10 +305,10 @@ class Craft(MergeableInterface, MixinLogable):
         Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
         """
 
-        craft = Craft(copy(self._catalog), self._callable)
+        craft = Craft(self._callable)
         return craft
 
-    def _save_artefacts(self, output, **context) -> Mapping:
+    def _save_artefacts(self, *, output, **context) -> Mapping:
         """
         Extract and save the artefact of an output
 
@@ -324,9 +336,10 @@ class Craft(MergeableInterface, MixinLogable):
                 __name__, name=self._name, sign=len(self._out_anno), got=len(output)
             )
 
+        session = self.get_session()
         for item, anno in zip(output, self._out_anno):
             if anno.kind == SElementKind.ARTEFACT:
-                self._catalog.save(anno.name, item, **context)
+                session.catalog.save(anno.name, item, **context)
                 self.debug(
                     f"craft '{self._name}' : capturing artefacts : '{anno.name}'"
                 )

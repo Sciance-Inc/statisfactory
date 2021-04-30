@@ -199,6 +199,9 @@ class Errors(metaclass=Singleton):
     E053 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
     E054 = "pipeline : viz : missing '{dep}' package"
 
+    # Session
+    E060 = "A Craft or a Pipeline must be executed in a 'with session:' statment. Use a context manager to execute the Craft / Pipeline."
+
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
 
