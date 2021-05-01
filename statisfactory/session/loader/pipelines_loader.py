@@ -37,7 +37,9 @@ class PipelinesLoader:
     @staticmethod
     def _load_pipeline(name, definition: Mapping, raw: Mapping) -> Pipeline:
 
-        P = Pipeline(name=name, **definition.config)
+        P = Pipeline(
+            name=name, namespaced=True, **definition.config
+        )  # By default, YAML pipelines are namespaced
         for target_name in definition.operators:
 
             # If the name is declared in raw -> then it's a pipeline to be built

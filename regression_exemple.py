@@ -46,7 +46,7 @@ p = Pipeline() + foobar + barfoo
 with sess:
     out = p()
 
-p = Pipeline(runner_name="NameSpacedSequentialRunner") + foobar + barfoo
+p = Pipeline(name="Named Pipeline", namespaced=True) + foobar + barfoo
 m = {"foobar": {"samples": 5555}, "barfoo": {"samples": 66656}}
 
 with sess:

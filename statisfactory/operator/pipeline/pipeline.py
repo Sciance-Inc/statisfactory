@@ -42,7 +42,7 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         self,
         *,
         name: str = "noName",
-        runner_name: str = "SequentialRunner",
+        namespaced: bool = False,
         solver: Solver = DAGSolver,
     ):
         """
@@ -52,13 +52,17 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         Args:
             name (str): The name of the pipeline.
-            runner (Runner): The runner to internaly use to execute the crafts
+            namespaced (bool): Schould the parameters dictionnary being namespaced by Craft ?
             solver (Solver): The object to use to solve the dependencies between crafts.
         """
 
         super().__init__(logger_name=__name__)
         self._name = name
+
+        # Select the appropriate runner :
+        runner_name = "NameSpacedSequentialRunner" if namespaced else "SequentialRunner"
         self._runner = Runner.get_runner_by_name(runner_name)
+
         self._solver = solver
 
         # A placeholder to holds the added crafts.

@@ -1,19 +1,13 @@
 # Pipelines deinitions are list of crafts. Crafts are namespaced.
 fooer:
-  config:
-    runner_name: "NameSpacedSequentialRunner"
   operators:
     - foobar.craft_foo
 
 spamer:
-  config:
-    runner_name: "NameSpacedSequentialRunner"
   operators:
     - spam.craft_spam
 
 full:
-  config:
-    runner_name: "NameSpacedSequentialRunner"
   operators:
     - fooer
     - spamer
