@@ -114,7 +114,10 @@ class Session(MixinLogable):
 
         # Parse the config_path, to extract the Catalog(s) and the Parameters locations
         self._settings = Dynaconf(
-            validators=[Validator("configuration", "catalog", must_exist=True)],
+            validators=[
+                Validator("configuration", "catalog", must_exist=True),
+                Validator("notebook_target", default="jupyter"),
+            ],
             settings_files=[self._root / "statisfactory.yaml"],
             load_dotenv=False,
         )
@@ -318,7 +321,7 @@ class _DefaultHooks:
 
         path = (sess.root / sess.settings.pipelines_definitions).resolve()
 
-        pipelines = PipelinesLoader.load(path=path)
+        pipelines = PipelinesLoader(session=sess).load(path=path)
 
         sess._pipelines_definitions = pipelines
 
