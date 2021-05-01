@@ -17,6 +17,7 @@
 # system
 from typing import Callable
 from contextlib import contextmanager
+from collections import defaultdict
 
 # project
 from ..logger import get_module_logger
@@ -38,9 +39,9 @@ class MixinHookable:
     The hook's signature is described in the hook's dockstring.
     """
 
-    _pre_run_hooks = []
-    _post_run_hooks = []
-    _on_error_hooks = []
+    _pre_run_hooks = defaultdict(list)
+    _post_run_hooks = defaultdict(list)
+    _on_error_hooks = defaultdict(list)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -58,16 +59,16 @@ class MixinHookable:
                 f"Registering {cls.__name__}'s on-error hook : '{callable_.__name__}'"
             )
             if last:
-                cls._on_error_hooks.append(callable_)
+                MixinHookable._on_error_hooks[cls].append(callable_)
             else:
-                cls._on_error_hooks.insert(0, callable_)
+                MixinHookable._on_error_hooks[cls].insert(0, callable_)
 
             return callable_
 
         return _
 
     @classmethod
-    def hook_pre_run(cls, callable_: Callable, last: bool = True) -> Callable:
+    def hook_pre_run(cls, last: bool = True) -> Callable:
         """
         Register a `callable_` to be executed before the pipeline execution.
         The `callable` must have the signature (target) -> None
@@ -79,16 +80,16 @@ class MixinHookable:
                 f"Registering {cls.__name__}'s pre run's hook : '{callable_.__name__}'"
             )
             if last:
-                cls._pre_run_hooks.append(callable_)
+                MixinHookable._pre_run_hooks[cls].append(callable_)
             else:
-                cls._pre_run_hooks.insert(0, callable_)
+                MixinHookable._pre_run_hooks[cls].insert(0, callable_)
 
             return callable_
 
         return _
 
     @classmethod
-    def hook_post_run(cls, callable_: Callable, last: bool = True) -> Callable:
+    def hook_post_run(cls, last: bool = True) -> Callable:
         """
         Register a `callable_` to be executed before the pipeline execution.
         The `callable` must have the signature (target) -> None
@@ -99,9 +100,9 @@ class MixinHookable:
                 f"Registering {cls.__name__}'s post run's hook : '{callable_.__name__}'"
             )
             if last:
-                cls._post_run_hooks.append(callable_)
+                MixinHookable._post_run_hooks[cls].append(callable_)
             else:
-                cls._post_run_hooks.insert(0, callable_)
+                MixinHookable._post_run_hooks[cls].insert(0, callable_)
 
             return callable_
 
@@ -113,13 +114,13 @@ class MixinHookable:
         Context manager that executes pre and post hooks.
         """
 
-        for h in self._pre_run_hooks:
+        for h in MixinHookable._pre_run_hooks[type(self)]:
             self.debug(f"running pre-hook : {h.__name__}")
             h(target=self)
 
         yield
 
-        for h in self._post_run_hooks:
+        for h in MixinHookable._post_run_hooks[type(self)]:
             self.debug(f"running post-hook : {h.__name__}")
             h(target=self)
 
@@ -134,7 +135,7 @@ class MixinHookable:
         try:
             yield
         except BaseException as error:
-            for h in self._on_error_hooks:
+            for h in MixinHookable._on_error_hooks[type(self)]:
                 h(target=self, error=error)
 
 

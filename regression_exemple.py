@@ -55,15 +55,15 @@ with sess:
 print("done")
 
 
-@Pipeline.hook_pre_run
-def foobar(*, session, pipeline):
+@Pipeline.hook_pre_run()
+def foobar(target):
     """"""
 
     print("LALALALAL")
 
 
-@Pipeline.hook_post_run
-def foobar(*, session, pipeline):
+@Pipeline.hook_post_run()
+def foobar(target):
     """"""
 
     print("POUMPOUMPOUM")
