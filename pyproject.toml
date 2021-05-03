@@ -16,6 +16,7 @@ PyYAML = "^5.4.1"
 xlrd = "1.2.0"
 dynaconf = "^3.1.4"
 anyconfig = "^0.10.1"
+nbconvert = "^6.0.7"
 
 [tool.poetry.dev-dependencies]
 

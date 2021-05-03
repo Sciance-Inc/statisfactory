@@ -16,10 +16,9 @@
 
 # system
 from __future__ import annotations  # noqa
-from typing import Mapping, Iterable, Any
+from typing import Mapping, Iterable, Any, TYPE_CHECKING
 from abc import ABCMeta, abstractmethod
 from copy import copy
-from typing import TYPE_CHECKING
 
 # Third party
 
