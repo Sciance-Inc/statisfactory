@@ -57,14 +57,12 @@ def cli(ctx, path):
         settings_files=[path],
     )
 
-    # Create a settings mapping to cascade to the other commands
+    # Create a settings mapping to be cascaded to the other commands
     m = {}
-    # Add the root path to the targets and sources dir
-    m["notebook_target"] = (
-        root_dir / settings["sources"] / Path(settings["notebook_target"])
-    ).resolve()
-
-    m["notebook_sources"] = (root_dir / Path(settings["notebook_sources"])).resolve()
+    m["root_dir"] = root_dir
+    m["sources"] = settings["sources"]
+    m["notebook_target"] = settings["notebook_target"]
+    m["notebook_sources"] = settings["notebook_sources"]
 
     # Ad the settings to the CLI context so that it's available to any subcommands
     ctx.obj["settings"] = m
@@ -73,14 +71,23 @@ def cli(ctx, path):
 @cli.command()
 @click.pass_context
 def build(ctx):
-    ""
+    """
+    Parse the notebooks folders and build the Crafts definitions.
+    Extract the Craft definitions to the notebook targets folder.
+    """
+    LOGGER.info("Building the Crafts...")
+    m = ctx.obj["settings"]
 
-    build_notebooks
+    # Build the Notebooks sources and targets directorues
+    notebook_target = m["root_dir"] / m["sources"] / Path(m["notebook_target"])
+    notebook_target = notebook_target.resolve()
 
-    import pdb
+    notebook_sources = m["root_dir"] / Path(m["notebook_sources"])
+    notebook_sources = notebook_sources.resolve()
 
-    pdb.set_trace()
-    LOGGER.info("Extracting Crafts...")
+    build_notebooks(notebook_sources, notebook_target)
+
+    return
 
 
 if __name__ == "__main__":

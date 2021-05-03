@@ -15,14 +15,13 @@
 #############################################################################
 
 # system
-import os
 from pathlib import Path
 import re
 from typing import List
 from itertools import groupby, accumulate
 
 # project
-from .logger import get_module_logger
+from logger import get_module_logger  # .logger
 
 # third party
 from nbconvert import PythonExporter
@@ -80,6 +79,22 @@ class _CraftExtractor(Preprocessor):
         return nb, ressources
 
 
+def _target_path(path: Path) -> Path:
+    """
+    Clean-up a path by removing all numeric from it
+    """
+
+    # Remove the number from , not supported by the thonpy import mechanisme.
+    parts = [_pattern_number_prefix.sub("", item) for item in path.parts]
+
+    tmp, file_name = parts[0:-1], parts[-1]
+    file_name = file_name.replace("ipynb", "py")
+
+    path = Path(*tmp, file_name)
+
+    return path
+
+
 def build_notebooks(src: Path, dst: Path):
     """
     Recursively parse the Notebooks from 'src', to extract the Craft's definition.
@@ -93,50 +108,52 @@ def build_notebooks(src: Path, dst: Path):
     c.PythonExporter.preprocessors = [_CraftExtractor]
     EXPORTER = PythonExporter(config=c)
 
-    LOGGER.info("bild : building the crafts....")
-
-    # Recursively iterate over the notebooks defined in analytics
-    export = []
+    LOGGER.info("Exporting the python code.")
+    inits = []
+    pkg = set()
+    # Recursively iterate over the notebooks
     for file in src.glob("**/*.ipynb"):
 
         if "checkpoint" in str(file):
             continue
 
-        # Getting the .py version
+        # Build the desition
+        target_cursor = dst / _target_path(file.relative_to(src))
+
+        # Parse the notebook
         LOGGER.debug(f"build : exporting '{file}'")
-        src, meta = EXPORTER.from_filename(file)
+        src_, meta = EXPORTER.from_filename(file)
 
-        # Expurgate the destination from numer templates, not supported by the thonpy import mechanisme.
-        parts = [_pattern_number_prefix.sub("", item) for item in file.parts]
+        target_cursor.parent.resolve().mkdir(parents=True, exist_ok=True)
+        with open(target_cursor, "w", encoding="UTF-8") as f:
+            f.writelines(src_)
 
-        # Write to the destination
-        dst = dst.joinpath(*parts[2:-1], parts[-1].split(".")[0] + ".py")
+        # Flag the function to be imported
+        for func in meta["exported"]:
+            inits.append((target_cursor.parent, target_cursor.name, func))
 
-        dst.parent.resolve().mkdir(parents=True, exist_ok=True)
-        with open(dst, "w", encoding="UTF-8") as f:
-            f.writelines(src)
+        # Flag the init to be created
+        parts = (Path(item) for item in target_cursor.parent.relative_to(dst).parts)
+        for item in accumulate(parts, lambda x, y: x / y):
+            pkg.add(item)
 
-        # Append the name of the functions to export
-        parts = [item.split(".py")[0] for item in dst.parts[2:]]
-        parents = list(accumulate(dst.parts, lambda x, y: x + os.path.sep + y))[1:]
-
-        # Expurgate all path and name of numerica pattern, no supported in the init
-        parts = [_pattern_number_prefix.sub("", item) for item in parts]
-        parents = [_pattern_number_prefix.sub("", item) for item in parents]
-
-        for exported in meta["exported"]:
-            for path, target in zip(parents, parts):
-                export.append((path, target, exported))
-
-    # Write the init
-    LOGGER.info("build : populating the '__init__'")
-    export = sorted(export, key=lambda x: x[0])
-    for path, group in groupby(export, key=lambda x: x[0]):
+    # Create the subpackages inits
+    LOGGER.info("Creating the subpackages inits.")
+    for path, group in groupby(sorted(inits, key=lambda x: x[0]), key=lambda x: x[0]):
         src = "\n".join((f"from .{item[1]} import {item[2]}  # noqa" for item in group))
         LOGGER.debug(f"build : writting '__init__.py' : {path}")
         with open(Path(path).resolve() / "__init__.py", "w", encoding="UTF-8") as f:
             f.writelines(src)
 
+    # Create the "empty" packages inits
+    LOGGER.info("Creating the packages empty inits.")
+    pkg.add(Path(""))  # Add the root
+    for item in pkg:
+        item = dst / item
+        with open(item / "__init__.py", "w", encoding="UTF-8") as f:
+            f.writelines("")
+
 
 if __name__ == "__main__":
+
     raise RuntimeError("can't be run in standalone")
