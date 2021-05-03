@@ -300,7 +300,8 @@ class _DefaultHooks:
         """
         Parse and attach pipelines configurations to the Session
         """
-        if not sess.settings.pipelines_configurations:
+
+        if "pipelines_configurations" not in sess.settings:
             sess.warn("No Pipelines configuration to set up.")
             return
 
@@ -316,7 +317,8 @@ class _DefaultHooks:
         """
         Parse and attach pipelines to the Session
         """
-        if not sess.settings.pipelines_definitions:
+        if "pipelines_definitions" not in sess.settings:
+            sess.warn("No Pipelines definitions to set up.")
             return
 
         path = (sess.root / sess.settings.pipelines_definitions).resolve()
