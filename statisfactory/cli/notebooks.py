@@ -39,6 +39,7 @@ LOGGER = get_module_logger(__name__)
 
 # Constants
 _pattern_number_prefix = re.compile(r"^[0-9]+_", re.IGNORECASE)
+_pattern_spaces = re.compile(r"\s+")
 
 #############################################################################
 #                                  Classes                                  #
@@ -85,7 +86,8 @@ def _target_path(path: Path) -> Path:
     """
 
     # Remove the number from , not supported by the thonpy import mechanisme.
-    parts = [_pattern_number_prefix.sub("", item) for item in path.parts]
+    parts = (_pattern_number_prefix.sub("", item) for item in path.parts)
+    parts = [_pattern_spaces.sub("_", item) for item in parts]
 
     tmp, file_name = parts[0:-1], parts[-1]
     file_name = file_name.replace("ipynb", "py")
@@ -110,7 +112,6 @@ def build_notebooks(src: Path, dst: Path):
 
     LOGGER.info("Exporting the python code.")
     inits = []
-    pkg = set()
     # Recursively iterate over the notebooks
     for file in src.glob("**/*.ipynb"):
 
@@ -133,25 +134,26 @@ def build_notebooks(src: Path, dst: Path):
             inits.append((target_cursor.parent, target_cursor.name, func))
 
         # Flag the init to be created
-        parts = (Path(item) for item in target_cursor.parent.relative_to(dst).parts)
+        parts = [Path(i) for i in target_cursor.parent.relative_to(dst.parent).parts]
         for item in accumulate(parts, lambda x, y: x / y):
-            pkg.add(item)
+            inits.append((dst.parent / item, None, None))
 
     # Create the subpackages inits
     LOGGER.info("Creating the subpackages inits.")
     for path, group in groupby(sorted(inits, key=lambda x: x[0]), key=lambda x: x[0]):
-        src = "\n".join((f"from .{item[1]} import {item[2]}  # noqa" for item in group))
-        LOGGER.debug(f"build : writting '__init__.py' : {path}")
+        src = "\n".join(
+            (
+                f"from .{item[1]} import {item[2]}  # noqa"
+                for item in group
+                if item[1] and item[2]  # Otherwise, empty init
+            )
+        )
+
+        empty = "non-empty" if bool(src) else "empty"
+        LOGGER.debug(f"build : writting {empty} '__init__.py' : {path}")
+
         with open(Path(path).resolve() / "__init__.py", "w", encoding="UTF-8") as f:
             f.writelines(src)
-
-    # Create the "empty" packages inits
-    LOGGER.info("Creating the packages empty inits.")
-    pkg.add(Path(""))  # Add the root
-    for item in pkg:
-        item = dst / item
-        with open(item / "__init__.py", "w", encoding="UTF-8") as f:
-            f.writelines("")
 
 
 if __name__ == "__main__":
