@@ -157,5 +157,4 @@ def build_notebooks(src: Path, dst: Path):
 
 
 if __name__ == "__main__":
-
     raise RuntimeError("can't be run in standalone")
