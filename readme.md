@@ -22,6 +22,9 @@ __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver a
 
 
 ### Changelog
+- The `0.2.0` is a scaled up version of the `0.1.0` with better design, support for pipelines, private parameters and an extension API, though hooks and interactors
+- The `0.2.5` (tbd) will be a sanitzyed version of the `0.2.0` with an improved design of non-core classes. The API schould no change.
+- The `0.3.0` (tbd) schould bridge the gap between `local development` and the `production` environement
 #### Road to 0.2.0
 - [x] Refactor the Craft object to improve the Annotation parsing
 - [x] Add new folder structure and implements the parsing of the `statisfactory.yaml` file
@@ -35,20 +38,22 @@ __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver a
 - [x] Streamline the `Pipeline` by delegating dependencies solver to a `Solver`
 - [x] Add support for Craft's level configuration in yaml
 - [x] Add support for Pipeline definition in yaml
-- [ ] Create a CLI to parse and execute Pipeline definitions for specific configuration
+- [x] Create a CLI to parse and execute Pipeline definitions for specific configuration
 - [x] Rename context to session and cascad it to the artefact loader
 - [x] Add support for default Artifact
 - [ ] Create a small `cookiecutter` to kickstart a project
 - [ ] Update documentation with the `!{}` and `${}` syntaxes and the new pipeline definition
 
+#### Road to 0.2.5
+- [ ] Create a `pass_session` decorator, instead of the using the `Craft(inject_session)` to pass the session to an arbitrary function
+- [ ] Rework the `Loader` and `Session.config` mechanism to provided a unified settings loader
+- [ ] Artefacts / Volatile schould be split between annotation (currently pipeline.SElement) and actual `artefact` SERDE to improve the Separation of Concerns
+- [ ] Add support for multiples catalogs
 #### Road to 0.3.0
 - [ ] Properly inject a loggers and Handler into the craft, maybe by exposing settings to the craft ?
 - [ ] Rewrite the Interactors and add support for `pandas.csv`, `pandas.xlsx`, `pandas.parquet`
-- [ ] Add support for multiples catalogs
-- [ ] Refactor the Pipeline to be wraps in a SequentialRunner, a ParrallelRunner or an AirflowTranspiler
-- [ ] Solve parameters context between pipeline
-- [ ] Artefacts / Volatile schould be split between annotation (currently pipeline.SElement) and actual `artefact` SERDE to improve the Separation of Concerns
 - [ ] Rework interactors and add supports for Spark
+- [ ] Refactor the Pipeline to be wraps in a SequentialRunner, a ParrallelRunner or an AirflowTranspiler
 
 ## How to contribute.
 Keep it classy, boys :
