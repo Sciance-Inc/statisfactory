@@ -23,7 +23,7 @@ __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver a
 
 ### Changelog
 - The `0.2.0` is a scaled up version of the `0.1.0` with better design, support for pipelines, private parameters and an extension API, though hooks and interactors
-- The `0.2.5` (tbd) will be a sanitzyed version of the `0.2.0` with an improved design of non-core classes. The API schould no change.
+- The `0.2.5` (tbd) will be a sanitzyed version of the `0.2.0` with an improved design of non-core classes. The API shall only marginally change.
 - The `0.3.0` (tbd) schould bridge the gap between `local development` and the `production` environement
 #### Road to 0.2.0
 - [x] Refactor the Craft object to improve the Annotation parsing
@@ -45,6 +45,7 @@ __Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver a
 - [ ] Update documentation with the `!{}` and `${}` syntaxes and the new pipeline definition
 
 #### Road to 0.2.5
+- [ ] Remove the `Connectors` from the `catalog`, and inject the DSN through the `load_options`
 - [ ] Create a `pass_session` decorator, instead of the using the `Craft(inject_session)` to pass the session to an arbitrary function
 - [ ] Rework the `Loader` and `Session.config` mechanism to provided a unified settings loader
 - [ ] Artefacts / Volatile schould be split between annotation (currently pipeline.SElement) and actual `artefact` SERDE to improve the Separation of Concerns
