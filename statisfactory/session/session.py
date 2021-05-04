@@ -73,7 +73,8 @@ class Session(MixinLogable):
     * The '_' attribute schould be used to store user defined custom extension
     """
 
-    __shared_state__ = {}
+    _finalized: bool = False  # Is the session instanciation finalized ?
+    __shared_state__ = {}  # Singleton's state holder
     _hooks = []
 
     def _get_path_to_root(self) -> Path:
@@ -96,8 +97,8 @@ class Session(MixinLogable):
         Instanciate a Session by searching for the statisfactory.yaml file in the parent folders
         """
 
-        self.__dict__ = self.__shared_state__
-        if self.__shared_state__:
+        if self.__shared_state__ and Session._finalized:
+            self.__dict__ = self.__shared_state__
             self.debug("Re-using already loaded Statisfactory session.")
             Warnings.warn(
                 "The supper for monostate Session will be droped in 0.2.0",
@@ -133,6 +134,9 @@ class Session(MixinLogable):
         # Execute any registered hooks
         for h in Session._hooks:
             h(self)
+
+        # Set the Singleton flag to true as all hooks has been properly executed.
+        Session._finalized = True
 
         self.info("All done ! You are ready to go ! \U00002728 \U0001F370 \U00002728")
 
