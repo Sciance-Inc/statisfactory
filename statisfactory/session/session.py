@@ -327,7 +327,7 @@ class _DefaultHooks:
 
         path = (sess.root / sess.settings.pipelines_definitions).resolve()
 
-        pipelines = PipelinesLoader(session=sess).load(path=path)
+        pipelines = PipelinesLoader.load(path=path)
 
         sess._pipelines_definitions = pipelines
 
