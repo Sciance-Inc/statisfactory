@@ -17,13 +17,13 @@
 # system
 from pathlib import Path
 
-# project
-from cli import build_notebooks
-from logger import get_module_logger
-
 # third party
 import click
+
+# project
+from cli import build_notebooks
 from dynaconf import Dynaconf, Validator
+from logger import get_module_logger
 
 #############################################################################
 #                                  Script                                   #

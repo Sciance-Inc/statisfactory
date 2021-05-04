@@ -18,10 +18,11 @@
 # system
 import threading
 
-# Third party
-
 # project
 from ..errors import errors
+
+# Third party
+
 
 #############################################################################
 #                                  Script                                   #

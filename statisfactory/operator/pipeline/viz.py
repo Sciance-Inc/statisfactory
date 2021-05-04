@@ -22,7 +22,6 @@ from networkx.algorithms import transitive_reduction
 # project
 from ...errors import errors
 
-
 # TODO : To be fully reworked : "quick" way to get a graphical representation of the pipeline.
 #############################################################################
 #                                  Script                                   #

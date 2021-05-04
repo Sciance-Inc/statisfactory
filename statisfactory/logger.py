@@ -16,8 +16,8 @@ Retrieve the package level logger. Configure the handler
 
 # System packages
 import logging
-import sys
 import os
+import sys
 
 #############################################################################
 #                                 helpers                                   #

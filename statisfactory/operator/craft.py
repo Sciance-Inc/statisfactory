@@ -14,22 +14,23 @@
 #                                 Packages                                  #
 #############################################################################
 
+from copy import copy
+
 # system
 # from __future__ import annotations  # noqa
 from functools import update_wrapper
-from typing import Callable, List, Tuple, Mapping  # , TYPE_CHECKING
-from inspect import signature, Signature, Parameter
-from copy import copy
+from inspect import Parameter, Signature, signature
+from typing import Callable, List, Mapping, Tuple  # , TYPE_CHECKING
 
 # project
 from ..errors import errors, warnings
-from ..logger import MixinLogable
 from ..IO import Artefact, Volatile
-from .pipeline import Pipeline
-from .utils import merge_dictionaries, MergeableInterface
-from .selements import SElementKind, SElement
-from .scoped import Scoped
+from ..logger import MixinLogable
 from .mixinHookable import MixinHookable
+from .pipeline import Pipeline
+from .scoped import Scoped
+from .selements import SElement, SElementKind
+from .utils import MergeableInterface, merge_dictionaries
 
 # Project type checks : see PEP563
 # if TYPE_CHECKING:

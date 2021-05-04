@@ -16,8 +16,8 @@
 
 # system
 import collections
-from typing import Mapping, Any
 from functools import reduce
+from typing import Any, Mapping
 
 # Third party
 import anyconfig
@@ -25,7 +25,6 @@ import anyconfig
 # project
 # from ...operator import Pipeline
 from ...errors import errors
-
 
 #############################################################################
 #                                  Script                                   #

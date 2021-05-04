@@ -14,11 +14,12 @@
 #                                 Packages                                  #
 #############################################################################
 
+import re
+from itertools import accumulate, groupby
+
 # system
 from pathlib import Path
-import re
 from typing import List
-from itertools import groupby, accumulate
 
 # project
 from logger import get_module_logger  # .logger
@@ -27,7 +28,6 @@ from logger import get_module_logger  # .logger
 from nbconvert import PythonExporter
 from nbconvert.preprocessors import Preprocessor
 from traitlets.config import Config
-
 
 #############################################################################
 #                                  Script                                   #

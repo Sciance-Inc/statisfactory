@@ -15,16 +15,17 @@
 #############################################################################
 
 # system
-from typing import Union, Dict, Mapping
+from typing import Dict, Mapping, Union
+
+from ...logger import MixinLogable, get_module_logger
+from ..mixinHookable import MixinHookable
+from ..scoped import Scoped
+from ..utils import MergeableInterface
+from .runner import Runner
 
 # project
 from .solver import DAGSolver, Solver
-from .runner import Runner
 from .viz import Graphviz
-from ..scoped import Scoped
-from ..mixinHookable import MixinHookable
-from ..utils import MergeableInterface
-from ...logger import MixinLogable, get_module_logger
 
 #############################################################################
 #                                  Script                                   #

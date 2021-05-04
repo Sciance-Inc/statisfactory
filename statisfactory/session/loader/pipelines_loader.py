@@ -14,14 +14,16 @@
 #                                 Packages                                  #
 #############################################################################
 
+from importlib import import_module
+
 # system
 from typing import Mapping
-from importlib import import_module
+
+from ...errors import errors
+from ...operator import Pipeline
 
 # project
 from .models import PipelineDefinition
-from ...operator import Pipeline
-from ...errors import errors
 
 #############################################################################
 #                                  Script                                   #

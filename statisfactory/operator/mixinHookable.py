@@ -14,10 +14,11 @@
 #                                 Packages                                  #
 #############################################################################
 
+from collections import defaultdict
+from contextlib import contextmanager
+
 # system
 from typing import Callable
-from contextlib import contextmanager
-from collections import defaultdict
 
 # project
 from ..logger import get_module_logger

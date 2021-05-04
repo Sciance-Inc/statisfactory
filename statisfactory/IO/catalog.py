@@ -16,16 +16,18 @@
 
 # system
 from __future__ import annotations  # noqa
-from typing import Any, TYPE_CHECKING
 
-# project
-from .models import CatalogData, Artefact, Connector
-from .artefact_interactor import ArtefactInteractor
-from ..logger import MixinLogable
-from ..errors import errors
+from typing import TYPE_CHECKING, Any
 
 # third party
 import pandas as pd
+
+from ..errors import errors
+from ..logger import MixinLogable
+from .artefact_interactor import ArtefactInteractor
+
+# project
+from .models import Artefact, CatalogData, Connector
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:

@@ -16,23 +16,25 @@
 
 # system
 from __future__ import annotations  # noqa
-from abc import ABCMeta, abstractmethod
-from pathlib import Path
-from typing import Any, Union, TYPE_CHECKING
-from contextlib import contextmanager
+
 import pickle
+from abc import ABCMeta, abstractmethod
+from contextlib import contextmanager
+from pathlib import Path
 from string import Template
+from typing import TYPE_CHECKING, Any, Union
 
-# project
-from .models import _ArtefactSchema
-from ..errors import errors
-from ..logger import get_module_logger, MixinLogable
-
+import datapane as dp
 
 # third party
 import pandas as pd
 import pyodbc
-import datapane as dp
+
+from ..errors import errors
+from ..logger import MixinLogable, get_module_logger
+
+# project
+from .models import _ArtefactSchema
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:

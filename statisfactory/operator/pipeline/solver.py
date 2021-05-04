@@ -16,16 +16,17 @@
 
 # system
 from __future__ import annotations  # noqa
-from typing import Iterable
+
 from abc import ABCMeta, abstractmethod, abstractproperty
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterable
 
 # Third party
 import networkx as nx
 
+from ...errors import errors, warnings
+
 # project
 from ...logger import MixinLogable
-from ...errors import errors, warnings
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:

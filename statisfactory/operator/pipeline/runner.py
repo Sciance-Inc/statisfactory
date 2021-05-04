@@ -16,18 +16,21 @@
 
 # system
 from __future__ import annotations  # noqa
-from typing import Mapping, Iterable, Any, TYPE_CHECKING
+
 from abc import ABCMeta, abstractmethod
 from copy import copy
+from typing import TYPE_CHECKING, Any, Iterable, Mapping
 
-# Third party
+from ...errors import errors
+from ...logger import MixinLogable
+from ..selements import SElementKind
+from ..utils import merge_dictionaries
 
 # project
 from .solver import Solver
-from ..utils import merge_dictionaries
-from ..selements import SElementKind
-from ...errors import errors
-from ...logger import MixinLogable
+
+# Third party
+
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
