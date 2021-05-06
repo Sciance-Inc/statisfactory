@@ -23,7 +23,7 @@ from sklearn import datasets
 # Import Statisfactory
 from statisfactory import Session, Craft, Artefact, Volatile, Pipeline
 
-sess = Session(root_folder="exemples/dummyRepo")
+sess = Session(root_folder="exemples/dummyRepo/")
 # Load a context and get the catalog from it.
 catalog = sess.catalog
 pipelines = sess.pipelines_definitions
@@ -43,6 +43,7 @@ def barfoo(foo: Volatile, samples):
 
 
 p = Pipeline() + foobar + barfoo
+p.plot()
 with sess:
     out = p()
 
@@ -57,14 +58,14 @@ print("done")
 
 @Pipeline.hook_pre_run()
 def foobar(target):
-    """"""
+    """ """
 
     print("LALALALAL")
 
 
 @Pipeline.hook_post_run()
 def foobar(target):
-    """"""
+    """ """
 
     print("POUMPOUMPOUM")
 

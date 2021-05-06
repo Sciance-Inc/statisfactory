@@ -83,7 +83,7 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         """
 
         # Process all the nodes of the graph
-        return Graphviz()(self._solver(self._crafts).G)
+        return Graphviz()(self._solver(self._crafts).G())
 
     def __add__(self, visitor: MergeableInterface) -> "Pipeline":
         """
