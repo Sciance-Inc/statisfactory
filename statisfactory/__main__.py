@@ -44,8 +44,12 @@ LOGGER = get_module_logger(__name__)
 @click.pass_context
 def cli(ctx, path):
     ctx.ensure_object(dict)
+    path = Path(path)
 
-    root_dir = Path(path).parent
+    if not path.is_file():
+        raise FileNotFoundError("Path must be a file, got dir")
+
+    root_dir = path.parent
 
     # Parse the root file to extract the config
     settings = Dynaconf(
