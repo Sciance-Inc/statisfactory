@@ -229,7 +229,7 @@ class _DefaultHooks:
         Configure the Path to expose the Lib targets.
         """
 
-        if not sess.settings.sources:
+        if "sources" not in sess.settings:
             return
 
         src_path = (sess.root / sess.settings.sources).resolve()
