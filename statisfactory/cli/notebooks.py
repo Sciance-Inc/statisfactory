@@ -131,7 +131,7 @@ def build_notebooks(src: Path, dst: Path):
 
         # Flag the function to be imported
         for func in meta["exported"]:
-            inits.append((target_cursor.parent, target_cursor.name, func))
+            inits.append((target_cursor.parent, target_cursor.stem, func))
 
         # Flag the init to be created
         parts = [Path(i) for i in target_cursor.parent.relative_to(dst.parent).parts]
