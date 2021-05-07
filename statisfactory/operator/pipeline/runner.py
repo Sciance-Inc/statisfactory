@@ -234,10 +234,10 @@ class NameSpacedSequentialRunner(Runner, runner_name="NameSpacedSequentialRunner
 
             # Extract the parameters for this Craft from it's full name : module + craft's name :
             craft_module = craft.__module__ if craft.__module__ != "__main__" else ""
-            craft_full_name = craft_module + craft.name
+            craft_full_name = ".".join(craft_module, craft.name)
             name_spaced_context = context.get(craft_full_name, {})
             if not name_spaced_context:
-                self.info(f"No parameters existing for {craft_full_name}")
+                self.info(f"No existing parameters for {craft_full_name}")
 
             shared_context = context.get("_shared", {})
             name_spaced_context = {**name_spaced_context, **shared_context}
