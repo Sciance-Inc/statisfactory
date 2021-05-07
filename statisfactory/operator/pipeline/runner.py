@@ -232,8 +232,16 @@ class NameSpacedSequentialRunner(Runner, runner_name="NameSpacedSequentialRunner
         for craft in self:
             self.info(f"running craft '{craft.name}'.")
 
-            # Extract the parameters for this Craft, and merge (overwrite) the running implicit context
-            name_spaced_context = context.get(craft.name, {})
+            # Extract the parameters for this Craft from it's full name : module + craft's name :
+            craft_module = craft.__module__ if craft.__module__ != "__main__" else ""
+            craft_full_name = craft_module + craft.name
+            name_spaced_context = context.get(craft_full_name, {})
+            if not name_spaced_context:
+                self.info(f"No parameters existing for {craft_full_name}")
+
+            shared_context = context.get("_shared", {})
+            name_spaced_context = {**name_spaced_context, **shared_context}
+
             if not isinstance(name_spaced_context, (Mapping)):
                 raise errors.E055(__name__, got=str(type(name_spaced_context)))
 
