@@ -125,7 +125,7 @@ class Session(MixinLogable):
         )
 
         # Instanciate the 'user space'
-        self._ = None
+        self._ = {}
 
         # Instanciate placeholders to be filled by mandatory hooks
         self._catalog = None
