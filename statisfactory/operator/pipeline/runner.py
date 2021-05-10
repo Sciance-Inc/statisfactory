@@ -237,7 +237,11 @@ class NameSpacedSequentialRunner(Runner, runner_name="NameSpacedSequentialRunner
             craft_full_name = ".".join([craft_module, craft.name])
             name_spaced_context = context.get(craft_full_name, {})
             if not name_spaced_context:
-                self.info(f"No existing parameters for {craft_full_name}")
+                self.info(f"{craft_full_name} : No parameters configuration.")
+            else:
+                self.info(
+                    f"{craft_full_name} : using parameters : {name_spaced_context} "
+                )
 
             shared_context = context.get("_shared", {})
             name_spaced_context = {**name_spaced_context, **shared_context}
