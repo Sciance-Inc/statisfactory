@@ -264,7 +264,7 @@ class NameSpacedSequentialRunner(Runner, runner_name="NameSpacedSequentialRunner
             # Accumulate the running volatiles
             running_volatile = self._update_volatiles(running_volatile, craft, output)
 
-            self.info(f"Completeted {cursor} out of {self._length} tasks.")
+            self.info(f"Completed {cursor} out of {self._length} tasks.")
             cursor += 1
 
         return running_volatile
