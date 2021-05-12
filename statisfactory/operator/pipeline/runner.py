@@ -172,7 +172,7 @@ class SequentialRunner(Runner, runner_name="SequentialRunner"):
             running_volatile = self._update_volatiles(running_volatile, craft, output)
             running_context = self._update_context(running_context, craft)
 
-            self.info(f"Completeted {cursor} out of {self._length} tasks.")
+            self.info(f"Completed {cursor} out of {self._length} tasks.")
             cursor += 1
 
         return running_volatile
