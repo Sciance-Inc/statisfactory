@@ -78,6 +78,19 @@ class Session(MixinLogable):
     __shared_state__ = {}  # Singleton's state holder
     _hooks = []
 
+    @staticmethod
+    def get_active_session():
+        """
+        Get the Session, currently on the top of the stack.
+        Must be called from a `with` statement
+        """
+
+        S = Scoped().get_session()
+        if not S:
+            raise errors.E060(__name__) from None
+
+        return S
+
     def _get_path_to_root(self) -> Path:
         """
         Retrieve the path to the statisfactory.yaml file by executing a "fish pass ;)" from the location of the caller
