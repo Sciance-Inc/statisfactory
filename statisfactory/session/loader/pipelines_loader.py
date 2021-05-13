@@ -59,17 +59,17 @@ class PipelinesLoader:
                         import_module(".".join(modules)),
                         callable_,
                     )
-                except ImportError:
+                except ImportError as error:
                     raise errors.E015(
-                        __name__, pip_name=name, craft_name=target_name
-                    ) from None
-                except AttributeError:
+                        __name__, pip_name=name, module=".".join(modules)
+                    ) from error
+                except AttributeError as error:
                     raise errors.E017(
                         __name__,
                         pip_name=name,
                         module=".".join(modules),
                         craft_name=callable_,
-                    ) from None
+                    ) from error
 
                 P = P + craft
 

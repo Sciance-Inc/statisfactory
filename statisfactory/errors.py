@@ -162,9 +162,9 @@ class Errors(metaclass=Singleton):
     E014 = (
         "start-up : failed to interpolate the catalog with the settings from 'conf/'."
     )
-    E015 = "start-up : Parsing pipeline '{pip_name}' : failed to import craft '{craft_name}'"
+    E015 = "start-up : Parsing pipeline '{pip_name}' : failed to import module '{module}'. The path might not be reachable."
     E016 = "start-up : pipelines definition '{name}' embed a reference to an undeclared definition '{ref}'"
-    E017 = "start-up : Parsing pipeline '{pip_name}' : the module {module} does not expose the '{craft_name}' Craft"
+    E017 = "start-up : Parsing pipeline '{pip_name}' : failed to import '{craft_name}' Craft from '{module}'. The module is reachable but importing the Craft failed."
 
     # FS interactors
     E020 = "data interactor : there is already an interactor named '{name}'"
@@ -197,7 +197,7 @@ class Errors(metaclass=Singleton):
     E050 = "Pipeline : failed to run craft '{func}'"
     E052 = "Pipeline : '{kind}' keys collides : for craft '{name}'"
     E053 = "Pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
-    E054 = "Pipeline : viz : missing '{dep}' package"
+    E054 = "Pipeline : viz : missing '{dep}' package. Use 'pip install {dep}' to install the required dependencie. "
     E055 = "Pipeline : NameSpacedSequentialRunner expects each craft's context to be mapping. Got '{got}'"
 
     # Session
