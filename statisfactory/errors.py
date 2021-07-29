@@ -20,7 +20,6 @@ import sys
 # Project related packages
 from .logger import get_module_logger
 
-
 #############################################################################
 #                                Constants                                  #
 #############################################################################
@@ -158,11 +157,14 @@ class Errors(metaclass=Singleton):
     # Init and connection related errors
     E010 = "start-up : statisfactory must be called from a folder, or the child of a folder, containing a 'statisfactory.yaml' file"
     E011 = "start-up : the Catalog file does not exists : '{path}'."
-    E012 = "start-up : failed to parse the Statisfactory configuration file : {path}"
-    E013 = "start-up : failed to unmarshall the catalog"
+    E012 = "start-up : failed to parse the {file} file : {path}"
+    E013 = "start-up : failed to unmarshall the {file}"
     E014 = (
         "start-up : failed to interpolate the catalog with the settings from 'conf/'."
     )
+    E015 = "start-up : Parsing pipeline '{pip_name}' : failed to import module '{module}'. The path might not be reachable."
+    E016 = "start-up : pipelines definition '{name}' embed a reference to an undeclared definition '{ref}'"
+    E017 = "start-up : Parsing pipeline '{pip_name}' : failed to import '{craft_name}' Craft from '{module}'. The module is reachable but importing the Craft failed."
 
     # FS interactors
     E020 = "data interactor : there is already an interactor named '{name}'"
@@ -192,10 +194,15 @@ class Errors(metaclass=Singleton):
     )
 
     # Pipeline
-    E050 = "pipeline : failed to run craft '{func}'"
-    E052 = "pipeline : '{kind}' keys collides : for craft '{name}'"
-    E053 = "pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
-    E054 = "pipeline : viz : missing '{dep}' package"
+    E050 = "Pipeline : failed to run craft '{func}'"
+    E052 = "Pipeline : '{kind}' keys collides : for craft '{name}'"
+    E053 = "Pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
+    E054 = "Pipeline : viz : missing '{dep}' package. Use 'pip install {dep}' to install the required dependencie. "
+    E055 = "Pipeline : NameSpacedSequentialRunner expects each craft's context to be mapping. Got '{got}'"
+
+    # Session
+    E060 = "Session : A Craft or a Pipeline must be executed in a 'with session:' statment. Use a context manager to execute the Craft / Pipeline."
+    E061 = "Session : Session can't be injected in the craft's underlying callables as the Context already contain a param named Session"
 
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
@@ -210,6 +217,11 @@ class Warnings(UserWarning):
 
     # Interactor
     W020 = "data interactor : '{inter_type}' is not a registered interactor."
+
+    # Craft
+    W40 = (
+        "Craft : the Craft '{name}' failed to load '{artefact}' and has been defaulted."
+    )
 
     # Pipeline
     W050 = "pipeline : keys collision : '{keys}'"

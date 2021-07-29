@@ -14,22 +14,18 @@
 #                                 Packages                                  #
 #############################################################################
 
-# system
-from typing import List, Dict, Optional
-import yaml
 from dataclasses import dataclass, field
 
-# project
+# system
+from typing import Dict, List, Optional
+
+import yaml
+from marshmallow import Schema, ValidationError, fields, post_load, validates_schema
 
 # third party
 from ..errors import warnings
-from marshmallow import (
-    Schema,
-    fields,
-    validates_schema,
-    ValidationError,
-    post_load,
-)
+
+# project
 
 
 #############################################################################

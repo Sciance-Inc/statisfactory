@@ -15,16 +15,23 @@
 #############################################################################
 
 # system
-from typing import Any
+from __future__ import annotations  # noqa
 
-# project
-from .models import CatalogData, Artefact, Connector
-from .artefact_interactor import ArtefactInteractor
-from ..logger import MixinLogable
-from ..errors import errors
+from typing import TYPE_CHECKING, Any
 
 # third party
 import pandas as pd
+
+from ..errors import errors
+from ..logger import MixinLogable
+from .artefact_interactor import ArtefactInteractor
+
+# project
+from .models import Artefact, CatalogData, Connector
+
+# Project type checks : see PEP563
+if TYPE_CHECKING:
+    from ..session import Session
 
 #############################################################################
 #                                  Script                                   #
@@ -48,19 +55,30 @@ class Catalog(MixinLogable):
 
         return cls._instance
 
-    def __init__(self, dump: str, context_overwrite_strict: bool = True):
+    def __init__(
+        self,
+        *,
+        dump: str,
+        session: Session = None,
+        context_overwrite_strict: bool = True
+    ):
         """
         Build a new Catalog from an iterator of dumps
+
+        Params:
+            dump (str): The string representaiton of the yaml to be parsed
+            session (Session): An optional statisfactory.session to be cascaded to the interactor
         """
 
         super().__init__(__name__)
 
         self._context_overwrite_strict = context_overwrite_strict
+        self._session = session
 
         try:
             self._data = CatalogData.from_string(dump)
         except BaseException as err:
-            raise errors.E013(__name__) from err
+            raise errors.E013(__name__, file="Catalog") from err
 
     def __str__(self):
         """
@@ -137,7 +155,7 @@ class Catalog(MixinLogable):
         artefact = self._get_artefact(name)
         connector = self._get_connector(artefact)
         interactor: ArtefactInteractor = self._get_interactor(artefact)(
-            artefact=artefact, connector=connector, **context
+            artefact=artefact, connector=connector, session=self._session, **context
         )
 
         return interactor.load()
@@ -155,7 +173,7 @@ class Catalog(MixinLogable):
         artefact = self._get_artefact(name)
         connector = self._get_connector(artefact)
         interactor: ArtefactInteractor = self._get_interactor(artefact)(
-            artefact=artefact, connector=connector, **context
+            artefact=artefact, connector=connector, session=self._session, **context
         )
 
         interactor.save(asset)

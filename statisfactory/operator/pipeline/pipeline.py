@@ -15,31 +15,35 @@
 #############################################################################
 
 # system
-from typing import Union, Dict, Mapping
+from typing import Dict, Mapping, Union
+
+from ...logger import MixinLogable, get_module_logger
+from ..mixinHookable import MixinHookable
+from ..scoped import Scoped
+from ..utils import MergeableInterface
+from .runner import Runner
 
 # project
 from .solver import DAGSolver, Solver
-from .runner import SequentialRunner, Runner
-
 from .viz import Graphviz
-from .utils import MergeableInterface
-from ..logger import MixinLogable
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
+_LOGGER = get_module_logger(__name__)
 
-class Pipeline(MergeableInterface, MixinLogable):
+
+class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     """
     Implements a way to combine crafts and pipeline togetger
     """
 
     def __init__(
         self,
-        name: str,
         *,
-        runner: Runner = SequentialRunner,
+        name: str = "noName",
+        namespaced: bool = False,
         solver: Solver = DAGSolver,
     ):
         """
@@ -49,13 +53,17 @@ class Pipeline(MergeableInterface, MixinLogable):
 
         Args:
             name (str): The name of the pipeline.
-            runner (Runner): The runner to internaly use to execute the crafts
+            namespaced (bool): Schould the parameters dictionnary being namespaced by Craft ?
             solver (Solver): The object to use to solve the dependencies between crafts.
         """
 
         super().__init__(logger_name=__name__)
         self._name = name
-        self._runner = runner
+
+        # Select the appropriate runner :
+        runner_name = "NameSpacedSequentialRunner" if namespaced else "SequentialRunner"
+        self._runner = Runner.get_runner_by_name(runner_name)
+
         self._solver = solver
 
         # A placeholder to holds the added crafts.
@@ -75,7 +83,7 @@ class Pipeline(MergeableInterface, MixinLogable):
         """
 
         # Process all the nodes of the graph
-        return Graphviz(self._solver(self._crafts).G)
+        return Graphviz()(self._solver(self._crafts).G())
 
     def __add__(self, visitor: MergeableInterface) -> "Pipeline":
         """
@@ -123,6 +131,7 @@ class Pipeline(MergeableInterface, MixinLogable):
         Run the pipeline with a concrete context.
 
         Arguments:
+            session (Session): The statisfactory session to use f
             context (Mapping): A Mapping parameters to be used through the subsequent call to the crafts.
 
         Return :
@@ -140,10 +149,29 @@ class Pipeline(MergeableInterface, MixinLogable):
 
         # Call the runner with the Context and the Volatile
         self.info(f"Starting pipeline '{self._name}' execution")
-        final_state = runner(volatiles=running_volatile, context=running_context)
-        self.info(f"pipeline '{self._name}' succeded.")
 
+        with self._with_hooks():
+            with self._with_error():
+                final_state = runner(
+                    volatiles=running_volatile, context=running_context
+                )
+
+        self.info(f"pipeline '{self._name}' succeded.")
         return final_state
+
+
+class _DefaultHooks:
+    """
+    Namesapce for default hooks
+    """
+
+    @staticmethod
+    @Pipeline.hook_on_error()
+    def propagate(target, error):
+        """
+        A default hook to buble-up an error encountred while running a Pipeline.
+        """
+        raise error
 
 
 #############################################################################

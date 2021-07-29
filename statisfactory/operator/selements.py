@@ -14,12 +14,12 @@
 #                                 Packages                                  #
 #############################################################################
 
-# System
-from typing import Any
 from dataclasses import dataclass
 from enum import Enum, auto
 from inspect import Parameter
 
+# System
+from typing import Any
 
 #############################################################################
 #                                  Script                                   #
@@ -64,7 +64,7 @@ class SElement:
         Return true if the parameter has a default value.
         """
 
-        return self.annotation.default != Parameter.empty
+        return self.annotation.default is not Parameter.empty
 
     @property
     def default(self) -> Any:

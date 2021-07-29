@@ -9,6 +9,9 @@ catalog: conf/catalog.yaml
 # The directory containing sources and packages to be made available to pipelines and crafts
 sources: Lib
 
-# The directory containing the pipeline definition and configurations.
-pipelines_definitions: pipelines
+# The root packages (inside "sources") in / from which the craft parsed definition schould be stored
+notebook_target: __compiled__
 
+# The file containing the pipeline definitions
+pipelines_definitions: Pipelines/definitions/pipelines.yaml
+pipelines_configurations: Pipelines/configurations/pipelines.yaml
