@@ -1,7 +1,7 @@
 base:
-  craft_foo:
+  __compiled__.foobar.craft_foo:
     param_1: 10
-  craft_spam:
+  __compiled__.spam.craft_spam:
     param_1: 1
     param_2:
       - 10
@@ -9,13 +9,13 @@ base:
       - 20
 
 foo:
-  craft_spam:
+  __compiled__.spam.craft_spam:
     param_1: 2
 
 custom:
   _from:
     - base
     - foo
-  craft_foo:
+  __compiled__.foobar.craft_foo:
     param_1: 20
 

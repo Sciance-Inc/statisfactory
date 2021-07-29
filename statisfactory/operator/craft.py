@@ -49,21 +49,18 @@ class Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     _artefacts_annotation = [Artefact]
 
     @staticmethod
-    def make(*, inject_session: bool = False):
+    def make():
         """
         Decorator to make a Craft binded to the catalog from a callable
-
-        Args:
-            inject_session (book): schould the Session be injected in the craft a runtime though the session argument ?
         """
 
         def _(func: Callable):
 
-            return Craft(func, inject_session)
+            return Craft(func)
 
         return _
 
-    def __init__(self, callable: Callable, inject_session: bool = False):
+    def __init__(self, callable: Callable):
         """
         Wrap a callable in a craft binded to the given catalog.
         """
@@ -71,7 +68,6 @@ class Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         super().__init__(logger_name=__name__)
 
         self._callable = callable
-        self._inject_session = inject_session
         self._name = callable.__name__
 
         # Parse the signature of the craft
@@ -293,11 +289,6 @@ class Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
             **kwargs: variadic keywrods arguments to be defered to the underlaying callable.
         """
 
-        if self._inject_session:
-            if "session" in kwargs:
-                raise errors.E061(__name__)
-            kwargs["session"] = self.get_session()
-
         # Extract, from args and kwargs, the item required by the craft and and to kwargs_ the default value, if unspecified by kwargs.
         craft_args, craft_kwargs, implicit_context = self._parse_args(
             args=args, context=kwargs, volatiles=volatiles_mapping
@@ -320,7 +311,7 @@ class Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
         """
 
-        craft = Craft(self._callable, self._inject_session)
+        craft = Craft(self._callable)
         return craft
 
     def _save_artefacts(self, *, output, **context) -> Mapping:

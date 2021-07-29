@@ -82,7 +82,7 @@ class ConfigsLoader:
         for k, m in configuration.items():
             if k == "_from":
                 continue
-            config_mapping.append({k: m})
+            config_mapping.append({k: m.copy()})  # Copy to avoid mutating references
 
         # Process the config mapping and keep the last value
         config_mapping = reduce(

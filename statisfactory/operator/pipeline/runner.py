@@ -172,7 +172,7 @@ class SequentialRunner(Runner, runner_name="SequentialRunner"):
             running_volatile = self._update_volatiles(running_volatile, craft, output)
             running_context = self._update_context(running_context, craft)
 
-            self.info(f"Completeted {cursor} out of {self._length} tasks.")
+            self.info(f"Completed {cursor} out of {self._length} tasks.")
             cursor += 1
 
         return running_volatile
@@ -232,8 +232,20 @@ class NameSpacedSequentialRunner(Runner, runner_name="NameSpacedSequentialRunner
         for craft in self:
             self.info(f"running craft '{craft.name}'.")
 
-            # Extract the parameters for this Craft, and merge (overwrite) the running implicit context
-            name_spaced_context = context.get(craft.name, {})
+            # Extract the parameters for this Craft from it's full name : module + craft's name :
+            craft_module = craft.__module__ if craft.__module__ != "__main__" else ""
+            craft_full_name = ".".join([craft_module, craft.name])
+            name_spaced_context = context.get(craft_full_name, {})
+            if not name_spaced_context:
+                self.info(f"{craft_full_name} : No parameters configuration.")
+            else:
+                self.info(
+                    f"{craft_full_name} : using parameters : {name_spaced_context} "
+                )
+
+            shared_context = context.get("_shared", {})
+            name_spaced_context = {**name_spaced_context, **shared_context}
+
             if not isinstance(name_spaced_context, (Mapping)):
                 raise errors.E055(__name__, got=str(type(name_spaced_context)))
 
@@ -252,7 +264,7 @@ class NameSpacedSequentialRunner(Runner, runner_name="NameSpacedSequentialRunner
             # Accumulate the running volatiles
             running_volatile = self._update_volatiles(running_volatile, craft, output)
 
-            self.info(f"Completeted {cursor} out of {self._length} tasks.")
+            self.info(f"Completed {cursor} out of {self._length} tasks.")
             cursor += 1
 
         return running_volatile

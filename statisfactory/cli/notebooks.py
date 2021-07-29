@@ -15,7 +15,7 @@
 #############################################################################
 
 import re
-from itertools import accumulate, groupby
+from itertools import accumulate
 
 # system
 from pathlib import Path
@@ -111,7 +111,7 @@ def build_notebooks(src: Path, dst: Path):
     EXPORTER = PythonExporter(config=c)
 
     LOGGER.info("Exporting the python code.")
-    inits = []
+    inits = set([])
     # Recursively iterate over the notebooks
     for file in src.glob("**/*.ipynb"):
 
@@ -129,31 +129,18 @@ def build_notebooks(src: Path, dst: Path):
         with open(target_cursor, "w", encoding="UTF-8") as f:
             f.writelines(src_)
 
-        # Flag the function to be imported
-        for func in meta["exported"]:
-            inits.append((target_cursor.parent, target_cursor.name, func))
-
-        # Flag the init to be created
-        parts = [Path(i) for i in target_cursor.parent.relative_to(dst.parent).parts]
+        # Flag the inits to be created
+        parts = (Path(i) for i in target_cursor.parent.relative_to(dst.parent).parts)
         for item in accumulate(parts, lambda x, y: x / y):
-            inits.append((dst.parent / item, None, None))
+            inits.add(dst.parent / item)
 
     # Create the subpackages inits
     LOGGER.info("Creating the subpackages inits.")
-    for path, group in groupby(sorted(inits, key=lambda x: x[0]), key=lambda x: x[0]):
-        src = "\n".join(
-            (
-                f"from .{item[1]} import {item[2]}  # noqa"
-                for item in group
-                if item[1] and item[2]  # Otherwise, empty init
-            )
-        )
-
-        empty = "non-empty" if bool(src) else "empty"
-        LOGGER.debug(f"build : writting {empty} '__init__.py' : {path}")
+    for path in inits:
+        LOGGER.debug(f"build : writting '__init__.py' : {path}")
 
         with open(Path(path).resolve() / "__init__.py", "w", encoding="UTF-8") as f:
-            f.writelines(src)
+            f.writelines("")
 
 
 if __name__ == "__main__":
