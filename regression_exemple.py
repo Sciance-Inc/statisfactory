@@ -27,7 +27,11 @@ sess = Session(root_folder="exemples/dummyRepo/")
 # Load a context and get the catalog from it.
 catalog = sess.catalog
 pipelines = sess.pipelines_definitions
-# config = sess.pipelines_configurations
+config = sess.pipelines_configurations
+
+
+with sess:
+    s = Session.get_active_session()
 
 default = pd.DataFrame({"a": [1]})
 
