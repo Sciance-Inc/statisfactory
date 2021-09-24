@@ -113,7 +113,7 @@ class Catalog(MixinLogable):
                 if key == name:
                     break
             else:
-                raise errors.E032.format(name=name)
+                raise errors.E032(__name__, name=name)
 
             conn = connector
 

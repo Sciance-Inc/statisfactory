@@ -194,7 +194,7 @@ class Errors(metaclass=Singleton):
     )
 
     # Pipeline
-    E050 = "Pipeline : failed to run craft '{func}'"
+    E050 = "Pipeline : failed to run c raft '{func}'"
     E052 = "Pipeline : '{kind}' keys collides : for craft '{name}'"
     E053 = "Pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
     E054 = "Pipeline : viz : missing '{dep}' package. Use 'pip install {dep}' to install the required dependencie. "
