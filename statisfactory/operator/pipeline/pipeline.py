@@ -22,7 +22,6 @@ from ..mixinHookable import MixinHookable
 from ..scoped import Scoped
 from ..utils import MergeableInterface
 from .runner import Runner
-
 # project
 from .solver import DAGSolver, Solver
 from .viz import Graphviz

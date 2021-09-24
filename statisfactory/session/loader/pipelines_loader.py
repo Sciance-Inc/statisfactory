@@ -15,13 +15,11 @@
 #############################################################################
 
 from importlib import import_module
-
 # system
 from typing import Mapping
 
 from ...errors import errors
 from ...operator import Pipeline
-
 # project
 from .models import PipelineDefinition
 

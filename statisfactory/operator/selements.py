@@ -17,7 +17,6 @@
 from dataclasses import dataclass
 from enum import Enum, auto
 from inspect import Parameter
-
 # System
 from typing import Any
 

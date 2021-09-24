@@ -19,7 +19,6 @@ from pathlib import Path
 
 # third party
 import click
-
 # project
 from cli import build_notebooks
 from dynaconf import Dynaconf, Validator

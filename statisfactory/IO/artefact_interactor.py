@@ -25,14 +25,12 @@ from string import Template
 from typing import TYPE_CHECKING, Any, Union
 
 import datapane as dp
-
 # third party
 import pandas as pd
 import pyodbc
 
 from ..errors import errors
 from ..logger import MixinLogable, get_module_logger
-
 # project
 from .models import _ArtefactSchema
 

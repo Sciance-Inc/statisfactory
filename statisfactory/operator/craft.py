@@ -15,7 +15,6 @@
 #############################################################################
 
 from copy import copy
-
 # system
 # from __future__ import annotations  # noqa
 from functools import update_wrapper

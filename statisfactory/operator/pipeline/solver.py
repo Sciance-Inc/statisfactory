@@ -24,7 +24,6 @@ from typing import TYPE_CHECKING, Iterable
 import networkx as nx
 
 from ...errors import errors, warnings
-
 # project
 from ...logger import MixinLogable
 

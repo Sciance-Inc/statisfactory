@@ -15,12 +15,12 @@
 #############################################################################
 
 from dataclasses import dataclass, field
-
 # system
 from typing import Dict, List, Optional
 
 import yaml
-from marshmallow import Schema, ValidationError, fields, post_load, validates_schema
+from marshmallow import (Schema, ValidationError, fields, post_load,
+                         validates_schema)
 
 # third party
 from ..errors import warnings

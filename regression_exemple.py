@@ -17,11 +17,11 @@
 
 # Import Mathematical stuffs !
 import pandas as pd
-from sklearn.linear_model import LinearRegression
 from sklearn import datasets
+from sklearn.linear_model import LinearRegression
 
 # Import Statisfactory
-from statisfactory import Session, Craft, Artefact, Volatile, Pipeline
+from statisfactory import Artefact, Craft, Pipeline, Session, Volatile
 
 sess = Session(root_folder="exemples/dummyRepo/")
 # Load a context and get the catalog from it.

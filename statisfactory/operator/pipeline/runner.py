@@ -25,7 +25,6 @@ from ...errors import errors
 from ...logger import MixinLogable
 from ..selements import SElementKind
 from ..utils import merge_dictionaries
-
 # project
 from .solver import Solver
 

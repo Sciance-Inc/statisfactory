@@ -25,7 +25,6 @@ import pandas as pd
 from ..errors import errors
 from ..logger import MixinLogable
 from .artefact_interactor import ArtefactInteractor
-
 # project
 from .models import Artefact, CatalogData, Connector
 
