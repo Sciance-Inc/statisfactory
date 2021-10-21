@@ -20,7 +20,7 @@ import networkx as nx
 from networkx.algorithms import transitive_reduction
 
 # project
-from ...errors import errors
+from ...errors import Errors
 
 # TODO : To be fully reworked : "quick" way to get a graphical representation of the pipeline.
 #############################################################################
@@ -41,12 +41,12 @@ class Graphviz:
         try:
             import graphviz
         except ImportError:
-            raise errors.E054(__name__, dep="graphviz")
+            raise Errors.E054(dep="graphviz")  # type: ignore
 
         try:
             import pygraphviz  # noqa
         except ImportError:
-            raise errors.E054(__name__, dep="pygraphviz")
+            raise Errors.E054(dep="pygraphviz")  # type: ignore
 
         # Remove redondencies
         reduction = transitive_reduction(G)

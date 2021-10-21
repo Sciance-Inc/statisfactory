@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-# selements.py
+# annotations.py
 #
 # Project name: statisfactory
 # Author: Hugo Juhel
@@ -25,22 +25,18 @@ from typing import Any
 #############################################################################
 
 
-class SElementKind(Enum):
+class AnnotationKind(Enum):
     """
     Admissibles values for signature elements
     """
 
     ARTEFACT = auto()  # An artefact to load
     VOLATILE = auto()  # A Volatile object from a previously Executed craft
-    VAR_POSITIONAL = auto()  # A variadic positional argument (*args)
-    VAR_KEYWORD = auto()  # A variadic named arguments (**kwargs)
-    POS = auto()
     KEY = auto()
-    POS_OR_KEY = auto()
 
 
 @dataclass
-class SElement:
+class Annotation:
     """
     Represents a elements of a Craft's signature.
     Holds the underlaying parameter with it's SElementKind.
@@ -48,7 +44,7 @@ class SElement:
     """
 
     annotation: Parameter
-    kind: SElementKind
+    kind: AnnotationKind
 
     @property
     def name(self) -> str:
@@ -78,4 +74,4 @@ class SElement:
 #                                   main                                    #
 #############################################################################
 if __name__ == "__main__":
-    raise BaseException("craft.py can't be run in standalone")
+    raise BaseException("annotations.py can't be run in standalone")

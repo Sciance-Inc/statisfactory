@@ -16,6 +16,7 @@ Centralize errors for the statisfactory package
 
 # System packages
 import sys
+import warnings
 
 # Project related packages
 from .logger import get_module_logger
@@ -23,136 +24,83 @@ from .logger import get_module_logger
 #############################################################################
 #                                Constants                                  #
 #############################################################################
+
 DEFAULT_LOGGER = get_module_logger(__name__)
+PROJECT_NAME = "Statisfactory"
 
 #############################################################################
 #                                 Classes                                   #
 #############################################################################
 
 
-# Helpers classes, to make errror class raisble
-
-
-class Singleton(type):
+class ExceptionFactory(type):
     """
-    Implements a singleton pattern as a metaclass.
-    Used on a <error> class, this metaclass provides the ability to raise and catch this class.
-    The python's Try/Except mechansims is not based on equality comparison, but on object comparison : to be catched, an object must be the very same than the one raised
-    Being a new instance of the same class is not enough. So, I use a singleton to ensure that
-    the Errors() instanciation always return the same object (a monostate pattern wouldn't be enough, since it's only share state).
+    Implements a metaclass building errors from instances attributes. Errors are singleton and can be raised and catched.
+
+    >>raise Errors.E010
+    >>raise Errors.E010()
     """
 
     def __init__(cls, name, bases, attrs, *args, **kwargs):
         super().__init__(name, bases, attrs)
-        cls._instance = None
+        super().__setattr__("_instance", None)
+        super().__setattr__("_CACHED_ATTRIBUTES", dict())
 
     def __call__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super().__call__(*args, **kwargs)
-        return cls._instance
+        if super().__getattribute__("_instance") is None:
+            super().__setattr__("_instance", super().__call__(*args, **kwargs))
+        return super().__getattribute__("_instance")
+
+    def __getattribute__(cls, code):
+        """
+        Intercept the attribute getter to wrap the Error code in a metaclass. By doing so, the error code became
+        a proper class for which the name is the error code
+        """
+
+        try:
+            meta = super().__getattribute__("_CACHED_ATTRIBUTES")[code]
+        except KeyError:
+
+            # Retrieve the error message maching the code and preformat it
+            msg = super().__getattribute__(code)
+            msg = f"{PROJECT_NAME} : {code} - {msg}"
+
+            proto = super().__getattribute__("_PROTOTYPE")
+            meta = type(code, (proto,), {"msg": msg})
+            super().__getattribute__("_CACHED_ATTRIBUTES")[code] = meta
+
+        return meta
 
 
-class StatisfactoryCricial(Exception):
-    """
-    Base parent for all custom critical errors raised by the program.
-    The class performs base operation making the critical displayables
-    """
-
-    def __init__(self, *args, **kwargs):
-
-        super(StatisfactoryCricial, self).__init__(self.msg.format(**kwargs))
-        if args:
-            logger = get_module_logger(mod_name=args[0])
-        else:
-            logger = DEFAULT_LOGGER
-        logger.critical(str(self))  # Automatically logs the waning
-
-
-class SatisfactoryError(Exception):
+class ErrorPrototype(Exception):
     """
     Base parent for all custom errors raised by the program.
     The class performs base operation making the error message displaybale
     """
 
-    def __init__(self, *args, **kwargs):
+    msg: str = ""
 
-        super(SatisfactoryError, self).__init__(self.msg.format(**kwargs))
-        if args:
-            logger = get_module_logger(mod_name=args[0])
-        else:
-            logger = DEFAULT_LOGGER
-        logger.error(str(self))  # Automatically logs the error
+    def __init__(self, **kwargs):
+
+        super().__init__(self.msg.format(**kwargs))
 
 
-class StatisfactoryWarning(UserWarning):
+class WarningPrototype(UserWarning):
     """
     Base parent for all custom warnings raised by the program.
     The class performs base operation making the warning displayba;e
     """
 
-    def __init__(self, *args, **kwargs):
+    msg: str = ""
 
-        super(StatisfactoryWarning, self).__init__(self.msg.format(**kwargs))
-        if args:
-            logger = get_module_logger(mod_name=args[0])
-        else:
-            logger = DEFAULT_LOGGER
-        logger.warning(str(self))  # Automatically logs the waning
+    def __init__(self, **kwargs):
+
+        super().__init__(self.msg.format(**kwargs))
 
 
-def _raisable_attributes_factory(parent):
-    """
-    Decorate a class to transform her attributes as error or warning class.
-    The python's Try/Except mechansims is not based on equality comparison, but on object comparison : to be catched,
-    an object must be the very same than the one raised. Being a new instance of the same class won't work.
-    So, I use a caching mechanism on the attributes getter, to ensure that only ONE metaclass per error code would be imstancoated.
+class Errors(metaclass=ExceptionFactory):
 
-    Arguments:
-        parent {class} -- The base parent for the attributes : a class deriving from either an exception or a warning
-        logging_strategy {class} The strategy to use for the logging : for instance LOGGER.warning, or LOGGER.error
-    """
-
-    def wrapper(cls):
-        class ExceptionWithCode(cls):
-            cls._CACHED_ATTRIBUTES = dict()
-
-            # Ensure that only one metaclass will be created per error : if the same attribute is called, then the first one created will be recalled
-            def __getattribute__(self, code):
-                """
-                Intercept the attrribute getter to wrap the Error code in a metaclass. By doing so, the error code became
-                a proper class for which the name is the error code
-                """
-
-                try:
-                    meta = getattr(cls, "_CACHED_ATTRIBUTES")[
-                        code
-                    ]  # Yep ! there is a difference betweeen getattr and __getattribute__ ;)
-                except KeyError:
-
-                    # Retrieve the error message maching the code and preformat it
-                    msg = getattr(cls, code)
-                    msg = f"statisfactory : {code} - {msg}"
-
-                    meta = type(code, (parent,), {"msg": msg})
-                    getattr(cls, "_CACHED_ATTRIBUTES")[code] = meta
-
-                return meta
-
-        return ExceptionWithCode
-
-    return wrapper
-
-
-# Updatable class to store errors message and their corresponding warnings
-@_raisable_attributes_factory(StatisfactoryCricial)
-class Critical(metaclass=Singleton):
-
-    # Failure to start
-    pass
-
-
-@_raisable_attributes_factory(SatisfactoryError)
-class Errors(metaclass=Singleton):
+    _PROTOTYPE = ErrorPrototype
 
     # Init and connection related errors
     E010 = "start-up : statisfactory must be called from a folder, or the child of a folder, containing a 'statisfactory.yaml' file"
@@ -178,6 +126,10 @@ class Errors(metaclass=Singleton):
     E026 = "data interactor : failed to execute query {query} agains {name} connector"
     E027 = "data interactor : only not-null string can be interpolated"
     E028 = "data interactor : string '{trg}' is incomplettely formatted, missing parameters from context"
+    E0281 = "data interactor: failed to parse the Path parameter for Artifact {name}."
+    E0290 = "data interactor : {backend} failed to write the payload."
+    E0291 = "data interactor : {backend} failed to fetch the payload."
+    E0292 = "data interactor : scheme {scheme} does not map to any backend."
 
     # Catalog
     E030 = "catalog : the '{name}' artefact  does not exists"
@@ -192,6 +144,7 @@ class Errors(metaclass=Singleton):
     E044 = (
         "craft : the craft '{name}' signature expect nothing but got a not None value."
     )
+    E045 = "Craft : Crafts only support Artefact, Volatile and Keyword only parameters. Craft '{name}' got '{anno}'."
 
     # Pipeline
     E050 = "Pipeline : failed to run c raft '{func}'"
@@ -203,20 +156,26 @@ class Errors(metaclass=Singleton):
     # Session
     E060 = "Session : A Craft or a Pipeline must be executed in a 'with session:' statment. Use a context manager to execute the Craft / Pipeline."
     E061 = "Session : Session can't be injected in the craft's underlying callables as the Context already contain a param named Session"
+    E062 = "Session : The AWS session has not be configured. You must provide ACCESS_KEY and SECRET_KEY for the session to be instanciated."
 
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
 
 
-@_raisable_attributes_factory(StatisfactoryWarning)
 class Warnings(UserWarning):
+
+    _PROTOTYPE = WarningPrototype
+
     # Instanciation
     W010 = "start-up : PYTHONPATH is already set and won't be overwritted by Statisfactoy : the sources from 'Lib' MIGHT not be reachable"
-    w011 = "start-up : no globals.yaml config found. Defaulting to locals.yaml."
-    w012 = "start-up : no locals.yaml config found. Catalogs might not be inteprolated."
+    W011 = "start-up : no globals.yaml config found. Defaulting to locals.yaml."
+    W012 = "start-up : no locals.yaml config found. Catalogs might not be inteprolated."
 
     # Interactor
     W020 = "data interactor : '{inter_type}' is not a registered interactor."
+    W021 = (
+        "S3Backend : no 'AWS_S3_ENDPOINT' found in the configuration. Defaulting to AWS."
+    )
 
     # Craft
     W40 = (
@@ -224,14 +183,25 @@ class Warnings(UserWarning):
     )
 
     # Pipeline
-    W050 = "pipeline : keys collision : '{keys}'"
+    W050 = "Pipeline : keys collision : '{keys}'"
     W051 = (
-        "pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'"
+        "Pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'"
     )
 
+    # Session
+    W060 = "Session : the AWS client was not configured, as either (or both) AWS_ACCESS_KEY and AWS_SECRET_ACCESS_KEY were not found in the Globals / Locals configurations files."
 
-errors = Errors()
-warnings = Warnings()
+
+def _custom_formatwarning(msg, *args, **kwargs) -> str:
+    """
+    Monkey patch the warning displayor to avoid printing the code longside the Warnings.
+    Monkeypatching the formatter is acutalyy the way to do it as recommanded by Python's documention.
+    """
+    return f"Warning : {str(msg)} \n"
+
+
+warnings.formatwarning = _custom_formatwarning
+
 
 if __name__ == "__main__":
     sys.exit()

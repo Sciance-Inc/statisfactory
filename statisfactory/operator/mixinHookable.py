@@ -20,14 +20,14 @@ from contextlib import contextmanager
 from typing import Callable
 
 # project
-from ..logger import get_module_logger
+from ..logger import MixinLogable, get_module_logger
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
-_LOGGER = get_module_logger("mixinHookable")
+_LOGGER = get_module_logger(__name__)
 
 
 class MixinHookable:

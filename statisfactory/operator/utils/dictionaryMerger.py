@@ -16,9 +16,10 @@
 
 # System
 from typing import Dict
+from warnings import warn
 
 # Project
-from ...errors import warnings
+from ...errors import Warnings
 
 #############################################################################
 #                                 Packages                                  #
@@ -42,7 +43,7 @@ def merge_dictionaries(left: Dict, right: Dict, strict=True) -> Dict:
         raise KeyError(f"Colliding keys : {', '.join(colliding_keys)}")
 
     if is_collision:
-        warnings.W050(__name__, keys=", ".join(colliding_keys))
+        warn(Warnings.W050.format(keys=", ".join(colliding_keys)))  # type: ignore
 
     return {**left, **right}
 

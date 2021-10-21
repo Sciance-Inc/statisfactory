@@ -9,4 +9,7 @@ user: croustibat
 password: croustibat
 
 # Overwirte the path to my local path since I'm not using a remote storing
-base_path: /home/hugoj/10_projets/statisfactory/exemples/dummyRepo/Data
+base_path: /home/hugo/10_projets/statisfactory/exemples/dummyRepo/Data
+
+AWS_ACCESS_KEY: someRandomAccess
+AWS_SECRET_ACCESS_KEY: someRandomSecret

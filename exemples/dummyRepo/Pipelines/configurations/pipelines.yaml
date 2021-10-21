@@ -13,6 +13,8 @@ foo:
     param_1: 2
 
 custom:
+  _shared: 
+    year: 10
   _from:
     - base
     - foo

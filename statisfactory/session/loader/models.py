@@ -23,7 +23,7 @@ import yaml
 from marshmallow import Schema, fields, post_load
 
 # project
-from ...errors import errors
+from ...errors import Errors
 
 #############################################################################
 #                                  Script                                   #
@@ -49,9 +49,7 @@ class PipelineDefinition:
             with open(file) as f:
                 data = yaml.safe_load(f)
         except BaseException as error:
-            raise errors.E012(
-                __name__, file="Pipelines definition", path=file
-            ) from error
+            raise Errors.E012(file="Pipelines definition", path=file) from error  # type: ignore
 
         schema = Schema.from_dict(
             {key: fields.Nested(_PipelinesDefinitionsShema) for key in data}
@@ -60,7 +58,7 @@ class PipelineDefinition:
         try:
             return schema().load(data)
         except BaseException as error:
-            raise errors.E013(__name__, file="Pipelines definition") from error
+            raise Errors.E013(file="Pipelines definition") from error  # type: ignore
 
 
 class _PipelinesDefinitionsShema(Schema):

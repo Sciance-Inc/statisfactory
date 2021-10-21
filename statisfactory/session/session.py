@@ -16,16 +16,15 @@
 
 import os
 import sys
-import warnings as Warnings
 from pathlib import Path
 from string import Template
-# system
-from typing import Callable
+from typing import Any, Callable, Mapping, Union
+from warnings import warn
 
-# Third party
+import boto3
 from dynaconf import Dynaconf, Validator
 
-from ..errors import errors, warnings
+from ..errors import Errors, Warnings
 from ..IO import Catalog
 from ..logger import MixinLogable, get_module_logger
 from ..operator import Scoped
@@ -72,8 +71,6 @@ class Session(MixinLogable):
     * The '_' attribute schould be used to store user defined custom extension
     """
 
-    _finalized: bool = False  # Is the session instanciation finalized ?
-    __shared_state__ = {}  # Singleton's state holder
     _hooks = []
 
     @staticmethod
@@ -85,7 +82,7 @@ class Session(MixinLogable):
 
         S = Scoped().get_session()
         if not S:
-            raise errors.E060(__name__) from None
+            raise Errors.E060() from None  # type: ignore
 
         return S
 
@@ -102,21 +99,12 @@ class Session(MixinLogable):
                 return trg
             trg = trg.parent
             if trg == root:
-                raise errors.E010(__name__)
+                raise Errors.E010()  # type: ignore
 
     def __init__(self, *, root_folder: str = None):
         """
         Instanciate a Session by searching for the statisfactory.yaml file in the parent folders
         """
-
-        if self.__shared_state__ and Session._finalized:
-            self.__dict__ = self.__shared_state__
-            self.debug("Re-using already loaded Statisfactory session.")
-            Warnings.warn(
-                "The supper for monostate Session will be droped in 0.2.0",
-                PendingDeprecationWarning,
-            )
-            return
 
         super().__init__(logger_name=__name__)
 
@@ -140,15 +128,13 @@ class Session(MixinLogable):
 
         # Instanciate placeholders to be filled by mandatory hooks
         self._catalog = None
-        self._pipelines_definitions = None
-        self._pipelines_configurations = None
+        self._pipelines_definitions: Union[None, Mapping[str, Any]] = {}
+        self._pipelines_configurations: Union[None, Mapping[str, Any]] = {}
+        self._aws_session: Union[boto3.Session, None] = None
 
         # Execute any registered hooks
         for h in Session._hooks:
             h(self)
-
-        # Set the Singleton flag to true as all hooks has been properly executed.
-        Session._finalized = True
 
         self.info("All done ! You are ready to go ! \U00002728 \U0001F370 \U00002728")
 
@@ -175,7 +161,7 @@ class Session(MixinLogable):
         return self._root
 
     @property
-    def settings(self):
+    def settings(self) -> Dynaconf:
         """
         Getter for the session's base setting.
         """
@@ -205,6 +191,19 @@ class Session(MixinLogable):
         """
 
         return self._pipelines_configurations
+
+    @property
+    def aws_session(self) -> boto3.Session:
+        """
+        Getter for the AWS client
+        Returns:
+            boto3.Session: The session configured via the initiaition hook.
+        """
+
+        if not self._aws_session:
+            raise Errors.E062()  # type: ignore
+
+        return self._aws_session
 
     @classmethod
     def hook_post_init(cls, last=True) -> Callable:
@@ -243,7 +242,7 @@ class _DefaultHooks:
         if "sources" not in sess.settings:
             return
 
-        src_path = (sess.root / sess.settings.sources).resolve()
+        src_path = (sess.root / str(sess.settings.sources)).resolve()
 
         # Insert Lib into the Path
         if src_path not in sys.path:
@@ -253,7 +252,7 @@ class _DefaultHooks:
         # Create / update the python path
         try:
             os.environ["PYTHONPATH"]
-            warnings.W010(__name__)
+            warn(Warnings.W010)  # type: ignore
         except KeyError:
             os.environ["PYTHONPATH"] = str(src_path)
             sess.info(f"setting PYTHONPATH to '{sess.settings.sources}'")
@@ -267,22 +266,22 @@ class _DefaultHooks:
 
         # Warn the user if a configuration target is missing
         targets = {
-            "globals.yaml": warnings.w011,
-            "locals.yaml": warnings.w012,
+            "globals.yaml": Warnings.W011,
+            "locals.yaml": Warnings.W012,
         }
 
         for target, w in targets.items():
-            if not (sess.root / sess.settings.configuration / target).exists():
-                w(__name__)
+            if not (sess.root / str(sess.settings.configuration) / target).exists():
+                warn(w)
 
         # Fetch all the config file, in the reversed preceding order (to allow for variables shadowing)
-        base = sess.root / sess.settings.configuration
+        base = sess.root / str(sess.settings.configuration)
         settings = Dynaconf(
             settings_files=[base / target for target in targets.keys()],
             load_dotenv=False,
         )
 
-        sess._settings.update(settings)
+        sess._settings.update(settings)  # type: ignore
 
     @staticmethod
     @Session.hook_post_init()
@@ -291,24 +290,24 @@ class _DefaultHooks:
         Attach the catalog to the session
         """
         # Read the raw catalog
-        path = sess.root / sess.settings.catalog
+        path = sess.root / str(sess.settings.catalog)
         try:
             with open(path) as f:
                 catalog_representation = _CatalogTemplateParser(f.read())
         except FileNotFoundError as error:
-            raise errors.E011(__name__, path=path) from error
+            raise Errors.E011(path=path) from error  # type: ignore
 
         # Render the catalog with the settings
         if sess.settings:
             try:
                 catalog_representation = catalog_representation.substitute(
-                    sess.settings
+                    sess.settings  # type: ignore
                 )
             except BaseException as error:
-                raise errors.E014 from error
+                raise Errors.E014() from error  # type: ignore
 
         # Parse the catalog representation
-        sess._catalog = Catalog(dump=catalog_representation, session=sess)
+        sess._catalog = Catalog(dump=catalog_representation, session=sess)  # type: ignore
 
     @staticmethod
     @Session.hook_post_init()
@@ -321,9 +320,9 @@ class _DefaultHooks:
             sess.warn("No Pipelines configuration to set up.")
             return
 
-        path = (sess.root / sess.settings.pipelines_configurations).resolve()
+        path = (sess.root / str(sess.settings.pipelines_configurations)).resolve()
 
-        configurations = ConfigsLoader.load(path=path)
+        configurations = ConfigsLoader.load(path=str(path))
 
         sess._pipelines_configurations = configurations
 
@@ -337,11 +336,32 @@ class _DefaultHooks:
             sess.warn("No Pipelines definitions to set up.")
             return
 
-        path = (sess.root / sess.settings.pipelines_definitions).resolve()
+        path = (sess.root / str(sess.settings.pipelines_definitions)).resolve()
 
-        pipelines = PipelinesLoader.load(path=path)
+        pipelines = PipelinesLoader.load(path=str(path))
 
         sess._pipelines_definitions = pipelines
+
+    @staticmethod
+    @Session.hook_post_init()
+    def set_AWS_client(sess: Session) -> None:
+        """
+        Configure a Mamazon session.
+
+        TODO : add support for AWS profiles
+
+        Args:
+            sess (Session): The statisfactory session
+        """
+
+        try:
+            sess._aws_session = boto3.Session(
+                aws_access_key_id=sess.settings["AWS_ACCESS_KEY"],
+                aws_secret_access_key=sess.settings["AWS_SECRET_ACCESS_KEY"],
+                region_name=sess.settings.get("AWS_REGION", "us-east-1"),
+            )
+        except KeyError:
+            warn(Warnings.W060)
 
 
 #############################################################################

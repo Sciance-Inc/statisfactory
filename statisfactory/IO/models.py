@@ -17,13 +17,14 @@
 from dataclasses import dataclass, field
 # system
 from typing import Dict, List, Optional
+from warnings import warn
 
 import yaml
 from marshmallow import (Schema, ValidationError, fields, post_load,
                          validates_schema)
 
 # third party
-from ..errors import warnings
+from ..errors import Warnings
 
 # project
 
@@ -147,7 +148,7 @@ class _ArtefactSchema(Schema):
     @post_load
     def make_artefact(self, data, **kwargs):
         if data["type"] not in _ArtefactSchema.valids_artefacts:
-            warnings.W020(__name__, inter_type=data["type"])
+            warn(Warnings.W020.format(inter_type=data["type"]))  # type: ignore
 
         return Artefact(name=None, **data)
 
@@ -174,8 +175,8 @@ class CatalogData:
     State of the catalogue.
     """
 
-    artefacts: List[Dict[str, Artefact]]
-    connectors: List[Dict[str, Connector]] = field(default_factory=list)
+    artefacts: Dict[str, Artefact]
+    connectors: Dict[str, Connector]  # = field(default_factory=list)
 
     def __post_init__(self):
         """

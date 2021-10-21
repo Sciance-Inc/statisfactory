@@ -17,71 +17,45 @@
 # system
 from __future__ import annotations  # noqa
 
-from abc import ABCMeta, abstractmethod
 from copy import copy
-from typing import TYPE_CHECKING, Any, Iterable, Mapping
+from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Mapping, Union
 
-from ...errors import errors
+from ...errors import Errors
 from ...logger import MixinLogable
-from ..selements import SElementKind
+from ..annotations import AnnotationKind
 from ..utils import merge_dictionaries
 # project
-from .solver import Solver
+from .solver import DAGSolver
 
 # Third party
 
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from ..craft import Craft
+    from ..craft import _Craft
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
-class Runner(MixinLogable, metaclass=ABCMeta):
+class Runner(MixinLogable):
     """
-    Represents an Interface for the Runners and provide Runners with helpers
-    A Runner executes a Computational Graph and track the state.
+    Implements a way of running multiples crafts defined together in a pipeline
     """
 
-    _runners = {}
-    _logger_name = "runner"
-
-    def __init__(self, *, crafts: Iterable[Craft], solver: Solver):
+    def __init__(self, *, crafts: List[_Craft]):
         """
         Instanciate the runners, and prepare the Dag resolution
         """
 
-        self._solver = solver(crafts)
+        self._solver = DAGSolver(crafts)
         self._length = len(crafts)
-        super().__init__(logger_name=__name__ + "." + self._logger_name)
-
-    def __init_subclass__(cls, runner_name: str, *args, **kwargs):
-        """
-        Register the childs runner into the runners dict.
-        See PEP-487 for details.
-        """
-
-        super().__init_subclass__()
-        Runner._runners[runner_name] = cls
-
-    @classmethod
-    def get_runner_by_name(cls, name):
-        return cls._runners[name]
-
-    @abstractmethod
-    def __call__(self, *, volatiles: Mapping = None, context: Mapping = None):  # noqa
-        """
-        Execute a serie of crafts.
-        """
-
-        raise NotImplementedError("must be implemented in the concrete class")
+        super().__init__(logger_name=__name__)
 
     def _update_volatiles(
-        self, accumulated: Mapping, craft: Craft, craft_output: Iterable[Any]
-    ) -> Mapping:
+        self, accumulated: Dict[str, Any], craft: _Craft, craft_output: Iterable[Any]
+    ) -> Dict[str, Any]:
         """
         Return a new Volatile mapping, from the union of the current `accumulated` mapping with the volatiles extracted from a craft.
         Raise an error if keys collides.
@@ -94,135 +68,48 @@ class Runner(MixinLogable, metaclass=ABCMeta):
         update = {
             anno.name: value
             for anno, value in zip(craft.output_annotations, craft_output)
-            if anno.kind == SElementKind.VOLATILE
+            if anno.kind == AnnotationKind.VOLATILE
         }
 
         # Merge the accumulated with the output
         try:
             updated = merge_dictionaries(accumulated, update)
         except KeyError as error:
-            raise errors.E052(__name__, name=craft.name, kind="volatile") from error
+            raise Errors.E052(name=craft.name, kind="volatile") from error  # type: ignore
 
         return updated
-
-
-class SequentialRunner(Runner, runner_name="SequentialRunner"):
-    """
-    Execute a DAG in a sequential way.
-    """
-
-    _logger_name = "sequentialRunner"
 
     def __iter__(self):
         """
         Unesting generator over the batchs returned by the DAG solver.
         """
 
-        for batch in self._solver:
+        for batch in self._solver:  # type: ignore
             for craft in batch:
                 yield copy(craft)
-
-    def _update_context(self, accumulated: Mapping, craft: Craft) -> Mapping:
-        """
-        Return a new Context mapping, from the union of the current `accumulated`
-        mapping with the default values of the craft's annotation.
-        """
-
-        # Extract the implicit context from the craft signature : since a pipeline does not use variadic positionals arguments, the implicit context is simply the default values of the craft's arguments
-        # TODO : implements this filter in the future anno classes hierarchies : DO NOT ADD to the implicit context the artifacts nor volatiles values
-        implicit_context = {
-            anno.name: anno.default
-            for anno in craft.input_annotations
-            if anno.has_default and anno.kind.value >= 3
-        }
-
-        # Union the implicit context with the running context, but give priority to running context
-        updated = {**implicit_context, **accumulated}
-
-        return updated
-
-    def __call__(self, *, volatiles: Mapping = None, context: Mapping = None):
-        """
-        Iterate through the crafts and accumulate the volatiles and context object, starting from a the given ones.
-        """
-
-        # Initiate the two states to their default values if none is provided.
-        running_volatile = volatiles or {}
-        running_context = context or {}
-
-        # Initiate a cursor to keep track of the progress
-        cursor = 1
-
-        # Iterate over the craft and accumulate the States
-        for craft in self:
-            self.info(f"running craft '{craft.name}'.")
-
-            try:
-                # The pipeline's call to a craft does not use any variadic arguments
-                output = craft(volatiles_mapping=running_volatile, **running_context)
-            except BaseException as err:
-                raise errors.E050(__name__, func=craft.name) from err
-
-            # Convert the output to a tuple
-            if not isinstance(output, tuple):
-                output = (output,)
-
-            # Accumulate the running volatiles and context
-            running_volatile = self._update_volatiles(running_volatile, craft, output)
-            running_context = self._update_context(running_context, craft)
-
-            self.info(f"Completed {cursor} out of {self._length} tasks.")
-            cursor += 1
-
-        return running_volatile
-
-
-class NameSpacedSequentialRunner(Runner, runner_name="NameSpacedSequentialRunner"):
-    """
-    Execute a DAG in a sequential way with NamedSpaced parameters.
-
-    The NameSpaced runner expects the context to be a map of crafts.name to crafts.parameters.
-    Implicit context is NOT forwarded to the next craft.
-    """
-
-    _logger_name = "NameSpacedSequentialRunner"
-
-    def __iter__(self):
-        """
-        Unesting generator over the batchs returned by the DAG solver.
-        """
-
-        for batch in self._solver:
-            for craft in batch:
-                yield copy(craft)
-
-    def _get_implicit_context(self, craft: Craft) -> Mapping:
-        """
-        Extract the implicit context of a Craft.
-        """
-
-        # Extract the implicit context from the craft signature : since a pipeline does not use variadic positionals arguments, the implicit context is simply the default values of the craft's arguments
-        implicit_context = {
-            anno.name: anno.default
-            for anno in craft.input_annotations
-            if anno.has_default
-        }
-
-        return implicit_context
 
     def __call__(
         self,
-        *,
-        volatiles: Mapping = None,
-        context: Mapping[Mapping, Any] = None,
-    ):  # noqa
+        shared: Union[None, Dict[str, Any]] = None,
+        namespaced: Union[None, Dict[str, Dict[str, Any]]] = None,
+    ) -> Dict[str, Any]:
         """
         Iterate through the crafts and accumulate the volatiles and context object, starting from a the given ones.
+
+        Args:
+            shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
+            namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
+
+        Returns:
+            Dict[str, Any]: the final transient state resultuing from the craft application
         """
 
-        # Initiate the two states to their default values if none is provided.
-        running_volatile = volatiles or {}
-        context = context or {}
+        # Set default for dictionnaries
+        shared = shared or {}
+        namespaced = namespaced or {}
+
+        # Initiate a mapping of volatiles values
+        running_volatile: Dict[str, Any] = {}
 
         # Initiate a cursor to keep track of the progress
         cursor = 1
@@ -232,29 +119,24 @@ class NameSpacedSequentialRunner(Runner, runner_name="NameSpacedSequentialRunner
             self.info(f"running craft '{craft.name}'.")
 
             # Extract the parameters for this Craft from it's full name : module + craft's name :
-            craft_module = craft.__module__ if craft.__module__ != "__main__" else ""
-            craft_full_name = ".".join([craft_module, craft.name])
-            name_spaced_context = context.get(craft_full_name, {})
-            if not name_spaced_context:
-                self.info(f"{craft_full_name} : No parameters configuration.")
-            else:
-                self.info(
-                    f"{craft_full_name} : using parameters : {name_spaced_context} "
-                )
+            craft_module = craft.__module__ if craft.__module__ != "__main__" else None
+            craft_full_name = ".".join(filter(None, (craft_module, craft.name)))
 
-            shared_context = context.get("_shared", {})
-            name_spaced_context = {**name_spaced_context, **shared_context}
+            # Build the craft execution context from the shared context and the craft's one
+            craft_namespaced_context = namespaced.get(craft_full_name, {})
+            if not isinstance(craft_namespaced_context, (Mapping)):
+                raise Errors.E055(got=str(type(craft_namespaced_context)))  # type: ignore
 
-            if not isinstance(name_spaced_context, (Mapping)):
-                raise errors.E055(__name__, got=str(type(name_spaced_context)))
+            craft_context = {**shared, **craft_namespaced_context}  # type: ignore
+
+            self.info(
+                f"Executing {craft_full_name} with execution context : \n {craft_context}"
+            )
 
             try:
-                # The pipeline's call to a craft does not use any variadic arguments
-                output = craft(
-                    volatiles_mapping=running_volatile, **name_spaced_context
-                )
+                output = craft(volatiles_mapping=running_volatile, **craft_context)
             except BaseException as err:
-                raise errors.E050(__name__, func=craft.name) from err
+                raise Errors.E050(func=craft.name) from err  # type: ignore
 
             # Convert the output to a tuple
             if not isinstance(output, tuple):

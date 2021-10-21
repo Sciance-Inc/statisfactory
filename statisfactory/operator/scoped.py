@@ -19,7 +19,7 @@
 import threading
 
 # project
-from ..errors import errors
+from ..errors import Errors
 
 # Third party
 
@@ -41,7 +41,7 @@ class Scoped:
 
     def get_session(self):
         if Scoped._sessions.session is None:
-            raise errors.E060(__name__)
+            raise Errors.E060()  # type: ignore
 
         return Scoped._sessions.session
 

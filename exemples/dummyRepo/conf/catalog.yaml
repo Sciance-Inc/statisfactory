@@ -15,7 +15,28 @@ artefacts:
       # Use the namespaces.value notation to retrieve a namedscpaced value
       # Use the {} notation, to define a dynamic value to be interpolated AT RUNTIME. MasterFile is an Abstract Artefact, and it's variations are determined by the value of samples.
       path: ${base_path}/${environment}/${layers.raw}/masterFile_!{samples}.csv
+  
   - coeffs:
       type: pickle
       # The {} notation can also be used to interact with folders.
       path: ${base_path}/${environment}/${layers.out}/model_!{samples}/coeff.pkl
+      
+  - coeffs_minio:
+      type: pickle
+      # The URI can also be a remote, far, far away file system
+      path: s3://${bucket}/${environment}/${layers.out}/model_!{samples}/coeff.pkl
+      
+  - coeffs_minio_xlsx:
+      type: csv
+      # The URI can also be a remote, far, far away file system
+      path: s3://${bucket}/${environment}/${layers.out}/model_!{samples}/coeff.csv
+      load_options:
+          - index_col: 0
+      
+  - report:
+      type: datapane
+      path: s3://${bucket}/${environment}/${layers.out}/report.html
+      
+  - report_local:
+      type: datapane
+      path: ${base_path}/${environment}/${layers.out}/report.html

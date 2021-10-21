@@ -15,28 +15,33 @@
 #############################################################################
 
 # system
-from __future__ import annotations  # noqa
+from __future__ import annotations
 
 import pickle
+import tempfile
 from abc import ABCMeta, abstractmethod
 from contextlib import contextmanager
+from io import BytesIO  # noqa
 from pathlib import Path
 from string import Template
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, Any, Dict, Type, Union
+from urllib.parse import ParseResult, urlparse
 
-import datapane as dp
+import datapane as dp  # type: ignore
 # third party
 import pandas as pd
 import pyodbc
 
-from ..errors import errors
-from ..logger import MixinLogable, get_module_logger
+from ...errors import Errors
+from ...logger import MixinLogable, get_module_logger
 # project
-from .models import _ArtefactSchema
+from ..models import _ArtefactSchema
+from .backend import LocalFS, S3Backend
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from ..session import Session
+    from ...session import Session
+    from .backend import Backend
 
 #############################################################################
 #                                  Script                                   #
@@ -59,10 +64,38 @@ class DynamicInterpolation(Template):
       {(?P<braced>[_a-z][_a-z0-9]*)} |
       (?P<invalid>)
     )
+    """  # type: ignore
+
+
+class MixinInterpolable:
+    """
+    Implements helpers to interpolate a string
     """
 
+    def __init__(self, *args, **kwargs):
+        """
+        Instanciate the MixinInterpolable
+        """
 
-class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
+        super().__init__(*args, **kwargs)
+
+    def _interpolate_string(self, string, **kwargs):
+        """
+        Interpolate a given string using the provided context
+        """
+
+        if not string:
+            raise Errors.E027()  # type: ignore
+
+        try:
+            string = DynamicInterpolation(string).substitute(**kwargs)
+        except KeyError as err:
+            raise Errors.E028(trg=string) from err  # type: ignore
+
+        return string
+
+
+class ArtefactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
     """
     Describe the Interactor's interface.
     An interactor wraps the loading and saving operations of a Artefact.
@@ -74,8 +107,14 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
     # A placeholder for all registered interactors
     _interactors = dict()
 
+    # A mapping of URI fragment to backend
+    _scheme_to_mapping: Dict[str, Type[Backend]] = {
+        "s3": S3Backend,
+        "": LocalFS,
+    }
+
     @abstractmethod
-    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+    def __init__(self, artefact, *args, session: Session, **kwargs):
         """
         Instanciate a new interactor.
 
@@ -88,7 +127,7 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         self._load_options = artefact.load_options
         self._session = session
 
-    def __init_subclass__(cls, interactor_name, **kwargs):
+    def __init_subclass__(cls, interactor_name, register: bool = True, **kwargs):
         """
         Implement the registration of a child class into the artefact class.
         By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
@@ -96,10 +135,12 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         """
 
         super().__init_subclass__(**kwargs)
+        if not register:
+            return
 
         # Register the new interactors into the artefactclass
         if ArtefactInteractor._interactors.get(interactor_name):
-            raise errors.E020(__name__, name=interactor_name)
+            raise Errors.E020(name=interactor_name)  # type: ignore
 
         ArtefactInteractor._interactors[interactor_name] = cls
 
@@ -129,76 +170,56 @@ class ArtefactInteractor(MixinLogable, metaclass=ABCMeta):
         raise NotImplementedError("must be implemented in the concrete class")
 
 
-# ------------------------------------------------------------------------- #
-
-
-class MixinInterpolable:
+class FileBasedInteractor(
+    ArtefactInteractor, interactor_name="", register=False, metaclass=ABCMeta
+):
     """
-    Implements helpers to interpolate a string
+    Extend the Artefact Interactor with Path interpolations
     """
 
     def __init__(self, artefact, *args, session: Session = None, **kwargs):
         """
-        Instanciate the MixinInterpolable
+        Set the fragment from the Artefact Path
         """
 
-        super().__init__(artefact, session=session, **kwargs)
+        super().__init__(artefact, *args, session=session, **kwargs)  # type: ignore
 
-    def _interpolate_string(self, string, **kwargs):
-        """
-        Interpolate a given string using the provided context
-        """
-
-        if not string:
-            raise errors.E027(__name__)
-
+        # Extract the fragment from the URI
         try:
-            string = DynamicInterpolation(string).substitute(**kwargs)
-        except KeyError as err:
-            raise errors.E028(__name__, trg=string) from err
+            URI = self._interpolate_string(string=artefact.path, **kwargs)
+            fragment = urlparse(URI)
+        except BaseException as error:
+            raise Errors.E0281(name=self.name) from error  # type: ignore
 
-        return string
+        self._fragment = fragment
 
-
-class MixinLocalFileSystem(MixinInterpolable):
-    """
-    Implements helpers to manipulate a local file system.
-    """
-
-    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+    def _put(self, payload: bytes):
         """
-        Instanciate a MixinLocalFileSystem. For cooperative multiple inheritance only.
-        """
-
-        super().__init__(artefact, *args, session=Session, **kwargs)
-
-    def _interpolate_path(self, path: Union[str, Path], **kwargs) -> Path:
-        """
-        Interpolate the Path using a provided a context
-        The string is interpolated the named variadics arguments.
-
-        Returns:
-            Path: the fully qualified canonical path to the artefact.
-        """
-
-        path = Path(self._interpolate_string(str(path), **kwargs))
-        return path.absolute()
-
-    def _create_parents(self, path: Path):
-        """
-        Create all the parents of a given path.
+        Put the payload to the URI
 
         Args:
-            path (Path): the path to create the parent from
+            payload (BytesIO): The payload encoded as BytesIO to push.
         """
 
-        path.parents[0].mkdir(parents=True, exist_ok=True)
+        backend = self._scheme_to_mapping.get(self._fragment.scheme, None)
+        if not backend:
+            raise Errors.E0292(scheme=fragment.scheme)  # type: ignore
+
+        backend(session=self._session).put(payload=payload, fragment=self._fragment)
+
+    def _get(self) -> bytes:
+        """
+        Get a payload from the URI
+        """
+
+        backend = self._scheme_to_mapping.get(self._fragment.scheme, None)
+        if not backend:
+            raise Errors.E0292(scheme=self._fragment.scheme)  # type: ignore
+
+        return backend(session=self._session).get(fragment=self._fragment)  # type: ignore
 
 
-# ------------------------------------------------------------------------- #
-
-
-class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="csv"):
+class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
     """
     Concrete implementation of a csv interactor
     """
@@ -212,10 +233,7 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="c
             kwargs: named-arguments to be fowarded to the pandas.read_csv method.
         """
 
-        super().__init__(artefact, *args, session=session, **kwargs)
-
-        self._path = self._interpolate_path(path=artefact.path, **kwargs)
-        self._kwargs = kwargs
+        super().__init__(artefact, *args, session=session, **kwargs)  # type: ignore
 
     def load(self) -> pd.DataFrame:
         """
@@ -227,14 +245,14 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="c
 
         self.debug(f"loading 'csv' : {self.name}")
 
-        try:
-            df = pd.read_csv(self._path, **self._load_options)
-        except FileNotFoundError as err:
-            raise errors.E024(__name__, path=self._path) from err
-        except BaseException as err:
-            raise errors.E021(__name__, method="csv", path=self._path) from err
+        payload = self._get()
 
-        return df
+        try:
+            df = pd.read_csv(BytesIO(payload), **self._load_options)
+        except BaseException as err:
+            raise Errors.E021(method="csv", path=self._path) from err  # type: ignore
+
+        return df  # type: ignore
 
     def save(self, asset: Union[pd.DataFrame, pd.Series]):
         """
@@ -246,25 +264,20 @@ class CSVInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="c
         self.debug(f"saving 'csv' : {self.name}")
 
         if not isinstance(asset, (pd.DataFrame, pd.Series)):
-            raise errors.E023(
-                __name__,
+            raise Errors.E023(
                 interactor="csv",
                 accept="pd.DataFrame, pd.Series",
                 got=type(asset),
-            )
-
-        self._create_parents(self._path)
+            )  # type: ignore
 
         try:
-            asset.to_csv(self._path, **self._save_options)
+            payload = asset.to_csv().encode("utf-8")
+            self._put(payload=payload)
         except BaseException as err:
-            raise errors.E022(__name__, method="csv", name=self.name) from err
+            raise Errors.E022(method="csv", name=self.name) from err  # type: ignore
 
 
-# ------------------------------------------------------------------------- #
-
-
-class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="xslx"):
+class XLSXInteractor(FileBasedInteractor, interactor_name="xslx"):
     """
     Concrete implementation of an XLSX interactor
     """
@@ -280,27 +293,22 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="
 
         super().__init__(artefact, *args, session=session, **kwargs)
 
-        self._path = self._interpolate_path(path=artefact.path, **kwargs)
-        self._kwargs = kwargs
-
     def load(self) -> pd.DataFrame:
         """
         Parse 'path' as a pandas dataframe and return it
 
         Returns:
             pd.DataFrame: the parsed dataframe
-
-        TODO : add a wrapper for kwargs
         """
 
         self.debug(f"loading 'xslx' : {self.name}")
 
+        paylaod = self._get()
+
         try:
-            df = pd.read_excel(self._path, **self._load_options)
-        except FileNotFoundError as err:
-            raise errors.E024(__name__, path=self._path) from err
+            df = pd.read_excel(paylaod, **self._load_options)  # type: ignore
         except BaseException as err:
-            raise errors.E021(__name__, method="xslx", path=self._path) from err
+            raise Errors.E021(method="xslx", path=self._path) from err  # type: ignore
 
         return df
 
@@ -314,27 +322,25 @@ class XLSXInteractor(ArtefactInteractor, MixinLocalFileSystem, interactor_name="
         self.debug(f"saving 'xslx' : {self.name}")
 
         if not isinstance(asset, (pd.DataFrame, pd.Series)):
-            raise errors.E023(
-                __name__,
+            raise Errors.E023(
                 interactor="xlsx",
                 accept="pd.DataFrame, pd.Series",
                 got=type(asset),
-            )
-
-        self._create_parents(self._path)
+            )  # type: ignore
 
         try:
-            asset.to_excel(self._path, **self._save_options)
+            buffer = BytesIO()
+            with pd.ExcelWriter(buffer) as writer:
+                asset.to_excel(writer)
+            self._put(payload=buffer.getbuffer())
         except BaseException as err:
-            raise errors.E022(__name__, method="xslx", name=self.name) from err
+            raise Errors.E022(method="xslx", name=self.name) from err  # type: ignore
 
 
 # ------------------------------------------------------------------------- #
 
 
-class PicklerInteractor(
-    ArtefactInteractor, MixinLocalFileSystem, interactor_name="pickle"
-):
+class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
     """
     Concrete implementation of a Pickle interactor.
     """
@@ -350,28 +356,22 @@ class PicklerInteractor(
 
         super().__init__(artefact, *args, session=session, **kwargs)
 
-        self._path = self._interpolate_path(path=artefact.path, **kwargs)
-        self._kwargs = kwargs
-
     def load(self) -> Any:
         """
         Unserialize the object located at 'path'
 
         Returns:
             Any: the unpickled object
-
-        TODO : add a wrapper for kwargs
         """
 
         self.debug(f"loading 'pickle' : {self.name}")
 
+        payload = self._get()
+
         try:
-            with open(self._path, "rb") as f:
-                obj = pickle.load(f, **self._load_options)
-        except FileNotFoundError as err:
-            raise errors.E024(__name__, path=self._path) from err
+            obj = pickle.loads(payload, **self._load_options)
         except BaseException as err:
-            raise errors.E021(__name__, method="pickle", path=self._path) from err
+            raise Errors.E021(method="pickle", path=self._path) from err  # type: ignore
 
         return obj
 
@@ -384,13 +384,11 @@ class PicklerInteractor(
 
         self.debug(f"saving 'pickle' : {self.name}")
 
-        self._create_parents(self._path)
-
         try:
-            with open(self._path, "wb+") as f:
-                pickle.dump(asset, f, **self._save_options)
+            payload = pickle.dumps(asset, **self._save_options)
+            self._put(payload=payload)
         except BaseException as err:
-            raise errors.E022(__name__, method="pickle", name=self.name) from err
+            raise Errors.E022(method="pickle", name=self.name) from err  # type: ignore
 
 
 # ------------------------------------------------------------------------- #
@@ -417,7 +415,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
         self._connector = connector
         self._kwargs = kwargs
 
-        super().__init__(artefact, *args, session=session, **kwargs)
+        super().__init__(artefact, *args, session=session, **kwargs)  # type: ignore
 
     @contextmanager
     def _get_connection(self):
@@ -435,7 +433,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
             with pyodbc.connect(self._connector.connString) as cnxn:
                 yield cnxn
         except BaseException as error:
-            raise errors.E025(__name__, name=self._connector.name) from error
+            raise Errors.E025(name=self._connector.name) from error  # type: ignore
 
         self.debug(f"closing connection to {self._connector.name}")
         return
@@ -454,22 +452,20 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
             try:
                 data = pd.read_sql(self._query, cnxn, **self._load_options)
             except BaseException as error:
-                raise errors.E026(
-                    __name__, query=self._query, name=self._connector.name
-                ) from error
+                raise Errors.E026(
+                    query=self._query, name=self._connector.name
+                ) from error  # type: ignore
 
         return data
 
     def save(self, asset: Any):
-        raise errors.E999
+        raise Errors.E999()  # type: ignore
 
 
 # ------------------------------------------------------------------------- #
 
 
-class DatapaneInteractor(
-    ArtefactInteractor, MixinLocalFileSystem, interactor_name="datapane"
-):
+class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
     """
     Implements saving / loading for datapane object.
     """
@@ -480,7 +476,6 @@ class DatapaneInteractor(
         """
 
         super().__init__(artefact, *args, session=session, **kwargs)
-        self._path = self._interpolate_path(path=artefact.path, **kwargs)
 
     def load(self):
         """
@@ -489,32 +484,41 @@ class DatapaneInteractor(
             NotImplementedErrord
         """
 
-        raise errors.E999
+        raise Errors.E999()  # type: ignore
 
-    def save(self, asset: dp.Report, open=False):
+    def save(self, asset: dp.Report):
         """
         Save a datapane assert
 
         Args:
             artefact (dp.Report): the datapane report object to be saved.
             open (bool): whether open the report on saving.
+
+        Implementation details
+        ======================
+        * The datapane file is first written to temp directory before being serialized back to bytes (I failled lamentably at finding how to extract the HTML from datapane)
         """
 
         self.debug(f"saving 'datapane' : {self.name}")
 
         try:
-            self._create_parents(self._path)
-            asset.save(self._path, open=open, **self._load_options)
+
+            with tempfile.TemporaryDirectory() as tmp:
+                path = Path(tmp) / "report.html"
+                asset.save(path, open=False, **self._load_options)
+
+                with open(path, "rb") as f:
+                    payload = f.read()
+                    self._put(payload)
+
         except BaseException as error:
-            raise errors.E022(__name__, method="datapane", name=self.name) from error
+            raise Errors.E022(method="datapane", name=self.name) from error  # type: ignore
 
 
 # ------------------------------------------------------------------------- #
 
 
-class BinaryInteractor(
-    ArtefactInteractor, MixinLocalFileSystem, interactor_name="binary"
-):
+class BinaryInteractor(FileBasedInteractor, interactor_name="binary"):
     """
     Implements saving / loading for binary raw object
     """
@@ -525,7 +529,6 @@ class BinaryInteractor(
         """
 
         super().__init__(artefact, *args, session=session, **kwargs)
-        self._path = self._interpolate_path(path=artefact.path, **kwargs)
 
     def load(self):
         """
@@ -534,17 +537,16 @@ class BinaryInteractor(
 
         self.debug(f"loading 'binary' : {self.name}")
 
+        payload = self._get()
+
         try:
-            with open(self._path, "rb") as f:
-                obj = f.read(**self._load_options)
-        except FileNotFoundError as err:
-            raise errors.E024(__name__, path=self._path) from err
+            obj = BytesIO(payload).read(**self._load_options)
         except BaseException as err:
-            raise errors.E021(__name__, method="binary", name=self.name) from err
+            raise Errors.E021(method="binary", name=self.name) from err  # type: ignore
 
         return obj
 
-    def save(self, asset: Any):
+    def save(self, asset: bytes):
         """
         Save a datapane assert
 
@@ -555,11 +557,9 @@ class BinaryInteractor(
         self.debug(f"saving 'binary' : {self.name}")
 
         try:
-            self._create_parents(self._path)
-            with open(self._path, "wb+") as f:
-                f.write(asset, **self._save_options)
+            self._put(payload=asset)
         except BaseException as error:
-            raise errors.E022(__name__, method="binary", name=self.name) from error
+            raise Errors.E022(method="binary", name=self.name) from error  # type: ignore
 
 
 #############################################################################

@@ -18,7 +18,7 @@ from importlib import import_module
 # system
 from typing import Mapping
 
-from ...errors import errors
+from ...errors import Errors
 from ...operator import Pipeline
 # project
 from .models import PipelineDefinition
@@ -33,12 +33,13 @@ class PipelinesLoader:
     Parse the Pipelines and definition files and and return operator.Pipeline objects.
     """
 
+    @staticmethod
     def _load_pipeline(name, definition: Mapping, raw: Mapping) -> Pipeline:
 
         P = Pipeline(
-            name=name, namespaced=True, **definition.config
+            name=name, **definition.config  # type: ignore
         )  # By default, YAML pipelines are namespaced
-        for target_name in definition.operators:
+        for target_name in definition.operators:  # type: ignore
 
             # If the name is declared in raw -> then it's a pipeline to be built
             is_pipeline = target_name in raw
@@ -58,16 +59,15 @@ class PipelinesLoader:
                         callable_,
                     )
                 except ImportError as error:
-                    raise errors.E015(
-                        __name__, pip_name=name, module=".".join(modules)
-                    ) from error
+                    raise Errors.E015(
+                        pip_name=name, module=".".join(modules)
+                    ) from error  # type: ignore
                 except AttributeError as error:
-                    raise errors.E017(
-                        __name__,
+                    raise Errors.E017(
                         pip_name=name,
                         module=".".join(modules),
                         craft_name=callable_,
-                    ) from error
+                    ) from error  # type: ignore
 
                 P = P + craft
 

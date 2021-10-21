@@ -15,22 +15,24 @@
 #############################################################################
 
 # system
-from typing import Dict, Mapping, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Union
 
-from ...logger import MixinLogable, get_module_logger
+from ...logger import MixinLogable
 from ..mixinHookable import MixinHookable
 from ..scoped import Scoped
 from ..utils import MergeableInterface
 from .runner import Runner
 # project
-from .solver import DAGSolver, Solver
+from .solver import DAGSolver
 from .viz import Graphviz
+
+# Project type checks : see PEP563
+if TYPE_CHECKING:
+    from ..craft import _Craft
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
-
-_LOGGER = get_module_logger(__name__)
 
 
 class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
@@ -42,8 +44,6 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         self,
         *,
         name: str = "noName",
-        namespaced: bool = False,
-        solver: Solver = DAGSolver,
     ):
         """
         Configure a new pipeline to execute a list of crafts.
@@ -52,21 +52,13 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         Args:
             name (str): The name of the pipeline.
-            namespaced (bool): Schould the parameters dictionnary being namespaced by Craft ?
-            solver (Solver): The object to use to solve the dependencies between crafts.
         """
 
         super().__init__(logger_name=__name__)
         self._name = name
 
-        # Select the appropriate runner :
-        runner_name = "NameSpacedSequentialRunner" if namespaced else "SequentialRunner"
-        self._runner = Runner.get_runner_by_name(runner_name)
-
-        self._solver = solver
-
         # A placeholder to holds the added crafts.
-        self._crafts: Union["Craft"] = []  # noqa
+        self._crafts: List[_Craft] = []  # noqa
 
     @property
     def name(self):
@@ -82,7 +74,7 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         """
 
         # Process all the nodes of the graph
-        return Graphviz()(self._solver(self._crafts).G())
+        return Graphviz()(DAGSolver(self._crafts).G())
 
     def __add__(self, visitor: MergeableInterface) -> "Pipeline":
         """
@@ -117,7 +109,7 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         Implements the print method to display the pipeline
         """
 
-        batches = self._solver(self._crafts)
+        batches = DAGSolver(self._crafts)
 
         batchs_repr = "\n\t- ".join(
             ", ".join(craft.name for craft in batch) for batch in batches
@@ -125,35 +117,32 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         return "Pipeline steps :\n\t- " + batchs_repr
 
-    def __call__(self, **context: Mapping) -> Dict:
+    def __call__(
+        self, *, namespaced: Union[None, Dict[str, Dict[str, Any]]] = None, **shared
+    ) -> Dict[str, Any]:
         """
-        Run the pipeline with a concrete context.
+        Concretely run a Pipeline with two Mapping of parameters.
+        A 'shared' mapping, to be dispatched to all the crafts executed, a 'namespaced' holding optionnal mappings per crafts to be dispatched to their craft.
 
-        Arguments:
-            session (Session): The statisfactory session to use f
-            context (Mapping): A Mapping parameters to be used through the subsequent call to the crafts.
+        Args:
+            shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
+            namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
 
-        Return :
-            The final Volatile state.
+        Returns:
+            Dict[str, Any]: the final transient state resultuing from the craft application
         """
-
-        # Prepare a running_context to be dispatched to each craft, initiated as the context and updated with the default values returned from the Crafts
-        running_context = context
 
         # Prepare a dictionary to keep in memory the non-persisted ouputs of the successives Crafts
-        running_volatile = {}
 
         # Inject the crafts and the solver into the runner
-        runner = self._runner(crafts=self._crafts, solver=self._solver)
+        runner = Runner(crafts=self._crafts)
 
         # Call the runner with the Context and the Volatile
         self.info(f"Starting pipeline '{self._name}' execution")
 
         with self._with_hooks():
             with self._with_error():
-                final_state = runner(
-                    volatiles=running_volatile, context=running_context
-                )
+                final_state = runner(shared, namespaced)
 
         self.info(f"pipeline '{self._name}' succeded.")
         return final_state

@@ -24,7 +24,7 @@ import anyconfig
 
 # project
 # from ...operator import Pipeline
-from ...errors import errors
+from ...errors import Errors
 
 #############################################################################
 #                                  Script                                   #
@@ -33,7 +33,7 @@ from ...errors import errors
 
 class ConfigsLoader:
     """
-    Namespace for to parse the config file and build the configs mapping.
+    Namespace for parsing the config file and build the configs mapping.
     """
 
     @staticmethod
@@ -68,7 +68,7 @@ class ConfigsLoader:
 
                 expand_item_definition = raw.get(expand_item_name)
                 if not expand_item_definition:
-                    raise errors.E016(__name__, name=name, ref=expand_item_name)
+                    raise Errors.E016(name=name, ref=expand_item_name)  # type: ignore
 
                 config_mapping.append(
                     ConfigsLoader._expand_embedded_configs(
@@ -103,14 +103,21 @@ class ConfigsLoader:
         try:
             m = anyconfig.load(path)
         except FileNotFoundError:
-            raise errors.E012(__name__, file="Pipelines configuration", path=path)
+            raise Errors.E012(file="Pipelines configuration", path=path)  # type: ignore
 
         # Iterate over each configuration, and expend the definition
         loaded = {}
-        for name, configuration in m.items():
-            loaded[name] = ConfigsLoader._expand_embedded_configs(
-                name=name, configuration=configuration, raw=m
+        for name, configuration in m.items():  # type: ignore
+            config = ConfigsLoader._expand_embedded_configs(
+                name=name, configuration=configuration, raw=m  # type: ignore
             )
+
+            # The Pipeline.__call__ expects a "namespaced" mapping and a variadic keyword mapping for shared variables : I rewrite the parsed configuation
+            pipeline_config = config.get("_shared", {})
+            pipeline_config["namespaced"] = {
+                key: val for key, val in config.items() if key != "_shared"
+            }
+            loaded[name] = pipeline_config
 
         return loaded
 

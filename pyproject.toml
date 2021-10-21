@@ -18,11 +18,13 @@ dynaconf = "^3.1.4"
 anyconfig = "^0.10.1"
 nbconvert = "^6.0.7"
 chardet = "^4.0.0"
+boto3 = "^1.18.50"
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b2"
 isort = "^5.8.0"
 bump2version = "^1.0.1"
+jupyterlab = "^3.1.14"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

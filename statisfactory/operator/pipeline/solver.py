@@ -19,17 +19,18 @@ from __future__ import annotations  # noqa
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 from typing import TYPE_CHECKING, Iterable
+from warnings import warn
 
 # Third party
 import networkx as nx
 
-from ...errors import errors, warnings
+from ...errors import Errors, Warnings
 # project
 from ...logger import MixinLogable
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from ..craft import Craft
+    from ..craft import _Craft
 
 #############################################################################
 #                                  Script                                   #
@@ -41,7 +42,7 @@ class Solver(MixinLogable, metaclass=ABCMeta):
     Interface for the Solver. A solver compute the Computational Graph.
     """
 
-    def __init__(self, crafts: Iterable[Craft], *args, **kwargs):
+    def __init__(self, crafts: Iterable[_Craft], *args, **kwargs):
         """
         Instanciate a new dependencies Solver
         """
@@ -49,7 +50,7 @@ class Solver(MixinLogable, metaclass=ABCMeta):
         self._crafts = set(crafts)
 
     @abstractmethod
-    def __iter__(self) -> Iterable[Iterable[Craft]]:
+    def __iter__(self) -> Iterable[Iterable[_Craft]]:
         """
         Implements the iteration protocole for the solver.
         Return an iterator over batch of Crafts
@@ -104,12 +105,9 @@ class DAGSolver(Solver):
             for output in craft.produces:
                 # Check that no craft is already creating this artefact
                 if output in m_producer:
-                    raise errors.E053(
-                        __name__,
-                        artefact=output,
-                        L=craft.name,
-                        R=m_producer.get(output),
-                    )
+                    raise Errors.E053(
+                        artefact=output, L=craft.name, R=m_producer.get(output)
+                    )  # type: ignore
 
                 m_producer[output] = craft.name
             G.add_node(craft.name)
@@ -121,7 +119,7 @@ class DAGSolver(Solver):
                     after = m_producer[requirement]
                     G.add_edge(after, craft.name)
                 except KeyError:
-                    warnings.W051(__name__, craft=craft.name, artefact=requirement)
+                    warn(Warnings.W051.format(craft=craft.name, artefact=requirement))
 
         return G
 
@@ -132,13 +130,13 @@ class DAGSolver(Solver):
 
         G = self._build_diGraph()
 
-        indegree_map = {v: d for v, d in G.in_degree() if d > 0}
-        zero_indegree = [v for v, d in G.in_degree() if d == 0]
+        indegree_map = {v: d for v, d in G.in_degree() if d > 0}  # type: ignore
+        zero_indegree = [v for v, d in G.in_degree() if d == 0]  # type: ignore
         while zero_indegree:
             yield (self._name_to_craft[c] for c in zero_indegree)
             new_zero_indegree = []
             for v in zero_indegree:
-                for _, child in G.edges(v):
+                for _, child in G.edges(v):  # type: ignore
                     indegree_map[child] -= 1
                     if not indegree_map[child]:
                         new_zero_indegree.append(child)

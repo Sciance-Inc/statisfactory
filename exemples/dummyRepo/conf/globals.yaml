@@ -11,6 +11,7 @@ password: replaceMeInLocals
 # Declare a base path, can be a shared folder on the computer, a remote S3 bucket...
 # If it's a local path you should overwrite it in the locals definition.
 base_path: /shared/dummyProject
+bucket: remove-plz
 
 # The data layers to use, to segragate the data
 layers:
@@ -19,4 +20,9 @@ layers:
   fea: 30_fea
   mdl: 40_mdl
   out: 50_out
+  
+# Configure Mamazon (Minio) profile
+AWS_ACCESS_KEY: replaceMeInLocals
+AWS_SECRET_ACCESS_KEY: replaceMeInLocals
+AWS_S3_ENDPOINT: http://api.minio.jugodzilla.com
 

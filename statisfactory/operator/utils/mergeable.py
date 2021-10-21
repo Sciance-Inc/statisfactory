@@ -47,6 +47,14 @@ class MergeableInterface(metaclass=ABCMeta):
 
         raise NotImplementedError("Must be implemented in the concrete class")
 
+    @abstractmethod
+    def visit_craft(self, other):
+        """
+        The "visit" part of the visitor pattern
+        """
+
+        raise NotImplementedError("Must be implemented in the concrete class")
+
 
 #############################################################################
 #                                   main                                    #

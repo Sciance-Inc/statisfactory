@@ -17,14 +17,14 @@
 # system
 from __future__ import annotations  # noqa
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Callable, Union
 
 # third party
 import pandas as pd
 
-from ..errors import errors
+from ..errors import Errors
 from ..logger import MixinLogable
-from .artefact_interactor import ArtefactInteractor
+from .artefacts.artefact_interactor import ArtefactInteractor
 # project
 from .models import Artefact, CatalogData, Connector
 
@@ -42,25 +42,7 @@ class Catalog(MixinLogable):
     Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
     """
 
-    _instance = None
-
-    def __new__(cls, *args, **kwargs):
-        """
-        Implements a Singleton for the Catalog
-        """
-
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-
-        return cls._instance
-
-    def __init__(
-        self,
-        *,
-        dump: str,
-        session: Session = None,
-        context_overwrite_strict: bool = True
-    ):
+    def __init__(self, *, dump: str, session: Session = None):
         """
         Build a new Catalog from an iterator of dumps
 
@@ -71,13 +53,12 @@ class Catalog(MixinLogable):
 
         super().__init__(__name__)
 
-        self._context_overwrite_strict = context_overwrite_strict
         self._session = session
 
         try:
             self._data = CatalogData.from_string(dump)
         except BaseException as err:
-            raise errors.E013(__name__, file="Catalog") from err
+            raise Errors.E013(file="Catalog") from err  # type: ignore
 
     def __str__(self):
         """
@@ -96,7 +77,7 @@ class Catalog(MixinLogable):
 
         return name in self._data.artefacts.keys()
 
-    def _get_connector(self, artefact: Artefact) -> Connector:
+    def _get_connector(self, artefact: Artefact) -> Union[Connector, None]:
         """
         Retrieve the connector of an Artefact
 
@@ -112,7 +93,7 @@ class Catalog(MixinLogable):
                 if key == name:
                     break
             else:
-                raise errors.E032(__name__, name=name)
+                raise Errors.E032(name=name)  # type: ignore
 
             conn = connector
 
@@ -126,11 +107,11 @@ class Catalog(MixinLogable):
         try:
             artefact = self._data.artefacts[name]
         except KeyError:
-            raise errors.E030(__name__, name=name)
+            raise Errors.E030(name=name)  # type: ignore
 
         return artefact
 
-    def _get_interactor(self, artefact: Artefact) -> ArtefactInteractor:
+    def _get_interactor(self, artefact: Artefact) -> Callable:
         """
         Retrieve the interactor matchin the type of the artefact.
         """
@@ -138,7 +119,7 @@ class Catalog(MixinLogable):
         try:
             interactor = ArtefactInteractor.interactors()[artefact.type]
         except KeyError:
-            raise errors.E031(__name__, name=artefact.type)
+            raise Errors.E031(name=artefact.type)  # type: ignore
 
         return interactor
 
@@ -175,7 +156,7 @@ class Catalog(MixinLogable):
             artefact=artefact, connector=connector, session=self._session, **context
         )
 
-        interactor.save(asset)
+        interactor.save(asset)  # type: ignore
 
 
 #############################################################################
