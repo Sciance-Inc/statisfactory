@@ -19,7 +19,7 @@
 import threading
 
 # project
-from ..errors import Errors
+from statisfactory.errors import Errors
 
 # Third party
 

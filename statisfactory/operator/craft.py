@@ -18,19 +18,18 @@
 # from __future__ import annotations  # noqa
 from functools import update_wrapper
 from inspect import Parameter, Signature, signature
-from typing import (Any, Callable, Dict, List, Mapping,  # , TYPE_CHECKING
-                    Tuple, Union)
+from typing import Any, Callable, Dict, List, Mapping, Tuple, Union  # , TYPE_CHECKING
 from warnings import warn
 
 # project
-from ..errors import Errors, Warnings
-from ..IO import Artefact, Volatile
-from ..logger import MixinLogable
-from .annotations import Annotation, AnnotationKind
-from .mixinHookable import MixinHookable
-from .pipeline import Pipeline
-from .scoped import Scoped
-from .utils import MergeableInterface
+from statisfactory.errors import Errors, Warnings
+from statisfactory.IO import Artefact, Volatile
+from statisfactory.logger import MixinLogable
+from statisfactory.operator.annotations import Annotation, AnnotationKind
+from statisfactory.operator.mixinHookable import MixinHookable
+from statisfactory.operator.pipeline import Pipeline
+from statisfactory.operator.scoped import Scoped
+from statisfactory.operator.utils import MergeableInterface
 
 # Project type checks : see PEP563
 # if TYPE_CHECKING:
@@ -67,7 +66,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
     def _input_to_annotations(self, inputs) -> Tuple[Annotation, ...]:
         """
-        Convert a Python's callable annotation, as returned by Signature to a list of SElement
+        Convert a Python\'s callable annotation, as returned by Signature to a list of SElement
         """
 
         e: List[Annotation] = []
@@ -85,7 +84,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
     def _output_to_annotation(self, inputs) -> Tuple[Annotation, ...]:
         """
-        Convert a Python's callable return value to a list of SElement.
+        Convert a Python\'s callable return value to a list of SElement.
         """
 
         # Make sure that there is items to be parsed
@@ -157,7 +156,9 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     def _parse_args(
         self, context: Mapping, volatiles_mapping: Mapping
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        """ """
+        """
+        Parse the Craft\'s arguments against it\'s signature
+        """
 
         # The loading context is the context required to load the artefacts
         # For the artefact, the key_context is the merge of the default's value callable and the craft context (with priority given to craft's context)
@@ -209,10 +210,9 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         Load and save the Artefact for the undelryaing callable.
         Defers the call to the underlying artefact.
 
-        Arguments:
-            *args: Variadic arguments to be defered to the underlaying callable
+        Args:
             volatiles_mapping: A mappping of volatiles objects, computed before the craft execution
-            **kwargs: variadic keywrods arguments to be defered to the underlaying callable.
+            kwargs: variadic keywrods arguments to be defered to the underlaying callable.
         """
         # Extract, from args and kwargs, the item required by the craft and and to kwargs_ the default value, if unspecified by kwargs.
         volatiles_mapping = volatiles_mapping or {}
@@ -232,6 +232,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     def __copy__(self) -> "_Craft":
         """
         Implements the shallow copy protocol for the Craft.
+
         Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
         """
 

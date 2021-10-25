@@ -20,7 +20,7 @@ import networkx as nx
 from networkx.algorithms import transitive_reduction
 
 # project
-from ...errors import Errors
+from statisfactory.errors import Errors
 
 # TODO : To be fully reworked : "quick" way to get a graphical representation of the pipeline.
 #############################################################################

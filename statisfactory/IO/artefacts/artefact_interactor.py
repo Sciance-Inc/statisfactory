@@ -33,16 +33,17 @@ import datapane as dp  # type: ignore
 import pandas as pd
 import pyodbc
 
-from ...errors import Errors
-from ...logger import MixinLogable, get_module_logger
+from statisfactory.errors import Errors
+from statisfactory.logger import MixinLogable, get_module_logger
 
 # project
-from ..models import _ArtefactSchema
-from .backend import Backend
+from statisfactory.IO.models import _ArtefactSchema
+from statisfactory.IO.artefacts.backend import LocalFS, S3Backend
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from ...session import Session
+    from statisfactory.session import Session
+    from statisfactory.IO.artefacts.backend import Backend
 
 #############################################################################
 #                                  Script                                   #
@@ -52,6 +53,7 @@ if TYPE_CHECKING:
 class DynamicInterpolation(Template):
     """
     Implements the interpolation of the !{} for the artefact values.
+
     Override the default template to :
         * replace the $ used by the StaticInterpolation with ! (the @ might be used in connection string)
         * disallow interpolation of non braced values.
@@ -252,6 +254,7 @@ class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
     def save(self, asset: Union[pd.DataFrame, pd.Series]):
         """
         Save the 'data' dataframe as csv.
+
         Args:
             data (pandas.DataFrame): the dataframe to be saved
         """
@@ -310,6 +313,7 @@ class XLSXInteractor(FileBasedInteractor, interactor_name="xslx"):
     def save(self, asset: Union[pd.DataFrame, pd.Series]):
         """
         Save the 'data' dataframe as csv.
+
         Args:
             data (pandas.DataFrame): the dataframe to be saved
         """
@@ -373,6 +377,7 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
     def save(self, asset: Any):
         """
         Serialize the 'asset'
+
         Args:
             asset (Any ): the artefact to be saved
         """
@@ -475,6 +480,7 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
     def load(self):
         """
         Not implemented since I don't want a report to be altered as for now­
+
         Raises:
             NotImplementedErrord
         """
@@ -489,8 +495,7 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
             artefact (dp.Report): the datapane report object to be saved.
             open (bool): whether open the report on saving.
 
-        Implementation details
-        ======================
+        Implementation details:
         * The datapane file is first written to temp directory before being serialized back to bytes (I failled lamentably at finding how to extract the HTML from datapane)
         """
 

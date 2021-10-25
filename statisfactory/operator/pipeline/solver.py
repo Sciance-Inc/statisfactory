@@ -24,13 +24,14 @@ from warnings import warn
 # Third party
 import networkx as nx
 
-from ...errors import Errors, Warnings
+from statisfactory.errors import Errors, Warnings
+
 # project
-from ...logger import MixinLogable
+from statisfactory.logger import MixinLogable
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from ..craft import _Craft
+    from statisfactory.operator.craft import _Craft
 
 #############################################################################
 #                                  Script                                   #

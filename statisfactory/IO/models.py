@@ -15,16 +15,16 @@
 #############################################################################
 
 from dataclasses import dataclass, field
+
 # system
 from typing import Dict, List, Optional
 from warnings import warn
 
 import yaml
-from marshmallow import (Schema, ValidationError, fields, post_load,
-                         validates_schema)
+from marshmallow import Schema, ValidationError, fields, post_load, validates_schema
 
 # third party
-from ..errors import Warnings
+from statisfactory.errors import Warnings
 
 # project
 

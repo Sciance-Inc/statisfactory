@@ -17,18 +17,19 @@
 # system
 from typing import TYPE_CHECKING, Any, Dict, List, Union
 
-from ...logger import MixinLogable
-from ..mixinHookable import MixinHookable
-from ..scoped import Scoped
-from ..utils import MergeableInterface
-from .runner import Runner
+from statisfactory.logger import MixinLogable
+from statisfactory.operator.mixinHookable import MixinHookable
+from statisfactory.operator.scoped import Scoped
+from statisfactory.operator.utils import MergeableInterface
+from statisfactory.operator.pipeline.runner import Runner
+
 # project
-from .solver import DAGSolver
-from .viz import Graphviz
+from statisfactory.operator.pipeline.solver import DAGSolver
+from statisfactory.operator.pipeline.viz import Graphviz
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from ..craft import _Craft
+    from statisfactory.operator.craft import _Craft
 
 #############################################################################
 #                                  Script                                   #

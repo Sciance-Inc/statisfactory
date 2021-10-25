@@ -20,12 +20,13 @@ from __future__ import annotations  # noqa
 from copy import copy
 from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Mapping, Union
 
-from ...errors import Errors
-from ...logger import MixinLogable
-from ..annotations import AnnotationKind
-from ..utils import merge_dictionaries
+from statisfactory.errors import Errors
+from statisfactory.logger import MixinLogable
+from statisfactory.operator.annotations import AnnotationKind
+from statisfactory.operator.utils import merge_dictionaries
+
 # project
-from .solver import DAGSolver
+from statisfactory.operator.pipeline.solver import DAGSolver
 
 # Third party
 

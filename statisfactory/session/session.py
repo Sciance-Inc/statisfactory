@@ -44,6 +44,7 @@ from .loader import ConfigsLoader, PipelinesLoader
 class _CatalogTemplateParser(Template):
     """
     Template for the Catalog.
+
     Override the default template to :
         * disallow interpolation of non braced values.
         * Allow the . syntax to namespace the templated values
@@ -64,16 +65,18 @@ class Session(MixinLogable):
     """
     Represents the single entry point to a Statisfactory application.
     Load the Statisfactory configuration file and executes the registered hook.
+
     The class exposes :
-        * Getter to the 'settings', parsed during the class instanciation
+        * Getter to the ``settings``, parsed during the class instanciation
         * Getters to pipelines definitions and configurations, if any.
         * A decorator : hook_post_init. To help the user registering is own extention.
-    The session expose a '_' attributes, for the user to register his own datas.
+
+    The session expose a ``_`` attributes, for the user to register his own datas.
 
     Implementation details:
     * The class by itself does not do much, but delegates must of the work the the hooks.
     * The hooks can be used to develop plugins : such as an integration to mlflow, the instanciation of a Spark session.
-    * The '_' attribute schould be used to store user defined custom extension
+    * The ``_`` attribute schould be used to store user defined custom extension
     """
 
     _hooks = []
@@ -205,6 +208,7 @@ class Session(MixinLogable):
     def aws_session(self) -> boto3.Session:
         """
         Getter for the AWS client
+
         Returns:
             boto3.Session: The session configured via the initiaition hook.
         """
@@ -382,6 +386,7 @@ class _DefaultHooks:
         """
         Parse and attach pipelines to the Session
         """
+
         if "pipelines_definitions" not in sess.settings:
             sess.warn("No Pipelines definitions to set up.")
             return
@@ -397,8 +402,6 @@ class _DefaultHooks:
     def set_AWS_client(sess: Session) -> None:
         """
         Configure a Mamazon session.
-
-        TODO : add support for AWS profiles
 
         Args:
             sess (Session): The statisfactory session

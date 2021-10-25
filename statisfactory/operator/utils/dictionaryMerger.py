@@ -19,7 +19,7 @@ from typing import Dict
 from warnings import warn
 
 # Project
-from ...errors import Warnings
+from statisfactory.errors import Warnings
 
 #############################################################################
 #                                 Packages                                  #

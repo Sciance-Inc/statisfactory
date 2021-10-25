@@ -26,13 +26,12 @@ from urllib.parse import ParseResult
 from warnings import warn
 import re
 
-from lakefs_client import models  # type: ignore
-from ...errors import Errors, Warnings
-from ...logger import MixinLogable, get_module_logger
+from statisfactory.errors import Errors, Warnings
+from statisfactory.logger import MixinLogable
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from ...session import Session
+    from statisfactory.session import Session
 
 #############################################################################
 #                                  Script                                   #

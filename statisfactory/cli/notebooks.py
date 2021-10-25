@@ -16,12 +16,14 @@
 
 import re
 from itertools import accumulate
+
 # system
 from pathlib import Path
 from typing import List
 
 # project
 from logger import get_module_logger  # .logger
+
 # third party
 from nbconvert import PythonExporter
 from nbconvert.preprocessors import Preprocessor
@@ -53,7 +55,7 @@ class _CraftExtractor(Preprocessor):
 
     def _get_all_functions(self, src) -> List[str]:
         """
-        return all functions definitions (name only) from a sting
+        Get all functions definitions (name only) from a sting
         """
 
         names = []
@@ -98,9 +100,9 @@ def _target_path(path: Path) -> Path:
 def build_notebooks(src: Path, dst: Path):
     """
     Recursively parse the Notebooks from 'src', to extract the Craft's definition.
+
     Definitions found that way are copied to their .py counterpart.
     The name of the py file is the name of the notebook with num purged.
-
     The functions definitions found in "export" tagged cells, are exported to the root of the package.
     """
 

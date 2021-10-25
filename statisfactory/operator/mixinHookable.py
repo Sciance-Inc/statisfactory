@@ -16,11 +16,12 @@
 
 from collections import defaultdict
 from contextlib import contextmanager
+
 # system
 from typing import Callable
 
 # project
-from ..logger import MixinLogable, get_module_logger
+from statisfactory.logger import get_module_logger
 
 #############################################################################
 #                                  Script                                   #
