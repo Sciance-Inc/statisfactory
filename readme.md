@@ -5,7 +5,10 @@ Primatives for statistical pipelines replication and data centralization (we put
 
 _maintainer_ : hugo juhel : juhel.hugo@stratemia.com
 
+_API documentation_ : https://sciance-inc.github.io/statisfactory/
+
 [[_TOC_]]
+
 
 
 ## Motivation and Scope
@@ -13,48 +16,6 @@ Statisfactory is a toolbox to apply and replicate a Statistical pipeline. The pu
 * Exposing a one-stop-shop with artefacts generates through the analysis by abstracting the location and the retrieval / saving of an artefact away from the Python code ;
 * Replicating the same pipeline to multiple inputs, with some input-specific parametrisation done through a yaml based interface.
 
-### Roadmap
-* V1 : the V1 is an (exploratory) work to bounce off some ideas about the proper design of such a tool. Spark support, pipelines 's parallelisation, graph inference are (volountary) out of scope. The v1 is not design to cope with big data, but could definetely handles some analysis on a, let'say, scholar dropout project. 
-    * V0.1 focuses on the `Craft` and `Catalog` objects and does not include CLI
-* V2 : add / rework the framework to add the notion of "runner" with a localRunner and  sparkRunner.
-
-__Starting from__ 0.1.0, the `Pipeline` include a DAG based dependecies solver as well as a new way to indicates `Artefacts` to save.
-
-
-### Changelog
-- The `0.2.0` is a scaled up version of the `0.1.0` with better design, support for pipelines, private parameters and an extension API, though hooks and interactors
-- The `0.2.5` (tbd) will be a sanitzyed version of the `0.2.0` with an improved design of non-core classes. The API shall only marginally change.
-- The `0.3.0` (tbd) schould bridge the gap between `local development` and the `production` environement
-#### Road to 0.2.0
-- [x] Refactor the Craft object to improve the Annotation parsing
-- [x] Add new folder structure and implements the parsing of the `statisfactory.yaml` file
-- [x] Add support for data layers and environement in a config file
-- [x] Add support for global and local config files
-- [x] Catalog : implements the `${}` notation for static interpolation
-- [X] Catalog : Implement the `!{}` notation for dynamic intepolation
-- [X] Add support for default values (from craft's signature) in the artefact's context resolution.
-- [X] Rework the `Craft`, `Pipeline`, `Volatile` tracking mechanisme to defers state tracking to a `Runner` class.
-- [X] Streamline the `Pipeline` by delegating scheduling responsability to a `Runner` class
-- [x] Streamline the `Pipeline` by delegating dependencies solver to a `Solver`
-- [x] Add support for Craft's level configuration in yaml
-- [x] Add support for Pipeline definition in yaml
-- [x] Create a CLI to parse and execute Pipeline definitions for specific configuration
-- [x] Rename context to session and cascad it to the artefact loader
-- [x] Add support for default Artifact
-- [ ] Create a small `cookiecutter` to kickstart a project
-- [ ] Update documentation with the `!{}` and `${}` syntaxes and the new pipeline definition
-
-#### Road to 0.2.5
-- [ ] Remove the `Connectors` from the `catalog`, and inject the DSN through the `load_options`
-- [ ] Create a `pass_session` decorator, instead of the using the `Craft(inject_session)` to pass the session to an arbitrary function
-- [ ] Rework the `Loader` and `Session.config` mechanism to provided a unified settings loader
-- [ ] Artefacts / Volatile schould be split between annotation (currently pipeline.SElement) and actual `artefact` SERDE to improve the Separation of Concerns
-- [ ] Add support for multiples catalogs
-#### Road to 0.3.0
-- [ ] Properly inject a loggers and Handler into the craft, maybe by exposing settings to the craft ?
-- [ ] Rewrite the Interactors and add support for `pandas.csv`, `pandas.xlsx`, `pandas.parquet`
-- [ ] Rework interactors and add supports for Spark
-- [ ] Refactor the Pipeline to be wraps in a SequentialRunner, a ParrallelRunner or an AirflowTranspiler
 
 ## How to contribute.
 Keep it classy, boys :
