@@ -26,10 +26,7 @@ jobs:
         
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
-      
-      - name: Set environement
-        run: source .venv/bin/activate
-      
+
       - name: Build documentaiton 
         run: ./docs/make html
         
