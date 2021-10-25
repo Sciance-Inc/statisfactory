@@ -103,7 +103,7 @@ class Errors(metaclass=ExceptionFactory):
     _PROTOTYPE = ErrorPrototype
 
     # Init and connection related errors
-    E010 = "start-up : statisfactory must be called from a folder, or the child of a folder, containing a 'statisfactory.yaml' file"
+    E010 = "start-up : statisfactory must be called from a folder, or the child of a folder, containing a '{target}' file / folder"
     E011 = "start-up : the Catalog file does not exists : '{path}'."
     E012 = "start-up : failed to parse the {file} file : {path}"
     E013 = "start-up : failed to unmarshall the {file}"
@@ -116,6 +116,7 @@ class Errors(metaclass=ExceptionFactory):
 
     # FS interactors
     E020 = "data interactor : there is already an interactor named '{name}'"
+    E0201 = "data interactor: there is already a backend name registered for the '{prefx}'s prefix."
     E021 = "data interactor : failed to read '{method}' '{name}'"
     E022 = "data interactor : failed to save the asset '{name}' with '{method}' "
     E023 = (
@@ -130,6 +131,7 @@ class Errors(metaclass=ExceptionFactory):
     E0290 = "data interactor : {backend} failed to write the payload."
     E0291 = "data interactor : {backend} failed to fetch the payload."
     E0292 = "data interactor : scheme {scheme} does not map to any backend."
+    E0293 = "data interactor : LakeFS interactor : the branch's name must match match the regex {regex}."
 
     # Catalog
     E030 = "catalog : the '{name}' artefact  does not exists"
@@ -156,7 +158,10 @@ class Errors(metaclass=ExceptionFactory):
     # Session
     E060 = "Session : A Craft or a Pipeline must be executed in a 'with session:' statment. Use a context manager to execute the Craft / Pipeline."
     E061 = "Session : Session can't be injected in the craft's underlying callables as the Context already contain a param named Session"
-    E062 = "Session : The AWS session has not be configured. You must provide ACCESS_KEY and SECRET_KEY for the session to be instanciated."
+    E062 = "Session : The AWS session has not be configured. You must provide access_key and secret_key through globals / locals configurations files for the session to be instanciated. Hence, statisfactory can't use S3."
+    E063 = "Session : The lakeFS client has not be configured. You must provide lakefs_access_key, lakefs_secret_access_key and lakefs_endpoint through globals / locals configurations files for the client to be instanciated. Hence, statisfactory can't use LakeFS."
+    E064 = "Session : The git repository has not been configured yet."
+    E065 = "Session : there was an error trying to communicate the LakeFS API."
 
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
@@ -173,9 +178,7 @@ class Warnings(UserWarning):
 
     # Interactor
     W020 = "data interactor : '{inter_type}' is not a registered interactor."
-    W021 = (
-        "S3Backend : no 'AWS_S3_ENDPOINT' found in the configuration. Defaulting to AWS."
-    )
+    W021 = "S3Backend : no 'aws_s3_endpoint' found in the configuration. Defaulting to AWS."
 
     # Craft
     W40 = (
@@ -189,7 +192,8 @@ class Warnings(UserWarning):
     )
 
     # Session
-    W060 = "Session : the AWS client was not configured, as either (or both) AWS_ACCESS_KEY and AWS_SECRET_ACCESS_KEY were not found in the Globals / Locals configurations files."
+    W060 = "Session : the AWS client was not configured, as either (or both) aws_access_key and aws_secret_access_key were not found in the Globals / Locals configurations files."
+    W061 = "Session : the LakeFS client was not configured, as either (or both) lakefs_access_key, lakefs_secret_access_key and lakefs_endpoint were not found in the Globals / Locals configurations files."
 
 
 def _custom_formatwarning(msg, *args, **kwargs) -> str:

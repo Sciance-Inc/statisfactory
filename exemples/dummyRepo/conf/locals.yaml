@@ -11,5 +11,10 @@ password: croustibat
 # Overwirte the path to my local path since I'm not using a remote storing
 base_path: /home/hugo/10_projets/statisfactory/exemples/dummyRepo/Data
 
+# S3 configurations
 AWS_ACCESS_KEY: someRandomAccess
 AWS_SECRET_ACCESS_KEY: someRandomSecret
+
+# LakeFS configurations
+LAKEFS_ACCESS_KEY: AKIAJZARFVKBSHDTPZBQ
+LAKEFS_SECRET_ACCESS_KEY: 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

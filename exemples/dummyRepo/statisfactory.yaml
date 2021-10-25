@@ -1,5 +1,9 @@
 # Statisfactory bootstrap file
 
+# The name of the project. ShcoUld ideally be the Git repo name.
+# it's advised to use the slug for LakeFS, S3's bucket and LakeFS
+project_slug: "exemple"
+
 # The directory containing the globals and locals variables
 configuration: conf
 

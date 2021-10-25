@@ -19,6 +19,8 @@ anyconfig = "^0.10.1"
 nbconvert = "^6.0.7"
 chardet = "^4.0.0"
 boto3 = "^1.18.50"
+lakefs-client = "^0.52.2"
+pygit2 = "^1.7.0"
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b2"

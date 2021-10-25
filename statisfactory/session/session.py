@@ -18,16 +18,21 @@ import os
 import sys
 from pathlib import Path
 from string import Template
-from typing import Any, Callable, Mapping, Union
+from typing import Any, Callable, Mapping, Optional
 from warnings import warn
 
 import boto3
 from dynaconf import Dynaconf, Validator
 
+from pygit2 import Repository
+from lakefs_client import Configuration, models, ApiClient
+from lakefs_client.client import LakeFSClient
+from lakefs_client.api import repositories_api
 from ..errors import Errors, Warnings
 from ..IO import Catalog
 from ..logger import MixinLogable, get_module_logger
 from ..operator import Scoped
+
 # project
 from .loader import ConfigsLoader, PipelinesLoader
 
@@ -52,7 +57,7 @@ class _CatalogTemplateParser(Template):
       {(?P<braced>[_a-z\.][\._a-z0-9]*)} |
       (?P<invalid>)
     )
-    """
+    """  # type: ignore
 
 
 class Session(MixinLogable):
@@ -86,20 +91,20 @@ class Session(MixinLogable):
 
         return S
 
-    def _get_path_to_root(self) -> Path:
+    def get_path_to_target(self, target: str) -> Path:
         """
-        Retrieve the path to the statisfactory.yaml file by executing a "fish pass ;)" from the location of the caller
+        Retrieve the path to "target" file by executing a "fish pass ;)" from the location of the caller
         """
 
         # Retrieve the "statisfactory.yaml" file
         root = Path("/")
         trg = Path().resolve()
         while True:
-            if (trg / "statisfactory.yaml").exists():
+            if (trg / target).exists():
                 return trg
             trg = trg.parent
             if trg == root:
-                raise Errors.E010()  # type: ignore
+                raise Errors.E010(target=target)  # type: ignore
 
     def __init__(self, *, root_folder: str = None):
         """
@@ -109,7 +114,7 @@ class Session(MixinLogable):
         super().__init__(logger_name=__name__)
 
         # Retrieve the location of the config file
-        self._root = Path(root_folder or self._get_path_to_root())
+        self._root = Path(root_folder or self.get_path_to_target("statisfactory.yaml"))
 
         self.info(f"Initiating Statisfactory to : '{self._root}'")
 
@@ -118,6 +123,7 @@ class Session(MixinLogable):
             validators=[
                 Validator("configuration", "catalog", must_exist=True),
                 Validator("notebook_target", default="jupyter"),
+                Validator("project_slug", must_exist=True),
             ],
             settings_files=[self._root / "statisfactory.yaml"],
             load_dotenv=False,
@@ -128,9 +134,12 @@ class Session(MixinLogable):
 
         # Instanciate placeholders to be filled by mandatory hooks
         self._catalog = None
-        self._pipelines_definitions: Union[None, Mapping[str, Any]] = {}
-        self._pipelines_configurations: Union[None, Mapping[str, Any]] = {}
-        self._aws_session: Union[boto3.Session, None] = None
+        self._pipelines_definitions: Optional[Mapping[str, Any]] = {}
+        self._pipelines_configurations: Optional[Mapping[str, Any]] = {}
+        self._aws_session: Optional[boto3.Session] = None
+        self._lakefs_client: Optional[LakeFSClient] = None
+        self._lakefs_repo: Optional[models.RepositoryCreation] = None
+        self._git: Optional[Repository] = None
 
         # Execute any registered hooks
         for h in Session._hooks:
@@ -205,6 +214,41 @@ class Session(MixinLogable):
 
         return self._aws_session
 
+    @property
+    def git(self) -> Repository:
+        """
+        Getter for the Git repository the session belongs to.
+        """
+
+        if not self._git:
+            raise Errors.E064()  # type: ignore
+
+        return self._git
+
+    @property
+    def lakefs_client(self) -> LakeFSClient:
+        """
+        Getter for the AWS client
+        Returns:
+            The lakeFS configured via the initiaition hook.
+        """
+
+        if not self._lakefs_client:
+            raise Errors.E063()  # type: ignore
+
+        return self._lakefs_client
+
+    @property
+    def lakefs_repo(self):
+        """
+        Return the LakeFS repository's pointer.
+        """
+
+        if not self._lakefs_repo:
+            raise Errors.E063()  # type: ignore
+
+        return self._lakefs_repo
+
     @classmethod
     def hook_post_init(cls, last=True) -> Callable:
         """
@@ -215,7 +259,10 @@ class Session(MixinLogable):
 
             LOGGER = get_module_logger(__name__)
             LOGGER.debug(f"Registering session's hook : '{callable_.__name__}'")
-            cls._hooks.append(callable_)
+            if last:
+                cls._hooks.append(callable_)
+            else:
+                cls._hooks.insert(0, callable_)
 
             return callable_
 
@@ -277,6 +324,9 @@ class _DefaultHooks:
         # Fetch all the config file, in the reversed preceding order (to allow for variables shadowing)
         base = sess.root / str(sess.settings.configuration)
         settings = Dynaconf(
+            validators=[
+                Validator("lakefs_bucket", default="s3://lakefs/"),
+            ],
             settings_files=[base / target for target in targets.keys()],
             load_dotenv=False,
         )
@@ -356,12 +406,79 @@ class _DefaultHooks:
 
         try:
             sess._aws_session = boto3.Session(
-                aws_access_key_id=sess.settings["AWS_ACCESS_KEY"],
-                aws_secret_access_key=sess.settings["AWS_SECRET_ACCESS_KEY"],
-                region_name=sess.settings.get("AWS_REGION", "us-east-1"),
+                aws_access_key_id=sess.settings["aws_access_key"],
+                aws_secret_access_key=sess.settings["aws_secret_access_key"],
+                region_name=sess.settings.get("aws_region", "us-east-1"),
             )
         except KeyError:
             warn(Warnings.W060)
+
+    @staticmethod
+    @Session.hook_post_init()
+    def set_git_repo(sess: Session) -> None:
+        """
+        Configure the Git client.
+
+        Args:
+            sess (Session): The statisfactory session updated by the hook
+        """
+
+        # Find the Git repository the Session has been started in
+        path_to_git = sess.get_path_to_target(".git")
+        repo = Repository(path_to_git)
+        sess._git = repo
+
+        return
+
+    @staticmethod
+    @Session.hook_post_init()
+    def set_lakefs_client(sess: Session) -> None:
+        """
+        Configure a lakefs client.
+
+        Args:
+            sess (Session): The statisfactory session updated by the hook
+        """
+
+        # Create the configuration
+        configuration = Configuration()
+        try:
+            configuration.username = sess.settings["lakefs_access_key"]
+            configuration.password = sess.settings["lakefs_secret_access_key"]
+            configuration.host = sess.settings["lakefs_endpoint"]
+        except KeyError:
+            warn(Warnings.W061)
+
+        # Create a client from the configuration
+        sess._lakefs_client = LakeFSClient(configuration)
+
+        # Create the repo using the client
+        slug = sess.settings.project_slug
+        repo = models.RepositoryCreation(
+            name=slug,
+            storage_namespace=f"{sess.settings.lakefs_bucket}/{slug}",
+            default_branch="main",
+        )
+        sess._lakefs_repo = repo
+
+        # Check if the repo exists:
+        try:
+            with ApiClient(configuration) as api_client:
+                api_instance = repositories_api.RepositoriesApi(api_client)
+                existing = api_instance.list_repositories()
+                existing = set([item.id for item in existing["results"]])
+                if slug in existing:
+                    sess.debug(f"The LakeFS {slug} repo already exists.")
+                    return
+
+                # Create the repo
+                sess.info(f"Creating the LakeFS repository for {slug}")
+                sess._lakefs_client.repositories.create_repository(repo)
+
+        except BaseException as error:
+            raise Errors.E065() from error  # type: ignore
+
+        return
 
 
 #############################################################################

@@ -28,20 +28,21 @@ from typing import TYPE_CHECKING, Any, Dict, Type, Union
 from urllib.parse import ParseResult, urlparse
 
 import datapane as dp  # type: ignore
+
 # third party
 import pandas as pd
 import pyodbc
 
 from ...errors import Errors
 from ...logger import MixinLogable, get_module_logger
+
 # project
 from ..models import _ArtefactSchema
-from .backend import LocalFS, S3Backend
+from .backend import Backend
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
     from ...session import Session
-    from .backend import Backend
 
 #############################################################################
 #                                  Script                                   #
@@ -106,12 +107,6 @@ class ArtefactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
 
     # A placeholder for all registered interactors
     _interactors = dict()
-
-    # A mapping of URI fragment to backend
-    _scheme_to_mapping: Dict[str, Type[Backend]] = {
-        "s3": S3Backend,
-        "": LocalFS,
-    }
 
     @abstractmethod
     def __init__(self, artefact, *args, session: Session, **kwargs):
@@ -201,7 +196,7 @@ class FileBasedInteractor(
             payload (BytesIO): The payload encoded as BytesIO to push.
         """
 
-        backend = self._scheme_to_mapping.get(self._fragment.scheme, None)
+        backend = Backend.backends().get(self._fragment.scheme, None)
         if not backend:
             raise Errors.E0292(scheme=fragment.scheme)  # type: ignore
 
@@ -212,7 +207,7 @@ class FileBasedInteractor(
         Get a payload from the URI
         """
 
-        backend = self._scheme_to_mapping.get(self._fragment.scheme, None)
+        backend = Backend.backends().get(self._fragment.scheme, None)
         if not backend:
             raise Errors.E0292(scheme=self._fragment.scheme)  # type: ignore
 

@@ -4,7 +4,7 @@
 
 # Define some variables to be replaced in locals. Writed here to, to notify the user to overwrite them in their locals.py
 # You schould overwrite this variable in locals.py
-environment: replaceMeInLocals  # Declare the default environment to isolate runs's Artefacts : could be your name, dev, test, prod...
+environment: replaceMeInLocals # Declare the default environment to isolate runs's Artefacts : could be your name, dev, test, prod...
 user: replaceMeInLocals
 password: replaceMeInLocals
 
@@ -20,9 +20,14 @@ layers:
   fea: 30_fea
   mdl: 40_mdl
   out: 50_out
-  
-# Configure Mamazon (Minio) profile
-AWS_ACCESS_KEY: replaceMeInLocals
-AWS_SECRET_ACCESS_KEY: replaceMeInLocals
-AWS_S3_ENDPOINT: http://api.minio.jugodzilla.com
 
+# Configure Mamazon (Minio) profile
+aws_access_key: replaceMeInLocals
+aws_secret_access_key: replaceMeInLocals
+aws_s3_endpoint: http://api.minio.jugodzilla.com
+
+# Configure LakeFS profile
+lakefs_access_key: replaceMeInLocals
+lakefs_secret_access_key: replaceMeInLocals
+lakefs_endpoint: http://lakefs.jugodzilla.com
+# Optionaly, LakeFS bucket van be set through LAKEFS_BUCKET. Defaulted to "s3://lakefs/"
