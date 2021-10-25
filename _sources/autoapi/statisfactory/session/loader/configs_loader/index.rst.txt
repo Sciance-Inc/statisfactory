@@ -1,0 +1,49 @@
+:py:mod:`statisfactory.session.loader.configs_loader`
+=====================================================
+
+.. py:module:: statisfactory.session.loader.configs_loader
+
+.. autoapi-nested-parse::
+
+   Implements a parser for the Pipelines definitions
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.session.loader.configs_loader.ConfigsLoader
+
+
+
+
+.. py:class:: ConfigsLoader
+
+   Namespace for parsing the config file and build the configs mapping.
+
+   .. py:method:: _dict_merge(L, R) -> Mapping
+      :staticmethod:
+
+      Recuirsively merge R into L.
+
+
+   .. py:method:: _expand_embedded_configs(name: str, configuration: Mapping, raw: Mapping)
+      :staticmethod:
+
+      Unnest the embedded mapping.s
+
+
+   .. py:method:: load(path: str) -> Mapping[str, Any]
+      :staticmethod:
+
+      Build the pipelines by parsing file located in `path`.
+      The config file support embedding of definitions. One can declare a top-level
+      configuration and use it in other definition using the _from syntax
+
+
+

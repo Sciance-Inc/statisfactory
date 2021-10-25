@@ -1,0 +1,401 @@
+:py:mod:`statisfactory.errors`
+==============================
+
+.. py:module:: statisfactory.errors
+
+.. autoapi-nested-parse::
+
+   Centralize errors for the statisfactory package
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.errors.ExceptionFactory
+   statisfactory.errors.Errors
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.errors._custom_formatwarning
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.errors.DEFAULT_LOGGER
+   statisfactory.errors.PROJECT_NAME
+   statisfactory.errors.formatwarning
+
+
+.. py:data:: DEFAULT_LOGGER
+   
+
+   
+
+.. py:data:: PROJECT_NAME
+   :annotation: = Statisfactory
+
+   
+
+.. py:class:: ExceptionFactory(cls, name, bases, attrs, *args, **kwargs)
+
+   Bases: :py:obj:`type`
+
+   Implements a metaclass building errors from instances attributes. Errors are singleton and can be raised and catched.
+
+   >>raise Errors.E010
+   >>raise Errors.E010()
+
+   .. py:method:: __call__(cls, *args, **kwargs)
+
+      Call self as a function.
+
+
+   .. py:method:: __getattribute__(cls, code)
+
+      Intercept the attribute getter to wrap the Error code in a metaclass. By doing so, the error code became
+      a proper class for which the name is the error code
+
+
+
+.. py:exception:: ErrorPrototype(**kwargs)
+
+   Bases: :py:obj:`Exception`
+
+   Base parent for all custom errors raised by the program.
+   The class performs base operation making the error message displaybale
+
+   .. py:attribute:: msg
+      :annotation: :str = 
+
+      
+
+
+.. py:exception:: WarningPrototype(**kwargs)
+
+   Bases: :py:obj:`UserWarning`
+
+   Base parent for all custom warnings raised by the program.
+   The class performs base operation making the warning displayba;e
+
+   .. py:attribute:: msg
+      :annotation: :str = 
+
+      
+
+
+.. py:class:: Errors
+
+   .. py:attribute:: _PROTOTYPE
+      
+
+      
+
+   .. py:attribute:: E010
+      :annotation: = start-up : statisfactory must be called from a folder, or the child of a folder, containing a...
+
+      
+
+   .. py:attribute:: E011
+      :annotation: = start-up : the Catalog file does not exists : '{path}'.
+
+      
+
+   .. py:attribute:: E012
+      :annotation: = start-up : failed to parse the {file} file : {path}
+
+      
+
+   .. py:attribute:: E013
+      :annotation: = start-up : failed to unmarshall the {file}
+
+      
+
+   .. py:attribute:: E014
+      :annotation: = start-up : failed to interpolate the catalog with the settings from 'conf/'.
+
+      
+
+   .. py:attribute:: E015
+      :annotation: = start-up : Parsing pipeline '{pip_name}' : failed to import module '{module}'. The path might...
+
+      
+
+   .. py:attribute:: E016
+      :annotation: = start-up : pipelines definition '{name}' embed a reference to an undeclared definition '{ref}'
+
+      
+
+   .. py:attribute:: E017
+      :annotation: = start-up : Parsing pipeline '{pip_name}' : failed to import '{craft_name}' Craft from...
+
+      
+
+   .. py:attribute:: E020
+      :annotation: = data interactor : there is already an interactor named '{name}'
+
+      
+
+   .. py:attribute:: E0201
+      :annotation: = data interactor: there is already a backend name registered for the '{prefx}'s prefix.
+
+      
+
+   .. py:attribute:: E021
+      :annotation: = data interactor : failed to read '{method}' '{name}'
+
+      
+
+   .. py:attribute:: E022
+      :annotation: = data interactor : failed to save the asset '{name}' with '{method}' 
+
+      
+
+   .. py:attribute:: E023
+      :annotation: = data interactor : '{interactor}' interactor only accept {accept} : got '{got}'
+
+      
+
+   .. py:attribute:: E024
+      :annotation: = data interactor : '{path}' does not exists
+
+      
+
+   .. py:attribute:: E025
+      :annotation: = data interactor : failed to connect to {name} connector
+
+      
+
+   .. py:attribute:: E026
+      :annotation: = data interactor : failed to execute query {query} agains {name} connector
+
+      
+
+   .. py:attribute:: E027
+      :annotation: = data interactor : only not-null string can be interpolated
+
+      
+
+   .. py:attribute:: E028
+      :annotation: = data interactor : string '{trg}' is incomplettely formatted, missing parameters from context
+
+      
+
+   .. py:attribute:: E0281
+      :annotation: = data interactor: failed to parse the Path parameter for Artifact {name}.
+
+      
+
+   .. py:attribute:: E0290
+      :annotation: = data interactor : {backend} failed to write the payload.
+
+      
+
+   .. py:attribute:: E0291
+      :annotation: = data interactor : {backend} failed to fetch the payload.
+
+      
+
+   .. py:attribute:: E0292
+      :annotation: = data interactor : scheme {scheme} does not map to any backend.
+
+      
+
+   .. py:attribute:: E0293
+      :annotation: = data interactor : LakeFS interactor : the branch's name must match match the regex {regex}.
+
+      
+
+   .. py:attribute:: E030
+      :annotation: = catalog : the '{name}' artefact  does not exists
+
+      
+
+   .. py:attribute:: E031
+      :annotation: = catalog : the '{name}' interactor does not exists
+
+      
+
+   .. py:attribute:: E032
+      :annotation: = catalog : the '{name}' connector does not exists
+
+      
+
+   .. py:attribute:: E040
+      :annotation: = craft : failed to execute craft '{func}'
+
+      
+
+   .. py:attribute:: E041
+      :annotation: = craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the...
+
+      
+
+   .. py:attribute:: E042
+      :annotation: = craft : the craft '{name}'s signature must be a Volatile, Artefact or a Tuple of Volatiles and...
+
+      
+
+   .. py:attribute:: E043
+      :annotation: = craft : the craft '{name}' signature expect {sign} items. Got {got}
+
+      
+
+   .. py:attribute:: E044
+      :annotation: = craft : the craft '{name}' signature expect nothing but got a not None value.
+
+      
+
+   .. py:attribute:: E045
+      :annotation: = Craft : Crafts only support Artefact, Volatile and Keyword only parameters. Craft '{name}' got '{anno}'.
+
+      
+
+   .. py:attribute:: E050
+      :annotation: = Pipeline : failed to run c raft '{func}'
+
+      
+
+   .. py:attribute:: E052
+      :annotation: = Pipeline : '{kind}' keys collides : for craft '{name}'
+
+      
+
+   .. py:attribute:: E053
+      :annotation: = Pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'
+
+      
+
+   .. py:attribute:: E054
+      :annotation: = Pipeline : viz : missing '{dep}' package. Use 'pip install {dep}' to install the required dependencie. 
+
+      
+
+   .. py:attribute:: E055
+      :annotation: = Pipeline : NameSpacedSequentialRunner expects each craft's context to be mapping. Got '{got}'
+
+      
+
+   .. py:attribute:: E060
+      :annotation: = Session : A Craft or a Pipeline must be executed in a 'with session:' statment. Use a context...
+
+      
+
+   .. py:attribute:: E061
+      :annotation: = Session : Session can't be injected in the craft's underlying callables as the Context already...
+
+      
+
+   .. py:attribute:: E062
+      :annotation: = Session : The AWS session has not be configured. You must provide access_key and secret_key...
+
+      
+
+   .. py:attribute:: E063
+      :annotation: = Session : The lakeFS client has not be configured. You must provide lakefs_access_key,...
+
+      
+
+   .. py:attribute:: E064
+      :annotation: = Session : The git repository has not been configured yet.
+
+      
+
+   .. py:attribute:: E065
+      :annotation: = Session : there was an error trying to communicate the LakeFS API.
+
+      
+
+   .. py:attribute:: E999
+      :annotation: = out-of-scope : the method is not supported in the current roadmap
+
+      
+
+
+.. py:exception:: Warnings
+
+   Bases: :py:obj:`UserWarning`
+
+   Base class for warnings generated by user code.
+
+   .. py:attribute:: _PROTOTYPE
+      
+
+      
+
+   .. py:attribute:: W010
+      :annotation: = start-up : PYTHONPATH is already set and won't be overwritted by Statisfactoy : the sources from...
+
+      
+
+   .. py:attribute:: W011
+      :annotation: = start-up : no globals.yaml config found. Defaulting to locals.yaml.
+
+      
+
+   .. py:attribute:: W012
+      :annotation: = start-up : no locals.yaml config found. Catalogs might not be inteprolated.
+
+      
+
+   .. py:attribute:: W020
+      :annotation: = data interactor : '{inter_type}' is not a registered interactor.
+
+      
+
+   .. py:attribute:: W021
+      :annotation: = S3Backend : no 'aws_s3_endpoint' found in the configuration. Defaulting to AWS.
+
+      
+
+   .. py:attribute:: W40
+      :annotation: = Craft : the Craft '{name}' failed to load '{artefact}' and has been defaulted.
+
+      
+
+   .. py:attribute:: W050
+      :annotation: = Pipeline : keys collision : '{keys}'
+
+      
+
+   .. py:attribute:: W051
+      :annotation: = Pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'
+
+      
+
+   .. py:attribute:: W060
+      :annotation: = Session : the AWS client was not configured, as either (or both) aws_access_key and...
+
+      
+
+   .. py:attribute:: W061
+      :annotation: = Session : the LakeFS client was not configured, as either (or both) lakefs_access_key,...
+
+      
+
+
+.. py:function:: _custom_formatwarning(msg, *args, **kwargs) -> str
+
+   Monkey patch the warning displayor to avoid printing the code longside the Warnings.
+   Monkeypatching the formatter is acutalyy the way to do it as recommanded by Python's documention.
+
+
+.. py:data:: formatwarning
+   
+
+   
+

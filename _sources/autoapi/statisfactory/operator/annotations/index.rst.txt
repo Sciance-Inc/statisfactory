@@ -1,0 +1,82 @@
+:py:mod:`statisfactory.operator.annotations`
+============================================
+
+.. py:module:: statisfactory.operator.annotations
+
+.. autoapi-nested-parse::
+
+   Implements classes to retrive signatures values from signature's default and variadic arguments.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.annotations.AnnotationKind
+   statisfactory.operator.annotations.Annotation
+
+
+
+
+.. py:class:: AnnotationKind
+
+   Bases: :py:obj:`enum.Enum`
+
+   Admissibles values for signature elements
+
+   .. py:attribute:: ARTEFACT
+      
+
+      
+
+   .. py:attribute:: VOLATILE
+      
+
+      
+
+   .. py:attribute:: KEY
+      
+
+      
+
+
+.. py:class:: Annotation
+
+   Represents a elements of a Craft's signature.
+   Holds the underlaying parameter with it's SElementKind.
+   The SElement kind is used to implements the strategy in the Craft's _parse_args method.
+
+   .. py:attribute:: annotation
+      :annotation: :inspect.Parameter
+
+      
+
+   .. py:attribute:: kind
+      :annotation: :AnnotationKind
+
+      
+
+   .. py:method:: name(self) -> str
+      :property:
+
+      Parameter's name getter.
+
+
+   .. py:method:: has_default(self) -> bool
+      :property:
+
+      Return true if the parameter has a default value.
+
+
+   .. py:method:: default(self) -> Any
+      :property:
+
+      Annotation's default value getter
+
+
+

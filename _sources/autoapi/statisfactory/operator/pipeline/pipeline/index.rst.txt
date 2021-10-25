@@ -1,0 +1,91 @@
+:py:mod:`statisfactory.operator.pipeline.pipeline`
+==================================================
+
+.. py:module:: statisfactory.operator.pipeline.pipeline
+
+.. autoapi-nested-parse::
+
+   Implements a way to chain Crafts.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.pipeline.pipeline.Pipeline
+   statisfactory.operator.pipeline.pipeline._DefaultHooks
+
+
+
+
+.. py:class:: Pipeline(*, name: str = 'noName')
+
+   Bases: :py:obj:`statisfactory.operator.scoped.Scoped`, :py:obj:`statisfactory.operator.mixinHookable.MixinHookable`, :py:obj:`statisfactory.operator.utils.MergeableInterface`, :py:obj:`statisfactory.logger.MixinLogable`
+
+   Implements a way to combine crafts and pipeline togetger
+
+   .. py:method:: name(self)
+      :property:
+
+      Craft's name getter.
+
+
+   .. py:method:: plot(self)
+
+      Display the graph.
+
+
+   .. py:method:: __add__(self, visitor: statisfactory.operator.utils.MergeableInterface) -> Pipeline
+
+      Add a Mergeable to the pipeline.
+      Implements the accept part of the visitor pattern.
+
+
+   .. py:method:: visit_craft(self, craft) -> Pipeline
+
+      Insert the given craft in the first position of the pipeline.
+
+
+   .. py:method:: visit_pipeline(self, pipeline: Pipeline)
+
+      Update self by adding the crafts from 'pipeline'.
+
+      Args:
+          pipeline (Pipeline): the pipeline to update and return
+
+
+   .. py:method:: __str__(self)
+
+      Implements the print method to display the pipeline
+
+
+   .. py:method:: __call__(self, *, namespaced: Union[None, Dict[str, Dict[str, Any]]] = None, **shared) -> Dict[str, Any]
+
+      Concretely run a Pipeline with two Mapping of parameters.
+      A 'shared' mapping, to be dispatched to all the crafts executed, a 'namespaced' holding optionnal mappings per crafts to be dispatched to their craft.
+
+      Args:
+          shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
+          namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
+
+      Returns:
+          Dict[str, Any]: the final transient state resultuing from the craft application
+
+
+
+.. py:class:: _DefaultHooks
+
+   Namesapce for default hooks
+
+   .. py:method:: propagate(target, error)
+      :staticmethod:
+
+      A default hook to buble-up an error encountred while running a Pipeline.
+
+
+

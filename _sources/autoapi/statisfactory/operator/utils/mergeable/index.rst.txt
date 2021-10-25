@@ -1,0 +1,42 @@
+:py:mod:`statisfactory.operator.utils.mergeable`
+================================================
+
+.. py:module:: statisfactory.operator.utils.mergeable
+
+.. autoapi-nested-parse::
+
+   Implements the mergeableInterface, shared between craft and pipeline
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.utils.mergeable.MergeableInterface
+
+
+
+
+.. py:class:: MergeableInterface(*args, **kwargs)
+
+   Mergeable interface represents the interface toi be satisfiad for object ot be merged.
+   The concrete merge operation schould be implemented with a visitor pattern
+
+   .. py:method:: visit_pipeline(self, other)
+      :abstractmethod:
+
+      The "visit" part of the visitor pattern
+
+
+   .. py:method:: visit_craft(self, other)
+      :abstractmethod:
+
+      The "visit" part of the visitor pattern
+
+
+

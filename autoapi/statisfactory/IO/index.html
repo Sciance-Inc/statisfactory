@@ -1,0 +1,932 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>statisfactory.IO &#8212; Statisfactory  documentation</title>
+    
+  <link href="../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Statisfactory  documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption" role="heading">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../sources/started.html">
+   Getting started
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../../index.html">
+   API Reference
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="../index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       statisfactory
+      </span>
+     </code>
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3 current active has-children">
+      <a class="current reference internal" href="#">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.IO
+        </span>
+       </code>
+      </a>
+      <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="artefacts/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.IO.artefacts
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="catalog/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.IO.catalog
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="models/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.IO.models
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../cli/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.cli
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+      <label for="toctree-checkbox-4">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../cli/logger/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.logger
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../cli/notebooks/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.notebooks
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../operator/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.operator
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+      <label for="toctree-checkbox-5">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operator/pipeline/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.pipeline
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operator/utils/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.utils
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operator/annotations/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.annotations
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operator/craft/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.craft
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operator/mixinHookable/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.mixinHookable
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../operator/scoped/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.scoped
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../session/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.session
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../session/loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.session.loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../session/session/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.session.session
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../__main__/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.__main__
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../__version__/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.__version__
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../errors/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.errors
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../logger/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.logger
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../_sources/autoapi/statisfactory/IO/index.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#subpackages">
+   Subpackages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package-contents">
+   Package Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.ArtefactInteractor">
+       ArtefactInteractor
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.ArtefactInteractor._interactors">
+         _interactors
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.ArtefactInteractor.__init_subclass__">
+         __init_subclass__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.ArtefactInteractor.interactors">
+         interactors
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.ArtefactInteractor.load">
+         load
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.ArtefactInteractor.save">
+         save
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.MixinInterpolable">
+       MixinInterpolable
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.MixinInterpolable._interpolate_string">
+         _interpolate_string
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.Backend">
+       Backend
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Backend._backends">
+         _backends
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Backend.__init_subclass__">
+         __init_subclass__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Backend.backends">
+         backends
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Backend.put">
+         put
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Backend.get">
+         get
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.Catalog">
+       Catalog
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Catalog.__str__">
+         __str__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Catalog.__contains__">
+         __contains__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Catalog._get_connector">
+         _get_connector
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Catalog._get_artefact">
+         _get_artefact
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Catalog._get_interactor">
+         _get_interactor
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Catalog.load">
+         load
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Catalog.save">
+         save
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.Artefact">
+       Artefact
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.name">
+         name
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.type">
+         type
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.path">
+         path
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.connector">
+         connector
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.query">
+         query
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.save_options">
+         save_options
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.load_options">
+         load_options
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.__post_init__">
+         __post_init__
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.Volatile">
+       Volatile
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Volatile.name">
+         name
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="module-statisfactory.IO">
+<span id="statisfactory-io"></span><h1><a class="reference internal" href="#module-statisfactory.IO" title="statisfactory.IO"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.IO</span></code></a><a class="headerlink" href="#module-statisfactory.IO" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="artefacts/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.IO.artefacts</span></code></a><ul>
+<li class="toctree-l2"><a class="reference internal" href="artefacts/artefact_interactor/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.IO.artefacts.artefact_interactor</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="artefacts/backend/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.IO.artefacts.backend</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="catalog/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.IO.catalog</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="models/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.IO.models</span></code></a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="package-contents">
+<h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.IO.ArtefactInteractor" title="statisfactory.IO.ArtefactInteractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArtefactInteractor</span></code></a></p></td>
+<td><p>Describe the Interactor's interface.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.IO.MixinInterpolable" title="statisfactory.IO.MixinInterpolable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinInterpolable</span></code></a></p></td>
+<td><p>Implements helpers to interpolate a string</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.IO.Backend" title="statisfactory.IO.Backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Backend</span></code></a></p></td>
+<td><p>Interface for the low level communication with a service (s3, lakefs...) through the exchange of Bytes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.IO.Catalog" title="statisfactory.IO.Catalog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Catalog</span></code></a></p></td>
+<td><p>Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.IO.Artefact" title="statisfactory.IO.Artefact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Artefact</span></code></a></p></td>
+<td><p>Represents an Artefact : the I/O of a statisfactory node.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.IO.Volatile" title="statisfactory.IO.Volatile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Volatile</span></code></a></p></td>
+<td><p>Represents data outputed by the Craft but not to be persisted in the catalog</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.IO.ArtefactInteractor">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.</span></span><span class="sig-name descname"><span class="pre">ArtefactInteractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artefact</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.ArtefactInteractor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a>, <a class="reference internal" href="#statisfactory.IO.MixinInterpolable" title="statisfactory.IO.MixinInterpolable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinInterpolable</span></code></a></p>
+<p>Describe the Interactor’s interface.
+An interactor wraps the loading and saving operations of a Artefact.
+The user can implements custom interactors. To do so, the user should
+implements the interface desbribes in this class. An artefact and a Session object
+are available when the artefact is called by the Catalog.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.ArtefactInteractor._interactors">
+<span class="sig-name descname"><span class="pre">_interactors</span></span><a class="headerlink" href="#statisfactory.IO.ArtefactInteractor._interactors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.ArtefactInteractor.__init_subclass__">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactor_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">register</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.ArtefactInteractor.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the registration of a child class into the artefact class.
+By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
+See PEP-487 for details.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.ArtefactInteractor.interactors">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">interactors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.ArtefactInteractor.interactors" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.ArtefactInteractor.load">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.IO.ArtefactInteractor.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the underlying asset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.ArtefactInteractor.save">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.ArtefactInteractor.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the underlying asset.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.IO.MixinInterpolable">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.</span></span><span class="sig-name descname"><span class="pre">MixinInterpolable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.MixinInterpolable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements helpers to interpolate a string</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.MixinInterpolable._interpolate_string">
+<span class="sig-name descname"><span class="pre">_interpolate_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.MixinInterpolable._interpolate_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate a given string using the provided context</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.IO.Backend">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.</span></span><span class="sig-name descname"><span class="pre">Backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">__name__</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.Backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
+<p>Interface for the low level communication with a service (s3, lakefs…) through the exchange of Bytes
+The backend consume and returns Bytes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Backend._backends">
+<span class="sig-name descname"><span class="pre">_backends</span></span><a class="headerlink" href="#statisfactory.IO.Backend._backends" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Backend.__init_subclass__">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.Backend.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement the registration of a child class into the backend class.
+By doing so, the Backend can be extended to use new interactors without updating the code of the class (Open Close principle)
+See PEP-487 for details.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>prefix (str): The prefix to register the backend under</p>
+</dd>
+<dt>Raises:</dt><dd><p>Errors.E0201: Raised if the prefix has already a backend registered under,</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Backend.backends">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">backends</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.IO.Backend" title="statisfactory.IO.Backend"><span class="pre">Backend</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.IO.Backend" title="statisfactory.IO.Backend"><span class="pre">Backend</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.Backend.backends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Getter for the registered backends</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Map[str, Type[Backend]]: A mapping of prefixes associated with their respectives backend.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Backend.put">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">urllib.parse.ParseResult</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.Backend.put" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drop the payload to the service under the ‘path’ name.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>payload (bytes): The bytes representation of the artifact to drop on the backend.
+fragment (ParseResult): The Artefact’s path parsed result to use to put the payload to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Backend.get">
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">urllib.parse.ParseResult</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#statisfactory.IO.Backend.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the payload from the service under the ‘path’ name.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>fragment (ParseResult): The Artefact’s path parsed result to use to fetch the payload from.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.IO.Catalog">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.</span></span><span class="sig-name descname"><span class="pre">Catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dump</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.Catalog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
+<p>Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Catalog.__str__">
+<span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.Catalog.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show all artefacts entries</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Catalog.__contains__">
+<span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#statisfactory.IO.Catalog.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the given name is an artefact</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Catalog._get_connector">
+<span class="sig-name descname"><span class="pre">_get_connector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artefact</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="models/index.html#statisfactory.IO.models.Artefact" title="statisfactory.IO.models.Artefact"><span class="pre">statisfactory.IO.models.Artefact</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="models/index.html#statisfactory.IO.models.Connector" title="statisfactory.IO.models.Connector"><span class="pre">statisfactory.IO.models.Connector</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.Catalog._get_connector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the connector of an Artefact</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>artefact (Artefact): the artefact to extract the connector for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Catalog._get_artefact">
+<span class="sig-name descname"><span class="pre">_get_artefact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="models/index.html#statisfactory.IO.models.Artefact" title="statisfactory.IO.models.Artefact"><span class="pre">statisfactory.IO.models.Artefact</span></a></span></span><a class="headerlink" href="#statisfactory.IO.Catalog._get_artefact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the FIRST artefact matching the given name currently living in the catalog.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Catalog._get_interactor">
+<span class="sig-name descname"><span class="pre">_get_interactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artefact</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="models/index.html#statisfactory.IO.models.Artefact" title="statisfactory.IO.models.Artefact"><span class="pre">statisfactory.IO.models.Artefact</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#statisfactory.IO.Catalog._get_interactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the interactor matchin the type of the artefact.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Catalog.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#statisfactory.IO.Catalog.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an asset from the catalogue.
+A context can be provided through named variadic args.
+if a context is provided, the update of the context won’t raised any error</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): the name of the artefact to load.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Catalog.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.Catalog.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the asset using the artefact name.
+A context can be provided through named variadic args.
+if a context is provided, the update of the context won’t raised any error</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): the name of the arteface
+asset (Any): the underlying artefact to store</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.</span></span><span class="sig-name descname"><span class="pre">Artefact</span></span><a class="headerlink" href="#statisfactory.IO.Artefact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents an Artefact : the I/O of a statisfactory node.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.type" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.path">
+<span class="sig-name descname"><span class="pre">path</span></span><em class="property"> <span class="pre">:Optional[str]</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.connector">
+<span class="sig-name descname"><span class="pre">connector</span></span><em class="property"> <span class="pre">:Optional[Connector]</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.connector" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.query">
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"> <span class="pre">:Optional[str]</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.save_options">
+<span class="sig-name descname"><span class="pre">save_options</span></span><em class="property"> <span class="pre">:Optional[Dict]</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.save_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.load_options">
+<span class="sig-name descname"><span class="pre">load_options</span></span><em class="property"> <span class="pre">:Optional[Dict]</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.load_options" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.__post_init__">
+<span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.Artefact.__post_init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the marshmalling’s list-of-dicts to a dict</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.IO.Volatile">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.</span></span><span class="sig-name descname"><span class="pre">Volatile</span></span><a class="headerlink" href="#statisfactory.IO.Volatile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents data outputed by the Craft but not to be persisted in the catalog</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Volatile.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.Volatile.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Hugo Juhel<br/>
+        
+            &copy; Copyright 2021, Hugo Juhel.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

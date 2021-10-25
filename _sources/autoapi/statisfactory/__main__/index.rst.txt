@@ -1,0 +1,47 @@
+:py:mod:`statisfactory.__main__`
+================================
+
+.. py:module:: statisfactory.__main__
+
+.. autoapi-nested-parse::
+
+   implements the statisfactory's cli
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.__main__.cli
+   statisfactory.__main__.build
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.__main__.LOGGER
+
+
+.. py:data:: LOGGER
+   
+
+   
+
+.. py:function:: cli(ctx, path)
+
+
+.. py:function:: build(ctx)
+
+   Parse the notebooks folders and build the Crafts definitions.
+   Extract the Craft definitions to the notebook targets folder.
+
+

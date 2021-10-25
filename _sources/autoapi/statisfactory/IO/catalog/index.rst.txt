@@ -1,0 +1,80 @@
+:py:mod:`statisfactory.IO.catalog`
+==================================
+
+.. py:module:: statisfactory.IO.catalog
+
+.. autoapi-nested-parse::
+
+   Implements the single entry point to the datasources
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.IO.catalog.Catalog
+
+
+
+
+.. py:class:: Catalog(*, dump: str, session: statisfactory.session.Session = None)
+
+   Bases: :py:obj:`statisfactory.logger.MixinLogable`
+
+   Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
+
+   .. py:method:: __str__(self)
+
+      Show all artefacts entries
+
+
+   .. py:method:: __contains__(self, name: str) -> bool
+
+      Check if the given name is an artefact
+
+
+   .. py:method:: _get_connector(self, artefact: statisfactory.IO.models.Artefact) -> Union[statisfactory.IO.models.Connector, None]
+
+      Retrieve the connector of an Artefact
+
+      Args:
+          artefact (Artefact): the artefact to extract the connector for
+
+
+   .. py:method:: _get_artefact(self, name: str) -> statisfactory.IO.models.Artefact
+
+      Retrieve the FIRST artefact matching the given name currently living in the catalog.
+
+
+   .. py:method:: _get_interactor(self, artefact: statisfactory.IO.models.Artefact) -> Callable
+
+      Retrieve the interactor matchin the type of the artefact.
+
+
+   .. py:method:: load(self, name: str, **context) -> pandas.DataFrame
+
+      Load an asset from the catalogue.
+      A context can be provided through named variadic args.
+      if a context is provided, the update of the context won't raised any error
+
+      Args:
+          name (str): the name of the artefact to load.
+
+
+   .. py:method:: save(self, name: str, asset: Any, **context)
+
+      Save the asset using the artefact name.
+      A context can be provided through named variadic args.
+      if a context is provided, the update of the context won't raised any error
+
+      Args:
+          name (str): the name of the arteface
+          asset (Any): the underlying artefact to store
+
+
+

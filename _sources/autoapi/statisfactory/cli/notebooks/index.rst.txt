@@ -1,0 +1,107 @@
+:py:mod:`statisfactory.cli.notebooks`
+=====================================
+
+.. py:module:: statisfactory.cli.notebooks
+
+.. autoapi-nested-parse::
+
+   Implements the notebooks parser for the Statisfactory's CLI
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.cli.notebooks._CraftExtractor
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.cli.notebooks._target_path
+   statisfactory.cli.notebooks.build_notebooks
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.cli.notebooks.LOGGER
+   statisfactory.cli.notebooks._pattern_number_prefix
+   statisfactory.cli.notebooks._pattern_spaces
+
+
+.. py:data:: LOGGER
+   
+
+   
+
+.. py:data:: _pattern_number_prefix
+   
+
+   
+
+.. py:data:: _pattern_spaces
+   
+
+   
+
+.. py:class:: _CraftExtractor(**kw)
+
+   Bases: :py:obj:`nbconvert.preprocessors.Preprocessor`
+
+   Extract the "craft" tagged cells from a notebook
+
+   .. py:attribute:: _func_pattern
+      
+
+      
+
+   .. py:method:: _get_all_functions(self, src) -> List[str]
+
+      Get all functions definitions (name only) from a sting
+
+
+   .. py:method:: preprocess(self, nb, ressources)
+
+      Preprocessing to apply on each notebook.
+
+      Must return modified nb, resources.
+
+      If you wish to apply your preprocessing to each cell, you might want
+      to override preprocess_cell method instead.
+
+      Parameters
+      ----------
+      nb : NotebookNode
+          Notebook being converted
+      resources : dictionary
+          Additional resources used in the conversion process.  Allows
+          preprocessors to pass variables into the Jinja engine.
+
+
+
+.. py:function:: _target_path(path: pathlib.Path) -> pathlib.Path
+
+   Clean-up a path by removing all numeric from it
+
+
+.. py:function:: build_notebooks(src: pathlib.Path, dst: pathlib.Path)
+
+   Recursively parse the Notebooks from 'src', to extract the Craft's definition.
+
+   Definitions found that way are copied to their .py counterpart.
+   The name of the py file is the name of the notebook with num purged.
+   The functions definitions found in "export" tagged cells, are exported to the root of the package.
+
+

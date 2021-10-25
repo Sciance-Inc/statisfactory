@@ -1,0 +1,54 @@
+:py:mod:`statisfactory.operator.pipeline.runner`
+================================================
+
+.. py:module:: statisfactory.operator.pipeline.runner
+
+.. autoapi-nested-parse::
+
+   Implements classe to solve the dependencies between crafts
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.pipeline.runner.Runner
+
+
+
+
+.. py:class:: Runner(*, crafts: List[statisfactory.operator.craft._Craft])
+
+   Bases: :py:obj:`statisfactory.logger.MixinLogable`
+
+   Implements a way of running multiples crafts defined together in a pipeline
+
+   .. py:method:: _update_volatiles(self, accumulated: Dict[str, Any], craft: statisfactory.operator.craft._Craft, craft_output: Iterable[Any]) -> Dict[str, Any]
+
+      Return a new Volatile mapping, from the union of the current `accumulated` mapping with the volatiles extracted from a craft.
+      Raise an error if keys collides.
+
+
+   .. py:method:: __iter__(self)
+
+      Unesting generator over the batchs returned by the DAG solver.
+
+
+   .. py:method:: __call__(self, shared: Union[None, Dict[str, Any]] = None, namespaced: Union[None, Dict[str, Dict[str, Any]]] = None) -> Dict[str, Any]
+
+      Iterate through the crafts and accumulate the volatiles and context object, starting from a the given ones.
+
+      Args:
+          shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
+          namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
+
+      Returns:
+          Dict[str, Any]: the final transient state resultuing from the craft application
+
+
+

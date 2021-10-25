@@ -1,0 +1,293 @@
+:py:mod:`statisfactory.IO.artefacts.artefact_interactor`
+========================================================
+
+.. py:module:: statisfactory.IO.artefacts.artefact_interactor
+
+.. autoapi-nested-parse::
+
+   implements various data interactor the catalog can delegates the saving / loading to.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.IO.artefacts.artefact_interactor.DynamicInterpolation
+   statisfactory.IO.artefacts.artefact_interactor.MixinInterpolable
+   statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor
+   statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor
+   statisfactory.IO.artefacts.artefact_interactor.CSVInteractor
+   statisfactory.IO.artefacts.artefact_interactor.XLSXInteractor
+   statisfactory.IO.artefacts.artefact_interactor.PicklerInteractor
+   statisfactory.IO.artefacts.artefact_interactor.ODBCInteractor
+   statisfactory.IO.artefacts.artefact_interactor.DatapaneInteractor
+   statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor
+
+
+
+
+.. py:class:: DynamicInterpolation(template)
+
+   Bases: :py:obj:`string.Template`
+
+   Implements the interpolation of the !{} for the artefact values.
+
+   Override the default template to :
+       * replace the $ used by the StaticInterpolation with ! (the @ might be used in connection string)
+       * disallow interpolation of non braced values.
+
+   .. py:attribute:: delimiter
+      :annotation: = !
+
+      
+
+   .. py:attribute:: pattern
+      :annotation: = Multiline-String
+
+       .. raw:: html
+
+           <details><summary>Show Value</summary>
+
+       .. code-block:: text
+           :linenos:
+
+           
+               \!(?:
+                 (?P<escaped>\!) |
+                 {(?P<named>[_a-z][_a-z0-9]*)} |
+                 {(?P<braced>[_a-z][_a-z0-9]*)} |
+                 (?P<invalid>)
+               )
+               
+
+       .. raw:: html
+
+           </details>
+
+      
+
+
+.. py:class:: MixinInterpolable(*args, **kwargs)
+
+   Implements helpers to interpolate a string
+
+   .. py:method:: _interpolate_string(self, string, **kwargs)
+
+      Interpolate a given string using the provided context
+
+
+
+.. py:class:: ArtefactInteractor(artefact, *args, session: statisfactory.session.Session, **kwargs)
+
+   Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinInterpolable`
+
+   Describe the Interactor's interface.
+   An interactor wraps the loading and saving operations of a Artefact.
+   The user can implements custom interactors. To do so, the user should
+   implements the interface desbribes in this class. An artefact and a Session object
+   are available when the artefact is called by the Catalog.
+
+   .. py:attribute:: _interactors
+      
+
+      
+
+   .. py:method:: __init_subclass__(cls, interactor_name, register: bool = True, **kwargs)
+      :classmethod:
+
+      Implement the registration of a child class into the artefact class.
+      By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
+      See PEP-487 for details.
+
+
+   .. py:method:: interactors(cls)
+      :classmethod:
+
+
+   .. py:method:: load(self, *args, **kwargs) -> Any
+      :abstractmethod:
+
+      Return the underlying asset.
+
+
+   .. py:method:: save(self, *args, asset: Any, **kwargs)
+      :abstractmethod:
+
+      Save the underlying asset.
+
+
+
+.. py:class:: FileBasedInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+
+   Bases: :py:obj:`ArtefactInteractor`
+
+   Extend the Artefact Interactor with Path interpolations
+
+   .. py:method:: _put(self, payload: bytes)
+
+      Put the payload to the URI
+
+      Args:
+          payload (BytesIO): The payload encoded as BytesIO to push.
+
+
+   .. py:method:: _get(self) -> bytes
+
+      Get a payload from the URI
+
+
+
+.. py:class:: CSVInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+
+   Bases: :py:obj:`FileBasedInteractor`
+
+   Concrete implementation of a csv interactor
+
+   .. py:method:: load(self) -> pandas.DataFrame
+
+      Parse 'path' as a pandas dataframe and return it
+
+      Returns:
+          pd.DataFrame: the parsed dataframe
+
+
+   .. py:method:: save(self, asset: Union[pandas.DataFrame, pandas.Series])
+
+      Save the 'data' dataframe as csv.
+
+      Args:
+          data (pandas.DataFrame): the dataframe to be saved
+
+
+
+.. py:class:: XLSXInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+
+   Bases: :py:obj:`FileBasedInteractor`
+
+   Concrete implementation of an XLSX interactor
+
+   .. py:method:: load(self) -> pandas.DataFrame
+
+      Parse 'path' as a pandas dataframe and return it
+
+      Returns:
+          pd.DataFrame: the parsed dataframe
+
+
+   .. py:method:: save(self, asset: Union[pandas.DataFrame, pandas.Series])
+
+      Save the 'data' dataframe as csv.
+
+      Args:
+          data (pandas.DataFrame): the dataframe to be saved
+
+
+
+.. py:class:: PicklerInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+
+   Bases: :py:obj:`FileBasedInteractor`
+
+   Concrete implementation of a Pickle interactor.
+
+   .. py:method:: load(self) -> Any
+
+      Unserialize the object located at 'path'
+
+      Returns:
+          Any: the unpickled object
+
+
+   .. py:method:: save(self, asset: Any)
+
+      Serialize the 'asset'
+
+      Args:
+          asset (Any ): the artefact to be saved
+
+
+
+.. py:class:: ODBCInteractor(artefact, connector, *args, session: statisfactory.session.Session = None, **kwargs)
+
+   Bases: :py:obj:`ArtefactInteractor`, :py:obj:`MixinInterpolable`
+
+   Concrete implementation of an odbc interactor
+
+   TODO : inject the odbc flavor (transac, athena, posgres...)
+   TODO : implements the saving strategy
+
+   .. py:method:: _get_connection(self)
+
+      Parse the connector and return the connection objecté
+
+      Args:
+          connector (Connector): the connector object to parse.
+
+      TODO : add support for parameters
+
+
+   .. py:method:: load(self) -> pandas.DataFrame
+
+      Parse 'path' as a pandas dataframe and return it
+
+      Returns:
+          pd.DataFrame: the parsed dataframe
+
+
+   .. py:method:: save(self, asset: Any)
+
+      Save the underlying asset.
+
+
+
+.. py:class:: DatapaneInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+
+   Bases: :py:obj:`FileBasedInteractor`
+
+   Implements saving / loading for datapane object.
+
+   .. py:method:: load(self)
+
+      Not implemented since I don't want a report to be altered as for now­
+
+      Raises:
+          NotImplementedErrord
+
+
+   .. py:method:: save(self, asset: datapane.Report)
+
+      Save a datapane assert
+
+      Args:
+          artefact (dp.Report): the datapane report object to be saved.
+          open (bool): whether open the report on saving.
+
+      Implementation details:
+      * The datapane file is first written to temp directory before being serialized back to bytes (I failled lamentably at finding how to extract the HTML from datapane)
+
+
+
+.. py:class:: BinaryInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+
+   Bases: :py:obj:`FileBasedInteractor`
+
+   Implements saving / loading for binary raw object
+
+   .. py:method:: load(self)
+
+      Return the content of a binary artefact.
+
+
+   .. py:method:: save(self, asset: bytes)
+
+      Save a datapane assert
+
+      Args:
+          artefact (Any): the binary content to write
+
+
+

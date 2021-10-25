@@ -1,0 +1,38 @@
+:py:mod:`statisfactory.cli`
+===========================
+
+.. py:module:: statisfactory.cli
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   logger/index.rst
+   notebooks/index.rst
+
+
+Package Contents
+----------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.cli.build_notebooks
+
+
+
+.. py:function:: build_notebooks(src: pathlib.Path, dst: pathlib.Path)
+
+   Recursively parse the Notebooks from 'src', to extract the Craft's definition.
+
+   Definitions found that way are copied to their .py counterpart.
+   The name of the py file is the name of the notebook with num purged.
+   The functions definitions found in "export" tagged cells, are exported to the root of the package.
+
+

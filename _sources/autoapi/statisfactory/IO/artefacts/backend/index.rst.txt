@@ -1,0 +1,188 @@
+:py:mod:`statisfactory.IO.artefacts.backend`
+============================================
+
+.. py:module:: statisfactory.IO.artefacts.backend
+
+.. autoapi-nested-parse::
+
+   implements various backend to be reused across artefacts
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.IO.artefacts.backend.Backend
+   statisfactory.IO.artefacts.backend.S3Backend
+   statisfactory.IO.artefacts.backend.LocalFS
+   statisfactory.IO.artefacts.backend.LakeFSBackend
+
+
+
+
+.. py:class:: Backend(session: statisfactory.session.Session, logger_name: str = __name__)
+
+   Bases: :py:obj:`statisfactory.logger.MixinLogable`
+
+   Interface for the low level communication with a service (s3, lakefs...) through the exchange of Bytes
+   The backend consume and returns Bytes.
+
+   .. py:attribute:: _backends
+      
+
+      
+
+   .. py:method:: __init_subclass__(cls, prefix: str, **kwargs)
+      :classmethod:
+
+      Implement the registration of a child class into the backend class.
+      By doing so, the Backend can be extended to use new interactors without updating the code of the class (Open Close principle)
+      See PEP-487 for details.
+
+      Args:
+          prefix (str): The prefix to register the backend under
+
+      Raises:
+          Errors.E0201: Raised if the prefix has already a backend registered under,
+
+
+   .. py:method:: backends(cls: Type[Backend]) -> Dict[str, Type[Backend]]
+      :classmethod:
+
+      Getter for the registered backends
+
+      Returns:
+          Map[str, Type[Backend]]: A mapping of prefixes associated with their respectives backend.
+
+
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+      :abstractmethod:
+
+      Drop the payload to the service under the 'path' name.
+
+      Args:
+          payload (bytes): The bytes representation of the artifact to drop on the backend.
+          fragment (ParseResult): The Artefact's path parsed result to use to put the payload to.
+
+
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+      :abstractmethod:
+
+      Get the payload from the service under the 'path' name.
+
+      Args:
+          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+
+
+
+.. py:class:: S3Backend(session: statisfactory.session.Session)
+
+   Bases: :py:obj:`Backend`
+
+   Write and fetch data from S3
+
+   .. py:method:: _create_bucket(self, bucket: str)
+
+      Create the S3 Bucket if required
+
+      Args:
+          bucket (str): The bucket's name to create.
+
+
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+
+      Drop the payload to S3 using the data from the Fragment
+
+      Args:
+          payload (bytes): The bytes representation of the artifact to drop on the backend.
+          fragment (ParseResult): The Artefact's path parsed result.
+
+
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+
+      Get the payload from the service under the 'path' name.
+
+      Args:
+          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+
+
+
+.. py:class:: LocalFS(session: statisfactory.session.Session)
+
+   Bases: :py:obj:`Backend`
+
+   Write and fetch data from the local file system
+
+   .. py:method:: _create_parents(self, path: pathlib.Path)
+
+      Create all the parents of a given path.
+
+      Args:
+          path (Path): the path to create the parent from
+
+
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+
+      Drop the payload to the file system using the data from the Fragment
+
+      Args:
+          payload (bytes): The bytes representation of the artifact to drop on the backend.
+          fragment (ParseResult): The Artefact's path parsed result.
+
+
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+
+      Get the payload from the service under the 'path' name.
+
+      Args:
+          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+
+
+
+.. py:class:: LakeFSBackend(session: statisfactory.session.Session)
+
+   Bases: :py:obj:`Backend`
+
+   Write and fetch data from / to LakeFS
+
+   .. py:attribute:: REG_VALID_SLUG
+      
+
+      
+
+   .. py:method:: _create_branch(self, name: str)
+
+      Create a new Lake FS branch if it does not already exists
+
+
+   .. py:method:: _get_current_branch_name(self) -> str
+
+      Build a valid LakeFS branch name from the currently checkout in git
+
+      Returns:
+          str: The current branch name to use in LakeFS
+
+
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+
+      Drop the payload to the file system using the data from the Fragment
+
+      Args:
+          payload (bytes): The bytes representation of the artifact to drop on the backend.
+          fragment (ParseResult): The Artefact's path parsed result.
+
+
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+
+      Get the payload from the service under the 'path' name.
+
+      Args:
+          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+
+
+

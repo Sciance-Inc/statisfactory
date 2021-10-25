@@ -1,0 +1,30 @@
+:py:mod:`statisfactory.operator.utils.dictionaryMerger`
+=======================================================
+
+.. py:module:: statisfactory.operator.utils.dictionaryMerger
+
+.. autoapi-nested-parse::
+
+   Implements a way to merge to merge two dictionaries while checking for key collision
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.utils.dictionaryMerger.merge_dictionaries
+
+
+
+.. py:function:: merge_dictionaries(left: Dict, right: Dict, strict=True) -> Dict
+
+   Return a new dictionary by merging Left and Right dictionaries together.
+   Raise a KeyError if strict is True and keys collides.
+
+

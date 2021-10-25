@@ -1,0 +1,67 @@
+:py:mod:`statisfactory.operator.pipeline.solver`
+================================================
+
+.. py:module:: statisfactory.operator.pipeline.solver
+
+.. autoapi-nested-parse::
+
+   Implements classe to solve the dependencies between crafts
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.pipeline.solver.Solver
+   statisfactory.operator.pipeline.solver.DAGSolver
+
+
+
+
+.. py:class:: Solver(crafts: Iterable[statisfactory.operator.craft._Craft], *args, **kwargs)
+
+   Bases: :py:obj:`statisfactory.logger.MixinLogable`
+
+   Interface for the Solver. A solver compute the Computational Graph.
+
+   .. py:method:: __iter__(self) -> Iterable[Iterable[statisfactory.operator.craft._Craft]]
+      :abstractmethod:
+
+      Implements the iteration protocole for the solver.
+      Return an iterator over batch of Crafts
+
+
+   .. py:method:: G(self) -> networkx.DiGraph
+      :property:
+
+      Get the computational graph as a networkx
+
+
+
+.. py:class:: DAGSolver(crafts)
+
+   Bases: :py:obj:`Solver`
+
+   Implements the solver though the use of DAG
+
+   .. py:method:: G(self) -> networkx.DiGraph
+
+      Returns the Computational Directed Graph.
+
+
+   .. py:method:: _build_diGraph(self) -> networkx.DiGraph
+
+      Build the DiGraph from an iterable of crafts.
+
+
+   .. py:method:: __iter__(self)
+
+      Implements a grouped topological sort
+
+
+

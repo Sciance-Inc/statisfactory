@@ -1,0 +1,92 @@
+:py:mod:`statisfactory.operator.mixinHookable`
+==============================================
+
+.. py:module:: statisfactory.operator.mixinHookable
+
+.. autoapi-nested-parse::
+
+   Implements a mixin to register _pre_hooks, post_hooks and _on_error_hooks
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.mixinHookable.MixinHookable
+
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.mixinHookable._LOGGER
+
+
+.. py:data:: _LOGGER
+   
+
+   
+
+.. py:class:: MixinHookable(*args, **kwargs)
+
+   Give to a Class the ability to registrer post, pre and on_error hooks.
+   The mixin exposes:
+   * A '_with_hooks' context manager executing both, pre (before) and post (after) hooks.
+   * A '_with_error' context manager executing the on_error hooks in case of errors
+   The hook's signature is described in the hook's dockstring.
+
+   .. py:attribute:: _pre_run_hooks
+      
+
+      
+
+   .. py:attribute:: _post_run_hooks
+      
+
+      
+
+   .. py:attribute:: _on_error_hooks
+      
+
+      
+
+   .. py:method:: hook_on_error(cls, last: bool = True) -> Callable
+      :classmethod:
+
+      Register a `callable_` to be executed if an error is raised during the 'target' execution
+      The `callable` must have the signature (target, error) -> None
+
+
+   .. py:method:: hook_pre_run(cls, last: bool = True) -> Callable
+      :classmethod:
+
+      Register a `callable_` to be executed before the pipeline execution.
+      The `callable` must have the signature (target) -> None
+
+
+   .. py:method:: hook_post_run(cls, last: bool = True) -> Callable
+      :classmethod:
+
+      Register a `callable_` to be executed before the pipeline execution.
+      The `callable` must have the signature (target) -> None
+
+
+   .. py:method:: _with_hooks(self)
+
+      Context manager that executes pre and post hooks.
+
+
+   .. py:method:: _with_error(self)
+
+      Context manager that executes on_error hooks if an error is raised during the context
+
+
+

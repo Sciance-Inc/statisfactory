@@ -1,0 +1,233 @@
+:py:mod:`statisfactory.IO.models`
+=================================
+
+.. py:module:: statisfactory.IO.models
+
+.. autoapi-nested-parse::
+
+   implements models serialization for yaml IO files.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.IO.models.Connector
+   statisfactory.IO.models._ConnectorSchema
+   statisfactory.IO.models.Volatile
+   statisfactory.IO.models.Artefact
+   statisfactory.IO.models._ArtefactSchema
+   statisfactory.IO.models.CatalogData
+   statisfactory.IO.models._CatalogDataSchema
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.IO.models._merge_dict
+
+
+
+.. py:class:: Connector
+
+   Represents an odbc connection.
+
+   .. py:attribute:: connString
+      :annotation: :str
+
+      
+
+   .. py:attribute:: name
+      :annotation: :str
+
+      
+
+
+.. py:class:: _ConnectorSchema(*, only: Optional[marshmallow.types.StrSequenceOrSet] = None, exclude: marshmallow.types.StrSequenceOrSet = (), many: bool = False, context: Optional[Dict] = None, load_only: marshmallow.types.StrSequenceOrSet = (), dump_only: marshmallow.types.StrSequenceOrSet = (), partial: Union[bool, marshmallow.types.StrSequenceOrSet] = False, unknown: Optional[str] = None)
+
+   Bases: :py:obj:`marshmallow.Schema`
+
+   Connector's marshmaller
+
+   .. py:attribute:: connString
+      
+
+      
+
+   .. py:method:: make_connector(self, data, **kwargs)
+
+
+
+.. py:class:: Volatile
+
+   Represents data outputed by the Craft but not to be persisted in the catalog
+
+   .. py:attribute:: name
+      :annotation: :str
+
+      
+
+
+.. py:class:: Artefact
+
+   Represents an Artefact : the I/O of a statisfactory node.
+
+   .. py:attribute:: name
+      :annotation: :str
+
+      
+
+   .. py:attribute:: type
+      :annotation: :str
+
+      
+
+   .. py:attribute:: path
+      :annotation: :Optional[str]
+
+      
+
+   .. py:attribute:: connector
+      :annotation: :Optional[Connector]
+
+      
+
+   .. py:attribute:: query
+      :annotation: :Optional[str]
+
+      
+
+   .. py:attribute:: save_options
+      :annotation: :Optional[Dict]
+
+      
+
+   .. py:attribute:: load_options
+      :annotation: :Optional[Dict]
+
+      
+
+   .. py:method:: __post_init__(self)
+
+      Transform the marshmalling's list-of-dicts to a dict
+
+
+
+.. py:class:: _ArtefactSchema(*, only: Optional[marshmallow.types.StrSequenceOrSet] = None, exclude: marshmallow.types.StrSequenceOrSet = (), many: bool = False, context: Optional[Dict] = None, load_only: marshmallow.types.StrSequenceOrSet = (), dump_only: marshmallow.types.StrSequenceOrSet = (), partial: Union[bool, marshmallow.types.StrSequenceOrSet] = False, unknown: Optional[str] = None)
+
+   Bases: :py:obj:`marshmallow.Schema`
+
+   Artefact's marshaller.
+
+   .. py:attribute:: valids_artefacts
+      
+
+      
+
+   .. py:attribute:: type
+      
+
+      
+
+   .. py:attribute:: abstract
+      
+
+      
+
+   .. py:attribute:: path
+      
+
+      
+
+   .. py:attribute:: query
+      
+
+      
+
+   .. py:attribute:: connector
+      
+
+      
+
+   .. py:attribute:: save_options
+      
+
+      
+
+   .. py:attribute:: load_options
+      
+
+      
+
+   .. py:method:: validate_file(self, data, **kwargs)
+
+
+   .. py:method:: validate_query(self, data, **kwargs)
+
+
+   .. py:method:: validate_datapane(self, data, **kwargs)
+
+
+   .. py:method:: make_artefact(self, data, **kwargs)
+
+
+
+.. py:function:: _merge_dict(dicts: List[Dict]) -> Dict
+
+   Merge a list of dict in a python 3.5 comptible way
+
+
+.. py:class:: CatalogData
+
+   State of the catalogue.
+
+   .. py:attribute:: artefacts
+      :annotation: :Dict[str, Artefact]
+
+      
+
+   .. py:attribute:: connectors
+      :annotation: :Dict[str, Connector]
+
+      
+
+   .. py:method:: __post_init__(self)
+
+      Transform the marshmalling's list-of-dicts to a dict
+
+
+   .. py:method:: from_string(s: str) -> CatalogData
+      :staticmethod:
+
+      Build a catalog data from a string
+
+
+
+.. py:class:: _CatalogDataSchema(*, only: Optional[marshmallow.types.StrSequenceOrSet] = None, exclude: marshmallow.types.StrSequenceOrSet = (), many: bool = False, context: Optional[Dict] = None, load_only: marshmallow.types.StrSequenceOrSet = (), dump_only: marshmallow.types.StrSequenceOrSet = (), partial: Union[bool, marshmallow.types.StrSequenceOrSet] = False, unknown: Optional[str] = None)
+
+   Bases: :py:obj:`marshmallow.Schema`
+
+   CatalogueData's marshaller.
+
+   .. py:attribute:: artefacts
+      
+
+      
+
+   .. py:attribute:: connectors
+      
+
+      
+
+   .. py:method:: make_catalogData(self, data, **kwargs)
+
+
+

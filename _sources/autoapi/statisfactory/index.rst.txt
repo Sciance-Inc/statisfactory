@@ -1,0 +1,485 @@
+:py:mod:`statisfactory`
+=======================
+
+.. py:module:: statisfactory
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   IO/index.rst
+   cli/index.rst
+   operator/index.rst
+   session/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   __main__/index.rst
+   __version__/index.rst
+   errors/index.rst
+   logger/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.Artefact
+   statisfactory.ArtefactInteractor
+   statisfactory.Catalog
+   statisfactory.Volatile
+   statisfactory.Pipeline
+   statisfactory._Craft
+   statisfactory.Session
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.Craft
+
+
+
+.. py:class:: Artefact
+
+   Represents an Artefact : the I/O of a statisfactory node.
+
+   .. py:attribute:: name
+      :annotation: :str
+
+      
+
+   .. py:attribute:: type
+      :annotation: :str
+
+      
+
+   .. py:attribute:: path
+      :annotation: :Optional[str]
+
+      
+
+   .. py:attribute:: connector
+      :annotation: :Optional[Connector]
+
+      
+
+   .. py:attribute:: query
+      :annotation: :Optional[str]
+
+      
+
+   .. py:attribute:: save_options
+      :annotation: :Optional[Dict]
+
+      
+
+   .. py:attribute:: load_options
+      :annotation: :Optional[Dict]
+
+      
+
+   .. py:method:: __post_init__(self)
+
+      Transform the marshmalling's list-of-dicts to a dict
+
+
+
+.. py:class:: ArtefactInteractor(artefact, *args, session: statisfactory.session.Session, **kwargs)
+
+   Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinInterpolable`
+
+   Describe the Interactor's interface.
+   An interactor wraps the loading and saving operations of a Artefact.
+   The user can implements custom interactors. To do so, the user should
+   implements the interface desbribes in this class. An artefact and a Session object
+   are available when the artefact is called by the Catalog.
+
+   .. py:attribute:: _interactors
+      
+
+      
+
+   .. py:method:: __init_subclass__(cls, interactor_name, register: bool = True, **kwargs)
+      :classmethod:
+
+      Implement the registration of a child class into the artefact class.
+      By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
+      See PEP-487 for details.
+
+
+   .. py:method:: interactors(cls)
+      :classmethod:
+
+
+   .. py:method:: load(self, *args, **kwargs) -> Any
+      :abstractmethod:
+
+      Return the underlying asset.
+
+
+   .. py:method:: save(self, *args, asset: Any, **kwargs)
+      :abstractmethod:
+
+      Save the underlying asset.
+
+
+
+.. py:class:: Catalog(*, dump: str, session: statisfactory.session.Session = None)
+
+   Bases: :py:obj:`statisfactory.logger.MixinLogable`
+
+   Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
+
+   .. py:method:: __str__(self)
+
+      Show all artefacts entries
+
+
+   .. py:method:: __contains__(self, name: str) -> bool
+
+      Check if the given name is an artefact
+
+
+   .. py:method:: _get_connector(self, artefact: statisfactory.IO.models.Artefact) -> Union[statisfactory.IO.models.Connector, None]
+
+      Retrieve the connector of an Artefact
+
+      Args:
+          artefact (Artefact): the artefact to extract the connector for
+
+
+   .. py:method:: _get_artefact(self, name: str) -> statisfactory.IO.models.Artefact
+
+      Retrieve the FIRST artefact matching the given name currently living in the catalog.
+
+
+   .. py:method:: _get_interactor(self, artefact: statisfactory.IO.models.Artefact) -> Callable
+
+      Retrieve the interactor matchin the type of the artefact.
+
+
+   .. py:method:: load(self, name: str, **context) -> pandas.DataFrame
+
+      Load an asset from the catalogue.
+      A context can be provided through named variadic args.
+      if a context is provided, the update of the context won't raised any error
+
+      Args:
+          name (str): the name of the artefact to load.
+
+
+   .. py:method:: save(self, name: str, asset: Any, **context)
+
+      Save the asset using the artefact name.
+      A context can be provided through named variadic args.
+      if a context is provided, the update of the context won't raised any error
+
+      Args:
+          name (str): the name of the arteface
+          asset (Any): the underlying artefact to store
+
+
+
+.. py:class:: Volatile
+
+   Represents data outputed by the Craft but not to be persisted in the catalog
+
+   .. py:attribute:: name
+      :annotation: :str
+
+      
+
+
+.. py:function:: Craft()
+
+   Make a new _Craft
+
+
+.. py:class:: Pipeline(*, name: str = 'noName')
+
+   Bases: :py:obj:`statisfactory.operator.scoped.Scoped`, :py:obj:`statisfactory.operator.mixinHookable.MixinHookable`, :py:obj:`statisfactory.operator.utils.MergeableInterface`, :py:obj:`statisfactory.logger.MixinLogable`
+
+   Implements a way to combine crafts and pipeline togetger
+
+   .. py:method:: name(self)
+      :property:
+
+      Craft's name getter.
+
+
+   .. py:method:: plot(self)
+
+      Display the graph.
+
+
+   .. py:method:: __add__(self, visitor: statisfactory.operator.utils.MergeableInterface) -> Pipeline
+
+      Add a Mergeable to the pipeline.
+      Implements the accept part of the visitor pattern.
+
+
+   .. py:method:: visit_craft(self, craft) -> Pipeline
+
+      Insert the given craft in the first position of the pipeline.
+
+
+   .. py:method:: visit_pipeline(self, pipeline: Pipeline)
+
+      Update self by adding the crafts from 'pipeline'.
+
+      Args:
+          pipeline (Pipeline): the pipeline to update and return
+
+
+   .. py:method:: __str__(self)
+
+      Implements the print method to display the pipeline
+
+
+   .. py:method:: __call__(self, *, namespaced: Union[None, Dict[str, Dict[str, Any]]] = None, **shared) -> Dict[str, Any]
+
+      Concretely run a Pipeline with two Mapping of parameters.
+      A 'shared' mapping, to be dispatched to all the crafts executed, a 'namespaced' holding optionnal mappings per crafts to be dispatched to their craft.
+
+      Args:
+          shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
+          namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
+
+      Returns:
+          Dict[str, Any]: the final transient state resultuing from the craft application
+
+
+
+.. py:class:: _Craft(callable: Callable)
+
+   Bases: :py:obj:`statisfactory.operator.scoped.Scoped`, :py:obj:`statisfactory.operator.mixinHookable.MixinHookable`, :py:obj:`statisfactory.operator.utils.MergeableInterface`, :py:obj:`statisfactory.logger.MixinLogable`
+
+   Craft wraps a task and take care of data retrieval from / storage to the catalogue.
+
+   .. py:attribute:: _artefacts_annotation
+      
+
+      
+
+   .. py:method:: _input_to_annotations(self, inputs) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
+
+      Convert a Python's callable annotation, as returned by Signature to a list of SElement
+
+
+   .. py:method:: _output_to_annotation(self, inputs) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
+
+      Convert a Python's callable return value to a list of SElement.
+
+
+   .. py:method:: name(self) -> str
+      :property:
+
+      Get the name of the craft
+
+
+   .. py:method:: requires(self) -> Tuple[str, Ellipsis]
+      :property:
+
+      Return the name of the volatiles and artefact required by the craft
+
+
+   .. py:method:: produces(self) -> Tuple[str, Ellipsis]
+      :property:
+
+      Return the names of the volatiles and artefacts produced by the Craft.
+
+
+   .. py:method:: output_annotations(self) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
+      :property:
+
+      Returns the full annotations of the items returned by the craft
+
+
+   .. py:method:: input_annotations(self) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
+      :property:
+
+      Returns the full annotations of the items ingested by the craft.
+
+
+   .. py:method:: _parse_args(self, context: Mapping, volatiles_mapping: Mapping) -> Tuple[Dict[str, Any], Dict[str, Any]]
+
+      Parse the Craft's arguments against it's signature
+
+
+   .. py:method:: __call__(self, volatiles_mapping: Union[Mapping[str, Any], None] = None, **kwargs)
+
+      Implements the call protocole for the Craft wrapper.
+      Load and save the Artefact for the undelryaing callable.
+      Defers the call to the underlying artefact.
+
+      Args:
+          volatiles_mapping: A mappping of volatiles objects, computed before the craft execution
+          kwargs: variadic keywrods arguments to be defered to the underlaying callable.
+
+
+   .. py:method:: __copy__(self) -> _Craft
+
+      Implements the shallow copy protocol for the Craft.
+
+      Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
+
+
+   .. py:method:: _save_artefacts(self, *, output, **context) -> Union[Mapping, None]
+
+      Extract and save the artefact of an output
+
+      Args:
+          out (Dict): the dictionnary to extract artefacts from.
+
+
+   .. py:method:: __add__(self, visitor: statisfactory.operator.utils.MergeableInterface)
+
+      Combine two crafts into a pipeline.
+      Implements the accept part of the visitor pattern.
+
+      Args:
+          visitor (MergeableInterface): the craft / pipeline to combine
+
+
+   .. py:method:: visit_craft(self, craft: _Craft)
+
+      Combine two crafts into a pipeline
+
+      Args:
+          craft (Craft): the other craft to add
+
+
+   .. py:method:: visit_pipeline(self, pipeline: statisfactory.operator.pipeline.Pipeline)
+
+      Add the craft in last position to the visiting pipeline
+
+
+
+.. py:class:: Session(*, root_folder: str = None)
+
+   Bases: :py:obj:`statisfactory.logger.MixinLogable`
+
+   Represents the single entry point to a Statisfactory application.
+   Load the Statisfactory configuration file and executes the registered hook.
+
+   The class exposes :
+       * Getter to the ``settings``, parsed during the class instanciation
+       * Getters to pipelines definitions and configurations, if any.
+       * A decorator : hook_post_init. To help the user registering is own extention.
+
+   The session expose a ``_`` attributes, for the user to register his own datas.
+
+   Implementation details:
+   * The class by itself does not do much, but delegates must of the work the the hooks.
+   * The hooks can be used to develop plugins : such as an integration to mlflow, the instanciation of a Spark session.
+   * The ``_`` attribute schould be used to store user defined custom extension
+
+   .. py:attribute:: _hooks
+      :annotation: = []
+
+      
+
+   .. py:method:: get_active_session()
+      :staticmethod:
+
+      Get the Session, currently on the top of the stack.
+      Must be called from a `with` statement
+
+
+   .. py:method:: get_path_to_target(self, target: str) -> pathlib.Path
+
+      Retrieve the path to "target" file by executing a "fish pass ;)" from the location of the caller
+
+
+   .. py:method:: __enter__(self)
+
+      Push the Session on top of the thread-safe stack
+
+
+   .. py:method:: __exit__(self, exception_type, exception_value, exception_traceback)
+
+      Remove the topmost Session of the thread safe stack
+
+
+   .. py:method:: root(self) -> pathlib.Path
+      :property:
+
+      Getter for the Root path of the project
+
+
+   .. py:method:: settings(self) -> dynaconf.Dynaconf
+      :property:
+
+      Getter for the session's base setting.
+
+
+   .. py:method:: catalog(self)
+      :property:
+
+      Getter for the session's catalog.
+
+
+   .. py:method:: pipelines_definitions(self)
+      :property:
+
+      Getter for the session's pipelines definitions.
+
+
+   .. py:method:: pipelines_configurations(self)
+      :property:
+
+      Getter for the session's pipelines definition.
+
+
+   .. py:method:: aws_session(self) -> boto3.Session
+      :property:
+
+      Getter for the AWS client
+
+      Returns:
+          boto3.Session: The session configured via the initiaition hook.
+
+
+   .. py:method:: git(self) -> pygit2.Repository
+      :property:
+
+      Getter for the Git repository the session belongs to.
+
+
+   .. py:method:: lakefs_client(self) -> lakefs_client.client.LakeFSClient
+      :property:
+
+      Getter for the AWS client
+      Returns:
+          The lakeFS configured via the initiaition hook.
+
+
+   .. py:method:: lakefs_repo(self)
+      :property:
+
+      Return the LakeFS repository's pointer.
+
+
+   .. py:method:: hook_post_init(cls, last=True) -> Callable
+      :classmethod:
+
+      Register a `callable_` to be executed after the session instanciation.
+
+
+

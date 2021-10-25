@@ -1,0 +1,154 @@
+:py:mod:`statisfactory.operator.craft`
+======================================
+
+.. py:module:: statisfactory.operator.craft
+
+.. autoapi-nested-parse::
+
+   implements a wrapper to handler assets loading / saving for an arbitrary function.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.craft._Craft
+   statisfactory.operator.craft._DefaultHooks
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.craft.Craft
+
+
+
+.. py:class:: _Craft(callable: Callable)
+
+   Bases: :py:obj:`statisfactory.operator.scoped.Scoped`, :py:obj:`statisfactory.operator.mixinHookable.MixinHookable`, :py:obj:`statisfactory.operator.utils.MergeableInterface`, :py:obj:`statisfactory.logger.MixinLogable`
+
+   Craft wraps a task and take care of data retrieval from / storage to the catalogue.
+
+   .. py:attribute:: _artefacts_annotation
+      
+
+      
+
+   .. py:method:: _input_to_annotations(self, inputs) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
+
+      Convert a Python's callable annotation, as returned by Signature to a list of SElement
+
+
+   .. py:method:: _output_to_annotation(self, inputs) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
+
+      Convert a Python's callable return value to a list of SElement.
+
+
+   .. py:method:: name(self) -> str
+      :property:
+
+      Get the name of the craft
+
+
+   .. py:method:: requires(self) -> Tuple[str, Ellipsis]
+      :property:
+
+      Return the name of the volatiles and artefact required by the craft
+
+
+   .. py:method:: produces(self) -> Tuple[str, Ellipsis]
+      :property:
+
+      Return the names of the volatiles and artefacts produced by the Craft.
+
+
+   .. py:method:: output_annotations(self) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
+      :property:
+
+      Returns the full annotations of the items returned by the craft
+
+
+   .. py:method:: input_annotations(self) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
+      :property:
+
+      Returns the full annotations of the items ingested by the craft.
+
+
+   .. py:method:: _parse_args(self, context: Mapping, volatiles_mapping: Mapping) -> Tuple[Dict[str, Any], Dict[str, Any]]
+
+      Parse the Craft's arguments against it's signature
+
+
+   .. py:method:: __call__(self, volatiles_mapping: Union[Mapping[str, Any], None] = None, **kwargs)
+
+      Implements the call protocole for the Craft wrapper.
+      Load and save the Artefact for the undelryaing callable.
+      Defers the call to the underlying artefact.
+
+      Args:
+          volatiles_mapping: A mappping of volatiles objects, computed before the craft execution
+          kwargs: variadic keywrods arguments to be defered to the underlaying callable.
+
+
+   .. py:method:: __copy__(self) -> _Craft
+
+      Implements the shallow copy protocol for the Craft.
+
+      Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
+
+
+   .. py:method:: _save_artefacts(self, *, output, **context) -> Union[Mapping, None]
+
+      Extract and save the artefact of an output
+
+      Args:
+          out (Dict): the dictionnary to extract artefacts from.
+
+
+   .. py:method:: __add__(self, visitor: statisfactory.operator.utils.MergeableInterface)
+
+      Combine two crafts into a pipeline.
+      Implements the accept part of the visitor pattern.
+
+      Args:
+          visitor (MergeableInterface): the craft / pipeline to combine
+
+
+   .. py:method:: visit_craft(self, craft: _Craft)
+
+      Combine two crafts into a pipeline
+
+      Args:
+          craft (Craft): the other craft to add
+
+
+   .. py:method:: visit_pipeline(self, pipeline: statisfactory.operator.pipeline.Pipeline)
+
+      Add the craft in last position to the visiting pipeline
+
+
+
+.. py:class:: _DefaultHooks
+
+   Namesapce for default hooks
+
+   .. py:method:: propagate(target, error)
+      :staticmethod:
+
+      A default hook to buble-up an error encountred while running a Node.
+
+
+
+.. py:function:: Craft()
+
+   Make a new _Craft
+
+

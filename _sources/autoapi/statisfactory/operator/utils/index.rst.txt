@@ -1,0 +1,61 @@
+:py:mod:`statisfactory.operator.utils`
+======================================
+
+.. py:module:: statisfactory.operator.utils
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   dictionaryMerger/index.rst
+   mergeable/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.utils.MergeableInterface
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.utils.merge_dictionaries
+
+
+
+.. py:function:: merge_dictionaries(left: Dict, right: Dict, strict=True) -> Dict
+
+   Return a new dictionary by merging Left and Right dictionaries together.
+   Raise a KeyError if strict is True and keys collides.
+
+
+.. py:class:: MergeableInterface(*args, **kwargs)
+
+   Mergeable interface represents the interface toi be satisfiad for object ot be merged.
+   The concrete merge operation schould be implemented with a visitor pattern
+
+   .. py:method:: visit_pipeline(self, other)
+      :abstractmethod:
+
+      The "visit" part of the visitor pattern
+
+
+   .. py:method:: visit_craft(self, other)
+      :abstractmethod:
+
+      The "visit" part of the visitor pattern
+
+
+

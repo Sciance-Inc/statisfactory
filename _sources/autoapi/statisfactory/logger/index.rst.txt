@@ -1,0 +1,62 @@
+:py:mod:`statisfactory.logger`
+==============================
+
+.. py:module:: statisfactory.logger
+
+.. autoapi-nested-parse::
+
+   Retrieve the package level logger. Configure the handler
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.logger.MixinLogable
+
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.logger.get_module_logger
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.logger._LOGGERS
+
+
+.. py:data:: _LOGGERS
+   
+
+   
+
+.. py:function:: get_module_logger(mod_name)
+
+   Retrieve the current formatted logger
+
+
+.. py:class:: MixinLogable(logger_name: str = 'statisfactory', *args, **kwargs)
+
+   .. py:method:: warn(self, msg)
+
+
+   .. py:method:: info(self, msg)
+
+
+   .. py:method:: debug(self, msg)
+
+
+

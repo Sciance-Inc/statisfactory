@@ -1,0 +1,42 @@
+:py:mod:`statisfactory.operator.scoped`
+=======================================
+
+.. py:module:: statisfactory.operator.scoped
+
+.. autoapi-nested-parse::
+
+   Thread-safe session setter / getter.
+   Used in conjonction with the "with Session.load():" syntax, it allows any inherited class to get the current session at runtime.
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.scoped.Scoped
+
+
+
+
+.. py:class:: Scoped(*args, **kwargs)
+
+   Thread-safe session getter.
+
+   .. py:attribute:: _sessions
+      
+
+      
+
+   .. py:method:: get_session(self)
+
+
+   .. py:method:: set_session(cls, session)
+      :classmethod:
+
+
+

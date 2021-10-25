@@ -1,0 +1,34 @@
+:py:mod:`statisfactory.operator.pipeline.viz`
+=============================================
+
+.. py:module:: statisfactory.operator.pipeline.viz
+
+.. autoapi-nested-parse::
+
+   Implements Graph Visualizer (potentially various)
+
+
+
+Module Contents
+---------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.operator.pipeline.viz.Graphviz
+
+
+
+
+.. py:class:: Graphviz
+
+   Display a Networkx graph using GraphViz.
+
+   .. py:method:: __call__(self, G)
+
+      Plot the graph in GraphViz
+
+
+
