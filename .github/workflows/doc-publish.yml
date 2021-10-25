@@ -12,26 +12,50 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
-
-      - name: Setup Python
-        uses: actions/setup-python@v2
+      - name: Build documentation  
+        uses: ammaraskar/sphinx-action@master
         with:
-          python-version: '3.8'
-
-      - name: Upgrade pip
-        run: python3 -m pip install --upgrade pip
-
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        
-      - name: Install dependencies
-        run: poetry install --no-interaction --no-root
-
-      - name: Build documentaiton 
-        run: ./docs/make html
-        
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+          docs-folder: "docs/"
+          
+      - name: Commit documentation changes
+        run: |
+          git clone https://github.com/ammaraskar/sphinx-action-test.git --branch gh-pages --single-branch gh-pages
+          cp -r docs/_build/html/* gh-pages/
+          cd gh-pages
+          touch .nojekyll
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "docs: updating documentation" -a || true
+          # The above command will fail if no changes were present, so we ignore
+          # that.
+          
+      - name: Push documentation changes
+        uses: ad-m/github-push-action@master
         with:
+          branch: gh-pages
+          directory: gh-pages
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/build/html
+
+#      - name: Setup Python
+#        uses: actions/setup-python@v2
+#        with:
+#          python-version: '3.8'
+
+#      - name: Upgrade pip
+#        run: python3 -m pip install --upgrade pip
+
+#      - name: Install Poetry
+#        uses: snok/install-poetry@v1
+        
+#      - name: Install dependencies
+#       run: poetry install --no-interaction --no-root
+
+#      - name: Build documentaiton 
+#        run: ./docs/make html
+        
+#      - name: Deploy
+#        uses: peaceiris/actions-gh-pages@v3
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          publish_dir: ./docs/build/html
