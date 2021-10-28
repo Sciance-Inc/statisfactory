@@ -24,8 +24,8 @@ from contextlib import contextmanager
 from io import BytesIO  # noqa
 from pathlib import Path
 from string import Template
-from typing import TYPE_CHECKING, Any, Dict, Type, Union
-from urllib.parse import ParseResult, urlparse
+from typing import TYPE_CHECKING, Any, Union
+from urllib.parse import urlparse
 
 import datapane as dp  # type: ignore
 
@@ -38,7 +38,7 @@ from statisfactory.logger import MixinLogable, get_module_logger
 
 # project
 from statisfactory.IO.models import _ArtefactSchema
-from statisfactory.IO.artefacts.backend import LocalFS, S3Backend
+from statisfactory.IO.artefacts.backend import Backend
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:

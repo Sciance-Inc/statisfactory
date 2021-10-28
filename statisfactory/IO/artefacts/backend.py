@@ -27,7 +27,9 @@ from warnings import warn
 import re
 
 from statisfactory.errors import Errors, Warnings
-from statisfactory.logger import MixinLogable
+from statisfactory.logger import MixinLogable, get_module_logger
+
+from lakefs_client import models
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
