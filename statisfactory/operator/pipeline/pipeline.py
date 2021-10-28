@@ -64,10 +64,18 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     @property
     def name(self):
         """
-        Craft's name getter.
+        Pipeline's name getter.
         """
 
         return self._name
+
+    @property
+    def crafts(self) -> List["_Craft"]:
+        """
+        Crafts getter
+        """
+
+        return self._crafts
 
     def plot(self):
         """
@@ -118,16 +126,12 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         return "Pipeline steps :\n\t- " + batchs_repr
 
-    def __call__(
-        self, *, namespaced: Union[None, Dict[str, Dict[str, Any]]] = None, **shared
-    ) -> Dict[str, Any]:
+    def __call__(self, **shared) -> Dict[str, Any]:
         """
         Concretely run a Pipeline with two Mapping of parameters.
-        A 'shared' mapping, to be dispatched to all the crafts executed, a 'namespaced' holding optionnal mappings per crafts to be dispatched to their craft.
 
         Args:
-            shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
-            namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
+            kwargs (Optional[Dict[str, any]]): An optionnal mapping containings configuration to be shared and namespaced configuration to be dispatched to the craft.The __call__ method uses the FQN of a craft to accordingly dispatch the configurations.
 
         Returns:
             Dict[str, Any]: the final transient state resultuing from the craft application
@@ -143,7 +147,7 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         with self._with_hooks():
             with self._with_error():
-                final_state = runner(shared, namespaced)
+                final_state = runner(**shared)
 
         self.info(f"pipeline '{self._name}' succeded.")
         return final_state
