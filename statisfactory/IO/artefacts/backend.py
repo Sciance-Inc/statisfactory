@@ -349,7 +349,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
 
         # Get the name of the Git branch currently checkout and create it on LakeFS
         branch = lake_ref or self._get_current_branch_name()
-        
+
         # Get the path and maybe remove specific left / as lake object shcould not be prefixed
         path = fragment.path.lstrip("/")
 

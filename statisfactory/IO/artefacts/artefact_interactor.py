@@ -164,7 +164,7 @@ class ArtefactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
             return kwargs
 
         # Filter out non used arguments
-        valids = set(p for p in sng.parameters.values())
+        valids = set((p.name for p in sng.parameters.values()))
         args = {k: v for k, v in kwargs.items() if k in valids}
 
         return args
@@ -230,7 +230,8 @@ class FileBasedInteractor(
         backend = backend(session=self._session)
 
         # Combine the load options with the variadics ones
-        options = self._dispatch(backend.put, **self._save_options, **kwargs)
+        options = {**self._save_options, **kwargs}
+        options = self._dispatch(backend.put, **options)
 
         backend.put(payload=payload, fragment=self._fragment, **options)
 
@@ -248,7 +249,8 @@ class FileBasedInteractor(
         backend = backend(session=self._session)
 
         # Combine the load options with the variadics ones
-        options = self._dispatch(backend.get, **self._load_options, **kwargs)
+        options = {**self._load_options, **kwargs}
+        options = self._dispatch(backend.get, **options)
 
         return backend.get(fragment=self._fragment, **options)  # type: ignore
 
@@ -282,7 +284,8 @@ class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
         payload = self._get(**kwargs)
 
         # Combine the load options with the variadics ones
-        options = self._dispatch(pd.read_csv, **self._load_options, **kwargs)
+        options = {**self._load_options, **kwargs}
+        options = self._dispatch(pd.read_csv, **options)
 
         try:
             df = pd.read_csv(BytesIO(payload), **options)
@@ -309,7 +312,8 @@ class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
             )  # type: ignore
 
         # Combine the save options with the variadics ones
-        options = self._dispatch(asset.to_cs, **self._save_options, **kwargs)
+        options = {**self._save_options, **kwargs}
+        options = self._dispatch(asset.to_csv, **options)
 
         try:
             payload = asset.to_csv(**options).encode("utf-8")  # type: ignore
@@ -347,7 +351,8 @@ class XLSXInteractor(FileBasedInteractor, interactor_name="xslx"):
         paylaod = self._get(**kwargs)
 
         # Combine the load options with the variadics ones
-        options = self._dispatch(pd.read_excel, **self._load_options, **kwargs)
+        options = {**self._load_options, **kwargs}
+        options = self._dispatch(pd.read_excel, **options)
 
         try:
             df = pd.read_excel(paylaod, **options)  # type: ignore
@@ -374,7 +379,8 @@ class XLSXInteractor(FileBasedInteractor, interactor_name="xslx"):
             )  # type: ignore
 
         # Combine the save options with the variadics ones
-        options = self._dispatch(asset.to_excel, **self._save_options, **kwargs)
+        options = {**self._save_options, **kwargs}
+        options = self._dispatch(asset.to_excel, **options)
 
         try:
             buffer = BytesIO()
@@ -414,7 +420,8 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
         payload = self._get(**kwargs)
 
         # Combine the load options with the variadics ones
-        options = self._dispatch(pickle.load, **self._load_options, **kwargs)
+        options = {**self._load_options, **kwargs}
+        options = self._dispatch(pickle.load, **options)
 
         try:
             obj = pickle.loads(payload, **options)
@@ -434,7 +441,8 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
         self.debug(f"saving 'pickle' : {self.name}")
 
         # Combine the save options with the variadics ones
-        options = self._dispatch(pickle.dumps, **self._load_options, **kwargs)
+        options = {**self._load_options, **kwargs}
+        options = self._dispatch(pickle.dumps, **options)
 
         try:
             payload = pickle.dumps(asset, **options)
@@ -500,7 +508,8 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
         self.debug(f"loading 'odbc' : {self._connector.name}")
 
         # Combine the save options with the variadics ones
-        options = self._dispatch(pd.read_sql, **self._load_options, **kwargs)
+        options = {**self._load_options, **kwargs}
+        options = self._dispatch(pd.read_sql, **options)
 
         data = None
         with self._get_connection() as cnxn:
@@ -557,13 +566,14 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
         self.debug(f"saving 'datapane' : {self.name}")
 
         # Combine the load options with the variadics ones
-        options = self._dispatch(asset.save, **self._load_options, **kwargs)
+        options = {**self._load_options, **kwargs}
+        options = self._dispatch(asset.save, **options)
 
         try:
 
             with tempfile.TemporaryDirectory() as tmp:
                 path = Path(tmp) / "report.html"
-                asset.save(path, open=False, **options)
+                asset.save(str(path), open=False, **options)
 
                 with open(path, "rb") as f:
                     payload = f.read()
@@ -598,7 +608,8 @@ class BinaryInteractor(FileBasedInteractor, interactor_name="binary"):
         payload = self._get(**kwargs)
 
         # Combine the load options with the variadics ones
-        options = self._dispatch(BytesIO.read, **self._load_options, **kwargs)
+        options = {**self._load_options, **kwargs}
+        options = self._dispatch(BytesIO.read, **options)
 
         try:
             obj = BytesIO(payload).read(**options)
