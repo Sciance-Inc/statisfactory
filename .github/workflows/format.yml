@@ -6,6 +6,9 @@ jobs:
  lint:
   runs-on: ubuntu-latest
   steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
@@ -31,9 +34,6 @@ jobs:
     - name: Install dependencies
       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
       run: poetry install --no-interaction --no-root
-
-    - name: Checkout repository
-      uses: actions/checkout@v2
       
     - name: Apply black
       uses: psf/black@stable
