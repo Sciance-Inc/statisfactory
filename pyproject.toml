@@ -22,6 +22,7 @@ boto3 = "^1.18.50"
 lakefs-client = "^0.52.2"
 pygit2 = "^1.7.0"
 graphviz = "^0.17"
+openpyxl = "^3.0.9"
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b2"
@@ -30,6 +31,7 @@ bump2version = "^1.0.1"
 jupyterlab = "^3.1.14"
 sphinx-autoapi = "^1.8.4"
 sphinx-book-theme = "^0.1.6"
+pytest = "^6.2.5"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
