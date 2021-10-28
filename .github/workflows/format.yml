@@ -37,6 +37,8 @@ jobs:
       
     - name: Apply black
       uses: psf/black@stable
+      with:
+       options: ""
       
     - name: Apply isort
       uses: jamescurtin/isort-action@master
