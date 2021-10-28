@@ -35,6 +35,10 @@ artefacts:
       - test_custom_backend:
             type: csv
             path: test://tests/test_repo/data/test_read_pkl_options.pkl
+
+      - test_custom_backend_args:
+            type: csv
+            path: testargs://tests/test_repo/data/test_read_pkl_options.pkl
                   
 
                   #     - coeffs:

@@ -18,7 +18,6 @@ import pytest
 from pathlib import Path
 from statisfactory import Session, Catalog
 from statisfactory.IO import Backend
-from statisfactory.IO.artefacts.backend import LocalFS
 
 #############################################################################
 #                                  Script                                   #

@@ -14,9 +14,11 @@
 #                                 Packages                                  #
 #############################################################################
 
-from statisfactory import Session, Craft, Volatile
+from statisfactory import Session, Craft, Volatile, Artefact
 import pytest
 from pathlib import Path
+import pandas as pd
+from statisfactory.IO import Backend
 
 #############################################################################
 #                                 Packages                                  #
@@ -93,3 +95,59 @@ def test_craft_default_keyword_precedence_args(sess):
         out = step_1(val=7)
 
     assert out == 7
+
+
+@pytest.fixture
+def custom_sess():
+    """
+    Create a Stati session with a testable backend
+    """
+
+    # Define a testable backend
+    class TestableBackend(Backend, prefix="testargs"):
+        """
+        Test the implementation of a custom, testable backend.
+
+        The Backend mutate two flags to notify the client of it's execution.
+        """
+
+        def __init__(self, session):
+            super().__init__(session=session)
+
+        def put(self, *, payload, fragment, args_holder, **kwargs):
+            args_holder[0] = kwargs
+
+        def get(self, *, fragment, args_holder, **kwargs):
+            args_holder[1] = kwargs
+            return b"1,2,3"
+
+    p = str(Path("tests/test_repo/").absolute())
+    sess = Session(root_folder=p)
+
+    return sess
+
+
+def test_propagating_configuration_to_backend(custom_sess):
+    """
+    Check that Craft's argument are correcly cascaded to a backend
+    """
+
+    @Craft()
+    def foo(test_custom_backend_args: Artefact):
+        ...
+
+    @Craft()
+    def spam() -> Artefact("test_custom_backend_args"):  # type: ignore
+        return pd.DataFrame()
+
+    args_holder = [None, None]
+
+    # Test the get
+    with custom_sess:
+        foo(spam=1, args_holder=args_holder)
+
+    # Test the put
+    with custom_sess:
+        spam(spam=1, args_holder=args_holder)
+
+    assert args_holder == [{"spam": 1}, {"spam": 1}]

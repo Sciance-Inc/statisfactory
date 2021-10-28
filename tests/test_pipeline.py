@@ -197,3 +197,6 @@ def test_linear_pipeline_namespaced_args_and_shared_defaulted_overwritted(sess):
         out = p(**config, VALUE_2=1)
 
     assert out == {"out_1": 5, "out_2": 6, "out_3": 7}
+
+
+# def test_linear_pipeline_namespaced_args_and_shared_defaulted_overwritted
