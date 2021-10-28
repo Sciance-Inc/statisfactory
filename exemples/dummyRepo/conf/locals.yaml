@@ -12,9 +12,9 @@ password: croustibat
 base_path: /home/hugo/10_projets/statisfactory/exemples/dummyRepo/Data
 
 # S3 configurations
-AWS_ACCESS_KEY: someRandomAccess
-AWS_SECRET_ACCESS_KEY: someRandomSecret
+aws_access_key: juhelh
+aws_secret_access_key: someRandomSecret
 
 # LakeFS configurations
-LAKEFS_ACCESS_KEY: AKIAJZARFVKBSHDTPZBQ
-LAKEFS_SECRET_ACCESS_KEY: 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
+lakefs_access_key: AKIAJFLIYWJUSUF5CWQQ
+lakefs_secret_access_key: 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

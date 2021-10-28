@@ -136,7 +136,7 @@ class Session(MixinLogable):
         self._ = {}
 
         # Instanciate placeholders to be filled by mandatory hooks
-        self._catalog = None
+        self._catalog: Catalog
         self._pipelines_definitions: Optional[Mapping[str, Any]] = {}
         self._pipelines_configurations: Optional[Mapping[str, Any]] = {}
         self._aws_session: Optional[boto3.Session] = None
@@ -181,7 +181,7 @@ class Session(MixinLogable):
         return self._settings
 
     @property
-    def catalog(self):
+    def catalog(self) -> Catalog:
         """
         Getter for the session's catalog.
         """
@@ -451,6 +451,7 @@ class _DefaultHooks:
             configuration.host = sess.settings["lakefs_endpoint"]
         except KeyError:
             warn(Warnings.W061)
+            return
 
         # Create a client from the configuration
         sess._lakefs_client = LakeFSClient(configuration)

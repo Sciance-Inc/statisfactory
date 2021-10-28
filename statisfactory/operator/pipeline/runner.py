@@ -90,9 +90,7 @@ class Runner(MixinLogable):
                 yield copy(craft)
 
     def __call__(
-        self,
-        shared: Union[None, Dict[str, Any]] = None,
-        namespaced: Union[None, Dict[str, Dict[str, Any]]] = None,
+        self, namespaced: Union[None, Dict[str, Dict[str, Any]]] = None, **shared
     ) -> Dict[str, Any]:
         """
         Iterate through the crafts and accumulate the volatiles and context object, starting from a the given ones.
@@ -106,7 +104,6 @@ class Runner(MixinLogable):
         """
 
         # Set default for dictionnaries
-        shared = shared or {}
         namespaced = namespaced or {}
 
         # Initiate a mapping of volatiles values
