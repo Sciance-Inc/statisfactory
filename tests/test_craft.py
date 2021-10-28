@@ -97,6 +97,19 @@ def test_craft_default_keyword_precedence_args(sess):
     assert out == 7
 
 
+def test_variadic_artefact_interpolation_dispatching(sess):
+    """
+    Check if the variadic arguments are correctly dispatched for interpolations
+    """
+
+    @Craft()
+    def spam(test_read_variadic_pickle: Artefact) -> Volatile("step_1"):  # type: ignore
+        ...
+
+    with sess:
+        spam(variadic="data")
+
+
 @pytest.fixture
 def custom_sess():
     """

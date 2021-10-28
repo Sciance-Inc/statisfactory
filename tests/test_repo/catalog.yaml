@@ -39,6 +39,10 @@ artefacts:
       - test_custom_backend_args:
             type: csv
             path: testargs://tests/test_repo/data/test_read_pkl_options.pkl
+
+      - test_read_variadic_pickle:
+            type: pickle
+            path: tests/test_repo/!{variadic}/test_read_pkl_options.pkl
                   
 
                   #     - coeffs:
