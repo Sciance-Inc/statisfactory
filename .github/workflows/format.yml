@@ -42,6 +42,8 @@ jobs:
       
     - name: Apply isort
       uses: jamescurtin/isort-action@master
+      with:
+       configuration: ""
     
     
   
