@@ -3,7 +3,7 @@ name: Tests suite
 on: [push, pull_request]
 
 jobs:
- lint:
+ testing:
   runs-on: ubuntu-latest
   steps:
     - name: Checkout repository
