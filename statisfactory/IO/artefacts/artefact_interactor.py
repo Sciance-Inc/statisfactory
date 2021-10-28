@@ -24,14 +24,14 @@ from contextlib import contextmanager
 from io import BytesIO  # noqa
 from pathlib import Path
 from string import Template
-from typing import TYPE_CHECKING, Any, Union
+from typing import TYPE_CHECKING, Any, Union, Callable, Dict, Any
 from urllib.parse import urlparse
-
+from inspect import signature, Parameter
 import datapane as dp  # type: ignore
 
 # third party
-import pandas as pd
-import pyodbc
+import pandas as pd  # type: ignore
+import pyodbc  # type: ignore
 
 from statisfactory.errors import Errors
 from statisfactory.logger import MixinLogable, get_module_logger
@@ -146,12 +146,35 @@ class ArtefactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
 
         get_module_logger(__name__).debug(f"registering '{interactor_name}' interactor")
 
+    def _dispatch(self, callable: Callable, **kwargs) -> Dict[str, Any]:
+        """
+        Dispatch the variadic arguments the callable.
+
+        Args:
+            callable (Callable): The callable to dispatch arguments to.
+        """
+
+        sng = signature(callable)
+
+        # If the callable accepts variadic keywords args, send them all
+        has_variadics = any(
+            p for p in sng.parameters.values() if p.kind == Parameter.VAR_KEYWORD
+        )
+        if has_variadics:
+            return kwargs
+
+        # Filter out non used arguments
+        valids = set(p for p in sng.parameters.values())
+        args = {k: v for k, v in kwargs.items() if k in valids}
+
+        return args
+
     @classmethod
     def interactors(cls):
         return cls._interactors
 
     @abstractmethod
-    def load(self, *args, **kwargs) -> Any:
+    def load(self, **kwargs) -> Any:
         """
         Return the underlying asset.
         """
@@ -159,7 +182,7 @@ class ArtefactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
         raise NotImplementedError("must be implemented in the concrete class")
 
     @abstractmethod
-    def save(self, *args, asset: Any, **kwargs):
+    def save(self, asset: Any, **kwargs):
         """
         Save the underlying asset.
         """
@@ -190,7 +213,7 @@ class FileBasedInteractor(
 
         self._fragment = fragment
 
-    def _put(self, payload: bytes):
+    def _put(self, payload: bytes, **kwargs):
         """
         Put the payload to the URI
 
@@ -198,22 +221,36 @@ class FileBasedInteractor(
             payload (BytesIO): The payload encoded as BytesIO to push.
         """
 
+        # Fetch the class to use for the backend
         backend = Backend.backends().get(self._fragment.scheme, None)
         if not backend:
             raise Errors.E0292(scheme=fragment.scheme)  # type: ignore
 
-        backend(session=self._session).put(payload=payload, fragment=self._fragment)
+        # Instanciate the bakcend
+        backend = backend(session=self._session)
 
-    def _get(self) -> bytes:
+        # Combine the load options with the variadics ones
+        options = self._dispatch(backend.put, **self._save_options, **kwargs)
+
+        backend.put(payload=payload, fragment=self._fragment, **options)
+
+    def _get(self, **kwargs) -> bytes:
         """
         Get a payload from the URI
         """
 
+        # Fetch the backend'type to instanciate
         backend = Backend.backends().get(self._fragment.scheme, None)
         if not backend:
             raise Errors.E0292(scheme=self._fragment.scheme)  # type: ignore
 
-        return backend(session=self._session).get(fragment=self._fragment)  # type: ignore
+        # Instanciate the bakcend
+        backend = backend(session=self._session)
+
+        # Combine the load options with the variadics ones
+        options = self._dispatch(backend.get, **self._load_options, **kwargs)
+
+        return backend.get(fragment=self._fragment, **options)  # type: ignore
 
 
 class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
@@ -232,7 +269,7 @@ class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
 
         super().__init__(artefact, *args, session=session, **kwargs)  # type: ignore
 
-    def load(self) -> pd.DataFrame:
+    def load(self, **kwargs) -> pd.DataFrame:
         """
         Parse 'path' as a pandas dataframe and return it
 
@@ -242,16 +279,19 @@ class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
 
         self.debug(f"loading 'csv' : {self.name}")
 
-        payload = self._get()
+        payload = self._get(**kwargs)
+
+        # Combine the load options with the variadics ones
+        options = self._dispatch(pd.read_csv, **self._load_options, **kwargs)
 
         try:
-            df = pd.read_csv(BytesIO(payload), **self._load_options)
+            df = pd.read_csv(BytesIO(payload), **options)
         except BaseException as err:
             raise Errors.E021(method="csv", path=self._path) from err  # type: ignore
 
         return df  # type: ignore
 
-    def save(self, asset: Union[pd.DataFrame, pd.Series]):
+    def save(self, asset: Union[pd.DataFrame, pd.Series], **kwargs):
         """
         Save the 'data' dataframe as csv.
 
@@ -268,9 +308,12 @@ class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
                 got=type(asset),
             )  # type: ignore
 
+        # Combine the save options with the variadics ones
+        options = self._dispatch(asset.to_cs, **self._save_options, **kwargs)
+
         try:
-            payload = asset.to_csv().encode("utf-8")
-            self._put(payload=payload)
+            payload = asset.to_csv(**options).encode("utf-8")  # type: ignore
+            self._put(payload=payload, **kwargs)
         except BaseException as err:
             raise Errors.E022(method="csv", name=self.name) from err  # type: ignore
 
@@ -291,7 +334,7 @@ class XLSXInteractor(FileBasedInteractor, interactor_name="xslx"):
 
         super().__init__(artefact, *args, session=session, **kwargs)
 
-    def load(self) -> pd.DataFrame:
+    def load(self, **kwargs) -> pd.DataFrame:
         """
         Parse 'path' as a pandas dataframe and return it
 
@@ -301,16 +344,19 @@ class XLSXInteractor(FileBasedInteractor, interactor_name="xslx"):
 
         self.debug(f"loading 'xslx' : {self.name}")
 
-        paylaod = self._get()
+        paylaod = self._get(**kwargs)
+
+        # Combine the load options with the variadics ones
+        options = self._dispatch(pd.read_excel, **self._load_options, **kwargs)
 
         try:
-            df = pd.read_excel(paylaod, **self._load_options)  # type: ignore
+            df = pd.read_excel(paylaod, **options)  # type: ignore
         except BaseException as err:
             raise Errors.E021(method="xslx", path=self._path) from err  # type: ignore
 
         return df
 
-    def save(self, asset: Union[pd.DataFrame, pd.Series]):
+    def save(self, asset: Union[pd.DataFrame, pd.Series], **kwargs):
         """
         Save the 'data' dataframe as csv.
 
@@ -327,16 +373,16 @@ class XLSXInteractor(FileBasedInteractor, interactor_name="xslx"):
                 got=type(asset),
             )  # type: ignore
 
+        # Combine the save options with the variadics ones
+        options = self._dispatch(asset.to_excel, **self._save_options, **kwargs)
+
         try:
             buffer = BytesIO()
             with pd.ExcelWriter(buffer) as writer:
-                asset.to_excel(writer)
-            self._put(payload=buffer.getbuffer())
+                asset.to_excel(writer, **options)
+            self._put(payload=buffer.getbuffer(), **kwargs)
         except BaseException as err:
             raise Errors.E022(method="xslx", name=self.name) from err  # type: ignore
-
-
-# ------------------------------------------------------------------------- #
 
 
 class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
@@ -355,7 +401,7 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
 
         super().__init__(artefact, *args, session=session, **kwargs)
 
-    def load(self) -> Any:
+    def load(self, **kwargs) -> Any:
         """
         Unserialize the object located at 'path'
 
@@ -365,16 +411,19 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
 
         self.debug(f"loading 'pickle' : {self.name}")
 
-        payload = self._get()
+        payload = self._get(**kwargs)
+
+        # Combine the load options with the variadics ones
+        options = self._dispatch(pickle.load, **self._load_options, **kwargs)
 
         try:
-            obj = pickle.loads(payload, **self._load_options)
+            obj = pickle.loads(payload, **options)
         except BaseException as err:
             raise Errors.E021(method="pickle", path=self._path) from err  # type: ignore
 
         return obj
 
-    def save(self, asset: Any):
+    def save(self, asset: Any, **kwargs):
         """
         Serialize the 'asset'
 
@@ -384,9 +433,12 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
 
         self.debug(f"saving 'pickle' : {self.name}")
 
+        # Combine the save options with the variadics ones
+        options = self._dispatch(pickle.dumps, **self._load_options, **kwargs)
+
         try:
-            payload = pickle.dumps(asset, **self._save_options)
-            self._put(payload=payload)
+            payload = pickle.dumps(asset, **options)
+            self._put(payload=payload, **kwargs)
         except BaseException as err:
             raise Errors.E022(method="pickle", name=self.name) from err  # type: ignore
 
@@ -438,7 +490,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
         self.debug(f"closing connection to {self._connector.name}")
         return
 
-    def load(self) -> pd.DataFrame:
+    def load(self, **kwargs) -> pd.DataFrame:
         """
         Parse 'path' as a pandas dataframe and return it
 
@@ -447,10 +499,13 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
         """
         self.debug(f"loading 'odbc' : {self._connector.name}")
 
+        # Combine the save options with the variadics ones
+        options = self._dispatch(pd.read_sql, **self._load_options, **kwargs)
+
         data = None
         with self._get_connection() as cnxn:
             try:
-                data = pd.read_sql(self._query, cnxn, **self._load_options)
+                data = pd.read_sql(self._query, cnxn, **options)
             except BaseException as error:
                 raise Errors.E026(
                     query=self._query, name=self._connector.name
@@ -458,7 +513,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
 
         return data
 
-    def save(self, asset: Any):
+    def save(self, asset: Any, **kwargs):
         raise Errors.E999()  # type: ignore
 
 
@@ -477,7 +532,7 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
 
         super().__init__(artefact, *args, session=session, **kwargs)
 
-    def load(self):
+    def load(self, **kwargs):
         """
         Not implemented since I don't want a report to be altered as for now­
 
@@ -487,7 +542,7 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
 
         raise Errors.E999()  # type: ignore
 
-    def save(self, asset: dp.Report):
+    def save(self, asset: dp.Report, **kwargs):
         """
         Save a datapane assert
 
@@ -501,15 +556,18 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
 
         self.debug(f"saving 'datapane' : {self.name}")
 
+        # Combine the load options with the variadics ones
+        options = self._dispatch(asset.save, **self._load_options, **kwargs)
+
         try:
 
             with tempfile.TemporaryDirectory() as tmp:
                 path = Path(tmp) / "report.html"
-                asset.save(path, open=False, **self._load_options)
+                asset.save(path, open=False, **options)
 
                 with open(path, "rb") as f:
                     payload = f.read()
-                    self._put(payload)
+                    self._put(payload, **self._load_options, **kwargs)
 
         except BaseException as error:
             raise Errors.E022(method="datapane", name=self.name) from error  # type: ignore
@@ -530,23 +588,26 @@ class BinaryInteractor(FileBasedInteractor, interactor_name="binary"):
 
         super().__init__(artefact, *args, session=session, **kwargs)
 
-    def load(self):
+    def load(self, **kwargs):
         """
         Return the content of a binary artefact.
         """
 
         self.debug(f"loading 'binary' : {self.name}")
 
-        payload = self._get()
+        payload = self._get(**kwargs)
+
+        # Combine the load options with the variadics ones
+        options = self._dispatch(BytesIO.read, **self._load_options, **kwargs)
 
         try:
-            obj = BytesIO(payload).read(**self._load_options)
+            obj = BytesIO(payload).read(**options)
         except BaseException as err:
             raise Errors.E021(method="binary", name=self.name) from err  # type: ignore
 
         return obj
 
-    def save(self, asset: bytes):
+    def save(self, asset: bytes, **kwargs):
         """
         Save a datapane assert
 
@@ -557,7 +618,7 @@ class BinaryInteractor(FileBasedInteractor, interactor_name="binary"):
         self.debug(f"saving 'binary' : {self.name}")
 
         try:
-            self._put(payload=asset)
+            self._put(payload=asset, **kwargs)
         except BaseException as error:
             raise Errors.E022(method="binary", name=self.name) from error  # type: ignore
 

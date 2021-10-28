@@ -139,7 +139,7 @@ class Catalog(MixinLogable):
             artefact=artefact, connector=connector, session=self._session, **context
         )
 
-        return interactor.load()
+        return interactor.load(**context)
 
     def save(self, name: str, asset: Any, **context):
         """Save the asset using the artefact name.
@@ -157,7 +157,7 @@ class Catalog(MixinLogable):
             artefact=artefact, connector=connector, session=self._session, **context
         )
 
-        interactor.save(asset)  # type: ignore
+        interactor.save(asset, **context)  # type: ignore
 
 
 #############################################################################

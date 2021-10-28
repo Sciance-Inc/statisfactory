@@ -29,7 +29,7 @@ import re
 from statisfactory.errors import Errors, Warnings
 from statisfactory.logger import MixinLogable, get_module_logger
 
-from lakefs_client import models
+from lakefs_client import models  # type: ignore
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
@@ -95,7 +95,7 @@ class Backend(MixinLogable, metaclass=ABCMeta):
         return cls._backends
 
     @abstractmethod
-    def put(self, *, payload: bytes, fragment: ParseResult):
+    def put(self, *, payload: bytes, fragment: ParseResult, **kwargs):
         """
         Drop the payload to the service under the 'path' name.
 
@@ -106,7 +106,7 @@ class Backend(MixinLogable, metaclass=ABCMeta):
         ...
 
     @abstractmethod
-    def get(self, *, fragment: ParseResult) -> bytes:
+    def get(self, *, fragment: ParseResult, **kwargs) -> bytes:
         """
         Get the payload from the service under the 'path' name.
 
@@ -153,7 +153,7 @@ class S3Backend(Backend, prefix="s3"):
 
         self._s3.create_bucket(Bucket=bucket)
 
-    def put(self, *, payload: bytes, fragment: ParseResult):
+    def put(self, *, payload: bytes, fragment: ParseResult, **kwargs):
         """
         Drop the payload to S3 using the data from the Fragment
 
@@ -175,7 +175,7 @@ class S3Backend(Backend, prefix="s3"):
         except BaseException as error:
             raise Errors.E0290(backend="S3Backend") from error  # type: ignore
 
-    def get(self, *, fragment: ParseResult) -> bytes:
+    def get(self, *, fragment: ParseResult, **kwargs) -> bytes:
         """
         Get the payload from the service under the 'path' name.
 
@@ -218,7 +218,7 @@ class LocalFS(Backend, prefix=""):
 
         path.parents[0].mkdir(parents=True, exist_ok=True)
 
-    def put(self, *, payload: bytes, fragment: ParseResult):
+    def put(self, *, payload: bytes, fragment: ParseResult, **kwargs):
         """
         Drop the payload to the file system using the data from the Fragment
 
@@ -233,7 +233,7 @@ class LocalFS(Backend, prefix=""):
         with open(path, "wb+") as f:
             f.write(payload)
 
-    def get(self, *, fragment: ParseResult) -> bytes:
+    def get(self, *, fragment: ParseResult, **kwargs) -> bytes:
         """
         Get the payload from the service under the 'path' name.
 
@@ -309,7 +309,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
 
         return branch
 
-    def put(self, *, payload: bytes, fragment: ParseResult):
+    def put(self, *, payload: bytes, fragment: ParseResult, **kwargs):
         """
         Drop the payload to the file system using the data from the Fragment
 
@@ -335,18 +335,21 @@ class LakeFSBackend(Backend, prefix="lakefs"):
         except BaseException as error:
             raise Errors.E0290(backend="LakeFSBackend") from error  # type: ignore
 
-    def get(self, *, fragment: ParseResult) -> bytes:
+    def get(self, *, fragment: ParseResult, lake_ref: str = None, **kwargs) -> bytes:
         """
         Get the payload from the service under the 'path' name.
 
         Args:
             fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+            lake_ref (str, optional): An optional commit / branch / lake ref to fetch the data from. Defaults to the current gitted branch.
+
+        Returns:
+            bytes: The payload fetched from lakefs
         """
 
         # Get the name of the Git branch currently checkout and create it on LakeFS
-        branch = self._get_current_branch_name()
-        self._create_branch(branch)
-
+        branch = lake_ref or self._get_current_branch_name()
+        
         # Get the path and maybe remove specific left / as lake object shcould not be prefixed
         path = fragment.path.lstrip("/")
 
