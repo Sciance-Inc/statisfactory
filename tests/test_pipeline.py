@@ -14,7 +14,7 @@
 #                                 Packages                                  #
 #############################################################################
 
-from statisfactory import Session, Craft, Volatile
+from statisfactory import Session, Craft, Volatile, Artefact
 import pytest
 from pathlib import Path
 
@@ -199,4 +199,19 @@ def test_linear_pipeline_namespaced_args_and_shared_defaulted_overwritted(sess):
     assert out == {"out_1": 5, "out_2": 6, "out_3": 7}
 
 
-# def test_linear_pipeline_namespaced_args_and_shared_defaulted_overwritted
+def test_variadic_artefact_interpolation_dispatching(sess):
+    """
+    Check if the variadic arguments are correctly dispatched for interpolations
+    """
+
+    @Craft()
+    def spam(test_read_variadic_pickle: Artefact) -> Volatile("step_1"):  # type: ignore
+        return test_read_variadic_pickle
+
+    @Craft()
+    def foo(step_1: Volatile) -> Volatile("step_2"):  # type: ignore
+        return step_1
+
+    p = spam + foo
+    with sess:
+        p(variadic="data")
