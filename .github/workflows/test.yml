@@ -36,7 +36,9 @@ jobs:
       run: poetry install --no-interaction --no-root
       
     - name: Runing the test suite
-      run: pytest
+      run: |
+        pip install pytest
+        pytest /tests
     
     
   
