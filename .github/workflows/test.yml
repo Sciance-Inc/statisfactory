@@ -38,7 +38,7 @@ jobs:
     - name: Runing the test suite
       run: |
         pip install pytest
-        pytest /tests
+        pytest tests/
     
     
   
