@@ -23,7 +23,6 @@ lakefs-client = "^0.52.2"
 pygit2 = "^1.7.0"
 graphviz = "^0.17"
 openpyxl = "^3.0.9"
-pytest = "^6.2.5"
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b2"
