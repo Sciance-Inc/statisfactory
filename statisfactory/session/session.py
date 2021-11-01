@@ -14,8 +14,10 @@
 #                                 Packages                                  #
 #############################################################################
 
+import glob
 import os
 import sys
+from collections import defaultdict
 from pathlib import Path
 from string import Template
 from typing import Any, Callable, Mapping, Optional
@@ -23,11 +25,11 @@ from warnings import warn
 
 import boto3
 from dynaconf import Dynaconf, Validator
-
-from pygit2 import Repository
-from lakefs_client import Configuration, models, ApiClient
-from lakefs_client.client import LakeFSClient
+from lakefs_client import ApiClient, Configuration, models
 from lakefs_client.api import repositories_api
+from lakefs_client.client import LakeFSClient
+from pygit2 import Repository
+
 from ..errors import Errors, Warnings
 from ..IO import Catalog
 from ..logger import MixinLogable, get_module_logger
@@ -317,21 +319,30 @@ class _DefaultHooks:
 
         # Warn the user if a configuration target is missing
         targets = {
-            "globals.yaml": Warnings.W011,
-            "locals.yaml": Warnings.W012,
+            "globals": Warnings.W011,
+            "locals": Warnings.W012,
         }
 
+        # fetch config file starting with locals / globals
+        base = sess.root / str(sess.settings.configuration)
+        types = (base / "*.yml", base / "*.yaml")
+        config_files = defaultdict(set)
+        for files in types:
+            for item in (Path(g) for g in glob.glob(str(files))):
+                if item.name.startswith("locals") or item.name.startswith("globals"):
+                    config_files[item.stem].add(str(item.resolve()))
+
         for target, w in targets.items():
-            if not (sess.root / str(sess.settings.configuration) / target).exists():
+            if not config_files[target]:
                 warn(w)
 
+        config_to_loads = list(config_files["globals"]) + list(config_files["locals"])
         # Fetch all the config file, in the reversed preceding order (to allow for variables shadowing)
-        base = sess.root / str(sess.settings.configuration)
         settings = Dynaconf(
             validators=[
                 Validator("lakefs_bucket", default="s3://lakefs/"),
             ],
-            settings_files=[base / target for target in targets.keys()],
+            settings_files=config_to_loads,
             load_dotenv=False,
         )
 
