@@ -18,7 +18,7 @@ from pathlib import Path
 
 import pytest
 
-from statisfactory import Session
+from statisfactory import Session, Catalog
 from statisfactory import Artefact
 
 #############################################################################
@@ -70,3 +70,35 @@ def test_deeply_catalogs():
     sess = Session(root_folder=p)
 
     sess.catalog._get_artefact("deeply_nested")
+
+
+def test_jinja_interpolation():
+
+    p = str(Path("tests/test_repo_catalog_jinja/").absolute())
+    sess = Session(root_folder=p)
+
+    target = Artefact(
+        name="dummy_artefact",
+        type="csv",
+        path="tests/inteprolated/10_raw/!{dynamic}/test_read_csv.csv",
+        connector=None,
+        query=None,
+        save_options={},
+        load_options={},
+    )
+
+    artefact = sess.catalog._get_artefact("dummy_artefact")
+
+    assert target == artefact
+
+
+def test_jinja_loop():
+    """
+    Make sure the Jinja Loop is rendered
+    """
+
+    p = str(Path("tests/test_repo_catalog_jinja/").absolute())
+    sess = Session(root_folder=p)
+
+    for item in ["foo", "bar", "spam"]:
+        sess.catalog._get_artefact(f"{item}_artefact")

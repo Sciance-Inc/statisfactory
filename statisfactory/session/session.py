@@ -45,26 +45,6 @@ from .loader import ConfigsLoader, PipelinesLoader
 #############################################################################
 
 
-class _CatalogTemplateParser(Template):
-    """
-    Template for the Catalog.
-
-    Override the default template to :
-        * disallow interpolation of non braced values.
-        * Allow the . syntax to namespace the templated values
-    """
-
-    delimiter = "$"
-    pattern = r"""
-    \$(?:
-      (?P<escaped>\$) |
-      {(?P<named>[_a-z\.][\._a-z0-9]*)} |
-      {(?P<braced>[_a-z\.][\._a-z0-9]*)} |
-      (?P<invalid>)
-    )
-    """  # type: ignore
-
-
 class Session(MixinLogable):
     """
     Represents the single entry point to a Statisfactory application.
@@ -371,23 +351,9 @@ class _DefaultHooks:
 
         catalogs = []
         for r in representations:
-            try:
-                with open(r) as f:
-                    catalog_representation = _CatalogTemplateParser(f.read())
-            except FileNotFoundError as error:
-                raise Errors.E011(path=path) from error  # type: ignore
-
-            # Render the catalog with the settings
-            if sess.settings:
-                try:
-                    catalog_representation = catalog_representation.substitute(
-                        sess.settings  # type: ignore
-                    )
-                except BaseException as error:
-                    raise Errors.E014() from error  # type: ignore
 
             # Parse the catalog representation
-            catalog = Catalog(dump=catalog_representation, session=sess)  # type: ignore
+            catalog = Catalog.make(path=r, session=sess)  # type: ignore
             catalogs.append(catalog)
 
         sess._catalog = reduce(lambda x, y: x + y, catalogs)
