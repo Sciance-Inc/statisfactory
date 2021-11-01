@@ -36,10 +36,7 @@ jobs:
       run: poetry install --no-interaction --no-root
       
     - name: Runing the test suite
-      run: |
-        pip install pytest
-        poetry install
-        pytest tests/
+      run: tox
     
     
   
