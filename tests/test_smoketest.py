@@ -27,11 +27,18 @@ def test_session_instanciation():
     Make sure the session can be instanciated
     """
 
-    from statisfactory import Session
     from pathlib import Path
+
+    from statisfactory import Session
 
     p = str(Path("tests/test_repo/").absolute())
     sess = Session(root_folder=p)
 
-    assert True
 
+def test_config_yml():
+    from pathlib import Path
+
+    from statisfactory import Session
+
+    p = str(Path("tests/test_repo_yml/").absolute())
+    sess = Session(root_folder=p)

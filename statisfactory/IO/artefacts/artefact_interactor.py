@@ -21,12 +21,13 @@ import pickle
 import tempfile
 from abc import ABCMeta, abstractmethod
 from contextlib import contextmanager
+from inspect import Parameter, signature
 from io import BytesIO  # noqa
 from pathlib import Path
 from string import Template
-from typing import TYPE_CHECKING, Any, Union, Callable, Dict, Any
+from typing import TYPE_CHECKING, Any, Callable, Dict, Union
 from urllib.parse import urlparse
-from inspect import signature, Parameter
+
 import datapane as dp  # type: ignore
 
 # third party
@@ -34,16 +35,16 @@ import pandas as pd  # type: ignore
 import pyodbc  # type: ignore
 
 from statisfactory.errors import Errors
-from statisfactory.logger import MixinLogable, get_module_logger
+from statisfactory.IO.artefacts.backend import Backend
 
 # project
 from statisfactory.IO.models import _ArtefactSchema
-from statisfactory.IO.artefacts.backend import Backend
+from statisfactory.logger import MixinLogable, get_module_logger
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from statisfactory.session import Session
     from statisfactory.IO.artefacts.backend import Backend
+    from statisfactory.session import Session
 
 #############################################################################
 #                                  Script                                   #

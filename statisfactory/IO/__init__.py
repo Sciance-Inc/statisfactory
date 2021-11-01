@@ -1,3 +1,3 @@
-from .artefacts import ArtefactInteractor, MixinInterpolable, Backend  # noqa
+from .artefacts import ArtefactInteractor, Backend, MixinInterpolable  # noqa
 from .catalog import Catalog  # noqa
 from .models import Artefact, Volatile  # noqa

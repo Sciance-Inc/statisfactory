@@ -23,11 +23,11 @@ from typing import TYPE_CHECKING, Any, Callable, Union
 import pandas as pd
 
 from statisfactory.errors import Errors
-from statisfactory.logger import MixinLogable
 from statisfactory.IO.artefacts.artefact_interactor import ArtefactInteractor
 
 # project
 from statisfactory.IO.models import Artefact, CatalogData, Connector
+from statisfactory.logger import MixinLogable
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
@@ -158,6 +158,39 @@ class Catalog(MixinLogable):
         )
 
         interactor.save(asset, **context)  # type: ignore
+
+    def __add__(self, other: Any):
+        """
+        Implements the visitor pattern for the catalog
+
+        Args:
+            other (Any): The right object to add
+        """
+
+        return other.visit_catalog(self)
+
+    def visit_catalog(self, other: Catalog) -> Catalog:
+        """
+        Implements the visitor pattern for the catalog. Combining two catalogs results in a merged catalog.
+
+        Args:
+            other (Catalog): The other catalogi to combine with
+
+        Raise:
+            Errors.E033: if two artifacts / connectors key collide.
+        """
+
+        for k, v in self._data.artefacts.items():
+            if k in other._data.artefacts:
+                raise Errors.E033(key=k, type="artifact")  # type: ignore
+            other._data.artefacts[k] = v
+
+        for k, v in self._data.connectors.items():
+            if k in other._data.connectors:
+                raise Errors.E033(key=k, type="connector")  # type: ignore
+            other._data.connectors[k] = v
+
+        return other
 
 
 #############################################################################

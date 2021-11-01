@@ -1,9 +1,7 @@
 project_slug: "test_data"
 configuration: conf
-catalog: catalog.yaml
-sources: Lib
-notebook_target: jupyter
+catalog: catalogs/
 
 # The file containing the pipeline definitions
 #pipelines_definitions: Pipelines/definitions/pipelines.yaml
-pipelines_configurations: Pipelines/configurations/pipelines.yaml
+#pipelines_configurations: Pipelines/configurations/pipelines.yaml

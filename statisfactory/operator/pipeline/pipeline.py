@@ -19,13 +19,13 @@ from typing import TYPE_CHECKING, Any, Dict, List, Union
 
 from statisfactory.logger import MixinLogable
 from statisfactory.operator.mixinHookable import MixinHookable
-from statisfactory.operator.scoped import Scoped
-from statisfactory.operator.utils import MergeableInterface
 from statisfactory.operator.pipeline.runner import Runner
 
 # project
 from statisfactory.operator.pipeline.solver import DAGSolver
 from statisfactory.operator.pipeline.viz import Graphviz
+from statisfactory.operator.scoped import Scoped
+from statisfactory.operator.utils import MergeableInterface
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:

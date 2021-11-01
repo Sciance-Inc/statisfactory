@@ -14,9 +14,11 @@
 #                                 Packages                                  #
 #############################################################################
 
-from statisfactory import Session, Craft, Volatile, Artefact
-import pytest
 from pathlib import Path
+
+import pytest
+
+from statisfactory import Artefact, Craft, Session, Volatile
 
 #############################################################################
 #                                 Packages                                  #

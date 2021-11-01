@@ -14,9 +14,11 @@
 #                                 Packages                                  #
 #############################################################################
 
-import pytest
 from pathlib import Path
-from statisfactory import Session, Catalog
+
+import pytest
+
+from statisfactory import Catalog, Session
 from statisfactory.IO import Backend
 
 #############################################################################
