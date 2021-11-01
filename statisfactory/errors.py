@@ -137,6 +137,7 @@ class Errors(metaclass=ExceptionFactory):
     E030 = "catalog : the '{name}' artefact  does not exists"
     E031 = "catalog : the '{name}' interactor does not exists"
     E032 = "catalog : the '{name}' connector does not exists"
+    E033 = "catalog : duplicated key. The '{key}' {type} key is defined in at least two catalogs"
 
     # Craft
     E040 = "craft : failed to execute craft '{func}'"
