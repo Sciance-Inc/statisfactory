@@ -62,3 +62,11 @@ def test_multiple_catalogs():
 
     artefact = sess.catalog._get_artefact("test_read_csv_2")
     assert target == artefact
+
+
+def test_deeply_catalogs():
+
+    p = str(Path("tests/test_repo_multiple/").absolute())
+    sess = Session(root_folder=p)
+
+    sess.catalog._get_artefact("deeply_nested")

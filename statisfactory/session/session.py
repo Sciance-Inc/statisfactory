@@ -362,9 +362,9 @@ class _DefaultHooks:
         representations = set()
         path = sess.root / str(sess.settings.catalog)
         if path.is_dir():
-            types = (path / "*.yml", path / "*.yaml")
+            types = (path / "**/*.yml", path / "**/*.yaml")
             for files in types:
-                for item in (Path(g) for g in glob.glob(str(files))):
+                for item in (Path(g) for g in glob.glob(str(files), recursive=True)):
                     representations.add(item)
         else:
             representations.add(path)
