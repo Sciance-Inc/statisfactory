@@ -1,0 +1,7 @@
+project_slug: "test_data"
+configuration: conf
+catalog: catalog.yml
+
+# The file containing the pipeline definitions
+#pipelines_definitions: Pipelines/definitions/pipelines.yaml
+#pipelines_configurations: Pipelines/configurations/pipelines.yaml

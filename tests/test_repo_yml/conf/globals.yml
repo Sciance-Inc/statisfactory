@@ -1,0 +1,33 @@
+# The globals.yaml file is used to define variables interpolated in the Catalog definition.
+# In the Catalog, use the ${layers.int} syntax to define interpolation targets.
+# Define your local variables in locals.yaml to overwrite the variables defined here
+
+# Define some variables to be replaced in locals. Writed here to, to notify the user to overwrite them in their locals.py
+# You schould overwrite this variable in locals.py
+environment: replaceMeInLocals # Declare the default environment to isolate runs's Artefacts : could be your name, dev, test, prod...
+user: replaceMeInLocals
+password: replaceMeInLocals
+
+# Declare a base path, can be a shared folder on the computer, a remote S3 bucket...
+# If it's a local path you should overwrite it in the locals definition.
+base_path: /shared/dummyProject
+bucket: remove-plz
+
+# The data layers to use, to segragate the data
+layers:
+  raw: 10_raw
+  int: 20_int
+  fea: 30_fea
+  mdl: 40_mdl
+  out: 50_out
+
+# Configure Mamazon (Minio) profile
+#aws_access_key: replaceMeInLocals
+#aws_secret_access_key: replaceMeInLocals
+#aws_s3_endpoint: http://api.minio.iacssvdc.ia.csvdc.qc.ca # http://api.minio.jugodzilla.com
+
+# Configure LakeFS profile
+#lakefs_access_key: replaceMeInLocals
+#lakefs_secret_access_key: replaceMeInLocals
+#lakefs_endpoint: http://lakefs.iacssvdc.ia.csvdc.qc.ca #http://lakefs.jugodzilla.com
+# Optionaly, LakeFS bucket van be set through LAKEFS_BUCKET. Defaulted to "s3://lakefs/"
