@@ -26,10 +26,25 @@ from statisfactory import Artefact
 #############################################################################
 
 
-def test_check_existing_artifact():
+@pytest.fixture
+def sess(request):
+    """
+    Prepare stati session
+    """
 
-    p = str(Path("tests/test_repo/").absolute())
+    p = str(Path(f"tests/{request.param}/").absolute())
     sess = Session(root_folder=p)
+    return sess
+
+
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo_multiple",
+    ],
+    indirect=True,
+)
+def test_check_existing_artifact(sess):
 
     target = Artefact(
         name="test_read_csv",
@@ -45,10 +60,14 @@ def test_check_existing_artifact():
     assert target == artefact
 
 
-def test_multiple_catalogs():
-
-    p = str(Path("tests/test_repo_multiple/").absolute())
-    sess = Session(root_folder=p)
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo_multiple",
+    ],
+    indirect=True,
+)
+def test_multiple_catalogs(sess):
 
     target = Artefact(
         name="test_read_csv_2",
@@ -64,18 +83,26 @@ def test_multiple_catalogs():
     assert target == artefact
 
 
-def test_deeply_catalogs():
-
-    p = str(Path("tests/test_repo_multiple/").absolute())
-    sess = Session(root_folder=p)
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo_multiple",
+    ],
+    indirect=True,
+)
+def test_deeply_catalogs(sess):
 
     sess.catalog._get_artefact("deeply_nested")
 
 
-def test_jinja_interpolation():
-
-    p = str(Path("tests/test_repo_catalog_jinja/").absolute())
-    sess = Session(root_folder=p)
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo_catalog_jinja",
+    ],
+    indirect=True,
+)
+def test_jinja_interpolation(sess):
 
     target = Artefact(
         name="dummy_artefact",
@@ -92,13 +119,17 @@ def test_jinja_interpolation():
     assert target == artefact
 
 
-def test_jinja_loop():
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo_catalog_jinja",
+    ],
+    indirect=True,
+)
+def test_jinja_loop(sess):
     """
     Make sure the Jinja Loop is rendered
     """
-
-    p = str(Path("tests/test_repo_catalog_jinja/").absolute())
-    sess = Session(root_folder=p)
 
     for item in ["foo", "bar", "spam"]:
         sess.catalog._get_artefact(f"{item}_artefact")
