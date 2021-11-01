@@ -16,18 +16,18 @@
 
 # system
 from __future__ import annotations  # noqa
-
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, Union
 
-# third party
 import pandas as pd
 
 from statisfactory.errors import Errors
 from statisfactory.IO.artefacts.artefact_interactor import ArtefactInteractor
 
-# project
 from statisfactory.IO.models import Artefact, CatalogData, Connector
 from statisfactory.logger import MixinLogable
+
+from jinja2 import Template
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
@@ -42,6 +42,33 @@ class Catalog(MixinLogable):
     """
     Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
     """
+
+    @staticmethod
+    def make(*, path: Path, session: Session) -> Catalog:
+        """
+        Make a new catalog from a Jinja / Yml source and interpolate static values from the session's setting.
+
+        Args:
+            path (Path): The path to the source file to load the catalog from
+            session (Session): The session to use to render the template
+
+        Returns:
+            Catalog: A catalog object
+        """
+
+        # Load and render the Jinja template
+        try:
+            with open(path) as f:
+                template = Template(f.read())
+        except FileNotFoundError as error:
+            raise Errors.E011(path=path) from error  # type: ignore
+
+        # Dynaconf is case insensitve but not jinaj2 : all configuraiton keys are lowercased
+        data = {k.lower(): v for k, v in session.settings.to_dict().items()}
+        rendered = template.render(data)
+
+        # Deserialized the rendered template agains the Artifact models
+        return Catalog(dump=rendered, session=session)
 
     def __init__(self, *, dump: str, session: Session = None):
         """

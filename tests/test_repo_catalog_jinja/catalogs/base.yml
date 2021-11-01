@@ -1,0 +1,17 @@
+# Describe the data connectors later referenced by the Artefacts
+connectors:
+    - sqlserver2:
+          # Use the ${password} to statically interpolate a variable named password from either locals.yaml, or globals.yaml
+          connString: DRIVER={ODBC Driver 17 for SQL Server};SERVER=server;DATABASE=db;UID=${user};PWD=${password}
+
+# Map friendly name to connecters to retrieve the data from
+artefacts:
+      - dummy_artefact:
+            type: csv
+            path: tests/{{ foobar }}/{{ layers.raw }}/!{dynamic}/test_read_csv.csv
+      
+      {% for target in ["foo", "bar", "spam"] %}
+      - {{ target }}_artefact:
+            type: csv
+            path: tests/{{ foobar }}/{{ layers.raw }}/!{dynamic}/{{ target }}.csv
+      {% endfor %}

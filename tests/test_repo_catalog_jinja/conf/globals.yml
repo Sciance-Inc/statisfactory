@@ -1,0 +1,9 @@
+foobar: inteprolated
+
+# The data layers to use, to segragate the data
+layers:
+  raw: 10_raw
+  int: 20_int
+  fea: 30_fea
+  mdl: 40_mdl
+  out: 50_out
