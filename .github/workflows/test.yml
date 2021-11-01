@@ -38,6 +38,7 @@ jobs:
     - name: Runing the test suite
       run: |
         pip install pytest
+        poetry install
         pytest tests/
     
     
