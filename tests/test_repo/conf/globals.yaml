@@ -22,12 +22,12 @@ layers:
   out: 50_out
 
 # Configure Mamazon (Minio) profile
-aws_access_key: replaceMeInLocals
-aws_secret_access_key: replaceMeInLocals
-aws_s3_endpoint: http://api.minio.iacssvdc.ia.csvdc.qc.ca # http://api.minio.jugodzilla.com
+#aws_access_key: replaceMeInLocals
+#aws_secret_access_key: replaceMeInLocals
+#aws_s3_endpoint: http://api.minio.iacssvdc.ia.csvdc.qc.ca # http://api.minio.jugodzilla.com
 
 # Configure LakeFS profile
-lakefs_access_key: replaceMeInLocals
-lakefs_secret_access_key: replaceMeInLocals
-lakefs_endpoint: http://lakefs.iacssvdc.ia.csvdc.qc.ca #http://lakefs.jugodzilla.com
+#lakefs_access_key: replaceMeInLocals
+#lakefs_secret_access_key: replaceMeInLocals
+#lakefs_endpoint: http://lakefs.iacssvdc.ia.csvdc.qc.ca #http://lakefs.jugodzilla.com
 # Optionaly, LakeFS bucket van be set through LAKEFS_BUCKET. Defaulted to "s3://lakefs/"

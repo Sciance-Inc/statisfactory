@@ -1,0 +1,80 @@
+# Describe the data connectors later referenced by the Artefacts
+connectors:
+    - sqlserver:
+          # Use the ${password} to statically interpolate a variable named password from either locals.yaml, or globals.yaml
+          connString: DRIVER={ODBC Driver 17 for SQL Server};SERVER=server;DATABASE=db;UID=${user};PWD=${password}
+
+# Map friendly name to connecters to retrieve the data from
+artefacts:
+      - test_read_csv:
+            type: csv
+            path: tests/test_repo/data/test_read_csv.csv
+      
+      - test_read_csv_options:
+            type: csv
+            path: tests/test_repo/data/test_read_csv.csv
+            load_options:
+                  - index_col: 2
+
+      - test_read_save_csv_options:
+            type: csv
+            path: tests/test_repo/data/test_save_csv_options.csv
+            save_options:
+                  - index: False
+
+      - test_read_save_xlsx_options:
+            type: xslx
+            path: tests/test_repo/data/test_read_xlsx_options.xslx
+            load_options:
+                  - sheet_name: data
+
+      - test_read_read_pickle:
+            type: pickle
+            path: tests/test_repo/data/test_read_pkl_options.pkl
+
+      - test_custom_backend:
+            type: csv
+            path: test://tests/test_repo/data/test_read_pkl_options.pkl
+
+      - test_custom_backend_args:
+            type: csv
+            path: testargs://tests/test_repo/data/test_read_pkl_options.pkl
+
+      - test_read_variadic_pickle:
+            type: pickle
+            path: tests/test_repo/!{variadic}/test_read_pkl_options.pkl
+                  
+
+                  #     - coeffs:
+#           type: pickle
+#           # The {} notation can also be used to interact with folders.
+#           path: ${base_path}/${environment}/${layers.out}/model_!{samples}/coeff.pkl
+
+#     - coeffs_minio:
+#           type: pickle
+#           # The URI can also be a remote, far, far away file system
+#           path: s3://${bucket}/${environment}/${layers.out}/model_!{samples}/coeff.pkl
+
+#     - coeffs_minio_xlsx:
+#           type: csv
+#           # The URI can also be a remote, far, far away file system
+#           path: s3://${bucket}/${environment}/${layers.out}/model_!{samples}/coeff.csv
+#           load_options:
+#               - index_col: 0
+
+#     - report:
+#           type: datapane
+#           path: s3://${bucket}/${environment}/${layers.out}/report.html
+
+#     - report_local:
+#           type: datapane
+#           path: ${base_path}/${environment}/${layers.out}/report.html
+
+#     - coeffs_minio_lake:
+#           type: pickle
+#           # The URI can also be a remote, far, far away file system
+#           path: lakefs://${environment}/${layers.out}/model_!{samples}/coeff.pkl
+
+#     - report_lake:
+#           type: datapane
+#           path: lakefs://${environment}/${layers.out}/report.html

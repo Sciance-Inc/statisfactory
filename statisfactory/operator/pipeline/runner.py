@@ -89,25 +89,27 @@ class Runner(MixinLogable):
             for craft in batch:
                 yield copy(craft)
 
-    def __call__(
-        self,
-        shared: Union[None, Dict[str, Any]] = None,
-        namespaced: Union[None, Dict[str, Dict[str, Any]]] = None,
-    ) -> Dict[str, Any]:
+    def __call__(self, **kwargs) -> Dict[str, Any]:
         """
         Iterate through the crafts and accumulate the volatiles and context object, starting from a the given ones.
 
         Args:
-            shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
-            namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
+            kwargs (Optional[Dict[str, any]]): An optionnal mapping containings configuration to be shared and namespaced configuration to be dispatched to the craft.The __call__ method uses the FQN of a craft to accordingly dispatch the configurations.
 
         Returns:
             Dict[str, Any]: the final transient state resultuing from the craft application
         """
 
-        # Set default for dictionnaries
-        shared = shared or {}
-        namespaced = namespaced or {}
+        # Extract the FQN of the pipeline's craft
+        crafts_full_names = set()
+        for craft in self:
+            craft_module = craft.__module__ if craft.__module__ != "__main__" else None
+            craft_full_name = ".".join(filter(None, (craft_module, craft.name)))
+            crafts_full_names.add(craft_full_name)
+
+        # Split the Kwargs between shared and namespaced
+        namespaced = {k: v for k, v in kwargs.items() if k in crafts_full_names}
+        shared = {k: v for k, v in kwargs.items() if k not in crafts_full_names}
 
         # Initiate a mapping of volatiles values
         running_volatile: Dict[str, Any] = {}
@@ -118,12 +120,9 @@ class Runner(MixinLogable):
         # Iterate over the craft and accumulate the States
         for craft in self:
             self.info(f"running craft '{craft.name}'.")
-
-            # Extract the parameters for this Craft from it's full name : module + craft's name :
             craft_module = craft.__module__ if craft.__module__ != "__main__" else None
             craft_full_name = ".".join(filter(None, (craft_module, craft.name)))
 
-            # Build the craft execution context from the shared context and the craft's one
             craft_namespaced_context = namespaced.get(craft_full_name, {})
             if not isinstance(craft_namespaced_context, (Mapping)):
                 raise Errors.E055(got=str(type(craft_namespaced_context)))  # type: ignore
@@ -150,11 +149,3 @@ class Runner(MixinLogable):
             cursor += 1
 
         return running_volatile
-
-
-#############################################################################
-#                                   main                                    #
-#############################################################################
-
-if __name__ == "__main__":
-    raise BaseException("solver.py can't be run in standalone")

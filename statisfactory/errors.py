@@ -116,7 +116,7 @@ class Errors(metaclass=ExceptionFactory):
 
     # FS interactors
     E020 = "data interactor : there is already an interactor named '{name}'"
-    E0201 = "data interactor: there is already a backend name registered for the '{prefx}'s prefix."
+    E0201 = "data interactor: there is already a backend name registered for the '{prefix}'s prefix."
     E021 = "data interactor : failed to read '{method}' '{name}'"
     E022 = "data interactor : failed to save the asset '{name}' with '{method}' "
     E023 = (
