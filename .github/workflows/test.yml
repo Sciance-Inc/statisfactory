@@ -37,7 +37,7 @@ jobs:
       
     - name: Runing the test suite
       run: |
-          source .venv/bin/activate
+          poetry shell
           tox
     
     
