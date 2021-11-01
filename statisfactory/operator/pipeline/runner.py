@@ -23,10 +23,10 @@ from typing import TYPE_CHECKING, Any, Dict, Iterable, List, Mapping, Union
 from statisfactory.errors import Errors
 from statisfactory.logger import MixinLogable
 from statisfactory.operator.annotations import AnnotationKind
-from statisfactory.operator.utils import merge_dictionaries
 
 # project
 from statisfactory.operator.pipeline.solver import DAGSolver
+from statisfactory.operator.utils import merge_dictionaries
 
 # Third party
 

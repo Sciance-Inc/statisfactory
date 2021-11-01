@@ -27,11 +27,11 @@ def test_session_instanciation():
     Make sure the session can be instanciated
     """
 
-    from statisfactory import Session
     from pathlib import Path
+
+    from statisfactory import Session
 
     p = str(Path("tests/test_repo/").absolute())
     sess = Session(root_folder=p)
 
     assert True
-

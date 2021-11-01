@@ -17,19 +17,19 @@
 # system
 from __future__ import annotations  # noqa
 
-from functools import lru_cache
+import re
 from abc import ABCMeta, abstractmethod
+from functools import lru_cache
 from io import BytesIO
 from pathlib import Path
-from typing import TYPE_CHECKING, Type, Dict
+from typing import TYPE_CHECKING, Dict, Type
 from urllib.parse import ParseResult
 from warnings import warn
-import re
+
+from lakefs_client import models  # type: ignore
 
 from statisfactory.errors import Errors, Warnings
 from statisfactory.logger import MixinLogable, get_module_logger
-
-from lakefs_client import models  # type: ignore
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:

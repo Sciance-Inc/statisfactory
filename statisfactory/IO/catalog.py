@@ -23,11 +23,11 @@ from typing import TYPE_CHECKING, Any, Callable, Union
 import pandas as pd
 
 from statisfactory.errors import Errors
-from statisfactory.logger import MixinLogable
 from statisfactory.IO.artefacts.artefact_interactor import ArtefactInteractor
 
 # project
 from statisfactory.IO.models import Artefact, CatalogData, Connector
+from statisfactory.logger import MixinLogable
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:

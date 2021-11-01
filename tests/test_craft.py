@@ -14,10 +14,12 @@
 #                                 Packages                                  #
 #############################################################################
 
-from statisfactory import Session, Craft, Volatile, Artefact
-import pytest
 from pathlib import Path
+
 import pandas as pd
+import pytest
+
+from statisfactory import Artefact, Craft, Session, Volatile
 from statisfactory.IO import Backend
 
 #############################################################################

@@ -45,7 +45,7 @@ class ConfigsLoader:
             if (
                 k in L
                 and isinstance(L[k], dict)
-                and isinstance(R[k], collections.Mapping)
+                and isinstance(R[k], collections.Mapping)  # type: ignore
             ):
                 ConfigsLoader._dict_merge(L[k], R[k])
             else:
