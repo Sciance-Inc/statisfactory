@@ -18,6 +18,7 @@
 import collections
 from functools import reduce
 from typing import Any, Mapping
+from copy import deepcopy
 
 # Third party
 import anyconfig
@@ -82,7 +83,7 @@ class ConfigsLoader:
         for k, m in configuration.items():
             if k == "_from":
                 continue
-            config_mapping.append({k: m.copy()})  # Copy to avoid mutating references
+            config_mapping.append({k: deepcopy(m)})  # Copy to avoid mutating references
 
         # Process the config mapping and keep the last value
         config_mapping = reduce(
@@ -112,12 +113,7 @@ class ConfigsLoader:
                 name=name, configuration=configuration, raw=m  # type: ignore
             )
 
-            # The Pipeline.__call__ expects a "namespaced" mapping and a variadic keyword mapping for shared variables : I rewrite the parsed configuation
-            pipeline_config = config.get("_shared", {})
-            pipeline_config["namespaced"] = {
-                key: val for key, val in config.items() if key != "_shared"
-            }
-            loaded[name] = pipeline_config
+            loaded[name] = config
 
         return loaded
 

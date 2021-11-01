@@ -6,4 +6,4 @@ notebook_target: jupyter
 
 # The file containing the pipeline definitions
 #pipelines_definitions: Pipelines/definitions/pipelines.yaml
-#pipelines_configurations: Pipelines/configurations/pipelines.yaml
+pipelines_configurations: Pipelines/configurations/pipelines.yaml

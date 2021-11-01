@@ -1,23 +1,42 @@
 base:
-  __compiled__.foobar.craft_foo:
+  test_pipelines_config.step_1:
     param_1: 10
-  __compiled__.spam.craft_spam:
+  test_pipelines_config.step_2:
     param_1: 1
     param_2:
       - 10
       - 15
       - 20
+  shared_param: 1
 
-foo:
-  __compiled__.spam.craft_spam:
-    param_1: 2
+  
+test_dispatch:
+  test_pipelines_config.step_1:
+    param_1: 10
+  test_pipelines_config.step_2:
+    param_1: 11
+    param_2:
+      - 10
+      - 15
+      - 20
+  shared_param: 1
 
-custom:
-  _shared: 
-    year: 10
+test_inheritance_simple:
   _from:
     - base
-    - foo
-  __compiled__.foobar.craft_foo:
-    param_1: 20
+  test_pipelines_config.step_2:
+    param_1: 2
 
+
+test_inheritance_multiple:
+  _from:
+    - base
+    - test_inheritance_simple
+  shared_param: 10
+  test_pipelines_config.step_2:
+    param_2: 
+      - 11
+      - 16
+      - 21
+
+  
