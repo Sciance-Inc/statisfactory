@@ -1,3 +1,4 @@
+![test workflow](https://github.com/Sciance-Inc/statisfactory/actions/workflows/test.yml/badge.svg)
 # Statisfactory
 _A (not yet) Satisfying Statistical Factory_
 
