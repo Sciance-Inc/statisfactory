@@ -5,6 +5,10 @@ on: [push, pull_request]
 jobs:
  testing:
   runs-on: ubuntu-latest
+  strategy:
+    matrix:
+      python-version: [3.8, 3.9]
+
   steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -12,10 +16,12 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
+        python-version: ${{ matrix.python-version }}
 
-    - name: Upgrade pip
-      run: python3 -m pip install --upgrade pip
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip install tox tox-gh-actions
 
     - name: Install Poetry
       uses: snok/install-poetry@v1
@@ -24,26 +30,15 @@ jobs:
         virtualenvs-in-project: false
         installer-parallel: true
 
-    - name: Activate envir
-      run: poetry shell
-
-    - name: Load cached venv
-      id: cached-poetry-dependencies
-      uses: actions/cache@v2
+    - name: Run tox tests
+      run: tox
+    
+    - name: Upload Codecov Results
+      if: success()
+      uses: codecov/codecov-action@v1
       with:
-        path: .venv
-        key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
-
-    - name: Install dependencies
-      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      run: poetry install --no-interaction --no-root
-      
-    - name: Runing the test suite
-      run: |
-        pip install tox
-        tox
-    
-    
-  
-    
+        file: ./coverage.xml
+        flags: unittests
+        name: ${{ matrix.python-version }}
+        fail_ci_if_error: false
     
