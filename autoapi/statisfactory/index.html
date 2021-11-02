@@ -463,43 +463,6 @@
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.ArtefactInteractor">
-       ArtefactInteractor
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.ArtefactInteractor._interactors">
-         _interactors
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.ArtefactInteractor.__init_subclass__">
-         __init_subclass__
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.ArtefactInteractor._dispatch">
-         _dispatch
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.ArtefactInteractor.interactors">
-         interactors
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.ArtefactInteractor.load">
-         load
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.ArtefactInteractor.save">
-         save
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#statisfactory.Catalog">
        Catalog
       </a>
@@ -876,22 +839,19 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.Artefact" title="statisfactory.Artefact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Artefact</span></code></a></p></td>
 <td><p>Represents an Artefact : the I/O of a statisfactory node.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.ArtefactInteractor" title="statisfactory.ArtefactInteractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArtefactInteractor</span></code></a></p></td>
-<td><p>Describe the Interactor's interface.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.Catalog" title="statisfactory.Catalog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Catalog</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.Catalog" title="statisfactory.Catalog"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Catalog</span></code></a></p></td>
 <td><p>Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.Volatile" title="statisfactory.Volatile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Volatile</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.Volatile" title="statisfactory.Volatile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Volatile</span></code></a></p></td>
 <td><p>Represents data outputed by the Craft but not to be persisted in the catalog</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.Pipeline" title="statisfactory.Pipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pipeline</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.Pipeline" title="statisfactory.Pipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pipeline</span></code></a></p></td>
 <td><p>Implements a way to combine crafts and pipeline togetger</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory._Craft" title="statisfactory._Craft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_Craft</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory._Craft" title="statisfactory._Craft"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_Craft</span></code></a></p></td>
 <td><p>Craft wraps a task and take care of data retrieval from / storage to the catalogue.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.Session" title="statisfactory.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Session</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.Session" title="statisfactory.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Session</span></code></a></p></td>
 <td><p>Represents the single entry point to a Statisfactory application.</p></td>
 </tr>
 </tbody>
@@ -953,57 +913,6 @@
 <dt class="sig sig-object py" id="statisfactory.Artefact.__post_init__">
 <span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.Artefact.__post_init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform the marshmalling’s list-of-dicts to a dict</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="statisfactory.ArtefactInteractor">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.</span></span><span class="sig-name descname"><span class="pre">ArtefactInteractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artefact</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.ArtefactInteractor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinInterpolable</span></code></p>
-<p>Describe the Interactor’s interface.
-An interactor wraps the loading and saving operations of a Artefact.
-The user can implements custom interactors. To do so, the user should
-implements the interface desbribes in this class. An artefact and a Session object
-are available when the artefact is called by the Catalog.</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="statisfactory.ArtefactInteractor._interactors">
-<span class="sig-name descname"><span class="pre">_interactors</span></span><a class="headerlink" href="#statisfactory.ArtefactInteractor._interactors" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.ArtefactInteractor.__init_subclass__">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactor_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">register</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.ArtefactInteractor.__init_subclass__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Implement the registration of a child class into the artefact class.
-By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
-See PEP-487 for details.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.ArtefactInteractor._dispatch">
-<span class="sig-name descname"><span class="pre">_dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.ArtefactInteractor._dispatch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dispatch the variadic arguments the callable.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>callable (Callable): The callable to dispatch arguments to.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.ArtefactInteractor.interactors">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">interactors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.ArtefactInteractor.interactors" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.ArtefactInteractor.load">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.ArtefactInteractor.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the underlying asset.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.ArtefactInteractor.save">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.ArtefactInteractor.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the underlying asset.</p>
 </dd></dl>
 
 </dd></dl>

@@ -37,7 +37,6 @@ Classes
 .. autoapisummary::
 
    statisfactory.Artefact
-   statisfactory.ArtefactInteractor
    statisfactory.Catalog
    statisfactory.Volatile
    statisfactory.Pipeline
@@ -97,54 +96,6 @@ Functions
    .. py:method:: __post_init__(self)
 
       Transform the marshmalling's list-of-dicts to a dict
-
-
-
-.. py:class:: ArtefactInteractor(artefact, *args, session: statisfactory.session.Session, **kwargs)
-
-   Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinInterpolable`
-
-   Describe the Interactor's interface.
-   An interactor wraps the loading and saving operations of a Artefact.
-   The user can implements custom interactors. To do so, the user should
-   implements the interface desbribes in this class. An artefact and a Session object
-   are available when the artefact is called by the Catalog.
-
-   .. py:attribute:: _interactors
-      
-
-      
-
-   .. py:method:: __init_subclass__(cls, interactor_name, register: bool = True, **kwargs)
-      :classmethod:
-
-      Implement the registration of a child class into the artefact class.
-      By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
-      See PEP-487 for details.
-
-
-   .. py:method:: _dispatch(self, callable: Callable, **kwargs) -> Dict[str, Any]
-
-      Dispatch the variadic arguments the callable.
-
-      Args:
-          callable (Callable): The callable to dispatch arguments to.
-
-
-   .. py:method:: interactors(cls)
-      :classmethod:
-
-
-   .. py:method:: load(self, **kwargs) -> Any
-      :abstractmethod:
-
-      Return the underlying asset.
-
-
-   .. py:method:: save(self, asset: Any, **kwargs)
-      :abstractmethod:
-
-      Save the underlying asset.
 
 
 
