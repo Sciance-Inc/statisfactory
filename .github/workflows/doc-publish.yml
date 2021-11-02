@@ -1,5 +1,5 @@
 # Build and publish the Documentation on gh pages.
-name: github pages
+name: Doc published
 
 on:
   push:
