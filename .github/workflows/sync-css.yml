@@ -1,0 +1,20 @@
+
+name: Sync to CSS
+
+on:
+  push:
+    branches:
+      - develop
+      - master
+
+jobs:
+ lint:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Push to VDC
+      env:
+        TOKEN: ${{ secrets.PAT_CSSVDC }}
+      run: git push https://$TOKEN@dev.azure.com:/CSSVDC-IA/IA2021/_git/statisfactory
