@@ -19,4 +19,4 @@ jobs:
     - name: Push to VDC
       env:
         TOKEN: ${{ secrets.PAT_CSSVDC }}
-      run: git push https://$TOKEN@dev.azure.com:/CSSVDC-IA/IA2021/_git/statisfactory --force
+      run: git push https://$TOKEN@dev.azure.com:/CSSVDC-IA/IA2021/_git/statisfactory --force --tags
