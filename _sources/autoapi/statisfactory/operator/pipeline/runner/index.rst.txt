@@ -39,13 +39,12 @@ Classes
       Unesting generator over the batchs returned by the DAG solver.
 
 
-   .. py:method:: __call__(self, shared: Union[None, Dict[str, Any]] = None, namespaced: Union[None, Dict[str, Dict[str, Any]]] = None) -> Dict[str, Any]
+   .. py:method:: __call__(self, **kwargs) -> Dict[str, Any]
 
       Iterate through the crafts and accumulate the volatiles and context object, starting from a the given ones.
 
       Args:
-          shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
-          namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
+          kwargs (Optional[Dict[str, any]]): An optionnal mapping containings configuration to be shared and namespaced configuration to be dispatched to the craft.The __call__ method uses the FQN of a craft to accordingly dispatch the configurations.
 
       Returns:
           Dict[str, Any]: the final transient state resultuing from the craft application

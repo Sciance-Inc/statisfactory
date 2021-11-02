@@ -401,23 +401,6 @@
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.session.session._CatalogTemplateParser">
-       _CatalogTemplateParser
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._CatalogTemplateParser.delimiter">
-         delimiter
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._CatalogTemplateParser.pattern">
-         pattern
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#statisfactory.session.session.Session">
        Session
       </a>
@@ -574,51 +557,14 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.session.session._CatalogTemplateParser" title="statisfactory.session.session._CatalogTemplateParser"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_CatalogTemplateParser</span></code></a></p></td>
-<td><p>Template for the Catalog.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Session</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Session</span></code></a></p></td>
 <td><p>Represents the single entry point to a Statisfactory application.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.session.session._DefaultHooks" title="statisfactory.session.session._DefaultHooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_DefaultHooks</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.session.session._DefaultHooks" title="statisfactory.session.session._DefaultHooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_DefaultHooks</span></code></a></p></td>
 <td><p>Name spaces for the mandatory Session postinits hooks.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py class">
-<dt class="sig sig-object py" id="statisfactory.session.session._CatalogTemplateParser">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">_CatalogTemplateParser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session._CatalogTemplateParser" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">string.Template</span></code></p>
-<p>Template for the Catalog.</p>
-<dl class="simple">
-<dt>Override the default template to :</dt><dd><ul class="simple">
-<li><p>disallow interpolation of non braced values.</p></li>
-<li><p>Allow the . syntax to namespace the templated values</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="statisfactory.session.session._CatalogTemplateParser.delimiter">
-<span class="sig-name descname"><span class="pre">delimiter</span></span><em class="property"> <span class="pre">=</span> <span class="pre">$</span></em><a class="headerlink" href="#statisfactory.session.session._CatalogTemplateParser.delimiter" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="statisfactory.session.session._CatalogTemplateParser.pattern">
-<span class="sig-name descname"><span class="pre">pattern</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Multiline-String</span></em><a class="headerlink" href="#statisfactory.session.session._CatalogTemplateParser.pattern" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><details><summary>Show Value</summary><div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>    \$(?:
-<span class="linenos">2</span>      (?P&lt;escaped&gt;\$) |
-<span class="linenos">3</span>      {(?P&lt;named&gt;[_a-z\.][\._a-z0-9]*)} |
-<span class="linenos">4</span>      {(?P&lt;braced&gt;[_a-z\.][\._a-z0-9]*)} |
-<span class="linenos">5</span>      (?P&lt;invalid&gt;)
-<span class="linenos">6</span>    )
-</pre></div>
-</div>
-</details></div></blockquote>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.session.session.Session">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">Session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_folder</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session.Session" title="Permalink to this definition">¶</a></dt>
@@ -682,7 +628,7 @@ Must be called from a <cite>with</cite> statement</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.session.session.Session.catalog">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session.Session.catalog" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../IO/index.html#statisfactory.IO.Catalog" title="statisfactory.IO.Catalog"><span class="pre">statisfactory.IO.Catalog</span></a></span></span><a class="headerlink" href="#statisfactory.session.session.Session.catalog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Getter for the session’s catalog.</p>
 </dd></dl>
 

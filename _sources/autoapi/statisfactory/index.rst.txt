@@ -123,17 +123,25 @@ Functions
       See PEP-487 for details.
 
 
+   .. py:method:: _dispatch(self, callable: Callable, **kwargs) -> Dict[str, Any]
+
+      Dispatch the variadic arguments the callable.
+
+      Args:
+          callable (Callable): The callable to dispatch arguments to.
+
+
    .. py:method:: interactors(cls)
       :classmethod:
 
 
-   .. py:method:: load(self, *args, **kwargs) -> Any
+   .. py:method:: load(self, **kwargs) -> Any
       :abstractmethod:
 
       Return the underlying asset.
 
 
-   .. py:method:: save(self, *args, asset: Any, **kwargs)
+   .. py:method:: save(self, asset: Any, **kwargs)
       :abstractmethod:
 
       Save the underlying asset.
@@ -145,6 +153,19 @@ Functions
    Bases: :py:obj:`statisfactory.logger.MixinLogable`
 
    Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
+
+   .. py:method:: make(path: pathlib.Path, session: statisfactory.session.Session) -> Catalog
+      :staticmethod:
+
+      Make a new catalog from a Jinja / Yml source and interpolate static values from the session's setting.
+
+      Args:
+          path (Path): The path to the source file to load the catalog from
+          session (Session): The session to use to render the template
+
+      Returns:
+          Catalog: A catalog object
+
 
    .. py:method:: __str__(self)
 
@@ -195,6 +216,25 @@ Functions
           asset (Any): the underlying artefact to store
 
 
+   .. py:method:: __add__(self, other: Any)
+
+      Implements the visitor pattern for the catalog
+
+      Args:
+          other (Any): The right object to add
+
+
+   .. py:method:: visit_catalog(self, other: Catalog) -> Catalog
+
+      Implements the visitor pattern for the catalog. Combining two catalogs results in a merged catalog.
+
+      Args:
+          other (Catalog): The other catalogi to combine with
+
+      Raise:
+          Errors.E033: if two artifacts / connectors key collide.
+
+
 
 .. py:class:: Volatile
 
@@ -220,7 +260,13 @@ Functions
    .. py:method:: name(self)
       :property:
 
-      Craft's name getter.
+      Pipeline's name getter.
+
+
+   .. py:method:: crafts(self) -> List[statisfactory.operator.craft._Craft]
+      :property:
+
+      Crafts getter
 
 
    .. py:method:: plot(self)
@@ -252,14 +298,12 @@ Functions
       Implements the print method to display the pipeline
 
 
-   .. py:method:: __call__(self, *, namespaced: Union[None, Dict[str, Dict[str, Any]]] = None, **shared) -> Dict[str, Any]
+   .. py:method:: __call__(self, **shared) -> Dict[str, Any]
 
       Concretely run a Pipeline with two Mapping of parameters.
-      A 'shared' mapping, to be dispatched to all the crafts executed, a 'namespaced' holding optionnal mappings per crafts to be dispatched to their craft.
 
       Args:
-          shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
-          namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
+          kwargs (Optional[Dict[str, any]]): An optionnal mapping containings configuration to be shared and namespaced configuration to be dispatched to the craft.The __call__ method uses the FQN of a craft to accordingly dispatch the configurations.
 
       Returns:
           Dict[str, Any]: the final transient state resultuing from the craft application
@@ -429,7 +473,7 @@ Functions
       Getter for the session's base setting.
 
 
-   .. py:method:: catalog(self)
+   .. py:method:: catalog(self) -> statisfactory.IO.Catalog
       :property:
 
       Getter for the session's catalog.

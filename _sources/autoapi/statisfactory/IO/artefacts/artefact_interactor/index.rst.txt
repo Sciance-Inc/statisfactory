@@ -105,17 +105,25 @@ Classes
       See PEP-487 for details.
 
 
+   .. py:method:: _dispatch(self, callable: Callable, **kwargs) -> Dict[str, Any]
+
+      Dispatch the variadic arguments the callable.
+
+      Args:
+          callable (Callable): The callable to dispatch arguments to.
+
+
    .. py:method:: interactors(cls)
       :classmethod:
 
 
-   .. py:method:: load(self, *args, **kwargs) -> Any
+   .. py:method:: load(self, **kwargs) -> Any
       :abstractmethod:
 
       Return the underlying asset.
 
 
-   .. py:method:: save(self, *args, asset: Any, **kwargs)
+   .. py:method:: save(self, asset: Any, **kwargs)
       :abstractmethod:
 
       Save the underlying asset.
@@ -128,7 +136,7 @@ Classes
 
    Extend the Artefact Interactor with Path interpolations
 
-   .. py:method:: _put(self, payload: bytes)
+   .. py:method:: _put(self, payload: bytes, **kwargs)
 
       Put the payload to the URI
 
@@ -136,7 +144,7 @@ Classes
           payload (BytesIO): The payload encoded as BytesIO to push.
 
 
-   .. py:method:: _get(self) -> bytes
+   .. py:method:: _get(self, **kwargs) -> bytes
 
       Get a payload from the URI
 
@@ -148,7 +156,7 @@ Classes
 
    Concrete implementation of a csv interactor
 
-   .. py:method:: load(self) -> pandas.DataFrame
+   .. py:method:: load(self, **kwargs) -> pandas.DataFrame
 
       Parse 'path' as a pandas dataframe and return it
 
@@ -156,7 +164,7 @@ Classes
           pd.DataFrame: the parsed dataframe
 
 
-   .. py:method:: save(self, asset: Union[pandas.DataFrame, pandas.Series])
+   .. py:method:: save(self, asset: Union[pandas.DataFrame, pandas.Series], **kwargs)
 
       Save the 'data' dataframe as csv.
 
@@ -171,7 +179,7 @@ Classes
 
    Concrete implementation of an XLSX interactor
 
-   .. py:method:: load(self) -> pandas.DataFrame
+   .. py:method:: load(self, **kwargs) -> pandas.DataFrame
 
       Parse 'path' as a pandas dataframe and return it
 
@@ -179,7 +187,7 @@ Classes
           pd.DataFrame: the parsed dataframe
 
 
-   .. py:method:: save(self, asset: Union[pandas.DataFrame, pandas.Series])
+   .. py:method:: save(self, asset: Union[pandas.DataFrame, pandas.Series], **kwargs)
 
       Save the 'data' dataframe as csv.
 
@@ -194,7 +202,7 @@ Classes
 
    Concrete implementation of a Pickle interactor.
 
-   .. py:method:: load(self) -> Any
+   .. py:method:: load(self, **kwargs) -> Any
 
       Unserialize the object located at 'path'
 
@@ -202,7 +210,7 @@ Classes
           Any: the unpickled object
 
 
-   .. py:method:: save(self, asset: Any)
+   .. py:method:: save(self, asset: Any, **kwargs)
 
       Serialize the 'asset'
 
@@ -230,7 +238,7 @@ Classes
       TODO : add support for parameters
 
 
-   .. py:method:: load(self) -> pandas.DataFrame
+   .. py:method:: load(self, **kwargs) -> pandas.DataFrame
 
       Parse 'path' as a pandas dataframe and return it
 
@@ -238,7 +246,7 @@ Classes
           pd.DataFrame: the parsed dataframe
 
 
-   .. py:method:: save(self, asset: Any)
+   .. py:method:: save(self, asset: Any, **kwargs)
 
       Save the underlying asset.
 
@@ -250,7 +258,7 @@ Classes
 
    Implements saving / loading for datapane object.
 
-   .. py:method:: load(self)
+   .. py:method:: load(self, **kwargs)
 
       Not implemented since I don't want a report to be altered as for now­
 
@@ -258,7 +266,7 @@ Classes
           NotImplementedErrord
 
 
-   .. py:method:: save(self, asset: datapane.Report)
+   .. py:method:: save(self, asset: datapane.Report, **kwargs)
 
       Save a datapane assert
 
@@ -277,12 +285,12 @@ Classes
 
    Implements saving / loading for binary raw object
 
-   .. py:method:: load(self)
+   .. py:method:: load(self, **kwargs)
 
       Return the content of a binary artefact.
 
 
-   .. py:method:: save(self, asset: bytes)
+   .. py:method:: save(self, asset: bytes, **kwargs)
 
       Save a datapane assert
 

@@ -168,7 +168,13 @@ Functions
    .. py:method:: name(self)
       :property:
 
-      Craft's name getter.
+      Pipeline's name getter.
+
+
+   .. py:method:: crafts(self) -> List[statisfactory.operator.craft._Craft]
+      :property:
+
+      Crafts getter
 
 
    .. py:method:: plot(self)
@@ -200,14 +206,12 @@ Functions
       Implements the print method to display the pipeline
 
 
-   .. py:method:: __call__(self, *, namespaced: Union[None, Dict[str, Dict[str, Any]]] = None, **shared) -> Dict[str, Any]
+   .. py:method:: __call__(self, **shared) -> Dict[str, Any]
 
       Concretely run a Pipeline with two Mapping of parameters.
-      A 'shared' mapping, to be dispatched to all the crafts executed, a 'namespaced' holding optionnal mappings per crafts to be dispatched to their craft.
 
       Args:
-          shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
-          namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.
+          kwargs (Optional[Dict[str, any]]): An optionnal mapping containings configuration to be shared and namespaced configuration to be dispatched to the craft.The __call__ method uses the FQN of a craft to accordingly dispatch the configurations.
 
       Returns:
           Dict[str, Any]: the final transient state resultuing from the craft application

@@ -52,17 +52,25 @@ Classes
       See PEP-487 for details.
 
 
+   .. py:method:: _dispatch(self, callable: Callable, **kwargs) -> Dict[str, Any]
+
+      Dispatch the variadic arguments the callable.
+
+      Args:
+          callable (Callable): The callable to dispatch arguments to.
+
+
    .. py:method:: interactors(cls)
       :classmethod:
 
 
-   .. py:method:: load(self, *args, **kwargs) -> Any
+   .. py:method:: load(self, **kwargs) -> Any
       :abstractmethod:
 
       Return the underlying asset.
 
 
-   .. py:method:: save(self, *args, asset: Any, **kwargs)
+   .. py:method:: save(self, asset: Any, **kwargs)
       :abstractmethod:
 
       Save the underlying asset.
@@ -114,7 +122,7 @@ Classes
           Map[str, Type[Backend]]: A mapping of prefixes associated with their respectives backend.
 
 
-   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult, **kwargs)
       :abstractmethod:
 
       Drop the payload to the service under the 'path' name.
@@ -124,7 +132,7 @@ Classes
           fragment (ParseResult): The Artefact's path parsed result to use to put the payload to.
 
 
-   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
       :abstractmethod:
 
       Get the payload from the service under the 'path' name.

@@ -406,6 +406,11 @@
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.catalog.Catalog.make">
+         make
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.IO.catalog.Catalog.__str__">
          __str__
         </a>
@@ -438,6 +443,16 @@
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.IO.catalog.Catalog.save">
          save
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.catalog.Catalog.__add__">
+         __add__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.catalog.Catalog.visit_catalog">
+         visit_catalog
         </a>
        </li>
       </ul>
@@ -480,6 +495,19 @@
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.catalog.</span></span><span class="sig-name descname"><span class="pre">Catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dump</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
 <p>Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog.make">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#statisfactory.IO.catalog.Catalog" title="statisfactory.IO.catalog.Catalog"><span class="pre">Catalog</span></a></span></span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog.make" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a new catalog from a Jinja / Yml source and interpolate static values from the session’s setting.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>path (Path): The path to the source file to load the catalog from
+session (Session): The session to use to render the template</p>
+</dd>
+<dt>Returns:</dt><dd><p>Catalog: A catalog object</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog.__str__">
 <span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog.__str__" title="Permalink to this definition">¶</a></dt>
@@ -535,6 +563,28 @@ if a context is provided, the update of the context won’t raised any error</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>name (str): the name of the arteface
 asset (Any): the underlying artefact to store</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the visitor pattern for the catalog</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>other (Any): The right object to add</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog.visit_catalog">
+<span class="sig-name descname"><span class="pre">visit_catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.IO.catalog.Catalog" title="statisfactory.IO.catalog.Catalog"><span class="pre">Catalog</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#statisfactory.IO.catalog.Catalog" title="statisfactory.IO.catalog.Catalog"><span class="pre">Catalog</span></a></span></span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog.visit_catalog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the visitor pattern for the catalog. Combining two catalogs results in a merged catalog.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>other (Catalog): The other catalogi to combine with</p>
+</dd>
+<dt>Raise:</dt><dd><p>Errors.E033: if two artifacts / connectors key collide.</p>
 </dd>
 </dl>
 </dd></dl>

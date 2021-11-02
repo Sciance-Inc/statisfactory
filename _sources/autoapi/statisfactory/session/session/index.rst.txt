@@ -17,52 +17,10 @@ Classes
 
 .. autoapisummary::
 
-   statisfactory.session.session._CatalogTemplateParser
    statisfactory.session.session.Session
    statisfactory.session.session._DefaultHooks
 
 
-
-
-.. py:class:: _CatalogTemplateParser(template)
-
-   Bases: :py:obj:`string.Template`
-
-   Template for the Catalog.
-
-   Override the default template to :
-       * disallow interpolation of non braced values.
-       * Allow the . syntax to namespace the templated values
-
-   .. py:attribute:: delimiter
-      :annotation: = $
-
-      
-
-   .. py:attribute:: pattern
-      :annotation: = Multiline-String
-
-       .. raw:: html
-
-           <details><summary>Show Value</summary>
-
-       .. code-block:: text
-           :linenos:
-
-           
-               \$(?:
-                 (?P<escaped>\$) |
-                 {(?P<named>[_a-z\.][\._a-z0-9]*)} |
-                 {(?P<braced>[_a-z\.][\._a-z0-9]*)} |
-                 (?P<invalid>)
-               )
-               
-
-       .. raw:: html
-
-           </details>
-
-      
 
 
 .. py:class:: Session(*, root_folder: str = None)
@@ -123,7 +81,7 @@ Classes
       Getter for the session's base setting.
 
 
-   .. py:method:: catalog(self)
+   .. py:method:: catalog(self) -> statisfactory.IO.Catalog
       :property:
 
       Getter for the session's catalog.

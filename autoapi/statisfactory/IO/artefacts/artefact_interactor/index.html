@@ -445,6 +445,11 @@
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor._dispatch">
+         _dispatch
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor.interactors">
          interactors
         </a>
@@ -714,19 +719,29 @@ See PEP-487 for details.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor._dispatch">
+<span class="sig-name descname"><span class="pre">_dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor._dispatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatch the variadic arguments the callable.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>callable (Callable): The callable to dispatch arguments to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor.interactors">
 <em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">interactors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor.interactors" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor.load">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the underlying asset.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor.save">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor.save" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the underlying asset.</p>
 </dd></dl>
 
@@ -739,7 +754,7 @@ See PEP-487 for details.</p>
 <p>Extend the Artefact Interactor with Path interpolations</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor._put">
-<span class="sig-name descname"><span class="pre">_put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor._put" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor._put" title="Permalink to this definition">¶</a></dt>
 <dd><p>Put the payload to the URI</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>payload (BytesIO): The payload encoded as BytesIO to push.</p>
@@ -749,7 +764,7 @@ See PEP-487 for details.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor._get">
-<span class="sig-name descname"><span class="pre">_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor._get" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor._get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a payload from the URI</p>
 </dd></dl>
 
@@ -762,7 +777,7 @@ See PEP-487 for details.</p>
 <p>Concrete implementation of a csv interactor</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.CSVInteractor.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.CSVInteractor.load" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.CSVInteractor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse ‘path’ as a pandas dataframe and return it</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>pd.DataFrame: the parsed dataframe</p>
@@ -772,7 +787,7 @@ See PEP-487 for details.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.CSVInteractor.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.DataFrame</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.Series</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.CSVInteractor.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.DataFrame</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.Series</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.CSVInteractor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the ‘data’ dataframe as csv.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>data (pandas.DataFrame): the dataframe to be saved</p>
@@ -789,7 +804,7 @@ See PEP-487 for details.</p>
 <p>Concrete implementation of an XLSX interactor</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.XLSXInteractor.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.XLSXInteractor.load" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.XLSXInteractor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse ‘path’ as a pandas dataframe and return it</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>pd.DataFrame: the parsed dataframe</p>
@@ -799,7 +814,7 @@ See PEP-487 for details.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.XLSXInteractor.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.DataFrame</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.Series</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.XLSXInteractor.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.DataFrame</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.Series</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.XLSXInteractor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the ‘data’ dataframe as csv.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>data (pandas.DataFrame): the dataframe to be saved</p>
@@ -816,7 +831,7 @@ See PEP-487 for details.</p>
 <p>Concrete implementation of a Pickle interactor.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.PicklerInteractor.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.PicklerInteractor.load" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.PicklerInteractor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unserialize the object located at ‘path’</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>Any: the unpickled object</p>
@@ -826,7 +841,7 @@ See PEP-487 for details.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.PicklerInteractor.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.PicklerInteractor.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.PicklerInteractor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Serialize the ‘asset’</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>asset (Any ): the artefact to be saved</p>
@@ -856,7 +871,7 @@ TODO : implements the saving strategy</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.ODBCInteractor.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ODBCInteractor.load" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ODBCInteractor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse ‘path’ as a pandas dataframe and return it</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>pd.DataFrame: the parsed dataframe</p>
@@ -866,7 +881,7 @@ TODO : implements the saving strategy</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.ODBCInteractor.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ODBCInteractor.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.ODBCInteractor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the underlying asset.</p>
 </dd></dl>
 
@@ -879,7 +894,7 @@ TODO : implements the saving strategy</p>
 <p>Implements saving / loading for datapane object.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.DatapaneInteractor.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.DatapaneInteractor.load" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.DatapaneInteractor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Not implemented since I don’t want a report to be altered as for now­</p>
 <dl class="simple">
 <dt>Raises:</dt><dd><p>NotImplementedErrord</p>
@@ -889,7 +904,7 @@ TODO : implements the saving strategy</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.DatapaneInteractor.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">datapane.Report</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.DatapaneInteractor.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">datapane.Report</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.DatapaneInteractor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a datapane assert</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>artefact (dp.Report): the datapane report object to be saved.
@@ -909,13 +924,13 @@ open (bool): whether open the report on saving.</p>
 <p>Implements saving / loading for binary raw object</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor.load" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the content of a binary artefact.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor.save" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save a datapane assert</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>artefact (Any): the binary content to write</p>

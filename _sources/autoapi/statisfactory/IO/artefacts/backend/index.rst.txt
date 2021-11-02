@@ -60,7 +60,7 @@ Classes
           Map[str, Type[Backend]]: A mapping of prefixes associated with their respectives backend.
 
 
-   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult, **kwargs)
       :abstractmethod:
 
       Drop the payload to the service under the 'path' name.
@@ -70,7 +70,7 @@ Classes
           fragment (ParseResult): The Artefact's path parsed result to use to put the payload to.
 
 
-   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
       :abstractmethod:
 
       Get the payload from the service under the 'path' name.
@@ -94,7 +94,7 @@ Classes
           bucket (str): The bucket's name to create.
 
 
-   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult, **kwargs)
 
       Drop the payload to S3 using the data from the Fragment
 
@@ -103,7 +103,7 @@ Classes
           fragment (ParseResult): The Artefact's path parsed result.
 
 
-   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
 
       Get the payload from the service under the 'path' name.
 
@@ -126,7 +126,7 @@ Classes
           path (Path): the path to create the parent from
 
 
-   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult, **kwargs)
 
       Drop the payload to the file system using the data from the Fragment
 
@@ -135,7 +135,7 @@ Classes
           fragment (ParseResult): The Artefact's path parsed result.
 
 
-   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
 
       Get the payload from the service under the 'path' name.
 
@@ -168,7 +168,7 @@ Classes
           str: The current branch name to use in LakeFS
 
 
-   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult, **kwargs)
 
       Drop the payload to the file system using the data from the Fragment
 
@@ -177,12 +177,16 @@ Classes
           fragment (ParseResult): The Artefact's path parsed result.
 
 
-   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, lake_ref: str = None, **kwargs) -> bytes
 
       Get the payload from the service under the 'path' name.
 
       Args:
           fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+          lake_ref (str, optional): An optional commit / branch / lake ref to fetch the data from. Defaults to the current gitted branch.
+
+      Returns:
+          bytes: The payload fetched from lakefs
 
 
 

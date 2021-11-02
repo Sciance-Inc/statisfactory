@@ -111,7 +111,7 @@ Classes
       Getter for the session's base setting.
 
 
-   .. py:method:: catalog(self)
+   .. py:method:: catalog(self) -> statisfactory.IO.Catalog
       :property:
 
       Getter for the session's catalog.

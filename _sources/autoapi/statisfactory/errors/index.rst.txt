@@ -151,7 +151,7 @@ Attributes
       
 
    .. py:attribute:: E0201
-      :annotation: = data interactor: there is already a backend name registered for the '{prefx}'s prefix.
+      :annotation: = data interactor: there is already a backend name registered for the '{prefix}'s prefix.
 
       
 
@@ -232,6 +232,11 @@ Attributes
 
    .. py:attribute:: E032
       :annotation: = catalog : the '{name}' connector does not exists
+
+      
+
+   .. py:attribute:: E033
+      :annotation: = catalog : duplicated key. The '{key}' {type} key is defined in at least two catalogs
 
       
 

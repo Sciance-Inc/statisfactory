@@ -478,6 +478,11 @@
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.ArtefactInteractor._dispatch">
+         _dispatch
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.ArtefactInteractor.interactors">
          interactors
         </a>
@@ -499,6 +504,11 @@
        Catalog
       </a>
       <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.Catalog.make">
+         make
+        </a>
+       </li>
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.Catalog.__str__">
          __str__
@@ -534,6 +544,16 @@
          save
         </a>
        </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.Catalog.__add__">
+         __add__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.Catalog.visit_catalog">
+         visit_catalog
+        </a>
+       </li>
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -561,6 +581,11 @@
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.Pipeline.name">
          name
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.Pipeline.crafts">
+         crafts
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -955,19 +980,29 @@ See PEP-487 for details.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.ArtefactInteractor._dispatch">
+<span class="sig-name descname"><span class="pre">_dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.ArtefactInteractor._dispatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dispatch the variadic arguments the callable.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>callable (Callable): The callable to dispatch arguments to.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.ArtefactInteractor.interactors">
 <em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">interactors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.ArtefactInteractor.interactors" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.ArtefactInteractor.load">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.ArtefactInteractor.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.ArtefactInteractor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the underlying asset.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.ArtefactInteractor.save">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.ArtefactInteractor.save" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.ArtefactInteractor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the underlying asset.</p>
 </dd></dl>
 
@@ -978,6 +1013,19 @@ See PEP-487 for details.</p>
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.</span></span><span class="sig-name descname"><span class="pre">Catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dump</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.Catalog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
 <p>Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.Catalog.make">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">make</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#statisfactory.Catalog" title="statisfactory.Catalog"><span class="pre">Catalog</span></a></span></span><a class="headerlink" href="#statisfactory.Catalog.make" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a new catalog from a Jinja / Yml source and interpolate static values from the session’s setting.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>path (Path): The path to the source file to load the catalog from
+session (Session): The session to use to render the template</p>
+</dd>
+<dt>Returns:</dt><dd><p>Catalog: A catalog object</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.Catalog.__str__">
 <span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.Catalog.__str__" title="Permalink to this definition">¶</a></dt>
@@ -1037,6 +1085,28 @@ asset (Any): the underlying artefact to store</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.Catalog.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.Catalog.__add__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the visitor pattern for the catalog</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>other (Any): The right object to add</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.Catalog.visit_catalog">
+<span class="sig-name descname"><span class="pre">visit_catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.Catalog" title="statisfactory.Catalog"><span class="pre">Catalog</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#statisfactory.Catalog" title="statisfactory.Catalog"><span class="pre">Catalog</span></a></span></span><a class="headerlink" href="#statisfactory.Catalog.visit_catalog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the visitor pattern for the catalog. Combining two catalogs results in a merged catalog.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>other (Catalog): The other catalogi to combine with</p>
+</dd>
+<dt>Raise:</dt><dd><p>Errors.E033: if two artifacts / connectors key collide.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -1064,7 +1134,13 @@ asset (Any): the underlying artefact to store</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.Pipeline.name">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.Pipeline.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Craft’s name getter.</p>
+<dd><p>Pipeline’s name getter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.Pipeline.crafts">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">crafts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="operator/craft/index.html#statisfactory.operator.craft._Craft" title="statisfactory.operator.craft._Craft"><span class="pre">statisfactory.operator.craft._Craft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.Pipeline.crafts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crafts getter</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1104,12 +1180,10 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.Pipeline.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespaced</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">shared</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.Pipeline.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Concretely run a Pipeline with two Mapping of parameters.
-A ‘shared’ mapping, to be dispatched to all the crafts executed, a ‘namespaced’ holding optionnal mappings per crafts to be dispatched to their craft.</p>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">shared</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.Pipeline.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concretely run a Pipeline with two Mapping of parameters.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
-namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.</p>
+<dt>Args:</dt><dd><p>kwargs (Optional[Dict[str, any]]): An optionnal mapping containings configuration to be shared and namespaced configuration to be dispatched to the craft.The __call__ method uses the FQN of a craft to accordingly dispatch the configurations.</p>
 </dd>
 <dt>Returns:</dt><dd><p>Dict[str, Any]: the final transient state resultuing from the craft application</p>
 </dd>
@@ -1298,7 +1372,7 @@ Must be called from a <cite>with</cite> statement</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.Session.catalog">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.Session.catalog" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="IO/index.html#statisfactory.IO.Catalog" title="statisfactory.IO.Catalog"><span class="pre">statisfactory.IO.Catalog</span></a></span></span><a class="headerlink" href="#statisfactory.Session.catalog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Getter for the session’s catalog.</p>
 </dd></dl>
 

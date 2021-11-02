@@ -32,8 +32,8 @@ Classes
 .. autoapisummary::
 
    statisfactory.IO.ArtefactInteractor
-   statisfactory.IO.MixinInterpolable
    statisfactory.IO.Backend
+   statisfactory.IO.MixinInterpolable
    statisfactory.IO.Catalog
    statisfactory.IO.Artefact
    statisfactory.IO.Volatile
@@ -64,30 +64,28 @@ Classes
       See PEP-487 for details.
 
 
+   .. py:method:: _dispatch(self, callable: Callable, **kwargs) -> Dict[str, Any]
+
+      Dispatch the variadic arguments the callable.
+
+      Args:
+          callable (Callable): The callable to dispatch arguments to.
+
+
    .. py:method:: interactors(cls)
       :classmethod:
 
 
-   .. py:method:: load(self, *args, **kwargs) -> Any
+   .. py:method:: load(self, **kwargs) -> Any
       :abstractmethod:
 
       Return the underlying asset.
 
 
-   .. py:method:: save(self, *args, asset: Any, **kwargs)
+   .. py:method:: save(self, asset: Any, **kwargs)
       :abstractmethod:
 
       Save the underlying asset.
-
-
-
-.. py:class:: MixinInterpolable(*args, **kwargs)
-
-   Implements helpers to interpolate a string
-
-   .. py:method:: _interpolate_string(self, string, **kwargs)
-
-      Interpolate a given string using the provided context
 
 
 
@@ -126,7 +124,7 @@ Classes
           Map[str, Type[Backend]]: A mapping of prefixes associated with their respectives backend.
 
 
-   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult)
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult, **kwargs)
       :abstractmethod:
 
       Drop the payload to the service under the 'path' name.
@@ -136,7 +134,7 @@ Classes
           fragment (ParseResult): The Artefact's path parsed result to use to put the payload to.
 
 
-   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult) -> bytes
+   .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
       :abstractmethod:
 
       Get the payload from the service under the 'path' name.
@@ -146,11 +144,34 @@ Classes
 
 
 
+.. py:class:: MixinInterpolable(*args, **kwargs)
+
+   Implements helpers to interpolate a string
+
+   .. py:method:: _interpolate_string(self, string, **kwargs)
+
+      Interpolate a given string using the provided context
+
+
+
 .. py:class:: Catalog(*, dump: str, session: statisfactory.session.Session = None)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`
 
    Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
+
+   .. py:method:: make(path: pathlib.Path, session: statisfactory.session.Session) -> Catalog
+      :staticmethod:
+
+      Make a new catalog from a Jinja / Yml source and interpolate static values from the session's setting.
+
+      Args:
+          path (Path): The path to the source file to load the catalog from
+          session (Session): The session to use to render the template
+
+      Returns:
+          Catalog: A catalog object
+
 
    .. py:method:: __str__(self)
 
@@ -199,6 +220,25 @@ Classes
       Args:
           name (str): the name of the arteface
           asset (Any): the underlying artefact to store
+
+
+   .. py:method:: __add__(self, other: Any)
+
+      Implements the visitor pattern for the catalog
+
+      Args:
+          other (Any): The right object to add
+
+
+   .. py:method:: visit_catalog(self, other: Catalog) -> Catalog
+
+      Implements the visitor pattern for the catalog. Combining two catalogs results in a merged catalog.
+
+      Args:
+          other (Catalog): The other catalogi to combine with
+
+      Raise:
+          Errors.E033: if two artifacts / connectors key collide.
 
 
 

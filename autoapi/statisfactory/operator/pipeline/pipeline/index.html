@@ -411,6 +411,11 @@
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.pipeline.pipeline.Pipeline.crafts">
+         crafts
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.operator.pipeline.pipeline.Pipeline.plot">
          plot
         </a>
@@ -498,7 +503,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.pipeline.pipeline.Pipeline.name">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.pipeline.pipeline.Pipeline.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Craft’s name getter.</p>
+<dd><p>Pipeline’s name getter.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.operator.pipeline.pipeline.Pipeline.crafts">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">crafts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../../craft/index.html#statisfactory.operator.craft._Craft" title="statisfactory.operator.craft._Craft"><span class="pre">statisfactory.operator.craft._Craft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.pipeline.pipeline.Pipeline.crafts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crafts getter</p>
 </dd></dl>
 
 <dl class="py method">
@@ -538,12 +549,10 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.pipeline.pipeline.Pipeline.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespaced</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">shared</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.pipeline.pipeline.Pipeline.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Concretely run a Pipeline with two Mapping of parameters.
-A ‘shared’ mapping, to be dispatched to all the crafts executed, a ‘namespaced’ holding optionnal mappings per crafts to be dispatched to their craft.</p>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">shared</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.pipeline.pipeline.Pipeline.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concretely run a Pipeline with two Mapping of parameters.</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>shared (Union[None, Dict[str, Any]]): A dictionnary of parameters to dispatch to all the Crafts.
-namespaced (Union[None, Dict[str, Dict[str, Any]]]): A dictionnary of parameters namesapced dispatch to specific crafts.</p>
+<dt>Args:</dt><dd><p>kwargs (Optional[Dict[str, any]]): An optionnal mapping containings configuration to be shared and namespaced configuration to be dispatched to the craft.The __call__ method uses the FQN of a craft to accordingly dispatch the configurations.</p>
 </dd>
 <dt>Returns:</dt><dd><p>Dict[str, Any]: the final transient state resultuing from the craft application</p>
 </dd>
