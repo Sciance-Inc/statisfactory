@@ -166,3 +166,11 @@ def test_propagating_configuration_to_backend(custom_sess):
         spam(spam=1, args_holder=args_holder)
 
     assert args_holder == [{"spam": 1}, {"spam": 1}]
+
+
+def test_will_fail(sess):
+    """
+    Test the execution of a craft with a default keyword arg and a provided value
+    """
+
+    assert 1 == 2
