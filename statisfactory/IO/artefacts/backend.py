@@ -365,7 +365,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
                 repository=repo, ref=branch, path=path
             )
         except BaseException as error:
-            raise Errors.E0290(backend="LakeFSBackend") from error  # type: ignore
+            raise Errors.E0291(backend="LakeFSBackend") from error  # type: ignore
 
         return payload.read()
 
