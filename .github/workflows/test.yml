@@ -44,9 +44,9 @@ jobs:
     
     - name: Microsoft Teams Notification
       uses: skitionek/notify-microsoft-teams@master
-      if: success()
+      if: faillure()
       with:
         webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
-          needs: ${{ toJson(needs) }}
-          job: ${{ toJson(job) }}
-          steps: ${{ toJson(steps) }}
+        needs: ${{ toJson(needs) }}
+        job: ${{ toJson(job) }}
+        steps: ${{ toJson(steps) }}
