@@ -42,3 +42,8 @@ jobs:
         name: coverage-${{ matrix.python-version }}
         fail_ci_if_error: false
     
+    - name: Microsoft Teams Notification
+      uses: skitionek/notify-microsoft-teams@master
+      if: failure()
+      with:
+        webhook_url: ${{ secrets.MSTEAMS

@@ -44,6 +44,12 @@ jobs:
       uses: jamescurtin/isort-action@master
       with:
        configuration: ""
+
+    - name: Microsoft Teams Notification
+      uses: skitionek/notify-microsoft-teams@master
+      if: failure()
+      with:
+        webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
     
     
   

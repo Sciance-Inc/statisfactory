@@ -20,3 +20,9 @@ jobs:
       env:
         TOKEN: ${{ secrets.PAT_CSSVDC }}
       run: git push https://$TOKEN@dev.azure.com:/CSSVDC-IA/IA2021/_git/statisfactory/ --follow-tags
+
+    - name: Microsoft Teams Notification
+      uses: skitionek/notify-microsoft-teams@master
+      if: failure()
+      with:
+        webhook_url: ${{ secrets.MSTEAMS_WEBHOOK }}
