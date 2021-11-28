@@ -17,6 +17,7 @@
 from pathlib import Path
 
 import pytest
+import pandas as pd
 
 from statisfactory import Catalog, Session
 from statisfactory.IO import Backend
@@ -165,3 +166,19 @@ def test_read_with_backend(custom_sess):
 
     assert flag_holder[1]
     assert flag_holder[0]
+
+
+def test_feather_serialisation(catalog: Catalog):
+    """
+    Test the write of a feather format
+    """
+
+    df = pd.DataFrame({"a": [1, 2]})
+
+    # Serialize to feather
+    catalog.save(name="test_feather", asset=df)
+
+    # Retrieve from feather
+    out = catalog.load("test_feather")
+
+    assert df.equals(out)
