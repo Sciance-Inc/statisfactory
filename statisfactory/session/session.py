@@ -313,7 +313,7 @@ class _DefaultHooks:
             for item in (Path(g) for g in glob.glob(str(files))):
                 if item.name.startswith("locals") or item.name.startswith("globals"):
                     config_files[item.stem].add(str(item.resolve()))
-                    sess.info("Adding '{item.stem}' to catalogs definitions.")
+                    sess.info(f"Adding '{item.stem}' to catalogs definitions.")
 
         for target, w in targets.items():
             if not config_files[target]:
