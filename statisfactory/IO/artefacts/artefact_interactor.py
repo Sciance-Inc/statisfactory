@@ -29,8 +29,9 @@ from typing import TYPE_CHECKING, Any, Callable, Dict, Union
 from urllib.parse import urlparse
 
 import datapane as dp  # type: ignore
+import pyarrow.feather as feather
 
-# third party
+
 import pandas as pd  # type: ignore
 import pyodbc  # type: ignore
 
@@ -442,7 +443,7 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
         self.debug(f"saving 'pickle' : {self.name}")
 
         # Combine the save options with the variadics ones
-        options = {**self._load_options, **kwargs}
+        options = {**self._save_options, **kwargs}
         options = self._dispatch(pickle.dumps, **options)
 
         try:
@@ -633,6 +634,63 @@ class BinaryInteractor(FileBasedInteractor, interactor_name="binary"):
             self._put(payload=asset, **kwargs)
         except BaseException as error:
             raise Errors.E022(method="binary", name=self.name) from error  # type: ignore
+
+
+class FeatherInteractor(FileBasedInteractor, interactor_name="feather"):
+    """
+    Implements saving / loading for feather serialized object.
+    Please : read https://arrow.apache.org/docs/python/feather.html to get a grasp of the Feather format.
+
+    """
+
+    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+        """
+        Return a new Feather Interactor.
+        """
+
+        super().__init__(artefact, *args, session=session, **kwargs)
+
+    def load(self, **kwargs):
+        """
+        Return the content of a feather artefact.
+        """
+
+        self.debug(f"loading 'feather' : {self.name}")
+
+        payload = self._get(**kwargs)
+
+        # Combine the load options with the variadics ones
+        options = {**self._load_options, **kwargs}
+        options = self._dispatch(feather.read_feather, **options)
+
+        try:
+            obj = feather.read_feather(BytesIO(payload), **options)
+        except BaseException as err:
+            raise Errors.E021(method="feather", name=self.name) from err  # type: ignore
+
+        return obj
+
+    def save(self, asset: Union[pd.DataFrame, pd.Series], **kwargs):
+        """
+        Save a Feather asset
+
+        Args:
+            artefact Union[pd.DataFrame, pd.Series]: the dataframe content to write
+        """
+
+        self.debug(f"saving 'feather' : {self.name}")
+
+        # Combine the save options with the variadics ones
+        options = {**self._save_options, **kwargs}
+        options = self._dispatch(feather.write_feather, **options)
+
+        buffer = BytesIO()
+
+        try:
+            feather.write_feather(asset, buffer, **options)
+            self._put(payload=buffer.getvalue(), **kwargs)
+        except BaseException as error:
+            raise Errors.E022(method="feather", name=self.name) from error  # type: ignore
 
 
 #############################################################################

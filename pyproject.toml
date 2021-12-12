@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "statisfactory"
-version = "0.3.0-rc0"
+version = "0.3.0"
 description = "A Satisfying Statistical Factory"
 authors = ["hugo juhel"]
 
@@ -24,6 +24,7 @@ graphviz = "^0.17"
 openpyxl = "^3.0.9"
 Jinja2 = "^3.0.2"
 datapane = "^0.12.3"
+pyarrow = "<6.0.0"
 
 [tool.poetry.dev-dependencies]
 black = "^21.4b2"

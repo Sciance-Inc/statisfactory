@@ -67,6 +67,14 @@ class Volatile:
 
     name: str
 
+    @staticmethod
+    def of(*args) -> List["Volatile"]:
+        """
+        Convenient helper to return a tuple of volatile from an iterable of strings.
+        """
+
+        return [Volatile(i) for i in args]
+
 
 @dataclass
 class Artefact:
@@ -75,12 +83,21 @@ class Artefact:
     """
 
     name: str
-    type: str = None
+    type: str = ""
     path: Optional[str] = None
+    description: Optional[str] = ""
     connector: Optional[Connector] = None
     query: Optional[str] = None
     save_options: Optional[Dict] = field(default_factory=dict)
     load_options: Optional[Dict] = field(default_factory=dict)
+
+    @staticmethod
+    def of(*args) -> List["Artefact"]:
+        """
+        Convenient helper to return a tuple of Artefact from an iterable of strings.
+        """
+
+        return [Artefact(i) for i in args]
 
     def __post_init__(self):
         """

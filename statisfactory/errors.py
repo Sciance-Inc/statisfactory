@@ -128,8 +128,8 @@ class Errors(metaclass=ExceptionFactory):
     E027 = "data interactor : only not-null string can be interpolated"
     E028 = "data interactor : string '{trg}' is incomplettely formatted, missing parameters from context"
     E0281 = "data interactor: failed to parse the Path parameter for Artifact {name}."
-    E0290 = "data interactor : {backend} failed to write the payload."
-    E0291 = "data interactor : {backend} failed to fetch the payload."
+    E0290 = "data interactor : {backend} failed to serialize or write the payload."
+    E0291 = "data interactor : {backend} failed to fetch or deserialize the payload."
     E0292 = "data interactor : scheme {scheme} does not map to any backend."
     E0293 = "data interactor : LakeFS interactor : the branch's name must match match the regex {regex}."
 

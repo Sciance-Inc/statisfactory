@@ -309,16 +309,19 @@ class LakeFSBackend(Backend, prefix="lakefs"):
 
         return branch
 
-    def put(self, *, payload: bytes, fragment: ParseResult, **kwargs):
+    def put(
+        self, *, payload: bytes, fragment: ParseResult, lake_ref: str = None, **kwargs
+    ):
         """
         Drop the payload to the file system using the data from the Fragment
 
         Args:
             payload (bytes): The bytes representation of the artifact to drop on the backend.
             fragment (ParseResult): The Artefact's path parsed result.
+            lake_ref (str, optional): An optional commit / branch / lake ref to put the data to. Defaults to the current gitted branch.
         """
 
-        branch = self._get_current_branch_name()
+        branch = lake_ref or self._get_current_branch_name()
         self._create_branch(branch)
 
         # Get the path and maybe remove specific left / as lake object shcould not be prefixed
@@ -362,7 +365,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
                 repository=repo, ref=branch, path=path
             )
         except BaseException as error:
-            raise Errors.E0290(backend="LakeFSBackend") from error  # type: ignore
+            raise Errors.E0291(backend="LakeFSBackend") from error  # type: ignore
 
         return payload.read()
 
