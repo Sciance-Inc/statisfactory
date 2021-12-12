@@ -569,6 +569,11 @@
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.description">
+         description
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.connector">
          connector
         </a>
@@ -589,6 +594,11 @@
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.of">
+         of
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.IO.Artefact.__post_init__">
          __post_init__
         </a>
@@ -603,6 +613,11 @@
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.IO.Volatile.name">
          name
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.Volatile.of">
+         of
         </a>
        </li>
       </ul>
@@ -908,12 +923,17 @@ asset (Any): the underlying artefact to store</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.IO.Artefact.type">
-<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">:str</span> <span class="pre">=</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.IO.Artefact.path">
 <span class="sig-name descname"><span class="pre">path</span></span><em class="property"> <span class="pre">:Optional[str]</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"> <span class="pre">:Optional[str]</span> <span class="pre">=</span></em><a class="headerlink" href="#statisfactory.IO.Artefact.description" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -937,6 +957,12 @@ asset (Any): the underlying artefact to store</p>
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Artefact.of">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.IO.Artefact" title="statisfactory.IO.Artefact"><span class="pre">Artefact</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.Artefact.of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenient helper to return a tuple of Artefact from an iterable of strings.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.Artefact.__post_init__">
 <span class="sig-name descname"><span class="pre">__post_init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.Artefact.__post_init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transform the marshmalling’s list-of-dicts to a dict</p>
@@ -952,6 +978,12 @@ asset (Any): the underlying artefact to store</p>
 <dt class="sig sig-object py" id="statisfactory.IO.Volatile.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.Volatile.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.Volatile.of">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.IO.Volatile" title="statisfactory.IO.Volatile"><span class="pre">Volatile</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.Volatile.of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenient helper to return a tuple of volatile from an iterable of strings.</p>
+</dd></dl>
 
 </dd></dl>
 

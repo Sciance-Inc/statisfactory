@@ -168,13 +168,14 @@ Classes
           str: The current branch name to use in LakeFS
 
 
-   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult, **kwargs)
+   .. py:method:: put(self, *, payload: bytes, fragment: urllib.parse.ParseResult, lake_ref: str = None, **kwargs)
 
       Drop the payload to the file system using the data from the Fragment
 
       Args:
           payload (bytes): The bytes representation of the artifact to drop on the backend.
           fragment (ParseResult): The Artefact's path parsed result.
+          lake_ref (str, optional): An optional commit / branch / lake ref to put the data to. Defaults to the current gitted branch.
 
 
    .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, lake_ref: str = None, **kwargs) -> bytes

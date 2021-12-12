@@ -201,12 +201,12 @@ Attributes
       
 
    .. py:attribute:: E0290
-      :annotation: = data interactor : {backend} failed to write the payload.
+      :annotation: = data interactor : {backend} failed to serialize or write the payload.
 
       
 
    .. py:attribute:: E0291
-      :annotation: = data interactor : {backend} failed to fetch the payload.
+      :annotation: = data interactor : {backend} failed to fetch or deserialize the payload.
 
       
 

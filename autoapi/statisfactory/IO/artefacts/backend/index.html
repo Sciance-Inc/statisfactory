@@ -712,11 +712,12 @@ fragment (ParseResult): The Artefact’s path parsed result.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artefacts.backend.LakeFSBackend.put">
-<span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">urllib.parse.ParseResult</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.backend.LakeFSBackend.put" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">urllib.parse.ParseResult</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lake_ref</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.backend.LakeFSBackend.put" title="Permalink to this definition">¶</a></dt>
 <dd><p>Drop the payload to the file system using the data from the Fragment</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>payload (bytes): The bytes representation of the artifact to drop on the backend.
-fragment (ParseResult): The Artefact’s path parsed result.</p>
+fragment (ParseResult): The Artefact’s path parsed result.
+lake_ref (str, optional): An optional commit / branch / lake ref to put the data to. Defaults to the current gitted branch.</p>
 </dd>
 </dl>
 </dd></dl>

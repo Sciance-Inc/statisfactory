@@ -590,6 +590,23 @@
        </li>
       </ul>
      </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor">
+       FeatherInteractor
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor.load">
+         load
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor.save">
+         save
+        </a>
+       </li>
+      </ul>
+     </li>
     </ul>
    </li>
   </ul>
@@ -647,6 +664,9 @@
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor" title="statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BinaryInteractor</span></code></a></p></td>
 <td><p>Implements saving / loading for binary raw object</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor" title="statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FeatherInteractor</span></code></a></p></td>
+<td><p>Implements saving / loading for feather serialized object.</p></td>
 </tr>
 </tbody>
 </table>
@@ -934,6 +954,30 @@ open (bool): whether open the report on saving.</p>
 <dd><p>Save a datapane assert</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>artefact (Any): the binary content to write</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artefacts.artefact_interactor.</span></span><span class="sig-name descname"><span class="pre">FeatherInteractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artefact</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor" title="statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FileBasedInteractor</span></code></a></p>
+<p>Implements saving / loading for feather serialized object.
+Please : read <a class="reference external" href="https://arrow.apache.org/docs/python/feather.html">https://arrow.apache.org/docs/python/feather.html</a> to get a grasp of the Feather format.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the content of a feather artefact.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">pandas.DataFrame</span><span class="p"><span class="pre">,</span> </span><span class="pre">pandas.Series</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a Feather asset</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>artefact Union[pd.DataFrame, pd.Series]: the dataframe content to write</p>
 </dd>
 </dl>
 </dd></dl>

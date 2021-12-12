@@ -436,6 +436,11 @@
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.Artefact.description">
+         description
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.Artefact.connector">
          connector
         </a>
@@ -453,6 +458,11 @@
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.Artefact.load_options">
          load_options
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.Artefact.of">
+         of
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -527,6 +537,11 @@
        <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.Volatile.name">
          name
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.Volatile.of">
+         of
         </a>
        </li>
       </ul>
@@ -881,12 +896,17 @@
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.Artefact.type">
-<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.Artefact.type" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"> <span class="pre">:str</span> <span class="pre">=</span></em><a class="headerlink" href="#statisfactory.Artefact.type" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.Artefact.path">
 <span class="sig-name descname"><span class="pre">path</span></span><em class="property"> <span class="pre">:Optional[str]</span></em><a class="headerlink" href="#statisfactory.Artefact.path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.Artefact.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"> <span class="pre">:Optional[str]</span> <span class="pre">=</span></em><a class="headerlink" href="#statisfactory.Artefact.description" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -908,6 +928,12 @@
 <dt class="sig sig-object py" id="statisfactory.Artefact.load_options">
 <span class="sig-name descname"><span class="pre">load_options</span></span><em class="property"> <span class="pre">:Optional[Dict]</span></em><a class="headerlink" href="#statisfactory.Artefact.load_options" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.Artefact.of">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.Artefact" title="statisfactory.Artefact"><span class="pre">Artefact</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.Artefact.of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenient helper to return a tuple of Artefact from an iterable of strings.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.Artefact.__post_init__">
@@ -1026,6 +1052,12 @@ asset (Any): the underlying artefact to store</p>
 <dt class="sig sig-object py" id="statisfactory.Volatile.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.Volatile.name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.Volatile.of">
+<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">of</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.Volatile" title="statisfactory.Volatile"><span class="pre">Volatile</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.Volatile.of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenient helper to return a tuple of volatile from an iterable of strings.</p>
+</dd></dl>
 
 </dd></dl>
 

@@ -252,12 +252,17 @@ Classes
       
 
    .. py:attribute:: type
-      :annotation: :str
+      :annotation: :str = 
 
       
 
    .. py:attribute:: path
       :annotation: :Optional[str]
+
+      
+
+   .. py:attribute:: description
+      :annotation: :Optional[str] = 
 
       
 
@@ -281,6 +286,12 @@ Classes
 
       
 
+   .. py:method:: of(*args) -> List[Artefact]
+      :staticmethod:
+
+      Convenient helper to return a tuple of Artefact from an iterable of strings.
+
+
    .. py:method:: __post_init__(self)
 
       Transform the marshmalling's list-of-dicts to a dict
@@ -295,5 +306,11 @@ Classes
       :annotation: :str
 
       
+
+   .. py:method:: of(*args) -> List[Volatile]
+      :staticmethod:
+
+      Convenient helper to return a tuple of volatile from an iterable of strings.
+
 
 

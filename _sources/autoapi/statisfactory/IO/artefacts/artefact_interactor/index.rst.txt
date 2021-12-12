@@ -27,6 +27,7 @@ Classes
    statisfactory.IO.artefacts.artefact_interactor.ODBCInteractor
    statisfactory.IO.artefacts.artefact_interactor.DatapaneInteractor
    statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor
+   statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor
 
 
 
@@ -296,6 +297,28 @@ Classes
 
       Args:
           artefact (Any): the binary content to write
+
+
+
+.. py:class:: FeatherInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+
+   Bases: :py:obj:`FileBasedInteractor`
+
+   Implements saving / loading for feather serialized object.
+   Please : read https://arrow.apache.org/docs/python/feather.html to get a grasp of the Feather format.
+
+
+   .. py:method:: load(self, **kwargs)
+
+      Return the content of a feather artefact.
+
+
+   .. py:method:: save(self, asset: Union[pandas.DataFrame, pandas.Series], **kwargs)
+
+      Save a Feather asset
+
+      Args:
+          artefact Union[pd.DataFrame, pd.Series]: the dataframe content to write
 
 
 

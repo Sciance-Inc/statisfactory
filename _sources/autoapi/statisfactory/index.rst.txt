@@ -64,12 +64,17 @@ Functions
       
 
    .. py:attribute:: type
-      :annotation: :str
+      :annotation: :str = 
 
       
 
    .. py:attribute:: path
       :annotation: :Optional[str]
+
+      
+
+   .. py:attribute:: description
+      :annotation: :Optional[str] = 
 
       
 
@@ -92,6 +97,12 @@ Functions
       :annotation: :Optional[Dict]
 
       
+
+   .. py:method:: of(*args) -> List[Artefact]
+      :staticmethod:
+
+      Convenient helper to return a tuple of Artefact from an iterable of strings.
+
 
    .. py:method:: __post_init__(self)
 
@@ -195,6 +206,12 @@ Functions
       :annotation: :str
 
       
+
+   .. py:method:: of(*args) -> List[Volatile]
+      :staticmethod:
+
+      Convenient helper to return a tuple of volatile from an iterable of strings.
+
 
 
 .. py:function:: Craft()
