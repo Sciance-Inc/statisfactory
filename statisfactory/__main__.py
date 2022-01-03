@@ -19,11 +19,10 @@ from pathlib import Path
 
 # third party
 import click
-
-# project
-from statisfactory.cli import build_notebooks
 from dynaconf import Dynaconf, Validator
-from logger import get_module_logger
+
+from statisfactory.cli import build_notebooks
+from statisfactory.logger import get_module_logger
 
 #############################################################################
 #                                  Script                                   #
