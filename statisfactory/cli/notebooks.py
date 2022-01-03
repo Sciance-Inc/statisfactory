@@ -21,13 +21,12 @@ from itertools import accumulate
 from pathlib import Path
 from typing import List
 
-# project
-from logger import get_module_logger  # .logger
-
 # third party
 from nbconvert import PythonExporter
 from nbconvert.preprocessors import Preprocessor
 from traitlets.config import Config
+
+from statisfactory.logger import get_module_logger  # .logger
 
 #############################################################################
 #                                  Script                                   #
