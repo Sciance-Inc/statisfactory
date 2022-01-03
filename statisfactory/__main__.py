@@ -21,7 +21,7 @@ from pathlib import Path
 import click
 
 # project
-from cli import build_notebooks
+from statisfactory.cli import build_notebooks
 from dynaconf import Dynaconf, Validator
 from logger import get_module_logger
 
