@@ -54,6 +54,14 @@ Functions
 
 
 
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.__version__
+
+
 .. py:class:: Artefact
 
    Represents an Artefact : the I/O of a statisfactory node.
@@ -494,4 +502,9 @@ Functions
       Register a `callable_` to be executed after the session instanciation.
 
 
+
+.. py:data:: __version__
+   :annotation: = 0.3.0
+
+   
 
