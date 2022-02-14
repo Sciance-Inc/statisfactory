@@ -37,7 +37,9 @@ jobs:
       #   run: poetry install
 
       - name: Semantic Release
-        #run: poetry run semantic-release publish
+        env:
+          GH_TOKEN: ${{ secrets.CICD_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pip install python-semantic-release
           git config user.name github-actions
