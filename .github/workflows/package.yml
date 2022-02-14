@@ -39,7 +39,7 @@ jobs:
       - name: Semantic Release
         env:
           GH_TOKEN: ${{ secrets.razer_pat }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.razer_pat }}
         run: |
           pip install python-semantic-release
           git config user.name github-actions
