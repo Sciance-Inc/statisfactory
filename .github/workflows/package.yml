@@ -1,0 +1,39 @@
+name: package
+
+on:
+  workflow_run:
+    workflows: [Run tests]
+    branches: [master]
+    types:
+      - completed
+
+jobs:
+  deploy-packages:
+    runs-on: ubuntu-latest
+    # Only if the test workflow succeeded. Only for non chore(release) commits
+    if: ${{github.event.workflow_run.conclusion == 'success'}} && !contains(github.event.head_commit.message, 'chore(release):'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+
+      - name: Upgrade pip
+        run: python3 -m pip install --upgrade pip
+
+      - name: Install poetry
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: 1.1.12
+
+      - name: Prepare Poetry lock file
+        run: poetry lock
+
+      - name: Prepare the virtualenv
+        run: poetry install
+
+      - name: Semantic Release
+        run: poetry run semantic-release publish
