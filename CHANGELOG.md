@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.4 (2022-02-15)
+### Fix
+* Removing useless code ([`0fae3b5`](https://github.com/Sciance-Inc/statisfactory/commit/0fae3b520ccc8f2a3e3039bc1e63e26b66c32765))
+
 ## v0.3.3 (2022-02-15)
 ### Fix
 * Adding missing pull_request event ([`303c622`](https://github.com/Sciance-Inc/statisfactory/commit/303c6228365a2d88aea2b1bfec2e1a211bbe97fd))
