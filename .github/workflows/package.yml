@@ -4,17 +4,13 @@ on:
   push:
     branches:
       - master
-  #workflow_run:
-  #  workflows: [Run tests]
-  #  branches: [master]
-  #  types:
-  #    - completed
+  pull_request:
+    branches:
+      - master
 
 jobs:
   deploy-packages:
     runs-on: ubuntu-latest
-    # Only if the test workflow succeeded. Only for non chore(release) commits
-    #if: ${{github.event.workflow_run.conclusion == 'success'}} && !contains(github.event.head_commit.message, 'chore(release):')
     if: "!contains(github.event.head_commit.message, 'chore(release):')"
     steps:
       - name: Checkout repository
@@ -27,14 +23,6 @@ jobs:
 
       - name: Upgrade pip
         run: python3 -m pip install --upgrade pip
-
-      # - name: Install poetry
-      #   uses: abatilo/actions-poetry@v2.0.0
-      #   with:
-      #     poetry-version: 1.1.12
-
-      # - name: Prepare the virtualenv
-      #   run: poetry install
 
       - name: Python Semantic Release
         uses: relekang/python-semantic-release@master
