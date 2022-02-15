@@ -3,4 +3,4 @@ from statisfactory.operator import Craft, Pipeline, _Craft  # noqa
 from statisfactory.session import Session  # noqa
 
 
-__version__ = "0.3.2"
+__version__ = "0.3.3"
