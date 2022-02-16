@@ -17,7 +17,7 @@
 from pathlib import Path
 import pytest
 
-from statisfactory import Artefact, Craft, Session, Volatile
+from statisfactory import Artifact, Craft, Session, Volatile
 
 #############################################################################
 #                                 Packages                                  #
@@ -47,58 +47,61 @@ def test_building_chains_of_volatiles(sess):
     assert isinstance(B, Volatile) and B.name == "B"
 
 
-def test_building_chains_of_artefacts(sess):
+def test_building_chains_of_artifacts(sess):
     """
-    Test than an iterable if artefacts can be build using the 'of' method
+    Test than an iterable if artifacts can be build using the 'of' method
     """
 
-    A, B = Artefact.of("A", "B")
+    A, B = Artifact.of("A", "B")
 
-    assert isinstance(A, Artefact) and A.name == "A"
-    assert isinstance(B, Artefact) and B.name == "B"
+    assert isinstance(A, Artifact) and A.name == "A"
+    assert isinstance(B, Artifact) and B.name == "B"
+
 
 def test_chaining_from_crafts(sess):
     """
-    Tests that artefacts and volatilses formed by of can be used in the Craft's definition
+    Tests that artifacts and volatilses formed by of can be used in the Craft's definition
     """
 
     @Craft()
-    def foo() -> Volatile.of("A", 'B'):
+    def foo() -> Volatile.of("A", "B"):
         return 1, 2
 
     with sess:
         a, b = foo()
-    
+
     assert a == 1
     assert b == 2
+
 
 def test_chaining_in_pipeline(sess):
     """
     Tests that volatiles might be consistenly used in a pipeline definitio and that intercraft dependencies are correctly solved
-    """ 
+    """
 
     @Craft()
-    def foo() -> Volatile.of("A", 'B'):
+    def foo() -> Volatile.of("A", "B"):
         return 1, 2
 
     @Craft()
-    def spam(A : Volatile, B: Volatile) -> Volatile('c'):
+    def spam(A: Volatile, B: Volatile) -> Volatile("c"):
         return A + B
 
     with sess:
         out = (spam + foo)()
-    
-    assert out['c'] == 3
+
+    assert out["c"] == 3
+
 
 def test_combining_of_and_explicit(sess):
     """
-    Check that using the of syntax still supports explicit Volatile assignement 
+    Check that using the of syntax still supports explicit Volatile assignement
     """
 
     @Craft()
-    def foo() -> Volatile.of('a', 'b') + [Volatile('c')]:
+    def foo() -> Volatile.of("a", "b") + [Volatile("c")]:
         return 1, 2, 3
-    
+
     with sess:
         *_, c = foo()
 
@@ -107,13 +110,13 @@ def test_combining_of_and_explicit(sess):
 
 def test_combining_multiples_of(sess):
     """
-    Check that using the of syntax still supports adding two off generated lists  
+    Check that using the of syntax still supports adding two off generated lists
     """
 
     @Craft()
-    def foo() -> Volatile.of('a', 'b') + Volatile.of('c'):
+    def foo() -> Volatile.of("a", "b") + Volatile.of("c"):
         return 1, 2, 3
-    
+
     with sess:
         *_, c = foo()
 

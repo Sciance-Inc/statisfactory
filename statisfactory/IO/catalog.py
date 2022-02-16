@@ -22,9 +22,9 @@ from typing import TYPE_CHECKING, Any, Callable, Union
 import pandas as pd
 
 from statisfactory.errors import Errors
-from statisfactory.IO.artefacts.artefact_interactor import ArtefactInteractor
+from statisfactory.IO.artifacts.artifact_interactor import ArtifactInteractor
 
-from statisfactory.IO.models import Artefact, CatalogData, Connector
+from statisfactory.IO.models import Artifact, CatalogData, Connector
 from statisfactory.logger import MixinLogable
 
 from jinja2 import Template
@@ -90,30 +90,30 @@ class Catalog(MixinLogable):
 
     def __str__(self):
         """
-        Show all artefacts entries
+        Show all artifacts entries
         """
 
-        keys = sorted(self._data.artefacts.keys())
+        keys = sorted(self._data.artifacts.keys())
         msg = "\n\t- ".join(keys)
 
         return "Catalog entries :\n\t- " + msg
 
     def __contains__(self, name: str) -> bool:
         """
-        Check if the given name is an artefact
+        Check if the given name is an artifact
         """
 
-        return name in self._data.artefacts.keys()
+        return name in self._data.artifacts.keys()
 
-    def _get_connector(self, artefact: Artefact) -> Union[Connector, None]:
+    def _get_connector(self, artifact: Artifact) -> Union[Connector, None]:
         """
-        Retrieve the connector of an Artefact
+        Retrieve the connector of an Artifact
 
         Args:
-            artefact (Artefact): the artefact to extract the connector for
+            artifact (Artifact): the artifact to extract the connector for
         """
 
-        name = artefact.connector
+        name = artifact.connector
         conn = None
         if name:
 
@@ -127,27 +127,27 @@ class Catalog(MixinLogable):
 
         return conn
 
-    def _get_artefact(self, name: str) -> Artefact:
+    def _get_artifact(self, name: str) -> Artifact:
         """
-        Retrieve the FIRST artefact matching the given name currently living in the catalog.
+        Retrieve the FIRST artifact matching the given name currently living in the catalog.
         """
 
         try:
-            artefact = self._data.artefacts[name]
+            artifact = self._data.artifacts[name]
         except KeyError:
             raise Errors.E030(name=name)  # type: ignore
 
-        return artefact
+        return artifact
 
-    def _get_interactor(self, artefact: Artefact) -> Callable:
+    def _get_interactor(self, artifact: Artifact) -> Callable:
         """
-        Retrieve the interactor matchin the type of the artefact.
+        Retrieve the interactor matchin the type of the artifact.
         """
 
         try:
-            interactor = ArtefactInteractor.interactors()[artefact.type]
+            interactor = ArtifactInteractor.interactors()[artifact.type]
         except KeyError:
-            raise Errors.E031(name=artefact.type)  # type: ignore
+            raise Errors.E031(name=artifact.type)  # type: ignore
 
         return interactor
 
@@ -157,31 +157,31 @@ class Catalog(MixinLogable):
         if a context is provided, the update of the context won't raised any error
 
         Args:
-            name (str): the name of the artefact to load.
+            name (str): the name of the artifact to load.
         """
 
-        artefact = self._get_artefact(name)
-        connector = self._get_connector(artefact)
-        interactor: ArtefactInteractor = self._get_interactor(artefact)(
-            artefact=artefact, connector=connector, session=self._session, **context
+        artifact = self._get_artifact(name)
+        connector = self._get_connector(artifact)
+        interactor: ArtifactInteractor = self._get_interactor(artifact)(
+            artifact=artifact, connector=connector, session=self._session, **context
         )
 
         return interactor.load(**context)
 
     def save(self, name: str, asset: Any, **context):
-        """Save the asset using the artefact name.
+        """Save the asset using the artifact name.
         A context can be provided through named variadic args.
         if a context is provided, the update of the context won't raised any error
 
         Args:
             name (str): the name of the arteface
-            asset (Any): the underlying artefact to store
+            asset (Any): the underlying artifact to store
         """
 
-        artefact = self._get_artefact(name)
-        connector = self._get_connector(artefact)
-        interactor: ArtefactInteractor = self._get_interactor(artefact)(
-            artefact=artefact, connector=connector, session=self._session, **context
+        artifact = self._get_artifact(name)
+        connector = self._get_connector(artifact)
+        interactor: ArtifactInteractor = self._get_interactor(artifact)(
+            artifact=artifact, connector=connector, session=self._session, **context
         )
 
         interactor.save(asset, **context)  # type: ignore
@@ -207,10 +207,10 @@ class Catalog(MixinLogable):
             Errors.E033: if two artifacts / connectors key collide.
         """
 
-        for k, v in self._data.artefacts.items():
-            if k in other._data.artefacts:
+        for k, v in self._data.artifacts.items():
+            if k in other._data.artifacts:
                 raise Errors.E033(key=k, type="artifact")  # type: ignore
-            other._data.artefacts[k] = v
+            other._data.artifacts[k] = v
 
         for k, v in self._data.connectors.items():
             if k in other._data.connectors:

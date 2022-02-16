@@ -19,7 +19,7 @@ from pathlib import Path
 import pytest
 
 from statisfactory import Session, Catalog
-from statisfactory import Artefact
+from statisfactory import Artifact
 
 #############################################################################
 #                                 Packages                                  #
@@ -46,7 +46,7 @@ def sess(request):
 )
 def test_check_existing_artifact(sess):
 
-    target = Artefact(
+    target = Artifact(
         name="test_read_csv",
         type="csv",
         path="tests/test_repo/data/test_read_csv.csv",
@@ -56,8 +56,8 @@ def test_check_existing_artifact(sess):
         load_options={},
     )
 
-    artefact = sess.catalog._get_artefact("test_read_csv")
-    assert target == artefact
+    artifact = sess.catalog._get_artifact("test_read_csv")
+    assert target == artifact
 
 
 @pytest.mark.parametrize(
@@ -69,7 +69,7 @@ def test_check_existing_artifact(sess):
 )
 def test_multiple_catalogs(sess):
 
-    target = Artefact(
+    target = Artifact(
         name="test_read_csv_2",
         type="csv",
         path="tests/test_repo/data/test_read_csv.csv",
@@ -79,8 +79,8 @@ def test_multiple_catalogs(sess):
         load_options={},
     )
 
-    artefact = sess.catalog._get_artefact("test_read_csv_2")
-    assert target == artefact
+    artifact = sess.catalog._get_artifact("test_read_csv_2")
+    assert target == artifact
 
 
 @pytest.mark.parametrize(
@@ -92,7 +92,7 @@ def test_multiple_catalogs(sess):
 )
 def test_deeply_catalogs(sess):
 
-    sess.catalog._get_artefact("deeply_nested")
+    sess.catalog._get_artifact("deeply_nested")
 
 
 @pytest.mark.parametrize(
@@ -104,8 +104,8 @@ def test_deeply_catalogs(sess):
 )
 def test_jinja_interpolation(sess):
 
-    target = Artefact(
-        name="dummy_artefact",
+    target = Artifact(
+        name="dummy_artifact",
         type="csv",
         path="tests/inteprolated/10_raw/!{dynamic}/test_read_csv.csv",
         connector=None,
@@ -114,9 +114,9 @@ def test_jinja_interpolation(sess):
         load_options={},
     )
 
-    artefact = sess.catalog._get_artefact("dummy_artefact")
+    artifact = sess.catalog._get_artifact("dummy_artifact")
 
-    assert target == artefact
+    assert target == artifact
 
 
 @pytest.mark.parametrize(
@@ -132,4 +132,4 @@ def test_jinja_loop(sess):
     """
 
     for item in ["foo", "bar", "spam"]:
-        sess.catalog._get_artefact(f"{item}_artefact")
+        sess.catalog._get_artifact(f"{item}_artifact")

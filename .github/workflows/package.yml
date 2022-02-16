@@ -30,4 +30,4 @@ jobs:
       - name: Python Semantic Release
         uses: relekang/python-semantic-release@master
         with:
-          github_token: ${{ secrets.CICD_PAT_TOKEN }}
+          github_token: ${{ secrets.razer_pat }}

@@ -1,7 +1,7 @@
 #### Custom  ###
 *.ignoreMe.*
 fakerepo/Data/*
-db-cache/*
+db-cache/
 
 ### IDE ###
 *.vscode/
