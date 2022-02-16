@@ -1,0 +1,8 @@
+[tool.statisfactory]
+project_slug = "exemple"
+configuration = "conf"
+catalog = "conf/catalog.yaml"
+sources = "Lib"
+notebook_target = "__compiled__"
+pipelines_definitions = "Pipelines/definitions/pipelines.yaml"
+pipelines_configurations = "Pipelines/configurations/pipelines.yaml"

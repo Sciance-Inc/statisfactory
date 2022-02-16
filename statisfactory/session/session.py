@@ -19,10 +19,8 @@ import os
 import sys
 from collections import defaultdict
 from pathlib import Path
-from string import Template
 from typing import Any, Callable, Mapping, Optional
 from warnings import warn
-from operator import add
 from functools import reduce
 
 import boto3
@@ -31,11 +29,12 @@ from lakefs_client import ApiClient, Configuration, models
 from lakefs_client.api import repositories_api
 from lakefs_client.client import LakeFSClient
 from pygit2 import Repository
+import tomli
 
-from ..errors import Errors, Warnings
-from ..IO import Catalog
-from ..logger import MixinLogable, get_module_logger
-from ..operator import Scoped
+from statisfactory.errors import Errors, Warnings
+from statisfactory.IO import Catalog
+from statisfactory.logger import MixinLogable, get_module_logger
+from statisfactory.operator import Scoped
 
 # project
 from .loader import ConfigsLoader, PipelinesLoader
@@ -101,20 +100,27 @@ class Session(MixinLogable):
         super().__init__(logger_name=__name__)
 
         # Retrieve the location of the config file
-        self._root = Path(root_folder or self.get_path_to_target("statisfactory.yaml"))
+        self._root = Path(root_folder or self.get_path_to_target("pyproject.toml"))
 
         self.info(f"Initiating Statisfactory to : '{self._root}'")
 
-        # Parse the config_path, to extract the Catalog(s) and the Parameters locations
-        self._settings = Dynaconf(
-            validators=[
-                Validator("configuration", "catalog", must_exist=True),
-                Validator("notebook_target", default="jupyter"),
-                Validator("project_slug", must_exist=True),
-            ],
-            settings_files=[self._root / "statisfactory.yaml"],
-            load_dotenv=False,
-        )
+        # Extract the stati section from the pyproject
+        with open(self._root / "pyproject.toml", "rb") as f:
+            pyproject_toml = tomli.load(f)
+            config = pyproject_toml.get("tool", {}).get("statisfactory", {})
+
+        # Prepare an empty Dynaconf object and inject the config from pyproject
+        self._settings = Dynaconf()
+        self._settings.update(config)  # type: ignore
+
+        self._settings.validators.register(
+            Validator("configuration", "catalog", must_exist=True),
+            Validator("notebook_target", default="jupyter"),
+            Validator("project_slug", must_exist=True),
+        )  # type: ignore
+
+        # Fire up the validators
+        self._settings.validators.validate()
 
         # Instanciate the 'user space'
         self._ = {}
@@ -406,7 +412,9 @@ class _DefaultHooks:
             sess._aws_session = boto3.Session(
                 aws_access_key_id=sess.settings["aws_access_key"],
                 aws_secret_access_key=sess.settings["aws_secret_access_key"],
-                region_name=sess.settings.get("aws_region", "us-east-1"),
+                region_name=sess.settings.get(
+                    "aws_region", "us-east-1"
+                ),  # type: ignore
             )
         except KeyError:
             warn(Warnings.W060)
