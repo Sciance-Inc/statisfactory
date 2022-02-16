@@ -1,4 +1,4 @@
-from statisfactory.IO import Artefact, Catalog, Volatile  # noqa
+from statisfactory.IO import Artifact, Catalog, Volatile  # noqa
 from statisfactory.operator import Craft, Pipeline, _Craft  # noqa
 from statisfactory.session import Session  # noqa
 

@@ -7,7 +7,7 @@
 #
 # description:
 """
-    implements various backend to be reused across artefacts
+    implements various backend to be reused across artifacts
 """
 
 #############################################################################
@@ -75,7 +75,7 @@ class Backend(MixinLogable, metaclass=ABCMeta):
 
         super().__init_subclass__(**kwargs)
 
-        # Register the new interactors into the artefactclass
+        # Register the new interactors into the artifactclass
         if Backend._backends.get(prefix):
             raise Errors.E0201(prefix=prefix)  # type: ignore
 
@@ -101,7 +101,7 @@ class Backend(MixinLogable, metaclass=ABCMeta):
 
         Args:
             payload (bytes): The bytes representation of the artifact to drop on the backend.
-            fragment (ParseResult): The Artefact's path parsed result to use to put the payload to.
+            fragment (ParseResult): The Artifact's path parsed result to use to put the payload to.
         """
         ...
 
@@ -111,7 +111,7 @@ class Backend(MixinLogable, metaclass=ABCMeta):
         Get the payload from the service under the 'path' name.
 
         Args:
-            fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+            fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
         """
         ...
 
@@ -159,7 +159,7 @@ class S3Backend(Backend, prefix="s3"):
 
         Args:
             payload (bytes): The bytes representation of the artifact to drop on the backend.
-            fragment (ParseResult): The Artefact's path parsed result.
+            fragment (ParseResult): The Artifact's path parsed result.
         """
 
         bucket = fragment.netloc
@@ -180,7 +180,7 @@ class S3Backend(Backend, prefix="s3"):
         Get the payload from the service under the 'path' name.
 
         Args:
-            fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+            fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
         """
 
         bucket = fragment.netloc
@@ -224,7 +224,7 @@ class LocalFS(Backend, prefix=""):
 
         Args:
             payload (bytes): The bytes representation of the artifact to drop on the backend.
-            fragment (ParseResult): The Artefact's path parsed result.
+            fragment (ParseResult): The Artifact's path parsed result.
         """
 
         path = Path(fragment.path).absolute()
@@ -238,7 +238,7 @@ class LocalFS(Backend, prefix=""):
         Get the payload from the service under the 'path' name.
 
         Args:
-            fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+            fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
         """
 
         path = Path(fragment.path).absolute()
@@ -317,7 +317,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
 
         Args:
             payload (bytes): The bytes representation of the artifact to drop on the backend.
-            fragment (ParseResult): The Artefact's path parsed result.
+            fragment (ParseResult): The Artifact's path parsed result.
             lake_ref (str, optional): An optional commit / branch / lake ref to put the data to. Defaults to the current gitted branch.
         """
 
@@ -343,7 +343,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
         Get the payload from the service under the 'path' name.
 
         Args:
-            fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+            fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
             lake_ref (str, optional): An optional commit / branch / lake ref to fetch the data from. Defaults to the current gitted branch.
 
         Returns:

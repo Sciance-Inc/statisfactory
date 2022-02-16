@@ -36,15 +36,15 @@ import pandas as pd  # type: ignore
 import pyodbc  # type: ignore
 
 from statisfactory.errors import Errors
-from statisfactory.IO.artefacts.backend import Backend
+from statisfactory.IO.artifacts.backend import Backend
 
 # project
-from statisfactory.IO.models import _ArtefactSchema
+from statisfactory.IO.models import _ArtifactSchema
 from statisfactory.logger import MixinLogable, get_module_logger
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from statisfactory.IO.artefacts.backend import Backend
+    from statisfactory.IO.artifacts.backend import Backend
     from statisfactory.session import Session
 
 #############################################################################
@@ -54,7 +54,7 @@ if TYPE_CHECKING:
 
 class DynamicInterpolation(Template):
     """
-    Implements the interpolation of the !{} for the artefact values.
+    Implements the interpolation of the !{} for the artifact values.
 
     Override the default template to :
         * replace the $ used by the StaticInterpolation with ! (the @ might be used in connection string)
@@ -100,36 +100,36 @@ class MixinInterpolable:
         return string
 
 
-class ArtefactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
+class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
     """
     Describe the Interactor's interface.
-    An interactor wraps the loading and saving operations of a Artefact.
+    An interactor wraps the loading and saving operations of a Artifact.
     The user can implements custom interactors. To do so, the user should
-    implements the interface desbribes in this class. An artefact and a Session object
-    are available when the artefact is called by the Catalog.
+    implements the interface desbribes in this class. An artifact and a Session object
+    are available when the artifact is called by the Catalog.
     """
 
     # A placeholder for all registered interactors
     _interactors = dict()
 
     @abstractmethod
-    def __init__(self, artefact, *args, session: Session, **kwargs):
+    def __init__(self, artifact, *args, session: Session, **kwargs):
         """
         Instanciate a new interactor.
 
-        The interactors implements cooperative inheritance, only the artefact is mandatory.
+        The interactors implements cooperative inheritance, only the artifact is mandatory.
         """
 
         super().__init__(logger_name=__name__, *args, **kwargs)
-        self.name = artefact.name
-        self._save_options = artefact.save_options
-        self._load_options = artefact.load_options
+        self.name = artifact.name
+        self._save_options = artifact.save_options
+        self._load_options = artifact.load_options
         self._session = session
 
     def __init_subclass__(cls, interactor_name, register: bool = True, **kwargs):
         """
-        Implement the registration of a child class into the artefact class.
-        By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
+        Implement the registration of a child class into the artifact class.
+        By doing so, the ArtifactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
         See PEP-487 for details.
         """
 
@@ -137,14 +137,14 @@ class ArtefactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
         if not register:
             return
 
-        # Register the new interactors into the artefactclass
-        if ArtefactInteractor._interactors.get(interactor_name):
+        # Register the new interactors into the artifactclass
+        if ArtifactInteractor._interactors.get(interactor_name):
             raise Errors.E020(name=interactor_name)  # type: ignore
 
-        ArtefactInteractor._interactors[interactor_name] = cls
+        ArtifactInteractor._interactors[interactor_name] = cls
 
         # Propagate the change to the model validator
-        _ArtefactSchema.valids_artefacts.add(interactor_name)
+        _ArtifactSchema.valids_artifacts.add(interactor_name)
 
         get_module_logger(__name__).debug(f"registering '{interactor_name}' interactor")
 
@@ -193,22 +193,22 @@ class ArtefactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
 
 
 class FileBasedInteractor(
-    ArtefactInteractor, interactor_name="", register=False, metaclass=ABCMeta
+    ArtifactInteractor, interactor_name="", register=False, metaclass=ABCMeta
 ):
     """
-    Extend the Artefact Interactor with Path interpolations
+    Extend the Artifact Interactor with Path interpolations
     """
 
-    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
-        Set the fragment from the Artefact Path
+        Set the fragment from the Artifact Path
         """
 
-        super().__init__(artefact, *args, session=session, **kwargs)  # type: ignore
+        super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
         # Extract the fragment from the URI
         try:
-            URI = self._interpolate_string(string=artefact.path, **kwargs)
+            URI = self._interpolate_string(string=artifact.path, **kwargs)
             fragment = urlparse(URI)
         except BaseException as error:
             raise Errors.E0281(name=self.name) from error  # type: ignore
@@ -262,7 +262,7 @@ class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
     Concrete implementation of a csv interactor
     """
 
-    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor on a local file csv
 
@@ -271,7 +271,7 @@ class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
             kwargs: named-arguments to be fowarded to the pandas.read_csv method.
         """
 
-        super().__init__(artefact, *args, session=session, **kwargs)  # type: ignore
+        super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
     def load(self, **kwargs) -> pd.DataFrame:
         """
@@ -329,16 +329,16 @@ class XLSXInteractor(FileBasedInteractor, interactor_name="xslx"):
     Concrete implementation of an XLSX interactor
     """
 
-    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor on a local file xslsx
 
         Args:
-            artefact (Artefact): the artefact to load
+            artifact (Artifact): the artifact to load
             kwargs: named-arguments.
         """
 
-        super().__init__(artefact, *args, session=session, **kwargs)
+        super().__init__(artifact, *args, session=session, **kwargs)
 
     def load(self, **kwargs) -> pd.DataFrame:
         """
@@ -398,16 +398,16 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
     Concrete implementation of a Pickle interactor.
     """
 
-    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor on a local file pickle file
 
         Args:
-            artefact (Artefact): the artefact to load
+            artifact (Artifact): the artifact to load
             kwargs: named-arguments.
         """
 
-        super().__init__(artefact, *args, session=session, **kwargs)
+        super().__init__(artifact, *args, session=session, **kwargs)
 
     def load(self, **kwargs) -> Any:
         """
@@ -437,7 +437,7 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
         Serialize the 'asset'
 
         Args:
-            asset (Any ): the artefact to be saved
+            asset (Any ): the artifact to be saved
         """
 
         self.debug(f"saving 'pickle' : {self.name}")
@@ -456,7 +456,7 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
 # ------------------------------------------------------------------------- #
 
 
-class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odbc"):
+class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odbc"):
     """
     Concrete implementation of an odbc interactor
 
@@ -464,7 +464,7 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
     TODO : implements the saving strategy
     """
 
-    def __init__(self, artefact, connector, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, connector, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor against an odbc
 
@@ -473,11 +473,11 @@ class ODBCInteractor(ArtefactInteractor, MixinInterpolable, interactor_name="odb
             connector (Connector): [description]
         """
 
-        self._query = self._interpolate_string(artefact.query, **kwargs)
+        self._query = self._interpolate_string(artifact.query, **kwargs)
         self._connector = connector
         self._kwargs = kwargs
 
-        super().__init__(artefact, *args, session=session, **kwargs)  # type: ignore
+        super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
     @contextmanager
     def _get_connection(self):
@@ -536,12 +536,12 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
     Implements saving / loading for datapane object.
     """
 
-    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Return a new Datapane Interactor initiated with a a particular interactor
         """
 
-        super().__init__(artefact, *args, session=session, **kwargs)
+        super().__init__(artifact, *args, session=session, **kwargs)
 
     def load(self, **kwargs):
         """
@@ -558,7 +558,7 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
         Save a datapane assert
 
         Args:
-            artefact (dp.Report): the datapane report object to be saved.
+            artifact (dp.Report): the datapane report object to be saved.
             open (bool): whether open the report on saving.
 
         Implementation details:
@@ -593,16 +593,16 @@ class BinaryInteractor(FileBasedInteractor, interactor_name="binary"):
     Implements saving / loading for binary raw object
     """
 
-    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Return a new Binary Interactor initiated with a a particular interactor
         """
 
-        super().__init__(artefact, *args, session=session, **kwargs)
+        super().__init__(artifact, *args, session=session, **kwargs)
 
     def load(self, **kwargs):
         """
-        Return the content of a binary artefact.
+        Return the content of a binary artifact.
         """
 
         self.debug(f"loading 'binary' : {self.name}")
@@ -625,7 +625,7 @@ class BinaryInteractor(FileBasedInteractor, interactor_name="binary"):
         Save a datapane assert
 
         Args:
-            artefact (Any): the binary content to write
+            artifact (Any): the binary content to write
         """
 
         self.debug(f"saving 'binary' : {self.name}")
@@ -643,16 +643,16 @@ class FeatherInteractor(FileBasedInteractor, interactor_name="feather"):
 
     """
 
-    def __init__(self, artefact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Return a new Feather Interactor.
         """
 
-        super().__init__(artefact, *args, session=session, **kwargs)
+        super().__init__(artifact, *args, session=session, **kwargs)
 
     def load(self, **kwargs):
         """
-        Return the content of a feather artefact.
+        Return the content of a feather artifact.
         """
 
         self.debug(f"loading 'feather' : {self.name}")
@@ -675,7 +675,7 @@ class FeatherInteractor(FileBasedInteractor, interactor_name="feather"):
         Save a Feather asset
 
         Args:
-            artefact Union[pd.DataFrame, pd.Series]: the dataframe content to write
+            artifact Union[pd.DataFrame, pd.Series]: the dataframe content to write
         """
 
         self.debug(f"saving 'feather' : {self.name}")

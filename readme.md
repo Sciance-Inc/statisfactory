@@ -14,7 +14,7 @@ _API documentation_ : https://sciance-inc.github.io/statisfactory/
 
 ## Motivation and Scope
 Statisfactory is a toolbox to apply and replicate a Statistical pipeline. The purpose of the project is double : 
-* Exposing a one-stop-shop with artefacts generates through the analysis by abstracting the location and the retrieval / saving of an artefact away from the Python code ;
+* Exposing a one-stop-shop with artifacts generates through the analysis by abstracting the location and the retrieval / saving of an artifact away from the Python code ;
 * Replicating the same pipeline to multiple inputs, with some input-specific parametrisation done through a yaml based interface.
 
 
@@ -27,10 +27,10 @@ Keep it classy, boys :
 * I like my code formatted the same way I like my coffee : `Black`. Use-it for code formatting before committing.
 
 ## High level presentation 
-* _Statisfactory_ is based on the idea of `Artefacts`. `Artefacts` are something produced or used by a statistical analysis such as a dataset, a report, a trained model ;
-* _Statisfactory_ abstracts away the definition of the `Artefact` from it's utilisation and storage. The library uses a map between an `Artefact`'s declaration and it's location called a `catalog` ;
-* Any callable that interacts with the `catalog`, by producing or using an `Artefact` can be wraps in a `Craft` ;
-* The `Craft` handles the `Artefact` retrieval and storage from the `Catalog` ;
+* _Statisfactory_ is based on the idea of `Artifacts`. `Artifacts` are something produced or used by a statistical analysis such as a dataset, a report, a trained model ;
+* _Statisfactory_ abstracts away the definition of the `Artifact` from it's utilisation and storage. The library uses a map between an `Artifact`'s declaration and it's location called a `catalog` ;
+* Any callable that interacts with the `catalog`, by producing or using an `Artifact` can be wraps in a `Craft` ;
+* The `Craft` handles the `Artifact` retrieval and storage from the `Catalog` ;
 * Multiples `Craft` can be chained together, forming a `Pipeline`. Any `Pipeline` can be personnalized through the use of a `Context` and some `Volatile` objects.
 
 ## How to use it
@@ -40,8 +40,8 @@ __tl;dr : a tl;dr section is available at the end of the documentation__
 ### Repo skeleton
 
 * _Statisfactory_ requires the `catalog.yaml` file and the `Data` directory to be located together, at the top level of the git repo.
-    * The `Data` directory contains all the `Artefacts` (ie, data, in a broad sense) (and schould then have been called `Artefacts`... let's called that technical debt)
-    * The `catalog.yml` file declare and maps `artefacts` to their location.
+    * The `Data` directory contains all the `Artifacts` (ie, data, in a broad sense) (and schould then have been called `Artifacts`... let's called that technical debt)
+    * The `catalog.yml` file declare and maps `artifacts` to their location.
 
 * The following tree show an exemple of a directory using _statisfactory_ :
 
@@ -65,7 +65,7 @@ __tl;dr : a tl;dr section is available at the end of the documentation__
     * Both `locals.yaml` and `globals.yaml` are key-value configuration files :
         * `locals.yaml` is not gitted and overwrite the key defined in `globals`. It can be used to store credentials and user dependant variables 
         * Both files defines key-values that can be statically interpolated in the `catalogs`
-    * `catalog.yaml` contains the definition of artefacts : ie, the outputs and ouptus of the analysis. 
+    * `catalog.yaml` contains the definition of artifacts : ie, the outputs and ouptus of the analysis. 
         * `catalog` can also be defined using folders and subfolders (all `yml|yaml` files are considered as catalogs file)
         * `catalog` files are rendered with `Jinja2` using variables defined in `locals` and `globals` files.
 
@@ -102,31 +102,31 @@ pipelines_configurations: Pipelines/configurations/pipelines.yaml
 * Globals and locals contains everything that can either be used :
     * by the `catalog` files, for the interpolation of the `{{ jinja2 placeholders }}` .
     * by the `Session` object, the very root of the a `Stati` application. 
-        * Some `ArtefactInteractors` / `InteractorsBakend` / `SessionHook` such as the __aws s3 backend__ or the __lakefs__ backend use __AWS_SECRET_KEY__ defined in `globals` or `locals` file.
+        * Some `ArtifactInteractors` / `InteractorsBakend` / `SessionHook` such as the __aws s3 backend__ or the __lakefs__ backend use __AWS_SECRET_KEY__ defined in `globals` or `locals` file.
         * This can be used to provide variables to your own Statisfactory extensions.
 #### `catalog` files
-_Connectors are going to be completely reworked to be merged into a new SQLArtefact_
+_Connectors are going to be completely reworked to be merged into a new SQLArtifact_
 
-* The `Catalog` centralize the `Artefacts` definitions
+* The `Catalog` centralize the `Artifacts` definitions
 
 * The `catalog.yaml` accepts the following objects :
     * __connectors__: a declaration of the `pyodbc` connector to use.
-    * __artefacts__: a declaration of an artefact
+    * __artifacts__: a declaration of an artifact
 
 * all __connectors__ schould map a name to a connection string or a DSN. The DSN must have been configured on the computer.
 
-* The __artefacts__ exposes the following attributes :
+* The __artifacts__ exposes the following attributes :
     * __type__ : the type of the connector : can be one of `odbc`, `csv`, `xslx`, `datapane`, `pickle`.
         * `pickle` is used to serialize an object
         * `odbc` is used to execute an sql query against a connector
         * `datapane` is used to save a report build using datapane
     * __connector__ : the name of the connector to use, as defined in `connector`. __Required for `type==odbc`__
     * __query__ : the sql query to execute. __Required for `type==odbc`__
-    * __path__ : the path to the artefact. __Required for `type in [csv, xslx, datapane, pickle]`__ . __The path must be relative to `Data`__
+    * __path__ : the path to the artifact. __Required for `type in [csv, xslx, datapane, pickle]`__ . __The path must be relative to `Data`__
 
-* The `Artefact`'s __path__ attribute can contains __dynamically interpolated variables__ variables. Such a variable is a placeholder for contextualized values, defined at runtime (as opposed to the ones statically defined into `globals|locals` andi nterpolated at the catalog rendering ). 
+* The `Artifact`'s __path__ attribute can contains __dynamically interpolated variables__ variables. Such a variable is a placeholder for contextualized values, defined at runtime (as opposed to the ones statically defined into `globals|locals` andi nterpolated at the catalog rendering ). 
 
-* Only `Artefacts` declared in the catalog can be loaded / saved using statisfactory. 
+* Only `Artifacts` declared in the catalog can be loaded / saved using statisfactory. 
 
 ##### `catalog.yaml` exemples
 * The following snippet shows various interpolations technics
@@ -137,7 +137,7 @@ connectors:
       connString: DRIVER={ODBC Driver 17 for SQL Server};SERVER=myServer.com;DATABASE=myDatabase;UID=me;PWD=myPassword
   - sqlserver:
       connString: foo:bar@spam.sql:12234
-artefacts:
+artifacts:
   - qaiData:
       type: odbc
       connector: ibesServer
@@ -172,7 +172,7 @@ sess2 = Session(path="foo/bar/")
 ```
 #### The `Catalog` object
 
-* The `Catalog` can be used to load / save `Artefacts`, using the __name__ of the `Artefact`.
+* The `Catalog` can be used to load / save `Artifacts`, using the __name__ of the `Artifact`.
 * The `Catalog` can be accessed from an active `Session`
 
 ```python
@@ -190,7 +190,7 @@ df['foo'] = 'foo'
 catalog.save("masterFile", df)
 ```
 
-* if required, named arguments can be used as context to interpolate the _dynamic values_ in the artefacts's path declaration.
+* if required, named arguments can be used as context to interpolate the _dynamic values_ in the artifacts's path declaration.
 
 ```python
 from statisfactory import Session
@@ -207,24 +207,24 @@ df = catalog.load("coeffs", samples=10)  # Dynamically interpolating the 'sample
 
 ### The `Craft` object and how did I finally find a way to mess up with the `inspect` package
 
-* The `Craft` is a decorator used to automagically load and saved `Artefacts` from the `catalog`.
+* The `Craft` is a decorator used to automagically load and saved `Artifacts` from the `catalog`.
 * The craft uses:
-    * the `Artefact` annotation (type hinting), to flag the artefacts to load ;
-    * the name of the artefact, to flag the artefacts to save.
+    * the `Artifact` annotation (type hinting), to flag the artifacts to load ;
+    * the name of the artifact, to flag the artifacts to save.
 * The `Craft` must be executed in a `Session` context
 
 
-_The following snipet shows the deserialization of an artefact_
+_The following snipet shows the deserialization of an artifact_
 
 ```python
-from statisfactory import Session, Craft, Artefact
+from statisfactory import Session, Craft, Artifact
 
 # Initiate a Stati session
 sess = Session()
 
-# Declare and wraps a funtion that uses an artefact. Use the Artefact annotation to identify an artefact.
+# Declare and wraps a funtion that uses an artifact. Use the Artifact annotation to identify an artifact.
 @Craft()
-def show_df(masterFile: Artefact):
+def show_df(masterFile: Artifact):
     print(masterFile.shape)
 
 # Execute a Craft in the context of a Session
@@ -232,17 +232,17 @@ with sess:
     show_df()
 ```
 
-* Artefact to serialise are indicated through the Typed signature. Use the `Artefact`'s and `Volatile`'s name to (resp.) persist them or add them to the Session context.
+* Artifact to serialise are indicated through the Typed signature. Use the `Artifact`'s and `Volatile`'s name to (resp.) persist them or add them to the Session context.
 
 ```python
-from statisfactory import Session, Craft, Artefact
+from statisfactory import Session, Craft, Artifact
 
 # Initiate a Stati session
 sess = Session()
 
-# Declare and wraps a funtion that UPDATE an artefact
+# Declare and wraps a funtion that UPDATE an artifact
 @Craft()
-def add_col(masterFile: Artefact) -> Artefact("masterFile"):
+def add_col(masterFile: Artifact) -> Artifact("masterFile"):
     masterFile["foo"] = 1
     
     return masterFile
@@ -255,14 +255,14 @@ with sess:
 * You can use normal parameter definitions in your function, the `Craft` will defers them to the callable :
 
 ```python
-from statisfactory import Session, Craft, Artefact
+from statisfactory import Session, Craft, Artifact
 
 # Initiate a Stati session
 sess = Session()
 
-# Declare and wraps a funtion that uses an artefact
+# Declare and wraps a funtion that uses an artifact
 @Craft()
-def show_top(masterFile: Artefact, top: int=10):
+def show_top(masterFile: Artifact, top: int=10):
     masterFile.head(top)
 
 # Use the function : with default params
@@ -274,18 +274,18 @@ with sess:
     show_top(5)
 ```
 
-* You can return multiples `Artefacts` and `Volatile` with the `tuple` notation.
+* You can return multiples `Artifacts` and `Volatile` with the `tuple` notation.
 
 
 ```python
-from statisfactory import Session, Craft, Artefact
+from statisfactory import Session, Craft, Artifact
 
 # Initiate a Stati session
 sess = Session()
 
-# Declare and wraps a funtion that uses an artefact and returns two artefacts
+# Declare and wraps a funtion that uses an artifact and returns two artifacts
 @Craft()
-def duplicate(masterFile: Artefact) -> (Artefact("masterFile"), Artefact("DuplicatedMasterFile")):
+def duplicate(masterFile: Artifact) -> (Artifact("masterFile"), Artifact("DuplicatedMasterFile")):
     
     return masterFile, masterFile
 
@@ -302,20 +302,20 @@ with sess:
 * You can call the `plot()` method on a pipeline to display the DAG. The `graphviz` and `pygraphviz` must have been installed.
 
 ```python
-from statisfactory import Session, Craft, Artefact
+from statisfactory import Session, Craft, Artifact
 
 # Initiate a Stati session
 sess = Session()
 
 @Craft()
-def add_col(masterFile: Artefact) -> Artefact('augmentedFile'):
+def add_col(masterFile: Artifact) -> Artifact('augmentedFile'):
     masterFile["foo"] = 1
     
     return masterFile
 
 # Define a craft that required the output of a previous craft
 @Craft()
-def show_top(augmentedFile: Artefact):
+def show_top(augmentedFile: Artifact):
     augmentedFile.head()
 
 
@@ -344,21 +344,21 @@ p.plot()  # Require graphviz
 * If you want to add a name to your `Pipeline` or change the parameters, you need to explicitely define the `Pipeline`.
 
 ```python
-from statisfactory import Session, Craft, Artefact, Pipeline
+from statisfactory import Session, Craft, Artifact, Pipeline
 
 # Initiate a Stati session
 sess = Session()
 
-# Declare and wraps a funtion that UPDATE an artefact
+# Declare and wraps a funtion that UPDATE an artifact
 @Craft()
-def add_col(masterFile: Artefact) -> Artefact('augmentedFile'):
+def add_col(masterFile: Artifact) -> Artifact('augmentedFile'):
     masterFile["foo"] = 1
 
     return masterFile
     
-# Declare and wraps a funtion that uses an artefact
+# Declare and wraps a funtion that uses an artifact
 @Craft()
-def show_top(augmentedFile: Artefact):
+def show_top(augmentedFile: Artifact):
     augmentedFile.head()
 
 
@@ -374,19 +374,19 @@ with sess:
 * As for the `Crafts`, you can pass options, or interpolating variables for the path interpolation to the `Pipeline` when calling it. The following example shows how you can execute the the same `Pipeline` with differents options.
 
 ```python
-from statisfactory import Session, Craft, Artefact
+from statisfactory import Session, Craft, Artifact
 
 # Initiate a Stati session
 catalog = Session()
 
-# Declare and wraps a funtion that UPDATE an artefact with a value called val and defaulted to 1
+# Declare and wraps a funtion that UPDATE an artifact with a value called val and defaulted to 1
 @Craft()
-def add_col(masterFile: Artefact, val=1) -> Artefact('augmentedFile'):
+def add_col(masterFile: Artifact, val=1) -> Artifact('augmentedFile'):
     masterFile["foo"] = val
 
-# Declare and wraps a funtion that uses an artefact
+# Declare and wraps a funtion that uses an artifact
 @Craft()
-def show_top(top, augmentedFile: Artefact):
+def show_top(top, augmentedFile: Artifact):
     augmentedFile.head(top)
 
 # Define the pipeline, with the `add` interface
@@ -404,19 +404,19 @@ with sess:
 
 
 ```python
-from statisfactory import Session, Craft, Artefact
+from statisfactory import Session, Craft, Artifact
 
 # Initiate a Stati session
 catalog = Session()
 
-# Declare and wraps a funtion that UPDATE an artefact with a value called val and defaulted to 1
+# Declare and wraps a funtion that UPDATE an artifact with a value called val and defaulted to 1
 @Craft()
-def add_col(masterFile: Artefact, val=1) -> Artefact('augmentedFile'):
+def add_col(masterFile: Artifact, val=1) -> Artifact('augmentedFile'):
     masterFile["foo"] = val
 
-# Declare and wraps a funtion that uses an artefact
+# Declare and wraps a funtion that uses an artifact
 @Craft()
-def show_top(top, augmentedFile: Artefact):
+def show_top(top, augmentedFile: Artifact):
     augmentedFile.head(top)
 
 # Define the pipeline, with the `add` interface
@@ -484,7 +484,7 @@ out["myValue"]
 
 ```yaml
 connectors:
-artefacts:
+artifacts:
 
   - masterFile:
       type: xslx
@@ -495,14 +495,14 @@ artefacts:
 ```
 
 ```python
-from statisfactory import Craft, Artefact, Session, Pipeline, Volatile
+from statisfactory import Craft, Artifact, Session, Pipeline, Volatile
 from sklearn.linear_model import LinearRegression
 from sklearn import datasets
 
 sess = Session()
 
 @Craft()
-def build_dataframe(samples: int = 500) -> Artefact("masterFile"):
+def build_dataframe(samples: int = 500) -> Artifact("masterFile"):
     """
     Generate a dataframe for a regression of "samples" datapoints.
     "samples" can be overwrited through the craft call or the pipeline context.
@@ -510,17 +510,17 @@ def build_dataframe(samples: int = 500) -> Artefact("masterFile"):
     x, y = datasets.make_regression(n_samples=samples, n_features=5, n_informative=3)
     df = pd.DataFrame(x, columns=[str(i) for i in range(0, 5)]).assign(y=y)
 
-    return df  # Persist the df, since "masterFile" is defined as an Artefact in the signature
+    return df  # Persist the df, since "masterFile" is defined as an Artifact in the signature
 
 @Craft()
-def train_regression(masterFile: Artefact, fit_intercept=True) -> Volatile('reg'):
+def train_regression(masterFile: Artifact, fit_intercept=True) -> Volatile('reg'):
     """
     Train a regression on masterfile.
-    The craft will propagate non artefact parameters from the pipeline context
+    The craft will propagate non artifact parameters from the pipeline context
     """
     df = (
         masterFile
-    )  # Automagiccaly loaded from the filesystem since masterfile is annotated with Artefact
+    )  # Automagiccaly loaded from the filesystem since masterfile is annotated with Artifact
 
     y = df.y
     x = df[df.columns.difference(["y"])]
@@ -530,7 +530,7 @@ def train_regression(masterFile: Artefact, fit_intercept=True) -> Volatile('reg'
 
 
 @Craft()
-def save_coeff(reg: Volatile) -> Artefact('coeffs'):
+def save_coeff(reg: Volatile) -> Artifact('coeffs'):
     """
     The function pickles the coefficients of the model.
     The craft can access to the volatile context in which "reg" lives.
@@ -538,7 +538,7 @@ def save_coeff(reg: Volatile) -> Artefact('coeffs'):
 
     to_pickle = reg.coef_
 
-    return to_pickle  # Coeffs is defined as an Artefact. The object will be persisted
+    return to_pickle  # Coeffs is defined as an Artifact. The object will be persisted
 
 
 # Combine the three crafts into a pipeline
@@ -566,26 +566,26 @@ c2 = sess.catalog.load("coeffs", samples=500)
 ### I have special "special needs", _statisfactory_ got you covered.
 
 * You can extend stati by adding : 
-    * An `ArtefactInteractor`, to transform to `Bytes` an object (and to transform back some bytes to the object)
+    * An `ArtifactInteractor`, to transform to `Bytes` an object (and to transform back some bytes to the object)
     * A `Backend`, to writes / read the `Bytes` to as service (local, s3, lakefs)
     * Registering a `SessionHook`
 
 #### Defining custom Interactors
 
-* You can register you own interactors by creating a class inheritating from `ArtefactInteractor`. Your class must implements the interface defined by `ArtefactInteractor` and must uses a unique name. The following snipet show the creation of a custom `foobarer` interactor. 
+* You can register you own interactors by creating a class inheritating from `ArtifactInteractor`. Your class must implements the interface defined by `ArtifactInteractor` and must uses a unique name. The following snipet show the creation of a custom `foobarer` interactor. 
 * Once defined, you can use the `interactor_name` in the `catalog.yaml` to use your custom interactor.
 
 __Please, refers to the code to see the actual interface to implement__
 
 ```python
-from statisfactory.IO import ArtefactInteractor
+from statisfactory.IO import ArtifactInteractor
 
-print(ArtefactInteractor.interactors()) # Print the 'default' registered interactors
+print(ArtifactInteractor.interactors()) # Print the 'default' registered interactors
 
 
-class Foobar(ArtefactInteractor, interactor_name="foobarer"):
+class Foobar(ArtifactInteractor, interactor_name="foobarer"):
     
-    def __init__(self, artefact, *args, session, **kwargs):
+    def __init__(self, artifact, *args, session, **kwargs):
         ...
 
     def load(self, **kwargs) -> Any:
@@ -595,7 +595,7 @@ class Foobar(ArtefactInteractor, interactor_name="foobarer"):
         ...
 
 
-print(ArtefactInteractor.interactors())  # Print all registered interactors
+print(ArtifactInteractor.interactors())  # Print all registered interactors
 ```
 
 #### Defining custom backends
@@ -651,5 +651,5 @@ def print_and_set_param(sess: Session) -> None:
 # Hic sunt dracones
 Road to v0.2
 * Inject a spark runner ? 
-* Custom definition of artefacts fields and custom field validation
+* Custom definition of artifacts fields and custom field validation
 

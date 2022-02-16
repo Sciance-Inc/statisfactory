@@ -1,7 +1,7 @@
 # The locals.yaml overwrite the globals definitioné
 # The file SHOULD NOT BE GITED (ie : add it to .gitignore) since it's might contains secrets !
 
-# Overwrite the environnement to not mess with the artefacts from the other.
+# Overwrite the environnement to not mess with the artifacts from the other.
 environment: croustibat_env
 
 # Alright then, write your secrets
@@ -10,7 +10,6 @@ password: croustibat
 
 # Overwirte the path to my local path since I'm not using a remote storing
 base_path: /home/hugo/10_projets/statisfactory/exemples/dummyRepo/Data
-
 # S3 configurations
 #aws_access_key: juhelh
 #aws_secret_access_key: someRandomSecret

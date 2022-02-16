@@ -134,7 +134,7 @@ class Errors(metaclass=ExceptionFactory):
     E0293 = "data interactor : LakeFS interactor : the branch's name must match match the regex {regex}."
 
     # Catalog
-    E030 = "catalog : the '{name}' artefact  does not exists"
+    E030 = "catalog : the '{name}' artifact  does not exists"
     E031 = "catalog : the '{name}' interactor does not exists"
     E032 = "catalog : the '{name}' connector does not exists"
     E033 = "catalog : duplicated key. The '{key}' {type} key is defined in at least two catalogs"
@@ -142,17 +142,17 @@ class Errors(metaclass=ExceptionFactory):
     # Craft
     E040 = "craft : failed to execute craft '{func}'"
     E041 = "craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
-    E042 = "craft : the craft '{name}'s signature must be a Volatile, Artefact or a Tuple of Volatiles and Artefacts. Got '{got}'"
+    E042 = "craft : the craft '{name}'s signature must be a Volatile, Artifact or a Tuple of Volatiles and Artifacts. Got '{got}'"
     E043 = "craft : the craft '{name}' signature expect {sign} items. Got {got}"
     E044 = (
         "craft : the craft '{name}' signature expect nothing but got a not None value."
     )
-    E045 = "Craft : Crafts only support Artefact, Volatile and Keyword only parameters. Craft '{name}' got '{anno}'."
+    E045 = "Craft : Crafts only support Artifact, Volatile and Keyword only parameters. Craft '{name}' got '{anno}'."
 
     # Pipeline
     E050 = "Pipeline : failed to run craft '{func}'"
     E052 = "Pipeline : '{kind}' keys collides : for craft '{name}'"
-    E053 = "Pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
+    E053 = "Pipeline : Artifact '{artifact}' is produced by Crafts '{L}' and '{R}'"
     E054 = "Pipeline : viz : missing '{dep}' package. Use 'pip install {dep}' to install the required dependencie. "
     E055 = "Pipeline : NameSpacedSequentialRunner expects each craft's context to be mapping. Got '{got}'"
 
@@ -183,13 +183,13 @@ class Warnings(UserWarning):
 
     # Craft
     W40 = (
-        "Craft : the Craft '{name}' failed to load '{artefact}' and has been defaulted."
+        "Craft : the Craft '{name}' failed to load '{artifact}' and has been defaulted."
     )
 
     # Pipeline
     W050 = "Pipeline : keys collision : '{keys}'"
     W051 = (
-        "Pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'"
+        "Pipeline : Craft '{craft}' requires an out-of-pipeline Artifact '{artifact}'"
     )
 
     # Session

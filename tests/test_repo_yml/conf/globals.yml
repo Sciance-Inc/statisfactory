@@ -4,7 +4,7 @@
 
 # Define some variables to be replaced in locals. Writed here to, to notify the user to overwrite them in their locals.py
 # You schould overwrite this variable in locals.py
-environment: replaceMeInLocals # Declare the default environment to isolate runs's Artefacts : could be your name, dev, test, prod...
+environment: replaceMeInLocals # Declare the default environment to isolate runs's Artifacts : could be your name, dev, test, prod...
 user: replaceMeInLocals
 password: replaceMeInLocals
 
@@ -20,7 +20,6 @@ layers:
   fea: 30_fea
   mdl: 40_mdl
   out: 50_out
-
 # Configure Mamazon (Minio) profile
 #aws_access_key: replaceMeInLocals
 #aws_secret_access_key: replaceMeInLocals
