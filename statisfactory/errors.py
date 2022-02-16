@@ -129,7 +129,7 @@ class Errors(metaclass=ExceptionFactory):
     E028 = "data interactor : string '{trg}' is incomplettely formatted, missing parameters from context"
     E0281 = "data interactor: failed to parse the Path parameter for Artifact {name}."
     E0290 = "data interactor : {backend} failed to serialize or write the payload."
-    E0291 = "data interactor : {backend} failed to fetch or deserialize the payload."
+    E0291 = "data interactor : {backend} failed to retrieve, fetch or deserialize the payload. Make sure that the ressource exists in the current branch."
     E0292 = "data interactor : scheme {scheme} does not map to any backend."
     E0293 = "data interactor : LakeFS interactor : the branch's name must match match the regex {regex}."
 
@@ -150,7 +150,7 @@ class Errors(metaclass=ExceptionFactory):
     E045 = "Craft : Crafts only support Artefact, Volatile and Keyword only parameters. Craft '{name}' got '{anno}'."
 
     # Pipeline
-    E050 = "Pipeline : failed to run c raft '{func}'"
+    E050 = "Pipeline : failed to run craft '{func}'"
     E052 = "Pipeline : '{kind}' keys collides : for craft '{name}'"
     E053 = "Pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'"
     E054 = "Pipeline : viz : missing '{dep}' package. Use 'pip install {dep}' to install the required dependencie. "
