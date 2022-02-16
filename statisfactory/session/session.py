@@ -35,7 +35,7 @@ from statisfactory.errors import Errors, Warnings
 from statisfactory.IO import Catalog
 from statisfactory.logger import MixinLogable, get_module_logger
 from statisfactory.operator import Scoped
-from statisfactory.session.loader import ConfigurationsLoader, PipelinesLoader
+from statisfactory.session.loader import get_configurations, get_pipelines
 
 #############################################################################
 #                                  Script                                   #
@@ -374,7 +374,7 @@ class _DefaultHooks:
             return
 
         path = (sess.root / str(sess.settings.pipelines_configurations)).resolve()
-        configurations = ConfigurationsLoader(path, sess).data
+        configurations = get_configurations(path, sess)
 
         sess._pipelines_configurations = configurations
 
@@ -391,7 +391,7 @@ class _DefaultHooks:
 
         path = (sess.root / str(sess.settings.pipelines_definitions)).resolve()
 
-        pipelines = PipelinesLoader(path, sess).data
+        pipelines = get_pipelines(path, sess)
 
         sess._pipelines_definitions = pipelines
 
