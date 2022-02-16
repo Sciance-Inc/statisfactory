@@ -108,6 +108,10 @@ class Artifact:
         self.load_options = _merge_dict(self.load_options)
 
 
+# TO BE REMOVED IN NEXT VERSION
+Artefact = Artifact
+
+
 class _ArtifactSchema(Schema):
     """
     Artifact's marshaller.
@@ -241,6 +245,7 @@ class _CatalogDataSchema(Schema):
 #############################################################################
 #                                   main                                    #
 #############################################################################
+
 
 if __name__ == "__main__":
     raise BaseException("model.py can't be run in standalone")
