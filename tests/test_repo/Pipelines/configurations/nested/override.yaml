@@ -1,0 +1,16 @@
+test_override_multifiles:
+  _from:
+    - test_dispatch
+  test_pipelines_config.step_1:
+    param_1: 20
+  shared_param: 20
+
+
+{% for trg in ['spam', 'egg'] -%}
+{{ trg }}_override_multifiles:
+  _from:
+    - test_dispatch
+  test_pipelines_config.step_1:
+    param_1: 30
+{% endfor %}
+  

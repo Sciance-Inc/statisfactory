@@ -1,0 +1,3 @@
+multiples_files_pipeline:
+  operators:
+    - jupyter.spam.craft_spam
