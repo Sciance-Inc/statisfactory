@@ -20,8 +20,8 @@ Classes
    statisfactory.IO.models.Connector
    statisfactory.IO.models._ConnectorSchema
    statisfactory.IO.models.Volatile
-   statisfactory.IO.models.Artefact
-   statisfactory.IO.models._ArtefactSchema
+   statisfactory.IO.models.Artifact
+   statisfactory.IO.models._ArtifactSchema
    statisfactory.IO.models.CatalogData
    statisfactory.IO.models._CatalogDataSchema
 
@@ -34,6 +34,14 @@ Functions
 
    statisfactory.IO.models._merge_dict
 
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.IO.models.Artefact
 
 
 .. py:class:: Connector
@@ -82,9 +90,9 @@ Functions
 
 
 
-.. py:class:: Artefact
+.. py:class:: Artifact
 
-   Represents an Artefact : the I/O of a statisfactory node.
+   Represents an Artifact : the I/O of a statisfactory node.
 
    .. py:attribute:: name
       :annotation: :str
@@ -126,10 +134,10 @@ Functions
 
       
 
-   .. py:method:: of(*args) -> List[Artefact]
+   .. py:method:: of(*args) -> List[Artifact]
       :staticmethod:
 
-      Convenient helper to return a tuple of Artefact from an iterable of strings.
+      Convenient helper to return a tuple of Artifact from an iterable of strings.
 
 
    .. py:method:: __post_init__(self)
@@ -138,13 +146,18 @@ Functions
 
 
 
-.. py:class:: _ArtefactSchema(*, only: Optional[marshmallow.types.StrSequenceOrSet] = None, exclude: marshmallow.types.StrSequenceOrSet = (), many: bool = False, context: Optional[Dict] = None, load_only: marshmallow.types.StrSequenceOrSet = (), dump_only: marshmallow.types.StrSequenceOrSet = (), partial: Union[bool, marshmallow.types.StrSequenceOrSet] = False, unknown: Optional[str] = None)
+.. py:data:: Artefact
+   
+
+   
+
+.. py:class:: _ArtifactSchema(*, only: Optional[marshmallow.types.StrSequenceOrSet] = None, exclude: marshmallow.types.StrSequenceOrSet = (), many: bool = False, context: Optional[Dict] = None, load_only: marshmallow.types.StrSequenceOrSet = (), dump_only: marshmallow.types.StrSequenceOrSet = (), partial: Union[bool, marshmallow.types.StrSequenceOrSet] = False, unknown: Optional[str] = None)
 
    Bases: :py:obj:`marshmallow.Schema`
 
-   Artefact's marshaller.
+   Artifact's marshaller.
 
-   .. py:attribute:: valids_artefacts
+   .. py:attribute:: valids_artifacts
       
 
       
@@ -193,7 +206,7 @@ Functions
    .. py:method:: validate_datapane(self, data, **kwargs)
 
 
-   .. py:method:: make_artefact(self, data, **kwargs)
+   .. py:method:: make_artifact(self, data, **kwargs)
 
 
 
@@ -206,8 +219,8 @@ Functions
 
    State of the catalogue.
 
-   .. py:attribute:: artefacts
-      :annotation: :Dict[str, Artefact]
+   .. py:attribute:: artifacts
+      :annotation: :Dict[str, Artifact]
 
       
 
@@ -234,7 +247,7 @@ Functions
 
    CatalogueData's marshaller.
 
-   .. py:attribute:: artefacts
+   .. py:attribute:: artifacts
       
 
       

@@ -43,30 +43,30 @@ Classes
 
    .. py:method:: __str__(self)
 
-      Show all artefacts entries
+      Show all artifacts entries
 
 
    .. py:method:: __contains__(self, name: str) -> bool
 
-      Check if the given name is an artefact
+      Check if the given name is an artifact
 
 
-   .. py:method:: _get_connector(self, artefact: statisfactory.IO.models.Artefact) -> Union[statisfactory.IO.models.Connector, None]
+   .. py:method:: _get_connector(self, artifact: statisfactory.IO.models.Artifact) -> Union[statisfactory.IO.models.Connector, None]
 
-      Retrieve the connector of an Artefact
+      Retrieve the connector of an Artifact
 
       Args:
-          artefact (Artefact): the artefact to extract the connector for
+          artifact (Artifact): the artifact to extract the connector for
 
 
-   .. py:method:: _get_artefact(self, name: str) -> statisfactory.IO.models.Artefact
+   .. py:method:: _get_artifact(self, name: str) -> statisfactory.IO.models.Artifact
 
-      Retrieve the FIRST artefact matching the given name currently living in the catalog.
+      Retrieve the FIRST artifact matching the given name currently living in the catalog.
 
 
-   .. py:method:: _get_interactor(self, artefact: statisfactory.IO.models.Artefact) -> Callable
+   .. py:method:: _get_interactor(self, artifact: statisfactory.IO.models.Artifact) -> Callable
 
-      Retrieve the interactor matchin the type of the artefact.
+      Retrieve the interactor matchin the type of the artifact.
 
 
    .. py:method:: load(self, name: str, **context) -> pandas.DataFrame
@@ -76,18 +76,18 @@ Classes
       if a context is provided, the update of the context won't raised any error
 
       Args:
-          name (str): the name of the artefact to load.
+          name (str): the name of the artifact to load.
 
 
    .. py:method:: save(self, name: str, asset: Any, **context)
 
-      Save the asset using the artefact name.
+      Save the asset using the artifact name.
       A context can be provided through named variadic args.
       if a context is provided, the update of the context won't raised any error
 
       Args:
           name (str): the name of the arteface
-          asset (Any): the underlying artefact to store
+          asset (Any): the underlying artifact to store
 
 
    .. py:method:: __add__(self, other: Any)

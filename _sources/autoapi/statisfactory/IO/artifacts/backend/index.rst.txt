@@ -1,11 +1,11 @@
-:py:mod:`statisfactory.IO.artefacts.backend`
+:py:mod:`statisfactory.IO.artifacts.backend`
 ============================================
 
-.. py:module:: statisfactory.IO.artefacts.backend
+.. py:module:: statisfactory.IO.artifacts.backend
 
 .. autoapi-nested-parse::
 
-   implements various backend to be reused across artefacts
+   implements various backend to be reused across artifacts
 
 
 
@@ -17,10 +17,10 @@ Classes
 
 .. autoapisummary::
 
-   statisfactory.IO.artefacts.backend.Backend
-   statisfactory.IO.artefacts.backend.S3Backend
-   statisfactory.IO.artefacts.backend.LocalFS
-   statisfactory.IO.artefacts.backend.LakeFSBackend
+   statisfactory.IO.artifacts.backend.Backend
+   statisfactory.IO.artifacts.backend.S3Backend
+   statisfactory.IO.artifacts.backend.LocalFS
+   statisfactory.IO.artifacts.backend.LakeFSBackend
 
 
 
@@ -67,7 +67,7 @@ Classes
 
       Args:
           payload (bytes): The bytes representation of the artifact to drop on the backend.
-          fragment (ParseResult): The Artefact's path parsed result to use to put the payload to.
+          fragment (ParseResult): The Artifact's path parsed result to use to put the payload to.
 
 
    .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
@@ -76,7 +76,7 @@ Classes
       Get the payload from the service under the 'path' name.
 
       Args:
-          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+          fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
 
 
 
@@ -100,7 +100,7 @@ Classes
 
       Args:
           payload (bytes): The bytes representation of the artifact to drop on the backend.
-          fragment (ParseResult): The Artefact's path parsed result.
+          fragment (ParseResult): The Artifact's path parsed result.
 
 
    .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
@@ -108,7 +108,7 @@ Classes
       Get the payload from the service under the 'path' name.
 
       Args:
-          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+          fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
 
 
 
@@ -132,7 +132,7 @@ Classes
 
       Args:
           payload (bytes): The bytes representation of the artifact to drop on the backend.
-          fragment (ParseResult): The Artefact's path parsed result.
+          fragment (ParseResult): The Artifact's path parsed result.
 
 
    .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
@@ -140,7 +140,7 @@ Classes
       Get the payload from the service under the 'path' name.
 
       Args:
-          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+          fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
 
 
 
@@ -174,7 +174,7 @@ Classes
 
       Args:
           payload (bytes): The bytes representation of the artifact to drop on the backend.
-          fragment (ParseResult): The Artefact's path parsed result.
+          fragment (ParseResult): The Artifact's path parsed result.
           lake_ref (str, optional): An optional commit / branch / lake ref to put the data to. Defaults to the current gitted branch.
 
 
@@ -183,7 +183,7 @@ Classes
       Get the payload from the service under the 'path' name.
 
       Args:
-          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+          fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
           lake_ref (str, optional): An optional commit / branch / lake ref to fetch the data from. Defaults to the current gitted branch.
 
       Returns:

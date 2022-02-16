@@ -36,7 +36,7 @@ Classes
 
 .. autoapisummary::
 
-   statisfactory.Artefact
+   statisfactory.Artifact
    statisfactory.Catalog
    statisfactory.Volatile
    statisfactory.Pipeline
@@ -59,12 +59,13 @@ Attributes
 
 .. autoapisummary::
 
+   statisfactory.Artefact
    statisfactory.__version__
 
 
-.. py:class:: Artefact
+.. py:class:: Artifact
 
-   Represents an Artefact : the I/O of a statisfactory node.
+   Represents an Artifact : the I/O of a statisfactory node.
 
    .. py:attribute:: name
       :annotation: :str
@@ -106,10 +107,10 @@ Attributes
 
       
 
-   .. py:method:: of(*args) -> List[Artefact]
+   .. py:method:: of(*args) -> List[Artifact]
       :staticmethod:
 
-      Convenient helper to return a tuple of Artefact from an iterable of strings.
+      Convenient helper to return a tuple of Artifact from an iterable of strings.
 
 
    .. py:method:: __post_init__(self)
@@ -117,6 +118,11 @@ Attributes
       Transform the marshmalling's list-of-dicts to a dict
 
 
+
+.. py:data:: Artefact
+   
+
+   
 
 .. py:class:: Catalog(*, dump: str, session: statisfactory.session.Session = None)
 
@@ -139,30 +145,30 @@ Attributes
 
    .. py:method:: __str__(self)
 
-      Show all artefacts entries
+      Show all artifacts entries
 
 
    .. py:method:: __contains__(self, name: str) -> bool
 
-      Check if the given name is an artefact
+      Check if the given name is an artifact
 
 
-   .. py:method:: _get_connector(self, artefact: statisfactory.IO.models.Artefact) -> Union[statisfactory.IO.models.Connector, None]
+   .. py:method:: _get_connector(self, artifact: statisfactory.IO.models.Artifact) -> Union[statisfactory.IO.models.Connector, None]
 
-      Retrieve the connector of an Artefact
+      Retrieve the connector of an Artifact
 
       Args:
-          artefact (Artefact): the artefact to extract the connector for
+          artifact (Artifact): the artifact to extract the connector for
 
 
-   .. py:method:: _get_artefact(self, name: str) -> statisfactory.IO.models.Artefact
+   .. py:method:: _get_artifact(self, name: str) -> statisfactory.IO.models.Artifact
 
-      Retrieve the FIRST artefact matching the given name currently living in the catalog.
+      Retrieve the FIRST artifact matching the given name currently living in the catalog.
 
 
-   .. py:method:: _get_interactor(self, artefact: statisfactory.IO.models.Artefact) -> Callable
+   .. py:method:: _get_interactor(self, artifact: statisfactory.IO.models.Artifact) -> Callable
 
-      Retrieve the interactor matchin the type of the artefact.
+      Retrieve the interactor matchin the type of the artifact.
 
 
    .. py:method:: load(self, name: str, **context) -> pandas.DataFrame
@@ -172,18 +178,18 @@ Attributes
       if a context is provided, the update of the context won't raised any error
 
       Args:
-          name (str): the name of the artefact to load.
+          name (str): the name of the artifact to load.
 
 
    .. py:method:: save(self, name: str, asset: Any, **context)
 
-      Save the asset using the artefact name.
+      Save the asset using the artifact name.
       A context can be provided through named variadic args.
       if a context is provided, the update of the context won't raised any error
 
       Args:
           name (str): the name of the arteface
-          asset (Any): the underlying artefact to store
+          asset (Any): the underlying artifact to store
 
 
    .. py:method:: __add__(self, other: Any)
@@ -292,7 +298,7 @@ Attributes
 
    Craft wraps a task and take care of data retrieval from / storage to the catalogue.
 
-   .. py:attribute:: _artefacts_annotation
+   .. py:attribute:: _artifacts_annotation
       
 
       
@@ -316,13 +322,13 @@ Attributes
    .. py:method:: requires(self) -> Tuple[str, Ellipsis]
       :property:
 
-      Return the name of the volatiles and artefact required by the craft
+      Return the name of the volatiles and artifact required by the craft
 
 
    .. py:method:: produces(self) -> Tuple[str, Ellipsis]
       :property:
 
-      Return the names of the volatiles and artefacts produced by the Craft.
+      Return the names of the volatiles and artifacts produced by the Craft.
 
 
    .. py:method:: output_annotations(self) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
@@ -345,8 +351,8 @@ Attributes
    .. py:method:: __call__(self, volatiles_mapping: Union[Mapping[str, Any], None] = None, **kwargs)
 
       Implements the call protocole for the Craft wrapper.
-      Load and save the Artefact for the undelryaing callable.
-      Defers the call to the underlying artefact.
+      Load and save the Artifact for the undelryaing callable.
+      Defers the call to the underlying artifact.
 
       Args:
           volatiles_mapping: A mappping of volatiles objects, computed before the craft execution
@@ -360,12 +366,12 @@ Attributes
       Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
 
 
-   .. py:method:: _save_artefacts(self, *, output, **context) -> Union[Mapping, None]
+   .. py:method:: _save_artifacts(self, *, output, **context) -> Union[Mapping, None]
 
-      Extract and save the artefact of an output
+      Extract and save the artifact of an output
 
       Args:
-          out (Dict): the dictionnary to extract artefacts from.
+          out (Dict): the dictionnary to extract artifacts from.
 
 
    .. py:method:: __add__(self, visitor: statisfactory.operator.utils.MergeableInterface)
@@ -504,7 +510,7 @@ Attributes
 
 
 .. py:data:: __version__
-   :annotation: = 0.3.4
+   :annotation: = 0.3.1
 
    
 

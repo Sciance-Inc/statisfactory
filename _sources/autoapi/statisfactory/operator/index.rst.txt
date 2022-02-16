@@ -60,7 +60,7 @@ Functions
 
    Craft wraps a task and take care of data retrieval from / storage to the catalogue.
 
-   .. py:attribute:: _artefacts_annotation
+   .. py:attribute:: _artifacts_annotation
       
 
       
@@ -84,13 +84,13 @@ Functions
    .. py:method:: requires(self) -> Tuple[str, Ellipsis]
       :property:
 
-      Return the name of the volatiles and artefact required by the craft
+      Return the name of the volatiles and artifact required by the craft
 
 
    .. py:method:: produces(self) -> Tuple[str, Ellipsis]
       :property:
 
-      Return the names of the volatiles and artefacts produced by the Craft.
+      Return the names of the volatiles and artifacts produced by the Craft.
 
 
    .. py:method:: output_annotations(self) -> Tuple[statisfactory.operator.annotations.Annotation, Ellipsis]
@@ -113,8 +113,8 @@ Functions
    .. py:method:: __call__(self, volatiles_mapping: Union[Mapping[str, Any], None] = None, **kwargs)
 
       Implements the call protocole for the Craft wrapper.
-      Load and save the Artefact for the undelryaing callable.
-      Defers the call to the underlying artefact.
+      Load and save the Artifact for the undelryaing callable.
+      Defers the call to the underlying artifact.
 
       Args:
           volatiles_mapping: A mappping of volatiles objects, computed before the craft execution
@@ -128,12 +128,12 @@ Functions
       Return a craft with a reference to a copied catalog, so that the context can be independtly updated.
 
 
-   .. py:method:: _save_artefacts(self, *, output, **context) -> Union[Mapping, None]
+   .. py:method:: _save_artifacts(self, *, output, **context) -> Union[Mapping, None]
 
-      Extract and save the artefact of an output
+      Extract and save the artifact of an output
 
       Args:
-          out (Dict): the dictionnary to extract artefacts from.
+          out (Dict): the dictionnary to extract artifacts from.
 
 
    .. py:method:: __add__(self, visitor: statisfactory.operator.utils.MergeableInterface)

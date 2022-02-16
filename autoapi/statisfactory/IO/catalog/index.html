@@ -113,10 +113,10 @@
       </label>
       <ul class="current">
        <li class="toctree-l4">
-        <a class="reference internal" href="../artefacts/index.html">
+        <a class="reference internal" href="../artifacts/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.IO.artefacts
+           statisfactory.IO.artifacts
           </span>
          </code>
         </a>
@@ -426,8 +426,8 @@
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.IO.catalog.Catalog._get_artefact">
-         _get_artefact
+        <a class="reference internal nav-link" href="#statisfactory.IO.catalog.Catalog._get_artifact">
+         _get_artifact
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -511,35 +511,35 @@ session (Session): The session to use to render the template</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog.__str__">
 <span class="sig-name descname"><span class="pre">__str__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog.__str__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Show all artefacts entries</p>
+<dd><p>Show all artifacts entries</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog.__contains__">
 <span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog.__contains__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if the given name is an artefact</p>
+<dd><p>Check if the given name is an artifact</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog._get_connector">
-<span class="sig-name descname"><span class="pre">_get_connector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artefact</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../models/index.html#statisfactory.IO.models.Artefact" title="statisfactory.IO.models.Artefact"><span class="pre">statisfactory.IO.models.Artefact</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../models/index.html#statisfactory.IO.models.Connector" title="statisfactory.IO.models.Connector"><span class="pre">statisfactory.IO.models.Connector</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog._get_connector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the connector of an Artefact</p>
+<span class="sig-name descname"><span class="pre">_get_connector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artifact</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../models/index.html#statisfactory.IO.models.Artifact" title="statisfactory.IO.models.Artifact"><span class="pre">statisfactory.IO.models.Artifact</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../models/index.html#statisfactory.IO.models.Connector" title="statisfactory.IO.models.Connector"><span class="pre">statisfactory.IO.models.Connector</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog._get_connector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the connector of an Artifact</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>artefact (Artefact): the artefact to extract the connector for</p>
+<dt>Args:</dt><dd><p>artifact (Artifact): the artifact to extract the connector for</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog._get_artefact">
-<span class="sig-name descname"><span class="pre">_get_artefact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../models/index.html#statisfactory.IO.models.Artefact" title="statisfactory.IO.models.Artefact"><span class="pre">statisfactory.IO.models.Artefact</span></a></span></span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog._get_artefact" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the FIRST artefact matching the given name currently living in the catalog.</p>
+<dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog._get_artifact">
+<span class="sig-name descname"><span class="pre">_get_artifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../models/index.html#statisfactory.IO.models.Artifact" title="statisfactory.IO.models.Artifact"><span class="pre">statisfactory.IO.models.Artifact</span></a></span></span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog._get_artifact" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the FIRST artifact matching the given name currently living in the catalog.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog._get_interactor">
-<span class="sig-name descname"><span class="pre">_get_interactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artefact</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../models/index.html#statisfactory.IO.models.Artefact" title="statisfactory.IO.models.Artefact"><span class="pre">statisfactory.IO.models.Artefact</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog._get_interactor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the interactor matchin the type of the artefact.</p>
+<span class="sig-name descname"><span class="pre">_get_interactor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">artifact</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../models/index.html#statisfactory.IO.models.Artifact" title="statisfactory.IO.models.Artifact"><span class="pre">statisfactory.IO.models.Artifact</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog._get_interactor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the interactor matchin the type of the artifact.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -549,7 +549,7 @@ session (Session): The session to use to render the template</p>
 A context can be provided through named variadic args.
 if a context is provided, the update of the context won’t raised any error</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>name (str): the name of the artefact to load.</p>
+<dt>Args:</dt><dd><p>name (str): the name of the artifact to load.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -557,12 +557,12 @@ if a context is provided, the update of the context won’t raised any error</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.catalog.Catalog.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.catalog.Catalog.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the asset using the artefact name.
+<dd><p>Save the asset using the artifact name.
 A context can be provided through named variadic args.
 if a context is provided, the update of the context won’t raised any error</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>name (str): the name of the arteface
-asset (Any): the underlying artefact to store</p>
+asset (Any): the underlying artifact to store</p>
 </dd>
 </dl>
 </dd></dl>

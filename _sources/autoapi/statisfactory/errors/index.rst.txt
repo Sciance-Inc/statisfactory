@@ -206,7 +206,7 @@ Attributes
       
 
    .. py:attribute:: E0291
-      :annotation: = data interactor : {backend} failed to fetch or deserialize the payload.
+      :annotation: = data interactor : {backend} failed to retrieve, fetch or deserialize the payload. Make sure that...
 
       
 
@@ -221,7 +221,7 @@ Attributes
       
 
    .. py:attribute:: E030
-      :annotation: = catalog : the '{name}' artefact  does not exists
+      :annotation: = catalog : the '{name}' artifact  does not exists
 
       
 
@@ -251,7 +251,7 @@ Attributes
       
 
    .. py:attribute:: E042
-      :annotation: = craft : the craft '{name}'s signature must be a Volatile, Artefact or a Tuple of Volatiles and...
+      :annotation: = craft : the craft '{name}'s signature must be a Volatile, Artifact or a Tuple of Volatiles and...
 
       
 
@@ -266,12 +266,12 @@ Attributes
       
 
    .. py:attribute:: E045
-      :annotation: = Craft : Crafts only support Artefact, Volatile and Keyword only parameters. Craft '{name}' got '{anno}'.
+      :annotation: = Craft : Crafts only support Artifact, Volatile and Keyword only parameters. Craft '{name}' got '{anno}'.
 
       
 
    .. py:attribute:: E050
-      :annotation: = Pipeline : failed to run c raft '{func}'
+      :annotation: = Pipeline : failed to run craft '{func}'
 
       
 
@@ -281,7 +281,7 @@ Attributes
       
 
    .. py:attribute:: E053
-      :annotation: = Pipeline : Artefact '{artefact}' is produced by Crafts '{L}' and '{R}'
+      :annotation: = Pipeline : Artifact '{artifact}' is produced by Crafts '{L}' and '{R}'
 
       
 
@@ -368,7 +368,7 @@ Attributes
       
 
    .. py:attribute:: W40
-      :annotation: = Craft : the Craft '{name}' failed to load '{artefact}' and has been defaulted.
+      :annotation: = Craft : the Craft '{name}' failed to load '{artifact}' and has been defaulted.
 
       
 
@@ -378,7 +378,7 @@ Attributes
       
 
    .. py:attribute:: W051
-      :annotation: = Pipeline : Craft '{craft}' requires an out-of-pipeline Artefact '{artefact}'
+      :annotation: = Pipeline : Craft '{craft}' requires an out-of-pipeline Artifact '{artifact}'
 
       
 

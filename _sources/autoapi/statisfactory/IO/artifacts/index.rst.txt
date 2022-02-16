@@ -1,7 +1,7 @@
-:py:mod:`statisfactory.IO.artefacts`
+:py:mod:`statisfactory.IO.artifacts`
 ====================================
 
-.. py:module:: statisfactory.IO.artefacts
+.. py:module:: statisfactory.IO.artifacts
 
 
 Submodules
@@ -10,7 +10,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   artefact_interactor/index.rst
+   artifact_interactor/index.rst
    backend/index.rst
 
 
@@ -22,22 +22,22 @@ Classes
 
 .. autoapisummary::
 
-   statisfactory.IO.artefacts.ArtefactInteractor
-   statisfactory.IO.artefacts.MixinInterpolable
-   statisfactory.IO.artefacts.Backend
+   statisfactory.IO.artifacts.ArtifactInteractor
+   statisfactory.IO.artifacts.MixinInterpolable
+   statisfactory.IO.artifacts.Backend
 
 
 
 
-.. py:class:: ArtefactInteractor(artefact, *args, session: statisfactory.session.Session, **kwargs)
+.. py:class:: ArtifactInteractor(artifact, *args, session: statisfactory.session.Session, **kwargs)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinInterpolable`
 
    Describe the Interactor's interface.
-   An interactor wraps the loading and saving operations of a Artefact.
+   An interactor wraps the loading and saving operations of a Artifact.
    The user can implements custom interactors. To do so, the user should
-   implements the interface desbribes in this class. An artefact and a Session object
-   are available when the artefact is called by the Catalog.
+   implements the interface desbribes in this class. An artifact and a Session object
+   are available when the artifact is called by the Catalog.
 
    .. py:attribute:: _interactors
       
@@ -47,8 +47,8 @@ Classes
    .. py:method:: __init_subclass__(cls, interactor_name, register: bool = True, **kwargs)
       :classmethod:
 
-      Implement the registration of a child class into the artefact class.
-      By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
+      Implement the registration of a child class into the artifact class.
+      By doing so, the ArtifactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
       See PEP-487 for details.
 
 
@@ -129,7 +129,7 @@ Classes
 
       Args:
           payload (bytes): The bytes representation of the artifact to drop on the backend.
-          fragment (ParseResult): The Artefact's path parsed result to use to put the payload to.
+          fragment (ParseResult): The Artifact's path parsed result to use to put the payload to.
 
 
    .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
@@ -138,7 +138,7 @@ Classes
       Get the payload from the service under the 'path' name.
 
       Args:
-          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+          fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
 
 
 

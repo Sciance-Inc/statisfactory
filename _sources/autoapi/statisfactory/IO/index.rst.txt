@@ -10,7 +10,7 @@ Subpackages
    :titlesonly:
    :maxdepth: 3
 
-   artefacts/index.rst
+   artifacts/index.rst
 
 
 Submodules
@@ -31,25 +31,33 @@ Classes
 
 .. autoapisummary::
 
-   statisfactory.IO.ArtefactInteractor
+   statisfactory.IO.ArtifactInteractor
    statisfactory.IO.Backend
    statisfactory.IO.MixinInterpolable
    statisfactory.IO.Catalog
-   statisfactory.IO.Artefact
+   statisfactory.IO.Artifact
    statisfactory.IO.Volatile
 
 
 
 
-.. py:class:: ArtefactInteractor(artefact, *args, session: statisfactory.session.Session, **kwargs)
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.IO.Artefact
+
+
+.. py:class:: ArtifactInteractor(artifact, *args, session: statisfactory.session.Session, **kwargs)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinInterpolable`
 
    Describe the Interactor's interface.
-   An interactor wraps the loading and saving operations of a Artefact.
+   An interactor wraps the loading and saving operations of a Artifact.
    The user can implements custom interactors. To do so, the user should
-   implements the interface desbribes in this class. An artefact and a Session object
-   are available when the artefact is called by the Catalog.
+   implements the interface desbribes in this class. An artifact and a Session object
+   are available when the artifact is called by the Catalog.
 
    .. py:attribute:: _interactors
       
@@ -59,8 +67,8 @@ Classes
    .. py:method:: __init_subclass__(cls, interactor_name, register: bool = True, **kwargs)
       :classmethod:
 
-      Implement the registration of a child class into the artefact class.
-      By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
+      Implement the registration of a child class into the artifact class.
+      By doing so, the ArtifactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
       See PEP-487 for details.
 
 
@@ -131,7 +139,7 @@ Classes
 
       Args:
           payload (bytes): The bytes representation of the artifact to drop on the backend.
-          fragment (ParseResult): The Artefact's path parsed result to use to put the payload to.
+          fragment (ParseResult): The Artifact's path parsed result to use to put the payload to.
 
 
    .. py:method:: get(self, *, fragment: urllib.parse.ParseResult, **kwargs) -> bytes
@@ -140,7 +148,7 @@ Classes
       Get the payload from the service under the 'path' name.
 
       Args:
-          fragment (ParseResult): The Artefact's path parsed result to use to fetch the payload from.
+          fragment (ParseResult): The Artifact's path parsed result to use to fetch the payload from.
 
 
 
@@ -175,30 +183,30 @@ Classes
 
    .. py:method:: __str__(self)
 
-      Show all artefacts entries
+      Show all artifacts entries
 
 
    .. py:method:: __contains__(self, name: str) -> bool
 
-      Check if the given name is an artefact
+      Check if the given name is an artifact
 
 
-   .. py:method:: _get_connector(self, artefact: statisfactory.IO.models.Artefact) -> Union[statisfactory.IO.models.Connector, None]
+   .. py:method:: _get_connector(self, artifact: statisfactory.IO.models.Artifact) -> Union[statisfactory.IO.models.Connector, None]
 
-      Retrieve the connector of an Artefact
+      Retrieve the connector of an Artifact
 
       Args:
-          artefact (Artefact): the artefact to extract the connector for
+          artifact (Artifact): the artifact to extract the connector for
 
 
-   .. py:method:: _get_artefact(self, name: str) -> statisfactory.IO.models.Artefact
+   .. py:method:: _get_artifact(self, name: str) -> statisfactory.IO.models.Artifact
 
-      Retrieve the FIRST artefact matching the given name currently living in the catalog.
+      Retrieve the FIRST artifact matching the given name currently living in the catalog.
 
 
-   .. py:method:: _get_interactor(self, artefact: statisfactory.IO.models.Artefact) -> Callable
+   .. py:method:: _get_interactor(self, artifact: statisfactory.IO.models.Artifact) -> Callable
 
-      Retrieve the interactor matchin the type of the artefact.
+      Retrieve the interactor matchin the type of the artifact.
 
 
    .. py:method:: load(self, name: str, **context) -> pandas.DataFrame
@@ -208,18 +216,18 @@ Classes
       if a context is provided, the update of the context won't raised any error
 
       Args:
-          name (str): the name of the artefact to load.
+          name (str): the name of the artifact to load.
 
 
    .. py:method:: save(self, name: str, asset: Any, **context)
 
-      Save the asset using the artefact name.
+      Save the asset using the artifact name.
       A context can be provided through named variadic args.
       if a context is provided, the update of the context won't raised any error
 
       Args:
           name (str): the name of the arteface
-          asset (Any): the underlying artefact to store
+          asset (Any): the underlying artifact to store
 
 
    .. py:method:: __add__(self, other: Any)
@@ -242,9 +250,9 @@ Classes
 
 
 
-.. py:class:: Artefact
+.. py:class:: Artifact
 
-   Represents an Artefact : the I/O of a statisfactory node.
+   Represents an Artifact : the I/O of a statisfactory node.
 
    .. py:attribute:: name
       :annotation: :str
@@ -286,10 +294,10 @@ Classes
 
       
 
-   .. py:method:: of(*args) -> List[Artefact]
+   .. py:method:: of(*args) -> List[Artifact]
       :staticmethod:
 
-      Convenient helper to return a tuple of Artefact from an iterable of strings.
+      Convenient helper to return a tuple of Artifact from an iterable of strings.
 
 
    .. py:method:: __post_init__(self)
@@ -313,4 +321,9 @@ Classes
       Convenient helper to return a tuple of volatile from an iterable of strings.
 
 
+
+.. py:data:: Artefact
+   
+
+   
 

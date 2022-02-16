@@ -113,10 +113,10 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../IO/artefacts/index.html">
+        <a class="reference internal" href="../../IO/artifacts/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.IO.artefacts
+           statisfactory.IO.artifacts
           </span>
          </code>
         </a>
@@ -411,8 +411,8 @@
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.operator.craft._Craft._artefacts_annotation">
-         _artefacts_annotation
+        <a class="reference internal nav-link" href="#statisfactory.operator.craft._Craft._artifacts_annotation">
+         _artifacts_annotation
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -466,8 +466,8 @@
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.operator.craft._Craft._save_artefacts">
-         _save_artefacts
+        <a class="reference internal nav-link" href="#statisfactory.operator.craft._Craft._save_artifacts">
+         _save_artifacts
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -560,8 +560,8 @@
 <dd><p>Bases: <a class="reference internal" href="../scoped/index.html#statisfactory.operator.scoped.Scoped" title="statisfactory.operator.scoped.Scoped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.operator.scoped.Scoped</span></code></a>, <a class="reference internal" href="../mixinHookable/index.html#statisfactory.operator.mixinHookable.MixinHookable" title="statisfactory.operator.mixinHookable.MixinHookable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.operator.mixinHookable.MixinHookable</span></code></a>, <a class="reference internal" href="../utils/index.html#statisfactory.operator.utils.MergeableInterface" title="statisfactory.operator.utils.MergeableInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.operator.utils.MergeableInterface</span></code></a>, <a class="reference internal" href="../../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
 <p>Craft wraps a task and take care of data retrieval from / storage to the catalogue.</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="statisfactory.operator.craft._Craft._artefacts_annotation">
-<span class="sig-name descname"><span class="pre">_artefacts_annotation</span></span><a class="headerlink" href="#statisfactory.operator.craft._Craft._artefacts_annotation" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="statisfactory.operator.craft._Craft._artifacts_annotation">
+<span class="sig-name descname"><span class="pre">_artifacts_annotation</span></span><a class="headerlink" href="#statisfactory.operator.craft._Craft._artifacts_annotation" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -585,13 +585,13 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.craft._Craft.requires">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">requires</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.craft._Craft.requires" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the name of the volatiles and artefact required by the craft</p>
+<dd><p>Return the name of the volatiles and artifact required by the craft</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.craft._Craft.produces">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">produces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.craft._Craft.produces" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the names of the volatiles and artefacts produced by the Craft.</p>
+<dd><p>Return the names of the volatiles and artifacts produced by the Craft.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -616,8 +616,8 @@
 <dt class="sig sig-object py" id="statisfactory.operator.craft._Craft.__call__">
 <span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volatiles_mapping</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.craft._Craft.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the call protocole for the Craft wrapper.
-Load and save the Artefact for the undelryaing callable.
-Defers the call to the underlying artefact.</p>
+Load and save the Artifact for the undelryaing callable.
+Defers the call to the underlying artifact.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>volatiles_mapping: A mappping of volatiles objects, computed before the craft execution
 kwargs: variadic keywrods arguments to be defered to the underlaying callable.</p>
@@ -633,11 +633,11 @@ kwargs: variadic keywrods arguments to be defered to the underlaying callable.</
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.operator.craft._Craft._save_artefacts">
-<span class="sig-name descname"><span class="pre">_save_artefacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.craft._Craft._save_artefacts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract and save the artefact of an output</p>
+<dt class="sig sig-object py" id="statisfactory.operator.craft._Craft._save_artifacts">
+<span class="sig-name descname"><span class="pre">_save_artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.craft._Craft._save_artifacts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract and save the artifact of an output</p>
 <dl class="simple">
-<dt>Args:</dt><dd><p>out (Dict): the dictionnary to extract artefacts from.</p>
+<dt>Args:</dt><dd><p>out (Dict): the dictionnary to extract artifacts from.</p>
 </dd>
 </dl>
 </dd></dl>

@@ -1,7 +1,7 @@
-:py:mod:`statisfactory.IO.artefacts.artefact_interactor`
+:py:mod:`statisfactory.IO.artifacts.artifact_interactor`
 ========================================================
 
-.. py:module:: statisfactory.IO.artefacts.artefact_interactor
+.. py:module:: statisfactory.IO.artifacts.artifact_interactor
 
 .. autoapi-nested-parse::
 
@@ -17,17 +17,17 @@ Classes
 
 .. autoapisummary::
 
-   statisfactory.IO.artefacts.artefact_interactor.DynamicInterpolation
-   statisfactory.IO.artefacts.artefact_interactor.MixinInterpolable
-   statisfactory.IO.artefacts.artefact_interactor.ArtefactInteractor
-   statisfactory.IO.artefacts.artefact_interactor.FileBasedInteractor
-   statisfactory.IO.artefacts.artefact_interactor.CSVInteractor
-   statisfactory.IO.artefacts.artefact_interactor.XLSXInteractor
-   statisfactory.IO.artefacts.artefact_interactor.PicklerInteractor
-   statisfactory.IO.artefacts.artefact_interactor.ODBCInteractor
-   statisfactory.IO.artefacts.artefact_interactor.DatapaneInteractor
-   statisfactory.IO.artefacts.artefact_interactor.BinaryInteractor
-   statisfactory.IO.artefacts.artefact_interactor.FeatherInteractor
+   statisfactory.IO.artifacts.artifact_interactor.DynamicInterpolation
+   statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable
+   statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor
+   statisfactory.IO.artifacts.artifact_interactor.FileBasedInteractor
+   statisfactory.IO.artifacts.artifact_interactor.CSVInteractor
+   statisfactory.IO.artifacts.artifact_interactor.XLSXInteractor
+   statisfactory.IO.artifacts.artifact_interactor.PicklerInteractor
+   statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor
+   statisfactory.IO.artifacts.artifact_interactor.DatapaneInteractor
+   statisfactory.IO.artifacts.artifact_interactor.BinaryInteractor
+   statisfactory.IO.artifacts.artifact_interactor.FeatherInteractor
 
 
 
@@ -36,7 +36,7 @@ Classes
 
    Bases: :py:obj:`string.Template`
 
-   Implements the interpolation of the !{} for the artefact values.
+   Implements the interpolation of the !{} for the artifact values.
 
    Override the default template to :
        * replace the $ used by the StaticInterpolation with ! (the @ might be used in connection string)
@@ -83,15 +83,15 @@ Classes
 
 
 
-.. py:class:: ArtefactInteractor(artefact, *args, session: statisfactory.session.Session, **kwargs)
+.. py:class:: ArtifactInteractor(artifact, *args, session: statisfactory.session.Session, **kwargs)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinInterpolable`
 
    Describe the Interactor's interface.
-   An interactor wraps the loading and saving operations of a Artefact.
+   An interactor wraps the loading and saving operations of a Artifact.
    The user can implements custom interactors. To do so, the user should
-   implements the interface desbribes in this class. An artefact and a Session object
-   are available when the artefact is called by the Catalog.
+   implements the interface desbribes in this class. An artifact and a Session object
+   are available when the artifact is called by the Catalog.
 
    .. py:attribute:: _interactors
       
@@ -101,8 +101,8 @@ Classes
    .. py:method:: __init_subclass__(cls, interactor_name, register: bool = True, **kwargs)
       :classmethod:
 
-      Implement the registration of a child class into the artefact class.
-      By doing so, the ArtefactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
+      Implement the registration of a child class into the artifact class.
+      By doing so, the ArtifactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
       See PEP-487 for details.
 
 
@@ -131,11 +131,11 @@ Classes
 
 
 
-.. py:class:: FileBasedInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: FileBasedInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
 
-   Bases: :py:obj:`ArtefactInteractor`
+   Bases: :py:obj:`ArtifactInteractor`
 
-   Extend the Artefact Interactor with Path interpolations
+   Extend the Artifact Interactor with Path interpolations
 
    .. py:method:: _put(self, payload: bytes, **kwargs)
 
@@ -151,7 +151,7 @@ Classes
 
 
 
-.. py:class:: CSVInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: CSVInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -174,7 +174,7 @@ Classes
 
 
 
-.. py:class:: XLSXInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: XLSXInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -197,7 +197,7 @@ Classes
 
 
 
-.. py:class:: PicklerInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: PicklerInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -216,13 +216,13 @@ Classes
       Serialize the 'asset'
 
       Args:
-          asset (Any ): the artefact to be saved
+          asset (Any ): the artifact to be saved
 
 
 
-.. py:class:: ODBCInteractor(artefact, connector, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: ODBCInteractor(artifact, connector, *args, session: statisfactory.session.Session = None, **kwargs)
 
-   Bases: :py:obj:`ArtefactInteractor`, :py:obj:`MixinInterpolable`
+   Bases: :py:obj:`ArtifactInteractor`, :py:obj:`MixinInterpolable`
 
    Concrete implementation of an odbc interactor
 
@@ -253,7 +253,7 @@ Classes
 
 
 
-.. py:class:: DatapaneInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: DatapaneInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -272,7 +272,7 @@ Classes
       Save a datapane assert
 
       Args:
-          artefact (dp.Report): the datapane report object to be saved.
+          artifact (dp.Report): the datapane report object to be saved.
           open (bool): whether open the report on saving.
 
       Implementation details:
@@ -280,7 +280,7 @@ Classes
 
 
 
-.. py:class:: BinaryInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: BinaryInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -288,7 +288,7 @@ Classes
 
    .. py:method:: load(self, **kwargs)
 
-      Return the content of a binary artefact.
+      Return the content of a binary artifact.
 
 
    .. py:method:: save(self, asset: bytes, **kwargs)
@@ -296,11 +296,11 @@ Classes
       Save a datapane assert
 
       Args:
-          artefact (Any): the binary content to write
+          artifact (Any): the binary content to write
 
 
 
-.. py:class:: FeatherInteractor(artefact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: FeatherInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -310,7 +310,7 @@ Classes
 
    .. py:method:: load(self, **kwargs)
 
-      Return the content of a feather artefact.
+      Return the content of a feather artifact.
 
 
    .. py:method:: save(self, asset: Union[pandas.DataFrame, pandas.Series], **kwargs)
@@ -318,7 +318,7 @@ Classes
       Save a Feather asset
 
       Args:
-          artefact Union[pd.DataFrame, pd.Series]: the dataframe content to write
+          artifact Union[pd.DataFrame, pd.Series]: the dataframe content to write
 
 
 
