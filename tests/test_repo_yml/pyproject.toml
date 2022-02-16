@@ -1,0 +1,4 @@
+[tool.statisfactory]
+project_slug = "exemple"
+configuration = "conf"
+catalog = "catalog.yml"
