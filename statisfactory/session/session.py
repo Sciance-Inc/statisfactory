@@ -35,9 +35,7 @@ from statisfactory.errors import Errors, Warnings
 from statisfactory.IO import Catalog
 from statisfactory.logger import MixinLogable, get_module_logger
 from statisfactory.operator import Scoped
-
-# project
-from .loader import ConfigsLoader, PipelinesLoader
+from statisfactory.session.loader import ConfigurationsLoader, PipelinesLoader
 
 #############################################################################
 #                                  Script                                   #
@@ -113,14 +111,14 @@ class Session(MixinLogable):
         self._settings = Dynaconf()
         self._settings.update(config)  # type: ignore
 
-        self._settings.validators.register(
+        self._settings.validators.register(  # type: ignore
             Validator("configuration", "catalog", must_exist=True),
             Validator("notebook_target", default="jupyter"),
             Validator("project_slug", must_exist=True),
         )  # type: ignore
 
         # Fire up the validators
-        self._settings.validators.validate()
+        self._settings.validators.validate()  # type: ignore
 
         # Instanciate the 'user space'
         self._ = {}
@@ -376,8 +374,7 @@ class _DefaultHooks:
             return
 
         path = (sess.root / str(sess.settings.pipelines_configurations)).resolve()
-
-        configurations = ConfigsLoader.load(path=str(path))
+        configurations = ConfigurationsLoader(path, sess).data
 
         sess._pipelines_configurations = configurations
 
@@ -394,7 +391,7 @@ class _DefaultHooks:
 
         path = (sess.root / str(sess.settings.pipelines_definitions)).resolve()
 
-        pipelines = PipelinesLoader.load(path=str(path))
+        pipelines = PipelinesLoader(path, sess).data
 
         sess._pipelines_definitions = pipelines
 

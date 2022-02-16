@@ -113,6 +113,10 @@ class Errors(metaclass=ExceptionFactory):
     E015 = "start-up : Parsing pipeline '{pip_name}' : failed to import module '{module}'. The path might not be reachable."
     E016 = "start-up : pipelines definition '{name}' embed a reference to an undeclared definition '{ref}'"
     E017 = "start-up : Parsing pipeline '{pip_name}' : failed to import '{craft_name}' Craft from '{module}'. The module is reachable but importing the Craft failed."
+    E0181 = "ConfigParser : '{path}' does not exist."
+    E0182 = "ConfigParser : failed to read the '{path}'. Is the file a valid jinja2 template ?"
+    E0183 = "ConfigParser : failed to render the '{path}' template with template variables '{vars}'."
+    E0184 = "ConfigParser : failed deserialize the yaml representation '{repr}'."
 
     # FS interactors
     E020 = "data interactor : there is already an interactor named '{name}'"

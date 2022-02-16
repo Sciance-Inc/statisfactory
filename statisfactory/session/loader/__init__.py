@@ -1,2 +1,1 @@
-from .configs_loader import ConfigsLoader  # noqa
-from .pipelines_loader import PipelinesLoader  # noqa
+from .parser import ConfigurationsLoader, PipelinesLoader

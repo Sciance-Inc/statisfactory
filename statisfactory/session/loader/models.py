@@ -14,63 +14,29 @@
 #                                 Packages                                  #
 #############################################################################
 
-import dataclasses
-
 # system
 from typing import Any, List, Mapping, Optional
-
-import yaml
-
-# third party
-from marshmallow import Schema, fields, post_load
+import dataclasses
+from pydantic.dataclasses import dataclass
 
 # project
-from ...errors import Errors
+from statisfactory.errors import Errors
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
-@dataclasses.dataclass
+@dataclass
 class PipelineDefinition:
     """
     Represents the definition of a Pipeline
     """
 
+    class Config:
+        extra = "forbid"
+
     operators: List[str]
-    config: Optional[Mapping[str, Any]] = dataclasses.field(default_factory=dict)
-
-    @staticmethod
-    def from_file(file: str):
-        """
-        Build a statisfactory config from a file.
-        """
-
-        try:
-            with open(file) as f:
-                data = yaml.safe_load(f)
-        except BaseException as error:
-            raise Errors.E012(file="Pipelines definition", path=file) from error  # type: ignore
-
-        schema = Schema.from_dict(
-            {key: fields.Nested(_PipelinesDefinitionsShema) for key in data}
-        )
-
-        try:
-            return schema().load(data)
-        except BaseException as error:
-            raise Errors.E013(file="Pipelines definition") from error  # type: ignore
-
-
-class _PipelinesDefinitionsShema(Schema):
-
-    operators = fields.List(fields.Str(), required=True)
-    config = fields.Mapping(keys=fields.Str(), required=False)
-
-    @post_load
-    def make_PipelinesDefinitions(self, data, **kwargs):
-        return PipelineDefinition(**data)
 
 
 #############################################################################
