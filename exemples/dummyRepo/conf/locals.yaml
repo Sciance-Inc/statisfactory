@@ -1,7 +1,7 @@
 # The locals.yaml overwrite the globals definitioné
 # The file SHOULD NOT BE GITED (ie : add it to .gitignore) since it's might contains secrets !
 
-# Overwrite the environnement to not mess with the artefacts from the other.
+# Overwrite the environnement to not mess with the artifacts from the other.
 environment: croustibat_env
 
 # Alright then, write your secrets

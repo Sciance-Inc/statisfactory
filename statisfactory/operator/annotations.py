@@ -31,7 +31,7 @@ class AnnotationKind(Enum):
     Admissibles values for signature elements
     """
 
-    ARTEFACT = auto()  # An artefact to load
+    ARTEFACT = auto()  # An artifact to load
     VOLATILE = auto()  # A Volatile object from a previously Executed craft
     KEY = auto()
 

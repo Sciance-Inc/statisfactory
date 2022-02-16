@@ -77,9 +77,9 @@ class Volatile:
 
 
 @dataclass
-class Artefact:
+class Artifact:
     """
-    Represents an Artefact : the I/O of a statisfactory node.
+    Represents an Artifact : the I/O of a statisfactory node.
     """
 
     name: str
@@ -92,12 +92,12 @@ class Artefact:
     load_options: Optional[Dict] = field(default_factory=dict)
 
     @staticmethod
-    def of(*args) -> List["Artefact"]:
+    def of(*args) -> List["Artifact"]:
         """
-        Convenient helper to return a tuple of Artefact from an iterable of strings.
+        Convenient helper to return a tuple of Artifact from an iterable of strings.
         """
 
-        return [Artefact(i) for i in args]
+        return [Artifact(i) for i in args]
 
     def __post_init__(self):
         """
@@ -108,12 +108,16 @@ class Artefact:
         self.load_options = _merge_dict(self.load_options)
 
 
-class _ArtefactSchema(Schema):
+# TO BE REMOVED IN NEXT VERSION
+Artefact = Artifact
+
+
+class _ArtifactSchema(Schema):
     """
-    Artefact's marshaller.
+    Artifact's marshaller.
     """
 
-    valids_artefacts = set()
+    valids_artifacts = set()
 
     # Shared
     type = fields.Str(required=True)
@@ -163,11 +167,11 @@ class _ArtefactSchema(Schema):
             raise ValidationError(errors)
 
     @post_load
-    def make_artefact(self, data, **kwargs):
-        if data["type"] not in _ArtefactSchema.valids_artefacts:
+    def make_artifact(self, data, **kwargs):
+        if data["type"] not in _ArtifactSchema.valids_artifacts:
             warn(Warnings.W020.format(inter_type=data["type"]))  # type: ignore
 
-        return Artefact(name=None, **data)
+        return Artifact(name=None, **data)
 
 
 # ------------------------------------------------------------------------- #
@@ -192,7 +196,7 @@ class CatalogData:
     State of the catalogue.
     """
 
-    artefacts: Dict[str, Artefact]
+    artifacts: Dict[str, Artifact]
     connectors: Dict[str, Connector]  # = field(default_factory=list)
 
     def __post_init__(self):
@@ -200,12 +204,12 @@ class CatalogData:
         Transform the marshmalling's list-of-dicts to a dict
         """
 
-        self.artefacts = _merge_dict(self.artefacts)
+        self.artifacts = _merge_dict(self.artifacts)
         self.connectors = _merge_dict(self.connectors)
 
-        # Set the name attribute to each artefact
-        for name, artefact in self.artefacts.items():
-            artefact.name = name
+        # Set the name attribute to each artifact
+        for name, artifact in self.artifacts.items():
+            artifact.name = name
 
         # Set the name attribute to each connector
         for name, conn in self.connectors.items():
@@ -225,8 +229,8 @@ class _CatalogDataSchema(Schema):
     CatalogueData's marshaller.
     """
 
-    artefacts = fields.List(
-        fields.Mapping(fields.Str, fields.Nested(_ArtefactSchema)), required=True
+    artifacts = fields.List(
+        fields.Mapping(fields.Str, fields.Nested(_ArtifactSchema)), required=True
     )
 
     connectors = fields.List(
@@ -241,6 +245,7 @@ class _CatalogDataSchema(Schema):
 #############################################################################
 #                                   main                                    #
 #############################################################################
+
 
 if __name__ == "__main__":
     raise BaseException("model.py can't be run in standalone")

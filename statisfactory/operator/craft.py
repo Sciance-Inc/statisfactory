@@ -23,7 +23,7 @@ from warnings import warn
 
 # project
 from statisfactory.errors import Errors, Warnings
-from statisfactory.IO import Artefact, Volatile
+from statisfactory.IO import Artifact, Volatile
 from statisfactory.logger import MixinLogable
 from statisfactory.operator.annotations import Annotation, AnnotationKind
 from statisfactory.operator.mixinHookable import MixinHookable
@@ -45,7 +45,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     Craft wraps a task and take care of data retrieval from / storage to the catalogue.
     """
 
-    _artefacts_annotation = [Artefact]
+    _artifacts_annotation = [Artifact]
 
     def __init__(self, callable: Callable):
         """
@@ -71,7 +71,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         e: List[Annotation] = []
         for anno in inputs:
-            if anno.annotation == Artefact:
+            if anno.annotation == Artifact:
                 e.append(Annotation(anno, AnnotationKind.ARTEFACT))
             elif anno.annotation == Volatile:
                 e.append(Annotation(anno, AnnotationKind.VOLATILE))
@@ -92,17 +92,17 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
             return tuple([])
 
         # Make sure that the item to be parsed as iterable
-        if isinstance(inputs, (Artefact, Volatile)):
+        if isinstance(inputs, (Artifact, Volatile)):
             inputs = [inputs]
 
-        # Make sure that all items returned by the Craft are either Artefact or Volatile
-        if any(not isinstance(anno, (Artefact, Volatile)) for anno in inputs):
+        # Make sure that all items returned by the Craft are either Artifact or Volatile
+        if any(not isinstance(anno, (Artifact, Volatile)) for anno in inputs):
             raise Errors.E042(name=self.name)  # type: ignore
 
         # Convert all items to a Annotation
         e: List[Annotation] = []
         for anno in inputs:
-            if isinstance(anno, Artefact):
+            if isinstance(anno, Artifact):
                 e.append(Annotation(anno, AnnotationKind.ARTEFACT))  # type: ignore
             elif isinstance(anno, Volatile):
                 e.append(Annotation(anno, AnnotationKind.VOLATILE))  # type: ignore
@@ -120,7 +120,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     @property
     def requires(self) -> Tuple[str, ...]:
         """
-        Return the name of the volatiles and artefact required by the craft
+        Return the name of the volatiles and artifact required by the craft
         """
 
         return tuple(
@@ -132,7 +132,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     @property
     def produces(self) -> Tuple[str, ...]:
         """
-        Return the names of the volatiles and artefacts produced by the Craft.
+        Return the names of the volatiles and artifacts produced by the Craft.
         """
 
         return tuple(anno.name for anno in self._out_anno)
@@ -160,8 +160,8 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         Parse the Craft\'s arguments against it\'s signature
         """
 
-        # The loading context is the context required to load the artefacts
-        # For the artefact, the key_context is the merge of the default's value callable and the craft context (with priority given to craft's context)
+        # The loading context is the context required to load the artifacts
+        # For the artifact, the key_context is the merge of the default's value callable and the craft context (with priority given to craft's context)
         # Extract default values if any
         default_context = {
             anno.name: anno.annotation.default
@@ -169,23 +169,23 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
             if anno.has_default and anno.kind == AnnotationKind.KEY
         }
 
-        artefact_context: Dict[str, Any] = {**default_context, **context}
+        artifact_context: Dict[str, Any] = {**default_context, **context}
 
         mapped_parameters: Dict[str, Any] = {}
         for anno in self._in_anno:
 
-            # If the argument is an Artefact, it schould be loaded using the artefact_context
+            # If the argument is an Artifact, it schould be loaded using the artifact_context
             if anno.kind is AnnotationKind.ARTEFACT:
                 try:
                     mapped_parameters[anno.name] = self.get_session().catalog.load(
-                        anno.name, **artefact_context
+                        anno.name, **artifact_context
                     )
                 except BaseException as error:
                     if not anno.has_default:
                         raise error
 
                     mapped_parameters[anno.name] = anno.default
-                    warn(Warnings.W40.format(name=self._name, artefact=anno.name))  # type: ignore
+                    warn(Warnings.W40.format(name=self._name, artifact=anno.name))  # type: ignore
 
             # A volatile must be in the the volatile mapping
             if anno.kind is AnnotationKind.VOLATILE:
@@ -194,11 +194,11 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
             # If the argument is KEYWORD only, it must either be in the context or have a default value
             if anno.kind is AnnotationKind.KEY:
                 try:
-                    mapped_parameters[anno.name] = artefact_context[anno.name]
+                    mapped_parameters[anno.name] = artifact_context[anno.name]
                 except KeyError:
                     Errors.E041(name=self._name, param=anno.name)  # type: ignore
 
-        return mapped_parameters, artefact_context
+        return mapped_parameters, artifact_context
 
     def __call__(
         self,
@@ -207,8 +207,8 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
     ):
         """
         Implements the call protocole for the Craft wrapper.
-        Load and save the Artefact for the undelryaing callable.
-        Defers the call to the underlying artefact.
+        Load and save the Artifact for the undelryaing callable.
+        Defers the call to the underlying artifact.
 
         Args:
             volatiles_mapping: A mappping of volatiles objects, computed before the craft execution
@@ -216,7 +216,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         """
         # Extract, from args and kwargs, the item required by the craft and and to kwargs_ the default value, if unspecified by kwargs.
         volatiles_mapping = volatiles_mapping or {}
-        craft_arguments, artefact_saving_context = self._parse_args(
+        craft_arguments, artifact_saving_context = self._parse_args(
             kwargs, volatiles_mapping
         )
 
@@ -224,7 +224,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
             with self._with_error():
                 out = self._callable(**craft_arguments)
 
-        self._save_artefacts(output=out, **artefact_saving_context)
+        self._save_artifacts(output=out, **artifact_saving_context)
 
         # Return the output of the callable
         return out
@@ -239,12 +239,12 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         craft = _Craft(self._callable)
         return craft
 
-    def _save_artefacts(self, *, output, **context) -> Union[Mapping, None]:
+    def _save_artifacts(self, *, output, **context) -> Union[Mapping, None]:
         """
-        Extract and save the artefact of an output
+        Extract and save the artifact of an output
 
         Args:
-            out (Dict): the dictionnary to extract artefacts from.
+            out (Dict): the dictionnary to extract artifacts from.
         """
 
         # Convert the output to a tuple
@@ -272,7 +272,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
             if anno.kind == AnnotationKind.ARTEFACT:
                 session.catalog.save(anno.name, item, **context)
                 self.debug(
-                    f"craft '{self._name}' : capturing artefacts : '{anno.name}'"
+                    f"craft '{self._name}' : capturing artifacts : '{anno.name}'"
                 )
 
     def __add__(self, visitor: MergeableInterface):

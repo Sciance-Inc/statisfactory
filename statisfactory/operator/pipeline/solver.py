@@ -99,15 +99,15 @@ class DAGSolver(Solver):
         G = nx.DiGraph()
         m_producer = {}
 
-        # First pass, create all nodes and map them to the artefacts they create
+        # First pass, create all nodes and map them to the artifacts they create
         for craft in self._crafts:
 
-            # Map the node to the Artefacts and Vilatile
+            # Map the node to the Artifacts and Vilatile
             for output in craft.produces:
-                # Check that no craft is already creating this artefact
+                # Check that no craft is already creating this artifact
                 if output in m_producer:
                     raise Errors.E053(
-                        artefact=output, L=craft.name, R=m_producer.get(output)
+                        artifact=output, L=craft.name, R=m_producer.get(output)
                     )  # type: ignore
 
                 m_producer[output] = craft.name
@@ -120,7 +120,7 @@ class DAGSolver(Solver):
                     after = m_producer[requirement]
                     G.add_edge(after, craft.name)
                 except KeyError:
-                    warn(Warnings.W051.format(craft=craft.name, artefact=requirement))
+                    warn(Warnings.W051.format(craft=craft.name, artifact=requirement))
 
         return G
 

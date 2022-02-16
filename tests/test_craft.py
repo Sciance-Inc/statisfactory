@@ -19,7 +19,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from statisfactory import Artefact, Craft, Session, Volatile
+from statisfactory import Artifact, Craft, Session, Volatile
 from statisfactory.IO import Backend
 
 #############################################################################
@@ -99,13 +99,13 @@ def test_craft_default_keyword_precedence_args(sess):
     assert out == 7
 
 
-def test_variadic_artefact_interpolation_dispatching(sess):
+def test_variadic_artifact_interpolation_dispatching(sess):
     """
     Check if the variadic arguments are correctly dispatched for interpolations
     """
 
     @Craft()
-    def spam(test_read_variadic_pickle: Artefact) -> Volatile("step_1"):  # type: ignore
+    def spam(test_read_variadic_pickle: Artifact) -> Volatile("step_1"):  # type: ignore
         ...
 
     with sess:
@@ -148,11 +148,11 @@ def test_propagating_configuration_to_backend(custom_sess):
     """
 
     @Craft()
-    def foo(test_custom_backend_args: Artefact):
+    def foo(test_custom_backend_args: Artifact):
         ...
 
     @Craft()
-    def spam() -> Artefact("test_custom_backend_args"):  # type: ignore
+    def spam() -> Artifact("test_custom_backend_args"):  # type: ignore
         return pd.DataFrame()
 
     args_holder = [None, None]

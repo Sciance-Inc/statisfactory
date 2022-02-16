@@ -1,11 +1,11 @@
-# Describe the data connectors later referenced by the Artefacts
+# Describe the data connectors later referenced by the Artifacts
 connectors:
-    - sqlserver:
-          # Use the ${password} to statically interpolate a variable named password from either locals.yaml, or globals.yaml
-          connString: DRIVER={ODBC Driver 17 for SQL Server};SERVER=server;DATABASE=db;UID=${user};PWD=${password}
+      - sqlserver:
+              # Use the ${password} to statically interpolate a variable named password from either locals.yaml, or globals.yaml
+              connString: DRIVER={ODBC Driver 17 for SQL Server};SERVER=server;DATABASE=db;UID=${user};PWD=${password}
 
 # Map friendly name to connecters to retrieve the data from
-artefacts:
+artifacts:
       - test_read_csv:
-            type: csv
-            path: tests/test_repo/data/test_read_csv.csv
+              type: csv
+              path: tests/test_repo/data/test_read_csv.csv
