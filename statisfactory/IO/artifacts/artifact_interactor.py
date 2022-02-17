@@ -39,7 +39,6 @@ from statisfactory.errors import Errors
 from statisfactory.IO.artifacts.backend import Backend
 
 # project
-from statisfactory.IO.models import _ArtifactSchema
 from statisfactory.logger import MixinLogable, get_module_logger
 
 # Project type checks : see PEP563
@@ -143,9 +142,6 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
 
         ArtifactInteractor._interactors[interactor_name] = cls
 
-        # Propagate the change to the model validator
-        _ArtifactSchema.valids_artifacts.add(interactor_name)
-
         get_module_logger(__name__).debug(f"registering '{interactor_name}' interactor")
 
     def _dispatch(self, callable: Callable, **kwargs) -> Dict[str, Any]:
@@ -208,7 +204,8 @@ class FileBasedInteractor(
 
         # Extract the fragment from the URI
         try:
-            URI = self._interpolate_string(string=artifact.path, **kwargs)
+            path = artifact.extra["path"]
+            URI = self._interpolate_string(string=path, **kwargs)
             fragment = urlparse(URI)
         except BaseException as error:
             raise Errors.E0281(name=self.name) from error  # type: ignore
@@ -464,17 +461,16 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
     TODO : implements the saving strategy
     """
 
-    def __init__(self, artifact, connector, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor against an odbc
 
         Args:
             query (str): The query to use to get the data
-            connector (Connector): [description]
         """
 
         self._query = self._interpolate_string(artifact.query, **kwargs)
-        self._connector = connector
+        self._connection_string = artifact.connection_string
         self._kwargs = kwargs
 
         super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
@@ -483,21 +479,16 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
     def _get_connection(self):
         """
         Parse the connector and return the connection objecté
-
-        Args:
-            connector (Connector): the connector object to parse.
-
-        TODO : add support for parameters
         """
-        self.debug(f"requesting connection to {self._connector.name}")
+        self.debug(f"requesting database connection.")
 
         try:
-            with pyodbc.connect(self._connector.connString) as cnxn:
+            with pyodbc.connect(self._connection_string) as cnxn:
                 yield cnxn
         except BaseException as error:
-            raise Errors.E025(name=self._connector.name) from error  # type: ignore
+            raise Errors.E025(dsn=self._connection_string) from error  # type: ignore
 
-        self.debug(f"closing connection to {self._connector.name}")
+        self.debug(f"closing connection.")
         return
 
     def load(self, **kwargs) -> pd.DataFrame:
@@ -507,7 +498,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         Returns:
             pd.DataFrame: the parsed dataframe
         """
-        self.debug(f"loading 'odbc' : {self._connector.name}")
+        self.debug(f"loading 'odbc' connection")
 
         # Combine the save options with the variadics ones
         options = {**self._load_options, **kwargs}
@@ -519,7 +510,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
                 data = pd.read_sql(self._query, cnxn, **options)
             except BaseException as error:
                 raise Errors.E026(
-                    query=self._query, name=self._connector.name
+                    query=self._query, name=self._connection_string.name
                 ) from error  # type: ignore
 
         return data
