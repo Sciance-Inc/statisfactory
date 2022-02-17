@@ -30,8 +30,9 @@ from urllib.parse import urlparse
 
 import datapane as dp  # type: ignore
 import pyarrow.feather as feather
+from pydantic.dataclasses import dataclass
 
-
+path: str  # Only the path is required for a FileBaseInteractor
 import pandas as pd  # type: ignore
 import pyodbc  # type: ignore
 
@@ -106,12 +107,16 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
     The user can implements custom interactors. To do so, the user should
     implements the interface desbribes in this class. An artifact and a Session object
     are available when the artifact is called by the Catalog.
+
+    Validation of the Extra parameter is possible through the definition of an inner class named Extra.
+    The inner class schould be a pydantic dataclasse or a pydantic base model to allow for automatic validation.
     """
+
+    Extra = None
 
     # A placeholder for all registered interactors
     _interactors = dict()
 
-    @abstractmethod
     def __init__(self, artifact, *args, session: Session, **kwargs):
         """
         Instanciate a new interactor.
@@ -124,6 +129,11 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
         self._save_options = artifact.save_options
         self._load_options = artifact.load_options
         self._session = session
+
+        # Mutate the artifact extra fields with a validated schema against the custom inner class.
+        # Since this is a mutation, the conversion to extra must only be done once
+        if self.Extra and isinstance(artifact.extra, Dict):
+            artifact.extra = self.Extra(**artifact.extra)
 
     def __init_subclass__(cls, interactor_name, register: bool = True, **kwargs):
         """
@@ -195,6 +205,10 @@ class FileBasedInteractor(
     Extend the Artifact Interactor with Path interpolations
     """
 
+    @dataclass
+    class Extra:
+        path: str  # Only the path is required for a FileBaseInteractor
+
     def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Set the fragment from the Artifact Path
@@ -202,9 +216,9 @@ class FileBasedInteractor(
 
         super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
+        path = artifact.extra.path
         # Extract the fragment from the URI
         try:
-            path = artifact.extra["path"]
             URI = self._interpolate_string(string=path, **kwargs)
             fragment = urlparse(URI)
         except BaseException as error:
@@ -461,6 +475,10 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
     TODO : implements the saving strategy
     """
 
+    @dataclass
+    class Extra:
+        connection_string: str
+
     def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor against an odbc
@@ -470,7 +488,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         """
 
         self._query = self._interpolate_string(artifact.query, **kwargs)
-        self._connection_string = artifact.connection_string
+        self._connection_string = artifact.extra.connection_string
         self._kwargs = kwargs
 
         super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
@@ -688,4 +706,4 @@ class FeatherInteractor(FileBasedInteractor, interactor_name="feather"):
 #                                   main                                    #
 #############################################################################
 if __name__ == "__main__":
-    raise BaseException("interface.py can't be run in standalone")
+    raise BaseException("artefact_interactor.py can't be run in standalone")
