@@ -128,7 +128,7 @@ class Errors(metaclass=ExceptionFactory):
     )
     E024 = "data interactor : '{path}' does not exists"
     E025 = "data interactor : failed to connect to the connector with connection sting '{dsn}'"
-    E026 = "data interactor : failed to execute query {query} agains {name} connector"
+    E026 = "data interactor : failed to execute query {query}."
     E027 = "data interactor : only not-null string can be interpolated"
     E028 = "data interactor : string '{trg}' is incomplettely formatted, missing parameters from context"
     E0281 = "data interactor: failed to parse the Path parameter for Artifact {name}."
@@ -142,6 +142,7 @@ class Errors(metaclass=ExceptionFactory):
     E031 = "catalog : the '{name}' interactor does not exists"
     E032 = "catalog : the '{name}' connector does not exists"
     E033 = "catalog : duplicated key. The '{key}' {type} key is defined in at least two catalogs"
+    E034 = "catalog : failed to validate the artifact '{name}' Extra key against the following schema : '{schema}'."
 
     # Craft
     E040 = "craft : failed to execute craft '{func}'"

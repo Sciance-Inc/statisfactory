@@ -31,8 +31,8 @@ from urllib.parse import urlparse
 import datapane as dp  # type: ignore
 import pyarrow.feather as feather
 from pydantic.dataclasses import dataclass
+from pydantic import ValidationError
 
-path: str  # Only the path is required for a FileBaseInteractor
 import pandas as pd  # type: ignore
 import pyodbc  # type: ignore
 
@@ -133,7 +133,11 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
         # Mutate the artifact extra fields with a validated schema against the custom inner class.
         # Since this is a mutation, the conversion to extra must only be done once
         if self.Extra and isinstance(artifact.extra, Dict):
-            artifact.extra = self.Extra(**artifact.extra)
+            try:
+                artifact.extra = self.Extra(**artifact.extra)
+            except (ValidationError, TypeError) as error:
+                schema = self.Extra.__pydantic_model__.schema()["properties"]
+                raise Errors.E034(name=artifact.name, schema=schema) from error  # type: ignore
 
     def __init_subclass__(cls, interactor_name, register: bool = True, **kwargs):
         """
@@ -527,9 +531,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
             try:
                 data = pd.read_sql(self._query, cnxn, **options)
             except BaseException as error:
-                raise Errors.E026(
-                    query=self._query, name=self._connection_string.name
-                ) from error  # type: ignore
+                raise Errors.E026(query=self._query) from error  # type: ignore
 
         return data
 
