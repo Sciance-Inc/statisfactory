@@ -1,6 +1,6 @@
 # Describe the data connectors later referenced by the Artifacts
 connectors:
 artifacts:
-      - deeply_nested:
-              type: csv
-              path: tests/test_repo/data/test_read_csv.csv
+      deeply_nested:
+            type: csv
+            path: tests/test_repo/data/test_read_csv.csv
