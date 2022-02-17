@@ -17,7 +17,6 @@ build_command = "pip install poetry && poetry build"
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11.0"
 networkx = "2.5"
-marshmallow = "3.10.0"
 pandas = "^1.2.4"
 click = "^7.1.2"
 pyodbc = "^4.0.30"
