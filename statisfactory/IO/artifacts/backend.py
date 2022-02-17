@@ -147,11 +147,11 @@ class S3Backend(Backend, prefix="s3"):
             bucket (str): The bucket's name to create.
         """
 
-        bucket_exists = self._s3.Bucket(bucket) in self._s3.buckets.all()
+        bucket_exists = self._s3.Bucket(bucket) in self._s3.buckets.all()  # type: ignore
         if bucket_exists:
             return
 
-        self._s3.create_bucket(Bucket=bucket)
+        self._s3.create_bucket(Bucket=bucket)  # type: ignore
 
     def put(self, *, payload: bytes, fragment: ParseResult, **kwargs):
         """
@@ -169,7 +169,7 @@ class S3Backend(Backend, prefix="s3"):
         self._create_bucket(bucket)
 
         try:
-            resp = self._s3.Object(bucket, dst).put(Body=BytesIO(payload))
+            resp = self._s3.Object(bucket, dst).put(Body=BytesIO(payload))  # type: ignore
             if not resp["ResponseMetadata"]["HTTPStatusCode"] == 200:
                 raise ValueError("S3 returned a non 200 status code")
         except BaseException as error:
@@ -187,7 +187,7 @@ class S3Backend(Backend, prefix="s3"):
         src = fragment.path
 
         try:
-            resp = self._s3.Object(bucket, src).get()
+            resp = self._s3.Object(bucket, src).get()  # type: ignore
             if not resp["ResponseMetadata"]["HTTPStatusCode"] == 200:
                 raise ValueError("S3 returned a non 200 status code")
         except BaseException as error:
