@@ -106,7 +106,7 @@ class Errors(metaclass=ExceptionFactory):
     E010 = "start-up : statisfactory must be called from a folder, or the child of a folder, containing a '{target}' file / folder"
     E011 = "start-up : the Catalog file does not exists : '{path}'."
     E012 = "start-up : failed to parse the {file} file : {path}"
-    E013 = "start-up : failed to unmarshall the {file}"
+    E013 = "start-up : failed to load the catalogs."
     E014 = (
         "start-up : failed to interpolate the catalog with the settings from 'conf/'."
     )

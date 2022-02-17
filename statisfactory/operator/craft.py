@@ -23,7 +23,7 @@ from warnings import warn
 
 # project
 from statisfactory.errors import Errors, Warnings
-from statisfactory.IO import Artifact, Volatile
+from statisfactory.models.models import Artifact, Volatile
 from statisfactory.logger import MixinLogable
 from statisfactory.operator.annotations import Annotation, AnnotationKind
 from statisfactory.operator.mixinHookable import MixinHookable

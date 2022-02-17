@@ -22,15 +22,12 @@ from pathlib import Path
 # project
 from statisfactory.errors import Errors
 from statisfactory.operator import Pipeline
-from statisfactory.session.loader.models import PipelineDefinition
-from statisfactory.session.loader.yaml_utils import (
+from statisfactory.models.models import PipelineDefinition
+from statisfactory.loader.yaml_utils import (
     gen_dictionaries_representation,
     merge_dict,
 )
 
-# Project type checks : see PEP563
-# if TYPE_CHECKING:
-#    from statisfactory.session import Session
 
 #############################################################################
 #                                  Script                                   #

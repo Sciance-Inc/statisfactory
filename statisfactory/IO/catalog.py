@@ -23,11 +23,9 @@ import pandas as pd
 
 from statisfactory.errors import Errors
 from statisfactory.IO.artifacts.artifact_interactor import ArtifactInteractor
-
-from statisfactory.IO.models import Artifact, CatalogData, Connector
+from statisfactory.models.models import Artifact, CatalogData, Connector
+from statisfactory.loader import get_catalog_data
 from statisfactory.logger import MixinLogable
-
-from jinja2 import Template
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
@@ -43,34 +41,7 @@ class Catalog(MixinLogable):
     Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
     """
 
-    @staticmethod
-    def make(*, path: Path, session: Session) -> Catalog:
-        """
-        Make a new catalog from a Jinja / Yml source and interpolate static values from the session's setting.
-
-        Args:
-            path (Path): The path to the source file to load the catalog from
-            session (Session): The session to use to render the template
-
-        Returns:
-            Catalog: A catalog object
-        """
-
-        # Load and render the Jinja template
-        try:
-            with open(path) as f:
-                template = Template(f.read())
-        except FileNotFoundError as error:
-            raise Errors.E011(path=path) from error  # type: ignore
-
-        # Dynaconf is case insensitve but not jinaj2 : all configuraiton keys are lowercased
-        data = {k.lower(): v for k, v in session.settings.to_dict().items()}
-        rendered = template.render(data)
-
-        # Deserialized the rendered template agains the Artifact models
-        return Catalog(dump=rendered, session=session)
-
-    def __init__(self, *, dump: str, session: Session = None):
+    def __init__(self, *, path: Path, session: Session = None):
         """
         Build a new Catalog from an iterator of dumps
 
@@ -84,7 +55,7 @@ class Catalog(MixinLogable):
         self._session = session
 
         try:
-            self._data = CatalogData.from_string(dump)
+            self._data: CatalogData = get_catalog_data(path, session)
         except BaseException as err:
             raise Errors.E013(file="Catalog") from err  # type: ignore
 
@@ -104,28 +75,6 @@ class Catalog(MixinLogable):
         """
 
         return name in self._data.artifacts.keys()
-
-    def _get_connector(self, artifact: Artifact) -> Union[Connector, None]:
-        """
-        Retrieve the connector of an Artifact
-
-        Args:
-            artifact (Artifact): the artifact to extract the connector for
-        """
-
-        name = artifact.connector
-        conn = None
-        if name:
-
-            for key, connector in self._data.connectors.items():
-                if key == name:
-                    break
-            else:
-                raise Errors.E032(name=name)  # type: ignore
-
-            conn = connector
-
-        return conn
 
     def _get_artifact(self, name: str) -> Artifact:
         """
@@ -161,9 +110,8 @@ class Catalog(MixinLogable):
         """
 
         artifact = self._get_artifact(name)
-        connector = self._get_connector(artifact)
         interactor: ArtifactInteractor = self._get_interactor(artifact)(
-            artifact=artifact, connector=connector, session=self._session, **context
+            artifact=artifact, session=self._session, **context
         )
 
         return interactor.load(**context)
@@ -179,9 +127,8 @@ class Catalog(MixinLogable):
         """
 
         artifact = self._get_artifact(name)
-        connector = self._get_connector(artifact)
         interactor: ArtifactInteractor = self._get_interactor(artifact)(
-            artifact=artifact, connector=connector, session=self._session, **context
+            artifact=artifact, session=self._session, **context
         )
 
         interactor.save(asset, **context)  # type: ignore

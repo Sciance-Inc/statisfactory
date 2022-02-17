@@ -35,7 +35,10 @@ from statisfactory.errors import Errors, Warnings
 from statisfactory.IO import Catalog
 from statisfactory.logger import MixinLogable, get_module_logger
 from statisfactory.operator import Scoped
-from statisfactory.session.loader import get_configurations, get_pipelines
+from statisfactory.loader import (
+    get_configurations,
+    get_pipelines,
+)
 
 #############################################################################
 #                                  Script                                   #
@@ -342,25 +345,10 @@ class _DefaultHooks:
         Attach the catalog to the session
         """
 
-        # Fetch all the catalogue reprsentation
-        representations = set()
         path = sess.root / str(sess.settings.catalog)
-        if path.is_dir():
-            types = (path / "**/*.yml", path / "**/*.yaml")
-            for files in types:
-                for item in (Path(g) for g in glob.glob(str(files), recursive=True)):
-                    representations.add(item)
-        else:
-            representations.add(path)
+        catalog = Catalog(path=path, session=sess)
 
-        catalogs = []
-        for r in representations:
-
-            # Parse the catalog representation
-            catalog = Catalog.make(path=r, session=sess)  # type: ignore
-            catalogs.append(catalog)
-
-        sess._catalog = reduce(lambda x, y: x + y, catalogs)
+        sess._catalog = catalog
 
     @staticmethod
     @Session.hook_post_init()

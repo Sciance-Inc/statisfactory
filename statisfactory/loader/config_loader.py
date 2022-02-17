@@ -22,7 +22,7 @@ from copy import deepcopy
 
 # project
 from statisfactory.errors import Errors
-from statisfactory.session.loader.yaml_utils import (
+from statisfactory.loader.yaml_utils import (
     gen_dictionaries_representation,
     recursive_merge_dict,
     merge_dict,
