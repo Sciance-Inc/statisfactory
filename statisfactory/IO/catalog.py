@@ -17,19 +17,19 @@
 # system
 from __future__ import annotations  # noqa
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, Callable, Union
+from typing import TYPE_CHECKING, Any, Callable
 
 import pandas as pd
 
 from statisfactory.errors import Errors
 from statisfactory.IO.artifacts.artifact_interactor import ArtifactInteractor
-from statisfactory.models.models import Artifact, CatalogData, Connector
-from statisfactory.loader import get_catalog_data
+from statisfactory.models.models import Artifact
+from statisfactory.loader import get_artifacts_mapping
 from statisfactory.logger import MixinLogable
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from ..session import Session
+    from statisfactory.session import Session
 
 #############################################################################
 #                                  Script                                   #
@@ -55,7 +55,7 @@ class Catalog(MixinLogable):
         self._session = session
 
         try:
-            self._data: CatalogData = get_catalog_data(path, session)
+            self._artifacts = get_artifacts_mapping(path, session)
         except BaseException as err:
             raise Errors.E013(file="Catalog") from err  # type: ignore
 
@@ -64,7 +64,7 @@ class Catalog(MixinLogable):
         Show all artifacts entries
         """
 
-        keys = sorted(self._data.artifacts.keys())
+        keys = sorted(self._artifacts.keys())
         msg = "\n\t- ".join(keys)
 
         return "Catalog entries :\n\t- " + msg
@@ -74,7 +74,7 @@ class Catalog(MixinLogable):
         Check if the given name is an artifact
         """
 
-        return name in self._data.artifacts.keys()
+        return name in self._artifacts.keys()
 
     def _get_artifact(self, name: str) -> Artifact:
         """
@@ -82,7 +82,7 @@ class Catalog(MixinLogable):
         """
 
         try:
-            artifact = self._data.artifacts[name]
+            artifact = self._artifacts[name]
         except KeyError:
             raise Errors.E030(name=name)  # type: ignore
 
@@ -151,18 +151,13 @@ class Catalog(MixinLogable):
             other (Catalog): The other catalogi to combine with
 
         Raise:
-            Errors.E033: if two artifacts / connectors key collide.
+            Errors.E033: if two artifacts keys collide.
         """
 
-        for k, v in self._data.artifacts.items():
-            if k in other._data.artifacts:
+        for k, v in self._artifacts.items():
+            if k in other._artifacts:
                 raise Errors.E033(key=k, type="artifact")  # type: ignore
-            other._data.artifacts[k] = v
-
-        for k, v in self._data.connectors.items():
-            if k in other._data.connectors:
-                raise Errors.E033(key=k, type="connector")  # type: ignore
-            other._data.connectors[k] = v
+            other._artifacts[k] = v
 
         return other
 

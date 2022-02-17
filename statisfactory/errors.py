@@ -127,7 +127,7 @@ class Errors(metaclass=ExceptionFactory):
         "data interactor : '{interactor}' interactor only accept {accept} : got '{got}'"
     )
     E024 = "data interactor : '{path}' does not exists"
-    E025 = "data interactor : failed to connect to {name} connector"
+    E025 = "data interactor : failed to connect to the connector with connection sting '{dsn}'"
     E026 = "data interactor : failed to execute query {query} agains {name} connector"
     E027 = "data interactor : only not-null string can be interpolated"
     E028 = "data interactor : string '{trg}' is incomplettely formatted, missing parameters from context"

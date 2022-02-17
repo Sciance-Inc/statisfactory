@@ -15,23 +15,21 @@
 #############################################################################
 
 # system
-from typing import Union
+from typing import Union, Dict
 from pathlib import Path
+from itertools import chain
 
 # project
-from statisfactory.loader.yaml_utils import (
-    gen_dictionaries_representation,
-    merge_dict,
-)
+from statisfactory.loader.yaml_utils import gen_dictionaries_representation
 
-from statisfactory.models.models import CatalogData
+from statisfactory.models.models import Artifact
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
-def get_catalog_data(path: Union[str, Path], session) -> CatalogData:
+def get_artifacts_mapping(path: Union[str, Path], session) -> Dict[str, Artifact]:
     """
     build the catalog data
 
@@ -46,12 +44,10 @@ def get_catalog_data(path: Union[str, Path], session) -> CatalogData:
     mappers = gen_dictionaries_representation(path, render_vars)
 
     # Deserialize each mapper, and validate it against the model
-    catalogs = []
-    for mapper in mappers:
-        catalogs.append(CatalogData(**mapper))
+    catalog_data = {}
+    for artifact_data in chain.from_iterable(mappers):
+        artifact = Artifact(**artifact_data)  # Validate the struct
+        catalog_data[artifact.name] = artifact
 
     # TODO: add support for keys collision
-    artifacts = merge_dict(*(c.artifacts for c in catalogs))
-    connectors = merge_dict(*(c.connectors for c in catalogs))
-
-    return CatalogData(artifacts=artifacts, connectors=connectors)  # type: ignore
+    return catalog_data  # type: ignore

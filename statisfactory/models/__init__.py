@@ -1,1 +1,1 @@
-from .models import Artifact, Volatile, PipelineDefinition, Connector, CatalogData
+from .models import Artifact, Volatile, PipelineDefinition
