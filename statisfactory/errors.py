@@ -104,8 +104,8 @@ class Errors(metaclass=ExceptionFactory):
 
     # Init and connection related errors
     E010 = "start-up : statisfactory must be called from a folder, or the child of a folder, containing a '{target}' file / folder"
-    E011 = "start-up : the Catalog file does not exists : '{path}'."
-    E012 = "start-up : failed to parse the {file} file : {path}"
+    E011 = "start-up : failed to validate the 'statisfactory' section of the 'pyproject.toml'"
+    E012 = "start-up : failed to read the pyproject.toml file located here : '{path}'."
     E013 = "start-up : failed to load the catalogs."
     E014 = (
         "start-up : failed to interpolate the catalog with the settings from 'conf/'."

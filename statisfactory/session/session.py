@@ -21,7 +21,6 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, Callable, Mapping, Optional
 from warnings import warn
-from functools import reduce
 
 import boto3
 from dynaconf import Dynaconf, Validator
@@ -38,6 +37,8 @@ from statisfactory.operator import Scoped
 from statisfactory.loader import (
     get_parameters,
     get_pipelines,
+    get_path_to_target,
+    get_pyproject,
 )
 
 #############################################################################
@@ -78,21 +79,6 @@ class Session(MixinLogable):
 
         return S
 
-    def get_path_to_target(self, target: str) -> Path:
-        """
-        Retrieve the path to "target" file by executing a "fish pass ;)" from the location of the caller
-        """
-
-        # Retrieve the "statisfactory.yaml" file
-        root = Path("/")
-        trg = Path().resolve()
-        while True:
-            if (trg / target).exists():
-                return trg
-            trg = trg.parent
-            if trg == root:
-                raise Errors.E010(target=target)  # type: ignore
-
     def __init__(self, *, root_folder: str = None):
         """
         Instanciate a Session by searching for the statisfactory.yaml file in the parent folders
@@ -101,18 +87,16 @@ class Session(MixinLogable):
         super().__init__(logger_name=__name__)
 
         # Retrieve the location of the config file
-        self._root = Path(root_folder or self.get_path_to_target("pyproject.toml"))
+        self._root = Path(root_folder or get_path_to_target("pyproject.toml"))
 
         self.info(f"Initiating Statisfactory to : '{self._root}'")
 
         # Extract the stati section from the pyproject
-        with open(self._root / "pyproject.toml", "rb") as f:
-            pyproject_toml = tomli.load(f)
-            config = pyproject_toml.get("tool", {}).get("statisfactory", {})
+        config = get_pyproject(self._root / "pyproject.toml")
 
         # Prepare an empty Dynaconf object and inject the config from pyproject
         self._settings = Dynaconf()
-        self._settings.update(config)  # type: ignore
+        self._settings.update(config.dict())  # type: ignore
 
         self._settings.validators.register(  # type: ignore
             Validator("configuration", "catalog", must_exist=True),
@@ -415,7 +399,7 @@ class _DefaultHooks:
         """
 
         # Find the Git repository the Session has been started in
-        path_to_git = sess.get_path_to_target(".git")
+        path_to_git = get_path_to_target(".git")
         repo = Repository(path_to_git)
         sess._git = repo
 
