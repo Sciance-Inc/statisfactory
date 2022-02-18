@@ -49,9 +49,7 @@ def test_check_existing_artifact(sess):
     target = Artifact(
         name="test_read_csv",
         type="csv",
-        path="tests/test_repo/data/test_read_csv.csv",
-        connector=None,
-        query=None,
+        extra={"path": "tests/test_repo/data/test_read_csv.csv"},
         save_options={},
         load_options={},
     )
@@ -72,9 +70,7 @@ def test_multiple_catalogs(sess):
     target = Artifact(
         name="test_read_csv_2",
         type="csv",
-        path="tests/test_repo/data/test_read_csv.csv",
-        connector=None,
-        query=None,
+        extra={"path": "tests/test_repo/data/test_read_csv.csv"},
         save_options={},
         load_options={},
     )
@@ -107,9 +103,7 @@ def test_jinja_interpolation(sess):
     target = Artifact(
         name="dummy_artifact",
         type="csv",
-        path="tests/inteprolated/10_raw/!{dynamic}/test_read_csv.csv",
-        connector=None,
-        query=None,
+        extra={"path": "tests/inteprolated/10_raw/!{dynamic}/test_read_csv.csv"},
         save_options={},
         load_options={},
     )

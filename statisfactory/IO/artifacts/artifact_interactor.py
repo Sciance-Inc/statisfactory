@@ -30,7 +30,8 @@ from urllib.parse import urlparse
 
 import datapane as dp  # type: ignore
 import pyarrow.feather as feather
-
+from pydantic.dataclasses import dataclass
+from pydantic import ValidationError
 
 import pandas as pd  # type: ignore
 import pyodbc  # type: ignore
@@ -39,7 +40,6 @@ from statisfactory.errors import Errors
 from statisfactory.IO.artifacts.backend import Backend
 
 # project
-from statisfactory.IO.models import _ArtifactSchema
 from statisfactory.logger import MixinLogable, get_module_logger
 
 # Project type checks : see PEP563
@@ -107,12 +107,16 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
     The user can implements custom interactors. To do so, the user should
     implements the interface desbribes in this class. An artifact and a Session object
     are available when the artifact is called by the Catalog.
+
+    Validation of the Extra parameter is possible through the definition of an inner class named Extra.
+    The inner class schould be a pydantic dataclasse or a pydantic base model to allow for automatic validation.
     """
+
+    Extra = None
 
     # A placeholder for all registered interactors
     _interactors = dict()
 
-    @abstractmethod
     def __init__(self, artifact, *args, session: Session, **kwargs):
         """
         Instanciate a new interactor.
@@ -125,6 +129,15 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
         self._save_options = artifact.save_options
         self._load_options = artifact.load_options
         self._session = session
+
+        # Mutate the artifact extra fields with a validated schema against the custom inner class.
+        # Since this is a mutation, the conversion to extra must only be done once
+        if self.Extra and isinstance(artifact.extra, Dict):
+            try:
+                artifact.extra = self.Extra(**artifact.extra)
+            except (ValidationError, TypeError) as error:
+                schema = self.Extra.__pydantic_model__.schema()["properties"]
+                raise Errors.E034(name=artifact.name, schema=schema) from error  # type: ignore
 
     def __init_subclass__(cls, interactor_name, register: bool = True, **kwargs):
         """
@@ -142,9 +155,6 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
             raise Errors.E020(name=interactor_name)  # type: ignore
 
         ArtifactInteractor._interactors[interactor_name] = cls
-
-        # Propagate the change to the model validator
-        _ArtifactSchema.valids_artifacts.add(interactor_name)
 
         get_module_logger(__name__).debug(f"registering '{interactor_name}' interactor")
 
@@ -199,6 +209,10 @@ class FileBasedInteractor(
     Extend the Artifact Interactor with Path interpolations
     """
 
+    @dataclass
+    class Extra:
+        path: str  # Only the path is required for a FileBaseInteractor
+
     def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Set the fragment from the Artifact Path
@@ -206,9 +220,10 @@ class FileBasedInteractor(
 
         super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
+        path = artifact.extra.path
         # Extract the fragment from the URI
         try:
-            URI = self._interpolate_string(string=artifact.path, **kwargs)
+            URI = self._interpolate_string(string=path, **kwargs)
             fragment = urlparse(URI)
         except BaseException as error:
             raise Errors.E0281(name=self.name) from error  # type: ignore
@@ -464,17 +479,20 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
     TODO : implements the saving strategy
     """
 
-    def __init__(self, artifact, connector, *args, session: Session = None, **kwargs):
+    @dataclass
+    class Extra:
+        connection_string: str
+
+    def __init__(self, artifact, *args, session: Session = None, **kwargs):
         """
         Instanciate an interactor against an odbc
 
         Args:
             query (str): The query to use to get the data
-            connector (Connector): [description]
         """
 
         self._query = self._interpolate_string(artifact.query, **kwargs)
-        self._connector = connector
+        self._connection_string = artifact.extra.connection_string
         self._kwargs = kwargs
 
         super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
@@ -483,21 +501,16 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
     def _get_connection(self):
         """
         Parse the connector and return the connection objecté
-
-        Args:
-            connector (Connector): the connector object to parse.
-
-        TODO : add support for parameters
         """
-        self.debug(f"requesting connection to {self._connector.name}")
+        self.debug(f"requesting database connection.")
 
         try:
-            with pyodbc.connect(self._connector.connString) as cnxn:
+            with pyodbc.connect(self._connection_string) as cnxn:
                 yield cnxn
         except BaseException as error:
-            raise Errors.E025(name=self._connector.name) from error  # type: ignore
+            raise Errors.E025(dsn=self._connection_string) from error  # type: ignore
 
-        self.debug(f"closing connection to {self._connector.name}")
+        self.debug(f"closing connection.")
         return
 
     def load(self, **kwargs) -> pd.DataFrame:
@@ -507,7 +520,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         Returns:
             pd.DataFrame: the parsed dataframe
         """
-        self.debug(f"loading 'odbc' : {self._connector.name}")
+        self.debug(f"loading 'odbc' connection")
 
         # Combine the save options with the variadics ones
         options = {**self._load_options, **kwargs}
@@ -518,9 +531,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
             try:
                 data = pd.read_sql(self._query, cnxn, **options)
             except BaseException as error:
-                raise Errors.E026(
-                    query=self._query, name=self._connector.name
-                ) from error  # type: ignore
+                raise Errors.E026(query=self._query) from error  # type: ignore
 
         return data
 
@@ -697,4 +708,4 @@ class FeatherInteractor(FileBasedInteractor, interactor_name="feather"):
 #                                   main                                    #
 #############################################################################
 if __name__ == "__main__":
-    raise BaseException("interface.py can't be run in standalone")
+    raise BaseException("artefact_interactor.py can't be run in standalone")

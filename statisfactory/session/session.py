@@ -35,9 +35,10 @@ from statisfactory.errors import Errors, Warnings
 from statisfactory.IO import Catalog
 from statisfactory.logger import MixinLogable, get_module_logger
 from statisfactory.operator import Scoped
-
-# project
-from .loader import ConfigsLoader, PipelinesLoader
+from statisfactory.loader import (
+    get_configurations,
+    get_pipelines,
+)
 
 #############################################################################
 #                                  Script                                   #
@@ -113,14 +114,14 @@ class Session(MixinLogable):
         self._settings = Dynaconf()
         self._settings.update(config)  # type: ignore
 
-        self._settings.validators.register(
+        self._settings.validators.register(  # type: ignore
             Validator("configuration", "catalog", must_exist=True),
             Validator("notebook_target", default="jupyter"),
             Validator("project_slug", must_exist=True),
         )  # type: ignore
 
         # Fire up the validators
-        self._settings.validators.validate()
+        self._settings.validators.validate()  # type: ignore
 
         # Instanciate the 'user space'
         self._ = {}
@@ -344,25 +345,10 @@ class _DefaultHooks:
         Attach the catalog to the session
         """
 
-        # Fetch all the catalogue reprsentation
-        representations = set()
         path = sess.root / str(sess.settings.catalog)
-        if path.is_dir():
-            types = (path / "**/*.yml", path / "**/*.yaml")
-            for files in types:
-                for item in (Path(g) for g in glob.glob(str(files), recursive=True)):
-                    representations.add(item)
-        else:
-            representations.add(path)
+        catalog = Catalog(path=path, session=sess)
 
-        catalogs = []
-        for r in representations:
-
-            # Parse the catalog representation
-            catalog = Catalog.make(path=r, session=sess)  # type: ignore
-            catalogs.append(catalog)
-
-        sess._catalog = reduce(lambda x, y: x + y, catalogs)
+        sess._catalog = catalog
 
     @staticmethod
     @Session.hook_post_init()
@@ -376,8 +362,7 @@ class _DefaultHooks:
             return
 
         path = (sess.root / str(sess.settings.pipelines_configurations)).resolve()
-
-        configurations = ConfigsLoader.load(path=str(path))
+        configurations = get_configurations(path, sess)
 
         sess._pipelines_configurations = configurations
 
@@ -394,7 +379,7 @@ class _DefaultHooks:
 
         path = (sess.root / str(sess.settings.pipelines_definitions)).resolve()
 
-        pipelines = PipelinesLoader.load(path=str(path))
+        pipelines = get_pipelines(path, sess)
 
         sess._pipelines_definitions = pipelines
 
