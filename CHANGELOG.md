@@ -2,6 +2,9 @@
 
 <!--next-version-placeholder-->
 
+## v0.5.0 (2022-02-18)
+
+
 ## v0.4.0 (2022-02-16)
 ### Feature
 * Statisfactory config is now read from pyproject.toml ([`fa8402a`](https://github.com/Sciance-Inc/statisfactory/commit/fa8402a56d567bc09c3390b3726e5c6d785ff884))
