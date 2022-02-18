@@ -15,11 +15,14 @@
 #############################################################################
 
 import glob
+from importlib.util import spec_from_loader, module_from_spec
+from importlib.machinery import SourceFileLoader
+from importlib import import_module
 import os
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Callable, Mapping, Optional
+from typing import Any, Callable, Mapping, Optional, Union
 from warnings import warn
 
 import boto3
@@ -28,7 +31,6 @@ from lakefs_client import ApiClient, Configuration, models
 from lakefs_client.api import repositories_api
 from lakefs_client.client import LakeFSClient
 from pygit2 import Repository
-import tomli
 
 from statisfactory.errors import Errors, Warnings
 from statisfactory.IO import Catalog
@@ -65,6 +67,26 @@ class Session(MixinLogable):
     """
 
     _hooks = []
+
+    @staticmethod
+    def get_factory(*, root_folder: Union[str, Path] = None):
+        """
+        TODO
+        """
+
+        # Retrieve the location of the config file
+        root = Path(root_folder or get_path_to_target("pyproject.toml"))
+
+        # If no custom factory is defined, then return the base session.
+        config = get_pyproject(root / "pyproject.toml")
+        if not config.session_factory:
+            return Session  # type: ignore
+
+        module, obj = config.session_factory.module, config.session_factory.factory
+        return getattr(
+            import_module(module),
+            obj,
+        )
 
     @staticmethod
     def get_active_session():

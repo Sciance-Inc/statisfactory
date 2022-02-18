@@ -30,6 +30,11 @@ class Pyproject(BaseModel):
     The parsed configurations from the project.toml
     """
 
+    @dataclass
+    class SessionFactory:
+        module: str
+        factory: str
+
     project_slug: str
     configuration: str
     catalog: str
@@ -37,6 +42,7 @@ class Pyproject(BaseModel):
     notebook_target: Optional[Path]
     parameters: Optional[Path]
     pipelines_definitions: Optional[Path]
+    session_factory: Optional[SessionFactory]
 
     def dict(self):
         """
