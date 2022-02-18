@@ -1,51 +1,53 @@
-# Describe the data connectors later referenced by the Artifacts
-connectors:
-        - sqlserver:
-                  # Use the ${password} to statically interpolate a variable named password from either locals.yaml, or globals.yaml
-                  connString: DRIVER={ODBC Driver 17 for SQL Server};SERVER=server;DATABASE=db;UID=${user};PWD=${password}
+- name: qaiData
+  type: odbc
+  extra:
+    query: SELECT TOP 10 * FROM SYSOBJECTS WHERE xtype = 'U';
+    connection_string: DRIVER={ODBC Driver 17 for SQL Server};SERVER=server;DATABASE=db;UID=${user};PWD=${password}
 
-# Map friendly name to connecters to retrieve the data from
-artifacts:
-        - qaiData:
-                  type: odbc
-                  connector: sqlserver
-                  query: SELECT TOP 10 * FROM SYSOBJECTS WHERE xtype = 'U';
-        - masterFile:
-                  type: csv
-                  # Use the namespaces.value notation to retrieve a namedscpaced value
-                  # Use the {} notation, to define a dynamic value to be interpolated AT RUNTIME. MasterFile is an Abstract Artifact, and it's variations are determined by the value of samples.
-                  path: ${base_path}/${environment}/${layers.raw}/masterFile_!{samples}.csv
+- name: masterFile
+  type: csv
+  # Use the namespaces.value notation to retrieve a namedscpaced value
+  # Use the {} notation, to define a dynamic value to be interpolated AT RUNTIME. MasterFile is an Abstract Artifact, and it's variations are determined by the value of samples.
+  extra:
+    path: ${base_path}/${environment}/${layers.raw}/masterFile_!{samples}.csv
 
-        - coeffs:
-                  type: pickle
-                  # The {} notation can also be used to interact with folders.
-                  path: ${base_path}/${environment}/${layers.out}/model_!{samples}/coeff.pkl
+- name: coeffs
+  type: pickle
+  # The {} notation can also be used to interact with folders.
+  extra:
+    path: ${base_path}/${environment}/${layers.out}/model_!{samples}/coeff.pkl
 
-        - coeffs_minio:
-                  type: pickle
-                  # The URI can also be a remote, far, far away file system
-                  path: s3://${bucket}/${environment}/${layers.out}/model_!{samples}/coeff.pkl
+- name: coeffs_minio
+  type: pickle
+  # The URI can also be a remote, far, far away file system
+  extra:
+    path: s3://${bucket}/${environment}/${layers.out}/model_!{samples}/coeff.pkl
 
-        - coeffs_minio_xlsx:
-                  type: csv
-                  # The URI can also be a remote, far, far away file system
-                  path: s3://${bucket}/${environment}/${layers.out}/model_!{samples}/coeff.csv
-                  load_options:
-                          - index_col: 0
+- name: coeffs_minio_xlsx
+  type: csv
+  # The URI can also be a remote, far, far away file system
+  extra:
+    path: s3://${bucket}/${environment}/${layers.out}/model_!{samples}/coeff.csv
+  load_options:
+    index_col: 0
 
-        - report:
-                  type: datapane
-                  path: s3://${bucket}/${environment}/${layers.out}/report.html
+- name: report
+  type: datapane
+  extra:
+    path: s3://${bucket}/${environment}/${layers.out}/report.html
 
-        - report_local:
-                  type: datapane
-                  path: ${base_path}/${environment}/${layers.out}/report.html
+- name: report_local
+  type: datapane
+  extra:
+    path: ${base_path}/${environment}/${layers.out}/report.html
 
-        - coeffs_minio_lake:
-                  type: pickle
-                  # The URI can also be a remote, far, far away file system
-                  path: lakefs://${environment}/${layers.out}/model_!{samples}/coeff.pkl
+- name: coeffs_minio_lake
+  type: pickle
+  # The URI can also be a remote, far, far away file system
+  extra:
+    path: lakefs://${environment}/${layers.out}/model_!{samples}/coeff.pkl
 
-        - report_lake:
-                  type: datapane
-                  path: lakefs://${environment}/${layers.out}/report.html
+- name: report_lake
+  type: datapane
+  extra:
+    path: lakefs://${environment}/${layers.out}/report.html
