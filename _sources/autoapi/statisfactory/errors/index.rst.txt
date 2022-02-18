@@ -121,7 +121,7 @@ Attributes
       
 
    .. py:attribute:: E013
-      :annotation: = start-up : failed to unmarshall the {file}
+      :annotation: = start-up : failed to load the catalogs.
 
       
 
@@ -142,6 +142,26 @@ Attributes
 
    .. py:attribute:: E017
       :annotation: = start-up : Parsing pipeline '{pip_name}' : failed to import '{craft_name}' Craft from...
+
+      
+
+   .. py:attribute:: E0181
+      :annotation: = ConfigParser : '{path}' does not exist.
+
+      
+
+   .. py:attribute:: E0182
+      :annotation: = ConfigParser : failed to read the '{path}'. Is the file a valid jinja2 template ?
+
+      
+
+   .. py:attribute:: E0183
+      :annotation: = ConfigParser : failed to render the '{path}' template with template variables '{vars}'.
+
+      
+
+   .. py:attribute:: E0184
+      :annotation: = ConfigParser : failed deserialize the yaml representation '{repr}'.
 
       
 
@@ -176,12 +196,12 @@ Attributes
       
 
    .. py:attribute:: E025
-      :annotation: = data interactor : failed to connect to {name} connector
+      :annotation: = data interactor : failed to connect to the connector with connection sting '{dsn}'
 
       
 
    .. py:attribute:: E026
-      :annotation: = data interactor : failed to execute query {query} agains {name} connector
+      :annotation: = data interactor : failed to execute query {query}.
 
       
 
@@ -237,6 +257,11 @@ Attributes
 
    .. py:attribute:: E033
       :annotation: = catalog : duplicated key. The '{key}' {type} key is defined in at least two catalogs
+
+      
+
+   .. py:attribute:: E034
+      :annotation: = catalog : failed to validate the artifact '{name}' Extra key against the following schema : '{schema}'.
 
       
 

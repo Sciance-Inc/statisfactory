@@ -39,6 +39,14 @@ Classes
    implements the interface desbribes in this class. An artifact and a Session object
    are available when the artifact is called by the Catalog.
 
+   Validation of the Extra parameter is possible through the definition of an inner class named Extra.
+   The inner class schould be a pydantic dataclasse or a pydantic base model to allow for automatic validation.
+
+   .. py:attribute:: Extra
+      
+
+      
+
    .. py:attribute:: _interactors
       
 

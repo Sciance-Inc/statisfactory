@@ -1,0 +1,36 @@
+:py:mod:`statisfactory.loader.pipelines_loader`
+===============================================
+
+.. py:module:: statisfactory.loader.pipelines_loader
+
+.. autoapi-nested-parse::
+
+   Implements base classe in charge of the parsing of the various configurations / pipelines definitions file
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.loader.pipelines_loader._load_pipeline
+   statisfactory.loader.pipelines_loader.get_pipelines
+
+
+
+.. py:function:: _load_pipeline(name, definition: statisfactory.models.models.PipelineDefinition, raw: Mapping) -> statisfactory.operator.Pipeline
+
+
+.. py:function:: get_pipelines(path: Union[str, pathlib.Path], session) -> Dict[str, statisfactory.operator.Pipeline]
+
+   Build the pipelines representation by recyrsively injecting pipelines definitions
+
+   Returns:
+       Dict[str, Any]: A mapping of pipelines names to `PipelinesDefinition`
+
+

@@ -1,0 +1,92 @@
+:py:mod:`statisfactory.models`
+==============================
+
+.. py:module:: statisfactory.models
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   models/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.models.Artifact
+   statisfactory.models.Volatile
+   statisfactory.models.PipelineDefinition
+
+
+
+
+.. py:class:: Artifact
+
+   Represents an Artifact : the I/O of a statisfactory node.
+
+   .. py:attribute:: name
+      :annotation: :str
+
+      
+
+   .. py:attribute:: extra
+      :annotation: :Optional[Dict[str, Any]]
+
+      
+
+   .. py:attribute:: save_options
+      :annotation: :Optional[Dict[str, Any]]
+
+      
+
+   .. py:attribute:: load_options
+      :annotation: :Optional[Dict[str, Any]]
+
+      
+
+   .. py:attribute:: type
+      :annotation: :str = 
+
+      
+
+   .. py:method:: of(*args) -> List[Artifact]
+      :staticmethod:
+
+      Convenient helper to return a tuple of Artifact from an iterable of strings.
+
+
+
+.. py:class:: Volatile
+
+   Represents data outputed by the Craft but not to be persisted in the catalog
+
+   .. py:attribute:: name
+      :annotation: :str
+
+      
+
+   .. py:method:: of(*args) -> List[Volatile]
+      :staticmethod:
+
+      Convenient helper to return a tuple of volatile from an iterable of strings.
+
+
+
+.. py:class:: PipelineDefinition
+
+   Represents the definition of a Pipeline
+
+   .. py:attribute:: operators
+      :annotation: :List[str]
+
+      
+
+

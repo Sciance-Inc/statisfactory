@@ -10,7 +10,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   dictionaryMerger/index.rst
+   merge_dictionaries/index.rst
    mergeable/index.rst
 
 

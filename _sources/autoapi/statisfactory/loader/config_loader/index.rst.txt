@@ -1,0 +1,38 @@
+:py:mod:`statisfactory.loader.config_loader`
+============================================
+
+.. py:module:: statisfactory.loader.config_loader
+
+.. autoapi-nested-parse::
+
+   Exposes an utility function to load configurations yaml / jinja based configurations files for stati
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.loader.config_loader._expand_embedded_configs
+   statisfactory.loader.config_loader.get_configurations
+
+
+
+.. py:function:: _expand_embedded_configs(name: str, configuration: Mapping, raw: Mapping)
+
+   Unnest the embedded mapping.
+
+
+.. py:function:: get_configurations(path: Union[str, pathlib.Path], session) -> Dict[str, Any]
+
+   Build the configuration definitions by recyrsively injecting pipelines definitions
+
+   Returns:
+       Dict[str, Any]: A mapping of pipelines names to `PipelinesDefinition`
+
+

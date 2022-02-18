@@ -12,6 +12,8 @@ Subpackages
 
    IO/index.rst
    cli/index.rst
+   loader/index.rst
+   models/index.rst
    operator/index.rst
    session/index.rst
 
@@ -36,8 +38,8 @@ Classes
 
 .. autoapisummary::
 
-   statisfactory.Artifact
    statisfactory.Catalog
+   statisfactory.Artifact
    statisfactory.Volatile
    statisfactory.Pipeline
    statisfactory._Craft
@@ -59,89 +61,14 @@ Attributes
 
 .. autoapisummary::
 
-   statisfactory.Artefact
    statisfactory.__version__
 
 
-.. py:class:: Artifact
-
-   Represents an Artifact : the I/O of a statisfactory node.
-
-   .. py:attribute:: name
-      :annotation: :str
-
-      
-
-   .. py:attribute:: type
-      :annotation: :str = 
-
-      
-
-   .. py:attribute:: path
-      :annotation: :Optional[str]
-
-      
-
-   .. py:attribute:: description
-      :annotation: :Optional[str] = 
-
-      
-
-   .. py:attribute:: connector
-      :annotation: :Optional[Connector]
-
-      
-
-   .. py:attribute:: query
-      :annotation: :Optional[str]
-
-      
-
-   .. py:attribute:: save_options
-      :annotation: :Optional[Dict]
-
-      
-
-   .. py:attribute:: load_options
-      :annotation: :Optional[Dict]
-
-      
-
-   .. py:method:: of(*args) -> List[Artifact]
-      :staticmethod:
-
-      Convenient helper to return a tuple of Artifact from an iterable of strings.
-
-
-   .. py:method:: __post_init__(self)
-
-      Transform the marshmalling's list-of-dicts to a dict
-
-
-
-.. py:data:: Artefact
-   
-
-   
-
-.. py:class:: Catalog(*, dump: str, session: statisfactory.session.Session = None)
+.. py:class:: Catalog(*, path: pathlib.Path, session: statisfactory.session.Session = None)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`
 
    Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
-
-   .. py:method:: make(path: pathlib.Path, session: statisfactory.session.Session) -> Catalog
-      :staticmethod:
-
-      Make a new catalog from a Jinja / Yml source and interpolate static values from the session's setting.
-
-      Args:
-          path (Path): The path to the source file to load the catalog from
-          session (Session): The session to use to render the template
-
-      Returns:
-          Catalog: A catalog object
-
 
    .. py:method:: __str__(self)
 
@@ -153,20 +80,12 @@ Attributes
       Check if the given name is an artifact
 
 
-   .. py:method:: _get_connector(self, artifact: statisfactory.IO.models.Artifact) -> Union[statisfactory.IO.models.Connector, None]
-
-      Retrieve the connector of an Artifact
-
-      Args:
-          artifact (Artifact): the artifact to extract the connector for
-
-
-   .. py:method:: _get_artifact(self, name: str) -> statisfactory.IO.models.Artifact
+   .. py:method:: _get_artifact(self, name: str) -> statisfactory.models.models.Artifact
 
       Retrieve the FIRST artifact matching the given name currently living in the catalog.
 
 
-   .. py:method:: _get_interactor(self, artifact: statisfactory.IO.models.Artifact) -> Callable
+   .. py:method:: _get_interactor(self, artifact: statisfactory.models.models.Artifact) -> Callable
 
       Retrieve the interactor matchin the type of the artifact.
 
@@ -208,7 +127,43 @@ Attributes
           other (Catalog): The other catalogi to combine with
 
       Raise:
-          Errors.E033: if two artifacts / connectors key collide.
+          Errors.E033: if two artifacts keys collide.
+
+
+
+.. py:class:: Artifact
+
+   Represents an Artifact : the I/O of a statisfactory node.
+
+   .. py:attribute:: name
+      :annotation: :str
+
+      
+
+   .. py:attribute:: extra
+      :annotation: :Optional[Dict[str, Any]]
+
+      
+
+   .. py:attribute:: save_options
+      :annotation: :Optional[Dict[str, Any]]
+
+      
+
+   .. py:attribute:: load_options
+      :annotation: :Optional[Dict[str, Any]]
+
+      
+
+   .. py:attribute:: type
+      :annotation: :str = 
+
+      
+
+   .. py:method:: of(*args) -> List[Artifact]
+      :staticmethod:
+
+      Convenient helper to return a tuple of Artifact from an iterable of strings.
 
 
 

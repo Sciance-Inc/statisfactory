@@ -1,0 +1,82 @@
+:py:mod:`statisfactory.loader.yaml_utils`
+=========================================
+
+.. py:module:: statisfactory.loader.yaml_utils
+
+.. autoapi-nested-parse::
+
+   Implements various helper functions to manipulated data extracted from yamls
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.loader.yaml_utils.gen_dictionaries_representation
+   statisfactory.loader.yaml_utils._load_template
+   statisfactory.loader.yaml_utils._render_template
+   statisfactory.loader.yaml_utils._gen_yamls
+   statisfactory.loader.yaml_utils.merge_dict
+   statisfactory.loader.yaml_utils.recursive_merge_dict
+
+
+
+.. py:function:: gen_dictionaries_representation(path: pathlib.Path, render_vars: Dict[str, Any] = None) -> Iterator[Dict[str, Any]]
+
+   Parse all the yamls files stored a 'path'.
+
+   Args:
+       path (Path): the path to start parsing the yaml files for.
+       render_vars (Dict[str, Any]): an optional mapping of variables to use to render the templates. Default to None.
+
+   Returns
+       Iterator[Dict[str, Any]]: a tuple of parsed dictionaries. One for each one of the yaml found in 'path'
+
+
+.. py:function:: _load_template(template: str) -> Dict[str, Any]
+
+   Load template and return dictionary representation fo the yaml.
+
+   Args:
+       template (str): a string to be loaded as yaml into a dictionary.
+
+   Returns:
+       Dict[str, Any]: a mapping of parsed values
+
+
+.. py:function:: _render_template(path: pathlib.Path, render_vars: Dict[str, Any] = None) -> str
+
+   Render the Jinja2 template from 'path' with  interpolated varaibles from 'render_vars'.
+
+   Args:
+       path (Path): the path to the ressource to render.
+       render_vars (Dict[str, Any], optional): An optional mapping of variables to use to render the template. Defaults to None.
+
+
+.. py:function:: _gen_yamls(path: pathlib.Path) -> Iterator[pathlib.Path]
+
+   Iterates over all the yamls found at the 'path' location.
+   If 'path' is a yaml, only the yaml is returned.
+   If 'path' is a folder, any yaml in the folder will be returned.
+
+   Args:
+       path (Path): the source folder we want to extracts yaml from.
+
+
+.. py:function:: merge_dict(*dicts: Iterator[Dict], collide=True) -> Dict
+
+   Merge a list of dict in a python 3.5 comptible way
+
+
+.. py:function:: recursive_merge_dict(L, R) -> Mapping
+
+   Recursively merge R into L.
+   The merge is recursive meaning that keys of two dictionnaries are not overrided but merged together.
+
+

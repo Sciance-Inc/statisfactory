@@ -1,0 +1,57 @@
+:py:mod:`statisfactory.loader`
+==============================
+
+.. py:module:: statisfactory.loader
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   catalog_loader/index.rst
+   config_loader/index.rst
+   pipelines_loader/index.rst
+   yaml_utils/index.rst
+
+
+Package Contents
+----------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.loader.get_configurations
+   statisfactory.loader.get_pipelines
+   statisfactory.loader.get_artifacts_mapping
+
+
+
+.. py:function:: get_configurations(path: Union[str, pathlib.Path], session) -> Dict[str, Any]
+
+   Build the configuration definitions by recyrsively injecting pipelines definitions
+
+   Returns:
+       Dict[str, Any]: A mapping of pipelines names to `PipelinesDefinition`
+
+
+.. py:function:: get_pipelines(path: Union[str, pathlib.Path], session) -> Dict[str, statisfactory.operator.Pipeline]
+
+   Build the pipelines representation by recyrsively injecting pipelines definitions
+
+   Returns:
+       Dict[str, Any]: A mapping of pipelines names to `PipelinesDefinition`
+
+
+.. py:function:: get_artifacts_mapping(path: Union[str, pathlib.Path], session) -> Dict[str, statisfactory.models.models.Artifact]
+
+   build the catalog data
+
+   Returns:
+       CatalogData: A mapping of artifacts and connectors
+
+

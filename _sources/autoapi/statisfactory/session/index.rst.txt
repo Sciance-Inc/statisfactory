@@ -4,15 +4,6 @@
 .. py:module:: statisfactory.session
 
 
-Subpackages
------------
-.. toctree::
-   :titlesonly:
-   :maxdepth: 3
-
-   loader/index.rst
-
-
 Submodules
 ----------
 .. toctree::

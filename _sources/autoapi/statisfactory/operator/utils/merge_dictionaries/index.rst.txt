@@ -1,7 +1,7 @@
-:py:mod:`statisfactory.operator.utils.dictionaryMerger`
-=======================================================
+:py:mod:`statisfactory.operator.utils.merge_dictionaries`
+=========================================================
 
-.. py:module:: statisfactory.operator.utils.dictionaryMerger
+.. py:module:: statisfactory.operator.utils.merge_dictionaries
 
 .. autoapi-nested-parse::
 
@@ -18,7 +18,7 @@ Functions
 
 .. autoapisummary::
 
-   statisfactory.operator.utils.dictionaryMerger.merge_dictionaries
+   statisfactory.operator.utils.merge_dictionaries.merge_dictionaries
 
 
 

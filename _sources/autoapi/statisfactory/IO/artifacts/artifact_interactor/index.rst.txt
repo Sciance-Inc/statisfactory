@@ -93,6 +93,14 @@ Classes
    implements the interface desbribes in this class. An artifact and a Session object
    are available when the artifact is called by the Catalog.
 
+   Validation of the Extra parameter is possible through the definition of an inner class named Extra.
+   The inner class schould be a pydantic dataclasse or a pydantic base model to allow for automatic validation.
+
+   .. py:attribute:: Extra
+      
+
+      
+
    .. py:attribute:: _interactors
       
 
@@ -136,6 +144,14 @@ Classes
    Bases: :py:obj:`ArtifactInteractor`
 
    Extend the Artifact Interactor with Path interpolations
+
+   .. py:class:: Extra
+
+      .. py:attribute:: path
+         :annotation: :str
+
+         
+
 
    .. py:method:: _put(self, payload: bytes, **kwargs)
 
@@ -220,7 +236,7 @@ Classes
 
 
 
-.. py:class:: ODBCInteractor(artifact, connector, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: ODBCInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
 
    Bases: :py:obj:`ArtifactInteractor`, :py:obj:`MixinInterpolable`
 
@@ -229,14 +245,17 @@ Classes
    TODO : inject the odbc flavor (transac, athena, posgres...)
    TODO : implements the saving strategy
 
+   .. py:class:: Extra
+
+      .. py:attribute:: connection_string
+         :annotation: :str
+
+         
+
+
    .. py:method:: _get_connection(self)
 
       Parse the connector and return the connection objecté
-
-      Args:
-          connector (Connector): the connector object to parse.
-
-      TODO : add support for parameters
 
 
    .. py:method:: load(self, **kwargs) -> pandas.DataFrame

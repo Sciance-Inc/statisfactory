@@ -1,0 +1,32 @@
+:py:mod:`statisfactory.loader.catalog_loader`
+=============================================
+
+.. py:module:: statisfactory.loader.catalog_loader
+
+.. autoapi-nested-parse::
+
+   Load the Catalogs files
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.loader.catalog_loader.get_artifacts_mapping
+
+
+
+.. py:function:: get_artifacts_mapping(path: Union[str, pathlib.Path], session) -> Dict[str, statisfactory.models.models.Artifact]
+
+   build the catalog data
+
+   Returns:
+       CatalogData: A mapping of artifacts and connectors
+
+
