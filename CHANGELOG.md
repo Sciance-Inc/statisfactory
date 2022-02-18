@@ -2,6 +2,9 @@
 
 <!--next-version-placeholder-->
 
+## v0.7.0 (2022-02-18)
+
+
 ## v0.6.0 (2022-02-18)
 ### Feature
 * Switching to a more flexible artifact handling ([#9](https://github.com/Sciance-Inc/statisfactory/issues/9)) ([`42e6ef7`](https://github.com/Sciance-Inc/statisfactory/commit/42e6ef706cf4aa0ebaaf1642c7be8e854e824c77))
