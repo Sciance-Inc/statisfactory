@@ -36,7 +36,7 @@ from statisfactory.IO import Catalog
 from statisfactory.logger import MixinLogable, get_module_logger
 from statisfactory.operator import Scoped
 from statisfactory.loader import (
-    get_configurations,
+    get_parameters,
     get_pipelines,
 )
 
@@ -129,7 +129,7 @@ class Session(MixinLogable):
         # Instanciate placeholders to be filled by mandatory hooks
         self._catalog: Catalog
         self._pipelines_definitions: Optional[Mapping[str, Any]]
-        self._pipelines_configurations: Optional[Mapping[str, Any]]
+        self._parameters: Optional[Mapping[str, Any]]
         self._aws_session: Optional[boto3.Session] = None
         self._lakefs_client: Optional[LakeFSClient] = None
         self._lakefs_repo: Optional[models.RepositoryCreation] = None
@@ -188,12 +188,12 @@ class Session(MixinLogable):
         return self._pipelines_definitions
 
     @property
-    def pipelines_configurations(self):
+    def parameters(self):
         """
-        Getter for the session's pipelines definition.
+        Getter for the session's parameters
         """
 
-        return self._pipelines_configurations
+        return self._parameters
 
     @property
     def aws_session(self) -> boto3.Session:
@@ -352,19 +352,19 @@ class _DefaultHooks:
 
     @staticmethod
     @Session.hook_post_init()
-    def set_pipelines_configurations(sess: Session) -> None:
+    def set_parameters(sess: Session) -> None:
         """
         Parse and attach pipelines configurations to the Session
         """
 
-        if "pipelines_configurations" not in sess.settings:
-            sess.warn("No Pipelines configuration to set up.")
+        if "parameters" not in sess.settings:
+            sess.warn("No parameters to set up.")
             return
 
-        path = (sess.root / str(sess.settings.pipelines_configurations)).resolve()
-        configurations = get_configurations(path, sess)
+        path = (sess.root / str(sess.settings.parameters)).resolve()
+        parameters = get_parameters(path, sess)
 
-        sess._pipelines_configurations = configurations
+        sess._parameters = parameters
 
     @staticmethod
     @Session.hook_post_init()
@@ -479,4 +479,4 @@ class _DefaultHooks:
 
 if __name__ == "__main__":
     # (*cough*cough) Smoke-test
-    raise BaseException("catalog.py can't run in standalone")
+    raise BaseException("session.py can't run in standalone")

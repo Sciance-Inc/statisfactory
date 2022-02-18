@@ -33,7 +33,7 @@ from statisfactory.loader.yaml_utils import (
 #############################################################################
 
 
-def _expand_embedded_configs(*, name: str, configuration: Mapping, raw: Mapping):
+def _expand_embedded_configs(*, name: str, parameters: Mapping, raw: Mapping):
     """
     Unnest the embedded mapping.
     """
@@ -41,7 +41,7 @@ def _expand_embedded_configs(*, name: str, configuration: Mapping, raw: Mapping)
     # Look for the special marker of nested configs : _from, and expand them
     config_mapping = []
 
-    expand_item_name_list = configuration.get("_from")
+    expand_item_name_list = parameters.get("_from")
     if expand_item_name_list:
         for expand_item_name in expand_item_name_list:
 
@@ -52,13 +52,13 @@ def _expand_embedded_configs(*, name: str, configuration: Mapping, raw: Mapping)
             config_mapping.append(
                 _expand_embedded_configs(
                     name=expand_item_name,
-                    configuration=expand_item_definition,
+                    parameters=expand_item_definition,
                     raw=raw,
                 )
             )
 
     # Add the overwritting mapping
-    for k, m in configuration.items():
+    for k, m in parameters.items():
         if k == "_from":
             continue
         config_mapping.append({k: deepcopy(m)})  # Copy to avoid mutating references
@@ -69,12 +69,9 @@ def _expand_embedded_configs(*, name: str, configuration: Mapping, raw: Mapping)
     return config_mapping
 
 
-def get_configurations(path: Union[str, Path], session) -> Dict[str, Any]:
+def get_parameters(path: Union[str, Path], session) -> Dict[str, Any]:
     """
-    Build the configuration definitions by recyrsively injecting pipelines definitions
-
-    Returns:
-        Dict[str, Any]: A mapping of pipelines names to `PipelinesDefinition`
+    Build the parameters definitions by recyrsively injecting pipelines definitions
     """
 
     render_vars = {k.lower(): v for k, v in session.settings.to_dict().items()}
@@ -86,9 +83,9 @@ def get_configurations(path: Union[str, Path], session) -> Dict[str, Any]:
 
     # Iterate over each configuration, and expand the definition
     loaded = {}
-    for name, configuration in mapper.items():  # type: ignore
+    for name, parameters in mapper.items():  # type: ignore
         config = _expand_embedded_configs(
-            name=name, configuration=configuration, raw=mapper  # type: ignore
+            name=name, parameters=parameters, raw=mapper  # type: ignore
         )
 
         loaded[name] = config

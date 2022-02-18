@@ -63,7 +63,7 @@ def test_smoketest_config_loaded(sess):
     make sure that config are parsed and loaded
     """
 
-    assert bool(sess.pipelines_configurations)
+    assert bool(sess.parameters)
 
 
 def test_base_configuration(sess):
@@ -77,7 +77,7 @@ def test_base_configuration(sess):
         "shared_param": 1,
     }
 
-    cfg = sess.pipelines_configurations["base"]
+    cfg = sess.parameters["base"]
     assert target == cfg
 
 
@@ -87,7 +87,7 @@ def test_base_config_param_dispatch(sess, sample_pipeline):
     """
 
     with sess:
-        cfg = sess.pipelines_configurations["test_dispatch"]
+        cfg = sess.parameters["test_dispatch"]
         out = sample_pipeline(**cfg)
 
     target = {
@@ -104,7 +104,7 @@ def test_config_simple_inheritance(sess, sample_pipeline):
     """
 
     with sess:
-        cfg = sess.pipelines_configurations["test_inheritance_simple"]
+        cfg = sess.parameters["test_inheritance_simple"]
         out = sample_pipeline(**cfg)
 
     target = {
@@ -121,7 +121,7 @@ def test_config_multiple_inheritance(sess, sample_pipeline):
     """
 
     with sess:
-        cfg = sess.pipelines_configurations["test_inheritance_multiple"]
+        cfg = sess.parameters["test_inheritance_multiple"]
         out = sample_pipeline(**cfg)
 
     target = {
@@ -137,7 +137,7 @@ def test_config_multiplefiles(sess):
     Check that params are correctly correctly merged between multiples files.
     """
 
-    cfg = sess.pipelines_configurations["test_override_multifiles"]
+    cfg = sess.parameters["test_override_multifiles"]
 
     assert cfg["test_pipelines_config.step_1"]["param_1"] == 20
     assert cfg["shared_param"] == 20
@@ -148,6 +148,6 @@ def test_config_jinja(sess):
     Check that jinja is supported for the configuration definitions
     """
 
-    cfg = sess.pipelines_configurations["spam_override_multifiles"]
+    cfg = sess.parameters["spam_override_multifiles"]
 
     assert cfg["test_pipelines_config.step_1"]["param_1"] == 30

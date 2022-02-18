@@ -97,7 +97,7 @@ notebook_target = "__compiled__"
 pipelines_definitions = "Pipelines/definitions/pipelines.yaml"
 
 # The file or the folders of yamls files containing the configurations definitions 
-pipelines_configurations = "Pipelines/configurations/pipelines.yaml"
+parameters = "Pipelines/configurations/pipelines.yaml"
 ```
 
 #### `globals` and `locals`
@@ -163,7 +163,7 @@ _Connectors are going to be completely reworked to be merged into a new SQLArtif
 ### Analysing data, one `Craft` at a time.
 
 #### The `Session` object
-* A `session` is the entry point of a `Statisfactory` application and give the uses access to the `Catalogue` as well as the `pipelines_definitions` and  `pipelines_configurations`
+* A `session` is the entry point of a `Statisfactory` application and give the uses access to the `Catalogue` as well as the `pipelines_definitions` and  `parameters`
 * When instanciated in a stati-enabled repo, the `Session` will try to find the `statisfactory.yaml` in the current folder and it's parents.
 
 ```python
