@@ -217,3 +217,11 @@ def test_variadic_artifact_interpolation_dispatching(sess):
     p = spam + foo
     with sess:
         p(variadic="data")
+
+
+def test_multiples_files_pipelines(sess):
+    """
+    Test if pipelines can be parsed from multiples files
+    """
+
+    _ = sess.pipelines_definitions["multiples_files_pipeline"]

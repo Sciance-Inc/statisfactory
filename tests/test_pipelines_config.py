@@ -130,3 +130,24 @@ def test_config_multiple_inheritance(sess, sample_pipeline):
         "param_s3": {"param_1": 5},
     }
     assert out == target
+
+
+def test_config_multiplefiles(sess):
+    """
+    Check that params are correctly correctly merged between multiples files.
+    """
+
+    cfg = sess.pipelines_configurations["test_override_multifiles"]
+
+    assert cfg["test_pipelines_config.step_1"]["param_1"] == 20
+    assert cfg["shared_param"] == 20
+
+
+def test_config_jinja(sess):
+    """
+    Check that jinja is supported for the configuration definitions
+    """
+
+    cfg = sess.pipelines_configurations["spam_override_multifiles"]
+
+    assert cfg["test_pipelines_config.step_1"]["param_1"] == 30

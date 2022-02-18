@@ -106,13 +106,17 @@ class Errors(metaclass=ExceptionFactory):
     E010 = "start-up : statisfactory must be called from a folder, or the child of a folder, containing a '{target}' file / folder"
     E011 = "start-up : the Catalog file does not exists : '{path}'."
     E012 = "start-up : failed to parse the {file} file : {path}"
-    E013 = "start-up : failed to unmarshall the {file}"
+    E013 = "start-up : failed to load the catalogs."
     E014 = (
         "start-up : failed to interpolate the catalog with the settings from 'conf/'."
     )
     E015 = "start-up : Parsing pipeline '{pip_name}' : failed to import module '{module}'. The path might not be reachable."
     E016 = "start-up : pipelines definition '{name}' embed a reference to an undeclared definition '{ref}'"
     E017 = "start-up : Parsing pipeline '{pip_name}' : failed to import '{craft_name}' Craft from '{module}'. The module is reachable but importing the Craft failed."
+    E0181 = "ConfigParser : '{path}' does not exist."
+    E0182 = "ConfigParser : failed to read the '{path}'. Is the file a valid jinja2 template ?"
+    E0183 = "ConfigParser : failed to render the '{path}' template with template variables '{vars}'."
+    E0184 = "ConfigParser : failed deserialize the yaml representation '{repr}'."
 
     # FS interactors
     E020 = "data interactor : there is already an interactor named '{name}'"
@@ -123,8 +127,8 @@ class Errors(metaclass=ExceptionFactory):
         "data interactor : '{interactor}' interactor only accept {accept} : got '{got}'"
     )
     E024 = "data interactor : '{path}' does not exists"
-    E025 = "data interactor : failed to connect to {name} connector"
-    E026 = "data interactor : failed to execute query {query} agains {name} connector"
+    E025 = "data interactor : failed to connect to the connector with connection sting '{dsn}'"
+    E026 = "data interactor : failed to execute query {query}."
     E027 = "data interactor : only not-null string can be interpolated"
     E028 = "data interactor : string '{trg}' is incomplettely formatted, missing parameters from context"
     E0281 = "data interactor: failed to parse the Path parameter for Artifact {name}."
@@ -138,6 +142,7 @@ class Errors(metaclass=ExceptionFactory):
     E031 = "catalog : the '{name}' interactor does not exists"
     E032 = "catalog : the '{name}' connector does not exists"
     E033 = "catalog : duplicated key. The '{key}' {type} key is defined in at least two catalogs"
+    E034 = "catalog : failed to validate the artifact '{name}' Extra key against the following schema : '{schema}'."
 
     # Craft
     E040 = "craft : failed to execute craft '{func}'"

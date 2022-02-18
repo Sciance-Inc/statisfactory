@@ -61,7 +61,7 @@ __tl;dr : a tl;dr section is available at the end of the documentation__
 ```
 
 * The files :
-    * The `statisfactory.yaml` is the entrypoint of the applications and contains binding to the other files.
+    * The `pyproject.statisfactory` is the entrypoint of the applications and contains binding to the other files. The configuration schould be put in the `pyproject.toml` file.
     * Both `locals.yaml` and `globals.yaml` are key-value configuration files :
         * `locals.yaml` is not gitted and overwrite the key defined in `globals`. It can be used to store credentials and user dependant variables 
         * Both files defines key-values that can be statically interpolated in the `catalogs`
@@ -71,31 +71,33 @@ __tl;dr : a tl;dr section is available at the end of the documentation__
 
 ### Populating files
 
-#### `statisfactory.yaml`
+#### `pyproject.toml`
 
 
-```yaml
-# Statisfactory bootstrap file
+```toml
+[tool.statisfactory]
 
 # The name of the project. ShcoUld ideally be the Git repo name.
 # it's advised to use the slug for LakeFS, S3's bucket and LakeFS
-project_slug: "exemple"
+project_slug = "exemple"
 
 # The directory containing the globals and locals files
-configuration: configuration/
+configuration = "conf"
 
 # The path to the Catalog file or to the root of the directory containing catalogs
-catalog: conf/catalog.yaml
+catalog = "conf/catalog.yaml"
 
 # The directory containing sources and packages to be made available to pipelines and crafts. Every python packages / script added to this folder is made available for import
-sources: Lib
+sources = "Lib"
 
 # The root packages (inside "sources") in / from which the craft parsed definition would be store.
-notebook_target: jupyter
+notebook_target = "__compiled__"
 
-# The file containing the pipeline definitions : the pipeles use craft defined in scripts and builded into "sources"
-pipelines_definitions: Pipelines/definitions/pipelines.yaml
-pipelines_configurations: Pipelines/configurations/pipelines.yaml
+# The file or the folders of yamls files containing the pipeline definitions : the pipeles use craft defined in scripts and builded into "sources"
+pipelines_definitions = "Pipelines/definitions/pipelines.yaml"
+
+# The file or the folders of yamls files containing the configurations definitions 
+pipelines_configurations = "Pipelines/configurations/pipelines.yaml"
 ```
 
 #### `globals` and `locals`
@@ -109,51 +111,54 @@ _Connectors are going to be completely reworked to be merged into a new SQLArtif
 
 * The `Catalog` centralize the `Artifacts` definitions
 
-* The `catalog.yaml` accepts the following objects :
-    * __connectors__: a declaration of the `pyodbc` connector to use.
-    * __artifacts__: a declaration of an artifact
-
-* all __connectors__ schould map a name to a connection string or a DSN. The DSN must have been configured on the computer.
+* The `catalog.yaml` accepts a list of artifacts (represented as yaml dictionaries:
+    * an __artifact__ must minimaly have the followings properties : 
+        * the __type__ (csv, excel, odbc)
+        * the __name__ of the artiface
+    * an __artifact__ can have the followings attributes :
+        *  __extra__ : an arbitrary mapping (potentialy validable against a __pydantic__ model) of arguments to dispatch to the class in charge of the __Artifact__ deserialization
+        *  __load_options__ and __save_options__ : two arbitraries mappings to be used in the __load__ and __save__ methods of the class in charge of the __Artifact__ deserialization.
 
 * The __artifacts__ exposes the following attributes :
-    * __type__ : the type of the connector : can be one of `odbc`, `csv`, `xslx`, `datapane`, `pickle`.
+    * __type__ : the defaults type of the connector : can be one of `odbc`, `csv`, `xslx`, `datapane`, `pickle`.
         * `pickle` is used to serialize an object
         * `odbc` is used to execute an sql query against a connector
         * `datapane` is used to save a report build using datapane
-    * __connector__ : the name of the connector to use, as defined in `connector`. __Required for `type==odbc`__
-    * __query__ : the sql query to execute. __Required for `type==odbc`__
-    * __path__ : the path to the artifact. __Required for `type in [csv, xslx, datapane, pickle]`__ . __The path must be relative to `Data`__
+    * __ODBC__ connectors expect the following attributes in __Extra__:
+      * __connection_string__ the DSN / connection string to use
+      * __query__ : the sql query to execute. __Required for `type==odbc`__
+    * __datapane, pickle, csv, xlsx__, expect the following attribute in the extra fields:
+      * __path__ : the path to the artifact.
+        * The backend (__s3__, __local filesyste__, __lakefs__) can be specified through the use of the protocole name.
 
 * The `Artifact`'s __path__ attribute can contains __dynamically interpolated variables__ variables. Such a variable is a placeholder for contextualized values, defined at runtime (as opposed to the ones statically defined into `globals|locals` andi nterpolated at the catalog rendering ). 
 
 * Only `Artifacts` declared in the catalog can be loaded / saved using statisfactory. 
 
 ##### `catalog.yaml` exemples
-* The following snippet shows various interpolations technics
+* The following snippet shows various interpolations technics and several uses cases for the extra arguments, specifics to each interactor type.
 
 ```yaml
-connectors:
-  - ibesServer:
-      connString: DRIVER={ODBC Driver 17 for SQL Server};SERVER=myServer.com;DATABASE=myDatabase;UID=me;PWD=myPassword
-  - sqlserver:
-      connString: foo:bar@spam.sql:12234
-artifacts:
-  - qaiData:
-      type: odbc
-      connector: ibesServer
-      query: SELECT TOP 10 * FROM SYSOBJECTS WHERE xtype = 'U';
-  - testDataset:
-      type: csv
-      # PIPELINE is a statically defined value, interpolated at the catalog rendering. The value of Pipeline is pulled from globals|locals by Jinja2
-      path: '20_transformed/{{ PIPELINE }}/testDataset.csv'
-  - masterFile:
-      type: xslx
-      # s3:// trigger the use of the s3 backend.
-      path: s3://{{ base_bucket }}/10_raw/foobar.xlsx 
-  - coeffs:
-      type: pickle
-      # !{samples} is a dynamically interpolated values, while executing a craft / pipeline
-      path: 30_output/model_!{samples}/coeff.pkl
+- name: qaiData
+  type: odbc
+  extra:
+    connection_string: DRIVER={ODBC Driver 17 for SQL Server};SERVER=myServer.com;DATABASE=myDatabase;
+    query: SELECT TOP 10 * FROM SYSOBJECTS WHERE xtype = 'U';
+- name: testDataset
+    type: csv
+    # PIPELINE is a statically defined value, interpolated at the catalog rendering. The value of Pipeline is pulled from globals|locals by Jinja2
+    extra:
+        path: '20_transformed/{{ PIPELINE }}/testDataset.csv'
+- name: masterFile
+  type: xslx
+  extra: 
+    # s3:// trigger the use of the s3 backend.
+    path: s3://{{ base_bucket }}/10_raw/foobar.xlsx 
+- name: coeffs
+  type: pickle
+  # !{samples} is a dynamically interpolated values, while executing a craft / pipeline
+  extra:
+    path: 30_output/model_!{samples}/coeff.pkl
 ```
 ### Analysing data, one `Craft` at a time.
 
@@ -483,15 +488,14 @@ out["myValue"]
 * The pipeline uses the following `catalog.yaml`.
 
 ```yaml
-connectors:
-artifacts:
-
-  - masterFile:
-      type: xslx
-      path: /foobar/raw/!{samples}_masterfile.xlsx 
-  - coeffs:
-      type: pickle
-      path: /foobar/out/coeff_!{samples}.pkl
+- name: masterFile
+  type: xslx
+  extra:
+    path: /foobar/raw/!{samples}_masterfile.xlsx 
+- name: coeffs
+  type: pickle
+  extra: 
+    path: /foobar/out/coeff_!{samples}.pkl
 ```
 
 ```python
@@ -577,14 +581,23 @@ c2 = sess.catalog.load("coeffs", samples=500)
 
 __Please, refers to the code to see the actual interface to implement__
 
+> The class uses a pydantic nested model to validate the `extra` field. Extra will be populated using the nested model.
+
 ```python
+from typing import Optional
 from statisfactory.IO import ArtifactInteractor
+from pydantic.dataclasses import dataclass
 
 print(ArtifactInteractor.interactors()) # Print the 'default' registered interactors
 
 
 class Foobar(ArtifactInteractor, interactor_name="foobarer"):
     
+    @dataclass
+    class Extra:
+        egg: int
+        ham: Optional[int] = 0
+
     def __init__(self, artifact, *args, session, **kwargs):
         ...
 
@@ -610,7 +623,7 @@ __Please, refers to the code to see the actual interface to implement__
 from urllib.parse import ParseResult
 from statisfactory.IO import Backend
 
-class Foobar(Backend, preix="print"):
+class Foobar(Backend, prefix="print"):
     def __init__(self, session: Session):
         ...
 
@@ -649,7 +662,3 @@ def print_and_set_param(sess: Session) -> None:
 # Implementation Details
 
 # Hic sunt dracones
-Road to v0.2
-* Inject a spark runner ? 
-* Custom definition of artifacts fields and custom field validation
-
