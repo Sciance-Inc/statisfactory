@@ -1,13 +1,14 @@
 #! /usr/bin/python3
 
-# session.py
+# base_session.py
 #
 # Project name: statisfactory
 # Author: Hugo Juhel
 #
 # description:
 """
-    Implements the single entry point to a Statisfactory application
+    Implements a base session with default parameters.
+    The session schould be implemented through the Session method the session.session module.
 """
 
 #############################################################################
@@ -15,14 +16,11 @@
 #############################################################################
 
 import glob
-from importlib.util import spec_from_loader, module_from_spec
-from importlib.machinery import SourceFileLoader
-from importlib import import_module
 import os
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Any, Callable, Mapping, Optional, Union
+from typing import Any, Callable, Mapping, Optional
 from warnings import warn
 
 import boto3
@@ -48,7 +46,7 @@ from statisfactory.loader import (
 #############################################################################
 
 
-class Session(MixinLogable):
+class BaseSession(MixinLogable):
     """
     Represents the single entry point to a Statisfactory application.
     Load the Statisfactory configuration file and executes the registered hook.
@@ -67,39 +65,6 @@ class Session(MixinLogable):
     """
 
     _hooks = []
-
-    @staticmethod
-    def get_factory(*, root_folder: Union[str, Path] = None):
-        """
-        TODO
-        """
-
-        # Retrieve the location of the config file
-        root = Path(root_folder or get_path_to_target("pyproject.toml"))
-
-        # If no custom factory is defined, then return the base session.
-        config = get_pyproject(root / "pyproject.toml")
-        if not config.session_factory:
-            return Session  # type: ignore
-
-        module, obj = config.session_factory.module, config.session_factory.factory
-        return getattr(
-            import_module(module),
-            obj,
-        )
-
-    @staticmethod
-    def get_active_session():
-        """
-        Get the Session, currently on the top of the stack.
-        Must be called from a `with` statement
-        """
-
-        S = Scoped().get_session()
-        if not S:
-            raise Errors.E060() from None  # type: ignore
-
-        return S
 
     def __init__(self, *, root_folder: str = None):
         """
@@ -142,7 +107,7 @@ class Session(MixinLogable):
         self._git: Optional[Repository] = None
 
         # Execute any registered hooks
-        for h in Session._hooks:
+        for h in BaseSession._hooks:
             h(self)
 
         self.info("All done ! You are ready to go ! \U00002728 \U0001F370 \U00002728")
@@ -281,8 +246,8 @@ class _DefaultHooks:
     """
 
     @staticmethod
-    @Session.hook_post_init()
-    def set_path_and_pythonpath(sess: Session) -> None:
+    @BaseSession.hook_post_init()
+    def set_path_and_pythonpath(sess: BaseSession) -> None:
         """
         Configure the Path to expose the Lib targets.
         """
@@ -306,8 +271,8 @@ class _DefaultHooks:
             sess.info(f"setting PYTHONPATH to '{sess.settings.sources}'")
 
     @staticmethod
-    @Session.hook_post_init()
-    def set_settings(sess: Session) -> None:
+    @BaseSession.hook_post_init()
+    def set_settings(sess: BaseSession) -> None:
         """
         Parse the settings file from the conf/ folder and add the settings to the base statisfactory settings
         """
@@ -345,8 +310,8 @@ class _DefaultHooks:
         sess._settings.update(settings)  # type: ignore
 
     @staticmethod
-    @Session.hook_post_init()
-    def set_catalog(sess: Session) -> None:
+    @BaseSession.hook_post_init()
+    def set_catalog(sess: BaseSession) -> None:
         """
         Attach the catalog to the session
         """
@@ -357,8 +322,8 @@ class _DefaultHooks:
         sess._catalog = catalog
 
     @staticmethod
-    @Session.hook_post_init()
-    def set_parameters(sess: Session) -> None:
+    @BaseSession.hook_post_init()
+    def set_parameters(sess: BaseSession) -> None:
         """
         Parse and attach pipelines configurations to the Session
         """
@@ -373,8 +338,8 @@ class _DefaultHooks:
         sess._parameters = parameters
 
     @staticmethod
-    @Session.hook_post_init()
-    def set_pipelines_definitions(sess: Session) -> None:
+    @BaseSession.hook_post_init()
+    def set_pipelines_definitions(sess: BaseSession) -> None:
         """
         Parse and attach pipelines to the Session
         """
@@ -390,8 +355,8 @@ class _DefaultHooks:
         sess._pipelines_definitions = pipelines
 
     @staticmethod
-    @Session.hook_post_init()
-    def set_AWS_client(sess: Session) -> None:
+    @BaseSession.hook_post_init()
+    def set_AWS_client(sess: BaseSession) -> None:
         """
         Configure a Mamazon session.
 
@@ -411,8 +376,8 @@ class _DefaultHooks:
             warn(Warnings.W060)
 
     @staticmethod
-    @Session.hook_post_init()
-    def set_git_repo(sess: Session) -> None:
+    @BaseSession.hook_post_init()
+    def set_git_repo(sess: BaseSession) -> None:
         """
         Configure the Git client.
 
@@ -428,8 +393,8 @@ class _DefaultHooks:
         return
 
     @staticmethod
-    @Session.hook_post_init()
-    def set_lakefs_client(sess: Session) -> None:
+    @BaseSession.hook_post_init()
+    def set_lakefs_client(sess: BaseSession) -> None:
         """
         Configure a lakefs client.
 

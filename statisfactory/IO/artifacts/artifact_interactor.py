@@ -45,7 +45,7 @@ from statisfactory.logger import MixinLogable, get_module_logger
 # Project type checks : see PEP563
 if TYPE_CHECKING:
     from statisfactory.IO.artifacts.backend import Backend
-    from statisfactory.session import Session
+    from statisfactory.session import BaseSession
 
 #############################################################################
 #                                  Script                                   #
@@ -117,7 +117,7 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
     # A placeholder for all registered interactors
     _interactors = dict()
 
-    def __init__(self, artifact, *args, session: Session, **kwargs):
+    def __init__(self, artifact, *args, session: BaseSession, **kwargs):
         """
         Instanciate a new interactor.
 
@@ -213,7 +213,7 @@ class FileBasedInteractor(
     class Extra:
         path: str  # Only the path is required for a FileBaseInteractor
 
-    def __init__(self, artifact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
         Set the fragment from the Artifact Path
         """
@@ -277,7 +277,7 @@ class CSVInteractor(FileBasedInteractor, interactor_name="csv"):
     Concrete implementation of a csv interactor
     """
 
-    def __init__(self, artifact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
         Instanciate an interactor on a local file csv
 
@@ -344,7 +344,7 @@ class XLSXInteractor(FileBasedInteractor, interactor_name="xslx"):
     Concrete implementation of an XLSX interactor
     """
 
-    def __init__(self, artifact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
         Instanciate an interactor on a local file xslsx
 
@@ -413,7 +413,7 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
     Concrete implementation of a Pickle interactor.
     """
 
-    def __init__(self, artifact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
         Instanciate an interactor on a local file pickle file
 
@@ -483,7 +483,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
     class Extra:
         connection_string: str
 
-    def __init__(self, artifact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
         Instanciate an interactor against an odbc
 
@@ -547,7 +547,7 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
     Implements saving / loading for datapane object.
     """
 
-    def __init__(self, artifact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
         Return a new Datapane Interactor initiated with a a particular interactor
         """
@@ -604,7 +604,7 @@ class BinaryInteractor(FileBasedInteractor, interactor_name="binary"):
     Implements saving / loading for binary raw object
     """
 
-    def __init__(self, artifact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
         Return a new Binary Interactor initiated with a a particular interactor
         """
@@ -654,7 +654,7 @@ class FeatherInteractor(FileBasedInteractor, interactor_name="feather"):
 
     """
 
-    def __init__(self, artifact, *args, session: Session = None, **kwargs):
+    def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
         Return a new Feather Interactor.
         """

@@ -1,4 +1,4 @@
-from statisfactory import Craft, Session, Volatile
+from statisfactory import Craft, BaseSession, Volatile
 
 
 @Craft()

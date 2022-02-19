@@ -29,7 +29,7 @@ from statisfactory.logger import MixinLogable
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from statisfactory.session import Session
+    from statisfactory.session import BaseSession
 
 #############################################################################
 #                                  Script                                   #
@@ -41,7 +41,7 @@ class Catalog(MixinLogable):
     Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
     """
 
-    def __init__(self, *, path: Path, session: Session = None):
+    def __init__(self, *, path: Path, session: BaseSession = None):
         """
         Build a new Catalog from an iterator of dumps
 

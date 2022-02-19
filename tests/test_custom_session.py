@@ -46,10 +46,9 @@ def test_session_instanciation(change_test_dir):
     Make sure the session can be instanciated
     """
 
-    from pathlib import Path
     from statisfactory import Session
 
-    factory = Session.get_factory()
-    sess = factory()
+    sess = Session()
 
-    assert sess.custom_session_flag == 1
+    assert sess.custom_session_flag == 1  # type: ignore
+    assert sess.custom_session_flag_2 == 1  # type: ignore
