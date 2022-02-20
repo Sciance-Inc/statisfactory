@@ -17,7 +17,6 @@
 import pytest
 from pathlib import Path
 from statisfactory import Session
-from statisfactory.session import get_active_session
 
 #############################################################################
 #                                  Scripts                                  #
@@ -42,5 +41,5 @@ def test_active_session(sess):
     """
 
     with sess:
-        sess_scoped = get_active_session()
+        sess_scoped = Session.get_active_session()
         assert sess_scoped is sess

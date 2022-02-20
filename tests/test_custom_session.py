@@ -52,3 +52,6 @@ def test_session_instanciation(change_test_dir):
 
     assert sess.custom_session_flag == 1  # type: ignore
     assert sess.custom_session_flag_2 == 1  # type: ignore
+
+    with sess:
+        assert sess == Session.get_active_session()

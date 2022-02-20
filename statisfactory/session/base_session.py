@@ -22,6 +22,8 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, Callable, Mapping, Optional
 from warnings import warn
+from abc import ABCMeta
+from types import SimpleNamespace
 
 import boto3
 from dynaconf import Dynaconf, Validator
@@ -46,10 +48,12 @@ from statisfactory.loader import (
 #############################################################################
 
 
-class BaseSession(MixinLogable):
+class BaseSession(MixinLogable, metaclass=ABCMeta):
     """
-    Represents the single entry point to a Statisfactory application.
-    Load the Statisfactory configuration file and executes the registered hook.
+    Base class for all Session objects.
+    The Session is the entry point of a Statisfactory application
+
+    The session loads the Statisfactory configuration file and executes the registered hooks.
 
     The class exposes :
         * Getter to the ``settings``, parsed during the class instanciation
@@ -59,6 +63,7 @@ class BaseSession(MixinLogable):
     The session expose a ``_`` attributes, for the user to register his own datas.
 
     Implementation details:
+    * The class is actually never instanciated. It serves as an abstract classe to be injected somehow in the hierarchy of the dynamically defined Session.
     * The class by itself does not do much, but delegates must of the work the the hooks.
     * The hooks can be used to develop plugins : such as an integration to mlflow, the instanciation of a Spark session.
     * The ``_`` attribute schould be used to store user defined custom extension
@@ -95,7 +100,7 @@ class BaseSession(MixinLogable):
         self._settings.validators.validate()  # type: ignore
 
         # Instanciate the 'user space'
-        self._ = {}
+        self._ = SimpleNamespace()
 
         # Instanciate placeholders to be filled by mandatory hooks
         self._catalog: Catalog
