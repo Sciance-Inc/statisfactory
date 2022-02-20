@@ -17,188 +17,60 @@ Classes
 
 .. autoapisummary::
 
+   statisfactory.session.session._SessionMaker
+   statisfactory.session.session._AbstractSessionMaker
    statisfactory.session.session.Session
-   statisfactory.session.session._DefaultHooks
 
 
 
 
-.. py:class:: Session(*, root_folder: str = None)
+.. py:class:: _SessionMaker
 
-   Bases: :py:obj:`statisfactory.logger.MixinLogable`
+   Bases: :py:obj:`type`
 
-   Represents the single entry point to a Statisfactory application.
-   Load the Statisfactory configuration file and executes the registered hook.
+   A metaclass to dynamically select the appropriate bases for the Session object.
+   The custom base to inject inplace of the statisfactory.session.BaseSession can be set through the pyproject.toml file
 
-   The class exposes :
-       * Getter to the ``settings``, parsed during the class instanciation
-       * Getters to pipelines definitions and configurations, if any.
-       * A decorator : hook_post_init. To help the user registering is own extention.
+   .. py:method:: __call__(cls, root_folder=None)
 
-   The session expose a ``_`` attributes, for the user to register his own datas.
+      Return a new Session class type to be used to instanciate Sessions.
+      The new class inherits from the user defined one (if provide.)
 
-   Implementation details:
-   * The class by itself does not do much, but delegates must of the work the the hooks.
-   * The hooks can be used to develop plugins : such as an integration to mlflow, the instanciation of a Spark session.
-   * The ``_`` attribute schould be used to store user defined custom extension
 
-   .. py:attribute:: _hooks
-      :annotation: = []
 
-      
+.. py:class:: _AbstractSessionMaker
+
+   Bases: :py:obj:`_SessionMaker`, :py:obj:`abc.ABCMeta`
+
+   BaseSession is an Abtract class. It's metaclass is ABC.
+   Session schould have a _SessioNaker metaclass.
+   The both metaclass conflict, since pyhton does not now wich one of the metaclasses it shcould be using.
+   To solve the conflict, I manually create a Metaclass that inherits from both the ABCMeta metaclass and the _SessionMaker
+
+
+.. py:class:: Session
+
+   Instanciate the Session object.
+   The Session class used is generaly the `statisfactory.session.base_session`.
+
+   The user can specify a custom session by specifiying the following configuration in the `pyproject.toml` file :
+
+   ```toml
+   [tool.statisfactory.session_factory]
+   module = 'session.custom_session'
+   factory = 'MySession'
+   ```
+
+   Where `module` is the name of a module inside the project and factory is the name of a class from that module.
+
+   The Session is the entry point of a Statisfactory application
+   The session loads the Statisfactory configuration file and executes the registered hooks.
 
    .. py:method:: get_active_session()
       :staticmethod:
 
       Get the Session, currently on the top of the stack.
       Must be called from a `with` statement
-
-
-   .. py:method:: get_path_to_target(self, target: str) -> pathlib.Path
-
-      Retrieve the path to "target" file by executing a "fish pass ;)" from the location of the caller
-
-
-   .. py:method:: __enter__(self)
-
-      Push the Session on top of the thread-safe stack
-
-
-   .. py:method:: __exit__(self, exception_type, exception_value, exception_traceback)
-
-      Remove the topmost Session of the thread safe stack
-
-
-   .. py:method:: root(self) -> pathlib.Path
-      :property:
-
-      Getter for the Root path of the project
-
-
-   .. py:method:: settings(self) -> dynaconf.Dynaconf
-      :property:
-
-      Getter for the session's base setting.
-
-
-   .. py:method:: catalog(self) -> statisfactory.IO.Catalog
-      :property:
-
-      Getter for the session's catalog.
-
-
-   .. py:method:: pipelines_definitions(self)
-      :property:
-
-      Getter for the session's pipelines definitions.
-
-
-   .. py:method:: pipelines_configurations(self)
-      :property:
-
-      Getter for the session's pipelines definition.
-
-
-   .. py:method:: aws_session(self) -> boto3.Session
-      :property:
-
-      Getter for the AWS client
-
-      Returns:
-          boto3.Session: The session configured via the initiaition hook.
-
-
-   .. py:method:: git(self) -> pygit2.Repository
-      :property:
-
-      Getter for the Git repository the session belongs to.
-
-
-   .. py:method:: lakefs_client(self) -> lakefs_client.client.LakeFSClient
-      :property:
-
-      Getter for the AWS client
-      Returns:
-          The lakeFS configured via the initiaition hook.
-
-
-   .. py:method:: lakefs_repo(self)
-      :property:
-
-      Return the LakeFS repository's pointer.
-
-
-   .. py:method:: hook_post_init(cls, last=True) -> Callable
-      :classmethod:
-
-      Register a `callable_` to be executed after the session instanciation.
-
-
-
-.. py:class:: _DefaultHooks
-
-   Name spaces for the mandatory Session postinits hooks.
-
-   Hooks will be executed int the order they are declared.
-
-   Implementation details:
-   * These hooks use the logger from the session, instead of cust
-
-   .. py:method:: set_path_and_pythonpath(sess: Session) -> None
-      :staticmethod:
-
-      Configure the Path to expose the Lib targets.
-
-
-   .. py:method:: set_settings(sess: Session) -> None
-      :staticmethod:
-
-      Parse the settings file from the conf/ folder and add the settings to the base statisfactory settings
-
-
-   .. py:method:: set_catalog(sess: Session) -> None
-      :staticmethod:
-
-      Attach the catalog to the session
-
-
-   .. py:method:: set_pipelines_configurations(sess: Session) -> None
-      :staticmethod:
-
-      Parse and attach pipelines configurations to the Session
-
-
-   .. py:method:: set_pipelines_definitions(sess: Session) -> None
-      :staticmethod:
-
-      Parse and attach pipelines to the Session
-
-
-   .. py:method:: set_AWS_client(sess: Session) -> None
-      :staticmethod:
-
-      Configure a Mamazon session.
-
-      Args:
-          sess (Session): The statisfactory session
-
-
-   .. py:method:: set_git_repo(sess: Session) -> None
-      :staticmethod:
-
-      Configure the Git client.
-
-      Args:
-          sess (Session): The statisfactory session updated by the hook
-
-
-   .. py:method:: set_lakefs_client(sess: Session) -> None
-      :staticmethod:
-
-      Configure a lakefs client.
-
-      Args:
-          sess (Session): The statisfactory session updated by the hook
 
 
 

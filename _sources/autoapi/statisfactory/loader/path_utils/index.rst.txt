@@ -1,0 +1,29 @@
+:py:mod:`statisfactory.loader.path_utils`
+=========================================
+
+.. py:module:: statisfactory.loader.path_utils
+
+.. autoapi-nested-parse::
+
+   Implements utility functions to fetch the pyproject.toml
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.loader.path_utils.get_path_to_target
+
+
+
+.. py:function:: get_path_to_target(target: str) -> pathlib.Path
+
+   Retrieve the path to "target" file by executing a "fish pass ;)" from the location of the caller
+
+

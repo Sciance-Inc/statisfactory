@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>statisfactory.loader.config_loader &#8212; Statisfactory  documentation</title>
+    <title>statisfactory.loader.path_utils &#8212; Statisfactory  documentation</title>
     
   <link href="../../../../_static/css/theme.css" rel="stylesheet" />
   <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -189,11 +189,20 @@
          </code>
         </a>
        </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../parameters_loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.parameters_loader
+          </span>
+         </code>
+        </a>
+       </li>
        <li class="toctree-l4 current active">
         <a class="current reference internal" href="#">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.loader.config_loader
+           statisfactory.loader.path_utils
           </span>
          </code>
         </a>
@@ -203,6 +212,15 @@
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
            statisfactory.loader.pipelines_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../pyproject_loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.pyproject_loader
           </span>
          </code>
         </a>
@@ -328,6 +346,15 @@
       </label>
       <ul>
        <li class="toctree-l4">
+        <a class="reference internal" href="../../session/base_session/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.session.base_session
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="../../session/session/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
@@ -419,7 +446,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="../../../../_sources/autoapi/statisfactory/loader/config_loader/index.rst.txt"><button type="button"
+        <a class="dropdown-buttons" href="../../../../_sources/autoapi/statisfactory/loader/path_utils/index.rst.txt"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
@@ -460,13 +487,8 @@
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.loader.config_loader._expand_embedded_configs">
-       _expand_embedded_configs
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.loader.config_loader.get_configurations">
-       get_configurations
+      <a class="reference internal nav-link" href="#statisfactory.loader.path_utils.get_path_to_target">
+       get_path_to_target
       </a>
      </li>
     </ul>
@@ -484,9 +506,9 @@
         
               <div>
                 
-  <div class="section" id="module-statisfactory.loader.config_loader">
-<span id="statisfactory-loader-config-loader"></span><h1><a class="reference internal" href="#module-statisfactory.loader.config_loader" title="statisfactory.loader.config_loader"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.loader.config_loader</span></code></a><a class="headerlink" href="#module-statisfactory.loader.config_loader" title="Permalink to this headline">¶</a></h1>
-<p>Exposes an utility function to load configurations yaml / jinja based configurations files for stati</p>
+  <div class="section" id="module-statisfactory.loader.path_utils">
+<span id="statisfactory-loader-path-utils"></span><h1><a class="reference internal" href="#module-statisfactory.loader.path_utils" title="statisfactory.loader.path_utils"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.loader.path_utils</span></code></a><a class="headerlink" href="#module-statisfactory.loader.path_utils" title="Permalink to this headline">¶</a></h1>
+<p>Implements utility functions to fetch the pyproject.toml</p>
 <div class="section" id="module-contents">
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="functions">
@@ -497,28 +519,15 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.loader.config_loader._expand_embedded_configs" title="statisfactory.loader.config_loader._expand_embedded_configs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_expand_embedded_configs</span></code></a>(name: str, configuration: Mapping, raw: Mapping)</p></td>
-<td><p>Unnest the embedded mapping.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.loader.config_loader.get_configurations" title="statisfactory.loader.config_loader.get_configurations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_configurations</span></code></a>(path: Union[str, pathlib.Path], session) → Dict[str, Any]</p></td>
-<td><p>Build the configuration definitions by recyrsively injecting pipelines definitions</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.loader.path_utils.get_path_to_target" title="statisfactory.loader.path_utils.get_path_to_target"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_path_to_target</span></code></a>(target: str) → pathlib.Path</p></td>
+<td><p>Retrieve the path to &quot;target&quot; file by executing a &quot;fish pass ;)&quot; from the location of the caller</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
-<dt class="sig sig-object py" id="statisfactory.loader.config_loader._expand_embedded_configs">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.config_loader.</span></span><span class="sig-name descname"><span class="pre">_expand_embedded_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Mapping</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.loader.config_loader._expand_embedded_configs" title="Permalink to this definition">¶</a></dt>
-<dd><p>Unnest the embedded mapping.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="statisfactory.loader.config_loader.get_configurations">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.config_loader.</span></span><span class="sig-name descname"><span class="pre">get_configurations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.config_loader.get_configurations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build the configuration definitions by recyrsively injecting pipelines definitions</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>Dict[str, Any]: A mapping of pipelines names to <cite>PipelinesDefinition</cite></p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="statisfactory.loader.path_utils.get_path_to_target">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.path_utils.</span></span><span class="sig-name descname"><span class="pre">get_path_to_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#statisfactory.loader.path_utils.get_path_to_target" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve the path to “target” file by executing a “fish pass ;)” from the location of the caller</p>
 </dd></dl>
 
 </div>

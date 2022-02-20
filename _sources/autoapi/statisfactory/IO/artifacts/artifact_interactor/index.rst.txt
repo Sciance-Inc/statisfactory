@@ -83,7 +83,7 @@ Classes
 
 
 
-.. py:class:: ArtifactInteractor(artifact, *args, session: statisfactory.session.Session, **kwargs)
+.. py:class:: ArtifactInteractor(artifact, *args, session: statisfactory.session.BaseSession, **kwargs)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinInterpolable`
 
@@ -139,7 +139,7 @@ Classes
 
 
 
-.. py:class:: FileBasedInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: FileBasedInteractor(artifact, *args, session: statisfactory.session.BaseSession = None, **kwargs)
 
    Bases: :py:obj:`ArtifactInteractor`
 
@@ -167,7 +167,7 @@ Classes
 
 
 
-.. py:class:: CSVInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: CSVInteractor(artifact, *args, session: statisfactory.session.BaseSession = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -190,7 +190,7 @@ Classes
 
 
 
-.. py:class:: XLSXInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: XLSXInteractor(artifact, *args, session: statisfactory.session.BaseSession = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -213,7 +213,7 @@ Classes
 
 
 
-.. py:class:: PicklerInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: PicklerInteractor(artifact, *args, session: statisfactory.session.BaseSession = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -236,7 +236,7 @@ Classes
 
 
 
-.. py:class:: ODBCInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: ODBCInteractor(artifact, *args, session: statisfactory.session.BaseSession = None, **kwargs)
 
    Bases: :py:obj:`ArtifactInteractor`, :py:obj:`MixinInterpolable`
 
@@ -272,7 +272,7 @@ Classes
 
 
 
-.. py:class:: DatapaneInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: DatapaneInteractor(artifact, *args, session: statisfactory.session.BaseSession = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -299,7 +299,7 @@ Classes
 
 
 
-.. py:class:: BinaryInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: BinaryInteractor(artifact, *args, session: statisfactory.session.BaseSession = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 
@@ -319,7 +319,7 @@ Classes
 
 
 
-.. py:class:: FeatherInteractor(artifact, *args, session: statisfactory.session.Session = None, **kwargs)
+.. py:class:: FeatherInteractor(artifact, *args, session: statisfactory.session.BaseSession = None, **kwargs)
 
    Bases: :py:obj:`FileBasedInteractor`
 

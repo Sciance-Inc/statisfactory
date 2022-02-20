@@ -190,10 +190,19 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../loader/config_loader/index.html">
+        <a class="reference internal" href="../../loader/parameters_loader/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.loader.config_loader
+           statisfactory.loader.parameters_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/path_utils/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.path_utils
           </span>
          </code>
         </a>
@@ -203,6 +212,15 @@
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
            statisfactory.loader.pipelines_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/pyproject_loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.pyproject_loader
           </span>
          </code>
         </a>
@@ -327,6 +345,15 @@
        </i>
       </label>
       <ul class="current">
+       <li class="toctree-l4">
+        <a class="reference internal" href="../base_session/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.session.base_session
+          </span>
+         </code>
+        </a>
+       </li>
        <li class="toctree-l4 current active">
         <a class="current reference internal" href="#">
          <code class="xref py py-mod docutils literal notranslate">
@@ -460,130 +487,30 @@
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.session.session.Session">
-       Session
+      <a class="reference internal nav-link" href="#statisfactory.session.session._SessionMaker">
+       _SessionMaker
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session._hooks">
-         _hooks
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.get_active_session">
-         get_active_session
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.get_path_to_target">
-         get_path_to_target
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.__enter__">
-         __enter__
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.__exit__">
-         __exit__
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.root">
-         root
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.settings">
-         settings
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.catalog">
-         catalog
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.pipelines_definitions">
-         pipelines_definitions
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.pipelines_configurations">
-         pipelines_configurations
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.aws_session">
-         aws_session
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.git">
-         git
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.lakefs_client">
-         lakefs_client
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.lakefs_repo">
-         lakefs_repo
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.hook_post_init">
-         hook_post_init
+        <a class="reference internal nav-link" href="#statisfactory.session.session._SessionMaker.__call__">
+         __call__
         </a>
        </li>
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.session.session._DefaultHooks">
-       _DefaultHooks
+      <a class="reference internal nav-link" href="#statisfactory.session.session._AbstractSessionMaker">
+       _AbstractSessionMaker
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.session.session.Session">
+       Session
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._DefaultHooks.set_path_and_pythonpath">
-         set_path_and_pythonpath
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._DefaultHooks.set_settings">
-         set_settings
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._DefaultHooks.set_catalog">
-         set_catalog
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._DefaultHooks.set_pipelines_configurations">
-         set_pipelines_configurations
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._DefaultHooks.set_pipelines_definitions">
-         set_pipelines_definitions
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._DefaultHooks.set_AWS_client">
-         set_AWS_client
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._DefaultHooks.set_git_repo">
-         set_git_repo
-        </a>
-       </li>
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._DefaultHooks.set_lakefs_client">
-         set_lakefs_client
+        <a class="reference internal nav-link" href="#statisfactory.session.session.Session.get_active_session">
+         get_active_session
         </a>
        </li>
       </ul>
@@ -616,198 +543,61 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Session</span></code></a></p></td>
-<td><p>Represents the single entry point to a Statisfactory application.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.session.session._SessionMaker" title="statisfactory.session.session._SessionMaker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_SessionMaker</span></code></a></p></td>
+<td><p>A metaclass to dynamically select the appropriate bases for the Session object.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.session.session._DefaultHooks" title="statisfactory.session.session._DefaultHooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_DefaultHooks</span></code></a></p></td>
-<td><p>Name spaces for the mandatory Session postinits hooks.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.session.session._AbstractSessionMaker" title="statisfactory.session.session._AbstractSessionMaker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_AbstractSessionMaker</span></code></a></p></td>
+<td><p>BaseSession is an Abtract class. It's metaclass is ABC.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Session</span></code></a></p></td>
+<td><p>Instanciate the Session object.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py class">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">Session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_folder</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session.Session" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
-<p>Represents the single entry point to a Statisfactory application.
-Load the Statisfactory configuration file and executes the registered hook.</p>
-<dl class="simple">
-<dt>The class exposes :</dt><dd><ul class="simple">
-<li><p>Getter to the <code class="docutils literal notranslate"><span class="pre">settings</span></code>, parsed during the class instanciation</p></li>
-<li><p>Getters to pipelines definitions and configurations, if any.</p></li>
-<li><p>A decorator : hook_post_init. To help the user registering is own extention.</p></li>
-</ul>
-</dd>
-</dl>
-<p>The session expose a <code class="docutils literal notranslate"><span class="pre">_</span></code> attributes, for the user to register his own datas.</p>
-<p>Implementation details:
-* The class by itself does not do much, but delegates must of the work the the hooks.
-* The hooks can be used to develop plugins : such as an integration to mlflow, the instanciation of a Spark session.
-* The <code class="docutils literal notranslate"><span class="pre">_</span></code> attribute schould be used to store user defined custom extension</p>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session._hooks">
-<span class="sig-name descname"><span class="pre">_hooks</span></span><em class="property"> <span class="pre">=</span> <span class="pre">[]</span></em><a class="headerlink" href="#statisfactory.session.session.Session._hooks" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="statisfactory.session.session._SessionMaker">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">_SessionMaker</span></span><a class="headerlink" href="#statisfactory.session.session._SessionMaker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></p>
+<p>A metaclass to dynamically select the appropriate bases for the Session object.
+The custom base to inject inplace of the statisfactory.session.BaseSession can be set through the pyproject.toml file</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.session.session._SessionMaker.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session._SessionMaker.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new Session class type to be used to instanciate Sessions.
+The new class inherits from the user defined one (if provide.)</p>
+</dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.session.session._AbstractSessionMaker">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">_AbstractSessionMaker</span></span><a class="headerlink" href="#statisfactory.session.session._AbstractSessionMaker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#statisfactory.session.session._SessionMaker" title="statisfactory.session.session._SessionMaker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_SessionMaker</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">abc.ABCMeta</span></code></p>
+<p>BaseSession is an Abtract class. It’s metaclass is ABC.
+Session schould have a _SessioNaker metaclass.
+The both metaclass conflict, since pyhton does not now wich one of the metaclasses it shcould be using.
+To solve the conflict, I manually create a Metaclass that inherits from both the ABCMeta metaclass and the _SessionMaker</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.session.session.Session">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">Session</span></span><a class="headerlink" href="#statisfactory.session.session.Session" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instanciate the Session object.
+The Session class used is generaly the <cite>statisfactory.session.base_session</cite>.</p>
+<p>The user can specify a custom session by specifiying the following configuration in the <cite>pyproject.toml</cite> file :</p>
+<p><code class="docutils literal notranslate"><span class="pre">`toml</span>
+<span class="pre">[tool.statisfactory.session_factory]</span>
+<span class="pre">module</span> <span class="pre">=</span> <span class="pre">'session.custom_session'</span>
+<span class="pre">factory</span> <span class="pre">=</span> <span class="pre">'MySession'</span>
+<span class="pre">`</span></code></p>
+<p>Where <cite>module</cite> is the name of a module inside the project and factory is the name of a class from that module.</p>
+<p>The Session is the entry point of a Statisfactory application
+The session loads the Statisfactory configuration file and executes the registered hooks.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.session.session.Session.get_active_session">
 <em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">get_active_session</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session.Session.get_active_session" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the Session, currently on the top of the stack.
 Must be called from a <cite>with</cite> statement</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.get_path_to_target">
-<span class="sig-name descname"><span class="pre">get_path_to_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#statisfactory.session.session.Session.get_path_to_target" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retrieve the path to “target” file by executing a “fish pass ;)” from the location of the caller</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.__enter__">
-<span class="sig-name descname"><span class="pre">__enter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session.Session.__enter__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Push the Session on top of the thread-safe stack</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.__exit__">
-<span class="sig-name descname"><span class="pre">__exit__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exception_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exception_value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exception_traceback</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session.Session.__exit__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove the topmost Session of the thread safe stack</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.root">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#statisfactory.session.session.Session.root" title="Permalink to this definition">¶</a></dt>
-<dd><p>Getter for the Root path of the project</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.settings">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dynaconf.Dynaconf</span></span></span><a class="headerlink" href="#statisfactory.session.session.Session.settings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Getter for the session’s base setting.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.catalog">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../../IO/index.html#statisfactory.IO.Catalog" title="statisfactory.IO.Catalog"><span class="pre">statisfactory.IO.Catalog</span></a></span></span><a class="headerlink" href="#statisfactory.session.session.Session.catalog" title="Permalink to this definition">¶</a></dt>
-<dd><p>Getter for the session’s catalog.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.pipelines_definitions">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">pipelines_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session.Session.pipelines_definitions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Getter for the session’s pipelines definitions.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.pipelines_configurations">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">pipelines_configurations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session.Session.pipelines_configurations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Getter for the session’s pipelines definition.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.aws_session">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">aws_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">boto3.Session</span></span></span><a class="headerlink" href="#statisfactory.session.session.Session.aws_session" title="Permalink to this definition">¶</a></dt>
-<dd><p>Getter for the AWS client</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>boto3.Session: The session configured via the initiaition hook.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.git">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">git</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pygit2.Repository</span></span></span><a class="headerlink" href="#statisfactory.session.session.Session.git" title="Permalink to this definition">¶</a></dt>
-<dd><p>Getter for the Git repository the session belongs to.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.lakefs_client">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">lakefs_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">lakefs_client.client.LakeFSClient</span></span></span><a class="headerlink" href="#statisfactory.session.session.Session.lakefs_client" title="Permalink to this definition">¶</a></dt>
-<dd><p>Getter for the AWS client
-Returns:</p>
-<blockquote>
-<div><p>The lakeFS configured via the initiaition hook.</p>
-</div></blockquote>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.lakefs_repo">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">lakefs_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session.Session.lakefs_repo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the LakeFS repository’s pointer.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session.Session.hook_post_init">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">hook_post_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="headerlink" href="#statisfactory.session.session.Session.hook_post_init" title="Permalink to this definition">¶</a></dt>
-<dd><p>Register a <cite>callable_</cite> to be executed after the session instanciation.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="statisfactory.session.session._DefaultHooks">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">_DefaultHooks</span></span><a class="headerlink" href="#statisfactory.session.session._DefaultHooks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Name spaces for the mandatory Session postinits hooks.</p>
-<p>Hooks will be executed int the order they are declared.</p>
-<p>Implementation details:
-* These hooks use the logger from the session, instead of cust</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session._DefaultHooks.set_path_and_pythonpath">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_path_and_pythonpath</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sess</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><span class="pre">Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#statisfactory.session.session._DefaultHooks.set_path_and_pythonpath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure the Path to expose the Lib targets.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session._DefaultHooks.set_settings">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sess</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><span class="pre">Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#statisfactory.session.session._DefaultHooks.set_settings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse the settings file from the conf/ folder and add the settings to the base statisfactory settings</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session._DefaultHooks.set_catalog">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_catalog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sess</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><span class="pre">Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#statisfactory.session.session._DefaultHooks.set_catalog" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attach the catalog to the session</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session._DefaultHooks.set_pipelines_configurations">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_pipelines_configurations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sess</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><span class="pre">Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#statisfactory.session.session._DefaultHooks.set_pipelines_configurations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse and attach pipelines configurations to the Session</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session._DefaultHooks.set_pipelines_definitions">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_pipelines_definitions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sess</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><span class="pre">Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#statisfactory.session.session._DefaultHooks.set_pipelines_definitions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse and attach pipelines to the Session</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session._DefaultHooks.set_AWS_client">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_AWS_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sess</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><span class="pre">Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#statisfactory.session.session._DefaultHooks.set_AWS_client" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure a Mamazon session.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>sess (Session): The statisfactory session</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session._DefaultHooks.set_git_repo">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_git_repo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sess</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><span class="pre">Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#statisfactory.session.session._DefaultHooks.set_git_repo" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure the Git client.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>sess (Session): The statisfactory session updated by the hook</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session._DefaultHooks.set_lakefs_client">
-<em class="property"><span class="pre">static</span> </em><span class="sig-name descname"><span class="pre">set_lakefs_client</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sess</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><span class="pre">Session</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#statisfactory.session.session._DefaultHooks.set_lakefs_client" title="Permalink to this definition">¶</a></dt>
-<dd><p>Configure a lakefs client.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>sess (Session): The statisfactory session updated by the hook</p>
-</dd>
-</dl>
 </dd></dl>
 
 </dd></dl>

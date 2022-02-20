@@ -64,7 +64,7 @@ Attributes
    statisfactory.__version__
 
 
-.. py:class:: Catalog(*, path: pathlib.Path, session: statisfactory.session.Session = None)
+.. py:class:: Catalog(*, path: pathlib.Path, session: statisfactory.session.BaseSession = None)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`
 
@@ -352,115 +352,29 @@ Attributes
 
 
 
-.. py:class:: Session(*, root_folder: str = None)
+.. py:class:: Session
 
-   Bases: :py:obj:`statisfactory.logger.MixinLogable`
+   Instanciate the Session object.
+   The Session class used is generaly the `statisfactory.session.base_session`.
 
-   Represents the single entry point to a Statisfactory application.
-   Load the Statisfactory configuration file and executes the registered hook.
+   The user can specify a custom session by specifiying the following configuration in the `pyproject.toml` file :
 
-   The class exposes :
-       * Getter to the ``settings``, parsed during the class instanciation
-       * Getters to pipelines definitions and configurations, if any.
-       * A decorator : hook_post_init. To help the user registering is own extention.
+   ```toml
+   [tool.statisfactory.session_factory]
+   module = 'session.custom_session'
+   factory = 'MySession'
+   ```
 
-   The session expose a ``_`` attributes, for the user to register his own datas.
+   Where `module` is the name of a module inside the project and factory is the name of a class from that module.
 
-   Implementation details:
-   * The class by itself does not do much, but delegates must of the work the the hooks.
-   * The hooks can be used to develop plugins : such as an integration to mlflow, the instanciation of a Spark session.
-   * The ``_`` attribute schould be used to store user defined custom extension
-
-   .. py:attribute:: _hooks
-      :annotation: = []
-
-      
+   The Session is the entry point of a Statisfactory application
+   The session loads the Statisfactory configuration file and executes the registered hooks.
 
    .. py:method:: get_active_session()
       :staticmethod:
 
       Get the Session, currently on the top of the stack.
       Must be called from a `with` statement
-
-
-   .. py:method:: get_path_to_target(self, target: str) -> pathlib.Path
-
-      Retrieve the path to "target" file by executing a "fish pass ;)" from the location of the caller
-
-
-   .. py:method:: __enter__(self)
-
-      Push the Session on top of the thread-safe stack
-
-
-   .. py:method:: __exit__(self, exception_type, exception_value, exception_traceback)
-
-      Remove the topmost Session of the thread safe stack
-
-
-   .. py:method:: root(self) -> pathlib.Path
-      :property:
-
-      Getter for the Root path of the project
-
-
-   .. py:method:: settings(self) -> dynaconf.Dynaconf
-      :property:
-
-      Getter for the session's base setting.
-
-
-   .. py:method:: catalog(self) -> statisfactory.IO.Catalog
-      :property:
-
-      Getter for the session's catalog.
-
-
-   .. py:method:: pipelines_definitions(self)
-      :property:
-
-      Getter for the session's pipelines definitions.
-
-
-   .. py:method:: pipelines_configurations(self)
-      :property:
-
-      Getter for the session's pipelines definition.
-
-
-   .. py:method:: aws_session(self) -> boto3.Session
-      :property:
-
-      Getter for the AWS client
-
-      Returns:
-          boto3.Session: The session configured via the initiaition hook.
-
-
-   .. py:method:: git(self) -> pygit2.Repository
-      :property:
-
-      Getter for the Git repository the session belongs to.
-
-
-   .. py:method:: lakefs_client(self) -> lakefs_client.client.LakeFSClient
-      :property:
-
-      Getter for the AWS client
-      Returns:
-          The lakeFS configured via the initiaition hook.
-
-
-   .. py:method:: lakefs_repo(self)
-      :property:
-
-      Return the LakeFS repository's pointer.
-
-
-   .. py:method:: hook_post_init(cls, last=True) -> Callable
-      :classmethod:
-
-      Register a `callable_` to be executed after the session instanciation.
 
 
 

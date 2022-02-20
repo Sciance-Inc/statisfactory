@@ -22,7 +22,7 @@ Classes
 
 
 
-.. py:class:: Catalog(*, path: pathlib.Path, session: statisfactory.session.Session = None)
+.. py:class:: Catalog(*, path: pathlib.Path, session: statisfactory.session.BaseSession = None)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`
 

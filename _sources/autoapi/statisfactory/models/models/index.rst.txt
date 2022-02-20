@@ -17,10 +17,79 @@ Classes
 
 .. autoapisummary::
 
+   statisfactory.models.models.Pyproject
    statisfactory.models.models.PipelineDefinition
    statisfactory.models.models.Volatile
    statisfactory.models.models.Artifact
 
+
+
+
+.. py:class:: Pyproject
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+   The parsed configurations from the project.toml
+
+   .. py:class:: SessionFactory
+
+      .. py:attribute:: module
+         :annotation: :str
+
+         
+
+      .. py:attribute:: factory
+         :annotation: :str
+
+         
+
+
+   .. py:attribute:: project_slug
+      :annotation: :str
+
+      
+
+   .. py:attribute:: configuration
+      :annotation: :str
+
+      
+
+   .. py:attribute:: catalog
+      :annotation: :str
+
+      
+
+   .. py:attribute:: sources
+      :annotation: :Optional[pathlib.Path]
+
+      
+
+   .. py:attribute:: notebook_target
+      :annotation: :Optional[pathlib.Path]
+
+      
+
+   .. py:attribute:: parameters
+      :annotation: :Optional[pathlib.Path]
+
+      
+
+   .. py:attribute:: pipelines_definitions
+      :annotation: :Optional[pathlib.Path]
+
+      
+
+   .. py:attribute:: session_factory
+      :annotation: :Optional[Pyproject.SessionFactory]
+
+      
+
+   .. py:method:: dict(self)
+
+      Return a dictionary of non None fields
+
+      Returns:
+          _type_: _description_
 
 
 

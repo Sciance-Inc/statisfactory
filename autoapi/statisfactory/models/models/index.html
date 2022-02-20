@@ -190,10 +190,19 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../loader/config_loader/index.html">
+        <a class="reference internal" href="../../loader/parameters_loader/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.loader.config_loader
+           statisfactory.loader.parameters_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/path_utils/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.path_utils
           </span>
          </code>
         </a>
@@ -203,6 +212,15 @@
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
            statisfactory.loader.pipelines_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/pyproject_loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.pyproject_loader
           </span>
          </code>
         </a>
@@ -327,6 +345,15 @@
        </i>
       </label>
       <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../session/base_session/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.session.base_session
+          </span>
+         </code>
+        </a>
+       </li>
        <li class="toctree-l4">
         <a class="reference internal" href="../../session/session/index.html">
          <code class="xref py py-mod docutils literal notranslate">
@@ -460,6 +487,75 @@
     </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject">
+       Pyproject
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.SessionFactory">
+         SessionFactory
+        </a>
+        <ul class="nav section-nav flex-column">
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.SessionFactory.module">
+           module
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.SessionFactory.factory">
+           factory
+          </a>
+         </li>
+        </ul>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.project_slug">
+         project_slug
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.configuration">
+         configuration
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.catalog">
+         catalog
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.sources">
+         sources
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.notebook_target">
+         notebook_target
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.parameters">
+         parameters
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.pipelines_definitions">
+         pipelines_definitions
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.session_factory">
+         session_factory
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.models.Pyproject.dict">
+         dict
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#statisfactory.models.models.PipelineDefinition">
        PipelineDefinition
       </a>
@@ -553,17 +649,92 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.models.models.PipelineDefinition" title="statisfactory.models.models.PipelineDefinition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PipelineDefinition</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.models.models.Pyproject" title="statisfactory.models.models.Pyproject"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pyproject</span></code></a></p></td>
+<td><p>The parsed configurations from the project.toml</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.models.models.PipelineDefinition" title="statisfactory.models.models.PipelineDefinition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PipelineDefinition</span></code></a></p></td>
 <td><p>Represents the definition of a Pipeline</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.models.models.Volatile" title="statisfactory.models.models.Volatile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Volatile</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.models.models.Volatile" title="statisfactory.models.models.Volatile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Volatile</span></code></a></p></td>
 <td><p>Represents data outputed by the Craft but not to be persisted in the catalog</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.models.models.Artifact" title="statisfactory.models.models.Artifact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Artifact</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.models.models.Artifact" title="statisfactory.models.models.Artifact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Artifact</span></code></a></p></td>
 <td><p>Represents an Artifact : the I/O of a statisfactory node.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.models.models.</span></span><span class="sig-name descname"><span class="pre">Pyproject</span></span><a class="headerlink" href="#statisfactory.models.models.Pyproject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></p>
+<p>The parsed configurations from the project.toml</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.SessionFactory">
+<em class="property"><span class="pre">class</span> </em><span class="sig-name descname"><span class="pre">SessionFactory</span></span><a class="headerlink" href="#statisfactory.models.models.Pyproject.SessionFactory" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.SessionFactory.module">
+<span class="sig-name descname"><span class="pre">module</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.SessionFactory.module" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.SessionFactory.factory">
+<span class="sig-name descname"><span class="pre">factory</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.SessionFactory.factory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.project_slug">
+<span class="sig-name descname"><span class="pre">project_slug</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.project_slug" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.configuration">
+<span class="sig-name descname"><span class="pre">configuration</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.configuration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.catalog">
+<span class="sig-name descname"><span class="pre">catalog</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.catalog" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.sources">
+<span class="sig-name descname"><span class="pre">sources</span></span><em class="property"> <span class="pre">:Optional[pathlib.Path]</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.sources" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.notebook_target">
+<span class="sig-name descname"><span class="pre">notebook_target</span></span><em class="property"> <span class="pre">:Optional[pathlib.Path]</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.notebook_target" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.parameters">
+<span class="sig-name descname"><span class="pre">parameters</span></span><em class="property"> <span class="pre">:Optional[pathlib.Path]</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.parameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.pipelines_definitions">
+<span class="sig-name descname"><span class="pre">pipelines_definitions</span></span><em class="property"> <span class="pre">:Optional[pathlib.Path]</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.pipelines_definitions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.session_factory">
+<span class="sig-name descname"><span class="pre">session_factory</span></span><em class="property"> <span class="pre">:Optional[Pyproject.SessionFactory]</span></em><a class="headerlink" href="#statisfactory.models.models.Pyproject.session_factory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.models.models.Pyproject.dict">
+<span class="sig-name descname"><span class="pre">dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.models.models.Pyproject.dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a dictionary of non None fields</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>_type_: _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.models.models.PipelineDefinition">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.models.models.</span></span><span class="sig-name descname"><span class="pre">PipelineDefinition</span></span><a class="headerlink" href="#statisfactory.models.models.PipelineDefinition" title="Permalink to this definition">¶</a></dt>

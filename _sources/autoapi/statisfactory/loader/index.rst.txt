@@ -11,8 +11,10 @@ Submodules
    :maxdepth: 1
 
    catalog_loader/index.rst
-   config_loader/index.rst
+   parameters_loader/index.rst
+   path_utils/index.rst
    pipelines_loader/index.rst
+   pyproject_loader/index.rst
    yaml_utils/index.rst
 
 
@@ -25,18 +27,17 @@ Functions
 
 .. autoapisummary::
 
-   statisfactory.loader.get_configurations
+   statisfactory.loader.get_parameters
    statisfactory.loader.get_pipelines
    statisfactory.loader.get_artifacts_mapping
+   statisfactory.loader.get_pyproject
+   statisfactory.loader.get_path_to_target
 
 
 
-.. py:function:: get_configurations(path: Union[str, pathlib.Path], session) -> Dict[str, Any]
+.. py:function:: get_parameters(path: Union[str, pathlib.Path], session) -> Dict[str, Any]
 
-   Build the configuration definitions by recyrsively injecting pipelines definitions
-
-   Returns:
-       Dict[str, Any]: A mapping of pipelines names to `PipelinesDefinition`
+   Build the parameters definitions by recyrsively injecting pipelines definitions
 
 
 .. py:function:: get_pipelines(path: Union[str, pathlib.Path], session) -> Dict[str, statisfactory.operator.Pipeline]
@@ -53,5 +54,15 @@ Functions
 
    Returns:
        CatalogData: A mapping of artifacts and connectors
+
+
+.. py:function:: get_pyproject(path: Union[str, pathlib.Path]) -> statisfactory.models.models.Pyproject
+
+   Open and validate the statisfactory section of the pyproject.toml file
+
+
+.. py:function:: get_path_to_target(target: str) -> pathlib.Path
+
+   Retrieve the path to "target" file by executing a "fish pass ;)" from the location of the caller
 
 

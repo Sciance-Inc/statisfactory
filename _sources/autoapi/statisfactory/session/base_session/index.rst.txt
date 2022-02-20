@@ -1,48 +1,26 @@
-:py:mod:`statisfactory.session`
-===============================
+:py:mod:`statisfactory.session.base_session`
+============================================
 
-.. py:module:: statisfactory.session
+.. py:module:: statisfactory.session.base_session
 
+.. autoapi-nested-parse::
 
-Submodules
-----------
-.. toctree::
-   :titlesonly:
-   :maxdepth: 1
-
-   base_session/index.rst
-   session/index.rst
+   Implements a base session with default parameters.
+   The session schould be implemented through the Session method the session.session module.
 
 
-Package Contents
-----------------
+
+Module Contents
+---------------
 
 Classes
 ~~~~~~~
 
 .. autoapisummary::
 
-   statisfactory.session.Scoped
-   statisfactory.session.BaseSession
-   statisfactory.session.Session
+   statisfactory.session.base_session.BaseSession
+   statisfactory.session.base_session._DefaultHooks
 
-
-
-
-.. py:class:: Scoped(*args, **kwargs)
-
-   Thread-safe session getter.
-
-   .. py:attribute:: _sessions
-      
-
-      
-
-   .. py:method:: get_session(self)
-
-
-   .. py:method:: set_session(cls, session)
-      :classmethod:
 
 
 
@@ -149,29 +127,70 @@ Classes
 
 
 
-.. py:class:: Session
+.. py:class:: _DefaultHooks
 
-   Instanciate the Session object.
-   The Session class used is generaly the `statisfactory.session.base_session`.
+   Name spaces for the mandatory Session postinits hooks.
 
-   The user can specify a custom session by specifiying the following configuration in the `pyproject.toml` file :
+   Hooks will be executed int the order they are declared.
 
-   ```toml
-   [tool.statisfactory.session_factory]
-   module = 'session.custom_session'
-   factory = 'MySession'
-   ```
+   Implementation details:
+   * These hooks use the logger from the session, instead of cust
 
-   Where `module` is the name of a module inside the project and factory is the name of a class from that module.
-
-   The Session is the entry point of a Statisfactory application
-   The session loads the Statisfactory configuration file and executes the registered hooks.
-
-   .. py:method:: get_active_session()
+   .. py:method:: set_path_and_pythonpath(sess: BaseSession) -> None
       :staticmethod:
 
-      Get the Session, currently on the top of the stack.
-      Must be called from a `with` statement
+      Configure the Path to expose the Lib targets.
+
+
+   .. py:method:: set_settings(sess: BaseSession) -> None
+      :staticmethod:
+
+      Parse the settings file from the conf/ folder and add the settings to the base statisfactory settings
+
+
+   .. py:method:: set_catalog(sess: BaseSession) -> None
+      :staticmethod:
+
+      Attach the catalog to the session
+
+
+   .. py:method:: set_parameters(sess: BaseSession) -> None
+      :staticmethod:
+
+      Parse and attach pipelines configurations to the Session
+
+
+   .. py:method:: set_pipelines_definitions(sess: BaseSession) -> None
+      :staticmethod:
+
+      Parse and attach pipelines to the Session
+
+
+   .. py:method:: set_AWS_client(sess: BaseSession) -> None
+      :staticmethod:
+
+      Configure a Mamazon session.
+
+      Args:
+          sess (Session): The statisfactory session
+
+
+   .. py:method:: set_git_repo(sess: BaseSession) -> None
+      :staticmethod:
+
+      Configure the Git client.
+
+      Args:
+          sess (Session): The statisfactory session updated by the hook
+
+
+   .. py:method:: set_lakefs_client(sess: BaseSession) -> None
+      :staticmethod:
+
+      Configure a lakefs client.
+
+      Args:
+          sess (Session): The statisfactory session updated by the hook
 
 
 

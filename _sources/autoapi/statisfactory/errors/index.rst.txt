@@ -111,12 +111,12 @@ Attributes
       
 
    .. py:attribute:: E011
-      :annotation: = start-up : the Catalog file does not exists : '{path}'.
+      :annotation: = start-up : failed to validate the 'statisfactory' section of the 'pyproject.toml'
 
       
 
    .. py:attribute:: E012
-      :annotation: = start-up : failed to parse the {file} file : {path}
+      :annotation: = start-up : failed to read the pyproject.toml file located here : '{path}'.
 
       
 

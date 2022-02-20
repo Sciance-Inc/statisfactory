@@ -38,7 +38,7 @@ Classes
 
 
 
-.. py:class:: ArtifactInteractor(artifact, *args, session: statisfactory.session.Session, **kwargs)
+.. py:class:: ArtifactInteractor(artifact, *args, session: statisfactory.session.BaseSession, **kwargs)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinInterpolable`
 
@@ -94,7 +94,7 @@ Classes
 
 
 
-.. py:class:: Backend(session: statisfactory.session.Session, logger_name: str = __name__)
+.. py:class:: Backend(session: statisfactory.session.BaseSession, logger_name: str = __name__)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`
 
@@ -159,7 +159,7 @@ Classes
 
 
 
-.. py:class:: Catalog(*, path: pathlib.Path, session: statisfactory.session.Session = None)
+.. py:class:: Catalog(*, path: pathlib.Path, session: statisfactory.session.BaseSession = None)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`
 

@@ -1,0 +1,35 @@
+:py:mod:`statisfactory.loader.parameters_loader`
+================================================
+
+.. py:module:: statisfactory.loader.parameters_loader
+
+.. autoapi-nested-parse::
+
+   Exposes an utility function to load configurations yaml / jinja based configurations files for stati
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.loader.parameters_loader._expand_embedded_configs
+   statisfactory.loader.parameters_loader.get_parameters
+
+
+
+.. py:function:: _expand_embedded_configs(name: str, parameters: Mapping, raw: Mapping)
+
+   Unnest the embedded mapping.
+
+
+.. py:function:: get_parameters(path: Union[str, pathlib.Path], session) -> Dict[str, Any]
+
+   Build the parameters definitions by recyrsively injecting pipelines definitions
+
+

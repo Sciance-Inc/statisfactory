@@ -1,0 +1,29 @@
+:py:mod:`statisfactory.loader.pyproject_loader`
+===============================================
+
+.. py:module:: statisfactory.loader.pyproject_loader
+
+.. autoapi-nested-parse::
+
+   Implements utility functions to fetch the pyproject.toml
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.loader.pyproject_loader.get_pyproject
+
+
+
+.. py:function:: get_pyproject(path: Union[str, pathlib.Path]) -> statisfactory.models.models.Pyproject
+
+   Open and validate the statisfactory section of the pyproject.toml file
+
+

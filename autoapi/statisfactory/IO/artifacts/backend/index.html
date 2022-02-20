@@ -190,10 +190,19 @@
         </a>
        </li>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../../loader/config_loader/index.html">
+        <a class="reference internal" href="../../../loader/parameters_loader/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.loader.config_loader
+           statisfactory.loader.parameters_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../loader/path_utils/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.path_utils
           </span>
          </code>
         </a>
@@ -203,6 +212,15 @@
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
            statisfactory.loader.pipelines_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../loader/pyproject_loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.pyproject_loader
           </span>
          </code>
         </a>
@@ -327,6 +345,15 @@
        </i>
       </label>
       <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../../session/base_session/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.session.base_session
+          </span>
+         </code>
+        </a>
+       </li>
        <li class="toctree-l4">
         <a class="reference internal" href="../../../session/session/index.html">
          <code class="xref py py-mod docutils literal notranslate">
@@ -611,7 +638,7 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.backend.Backend">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.backend.</span></span><span class="sig-name descname"><span class="pre">Backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">__name__</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.backend.Backend" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.backend.</span></span><span class="sig-name descname"><span class="pre">Backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">__name__</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.backend.Backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
 <p>Interface for the low level communication with a service (s3, lakefs…) through the exchange of Bytes
 The backend consume and returns Bytes.</p>
@@ -669,7 +696,7 @@ fragment (ParseResult): The Artifact’s path parsed result to use to put the pa
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.backend.S3Backend">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.backend.</span></span><span class="sig-name descname"><span class="pre">S3Backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.backend.S3Backend" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.backend.</span></span><span class="sig-name descname"><span class="pre">S3Backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.backend.S3Backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#statisfactory.IO.artifacts.backend.Backend" title="statisfactory.IO.artifacts.backend.Backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Backend</span></code></a></p>
 <p>Write and fetch data from S3</p>
 <dl class="py method">
@@ -707,7 +734,7 @@ fragment (ParseResult): The Artifact’s path parsed result.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.backend.LocalFS">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.backend.</span></span><span class="sig-name descname"><span class="pre">LocalFS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.backend.LocalFS" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.backend.</span></span><span class="sig-name descname"><span class="pre">LocalFS</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.backend.LocalFS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#statisfactory.IO.artifacts.backend.Backend" title="statisfactory.IO.artifacts.backend.Backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Backend</span></code></a></p>
 <p>Write and fetch data from the local file system</p>
 <dl class="py method">
@@ -745,7 +772,7 @@ fragment (ParseResult): The Artifact’s path parsed result.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.backend.LakeFSBackend">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.backend.</span></span><span class="sig-name descname"><span class="pre">LakeFSBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.Session" title="statisfactory.session.Session"><span class="pre">statisfactory.session.Session</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.backend.LakeFSBackend" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.backend.</span></span><span class="sig-name descname"><span class="pre">LakeFSBackend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.backend.LakeFSBackend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#statisfactory.IO.artifacts.backend.Backend" title="statisfactory.IO.artifacts.backend.Backend"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Backend</span></code></a></p>
 <p>Write and fetch data from / to LakeFS</p>
 <dl class="py attribute">
