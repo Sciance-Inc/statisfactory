@@ -33,7 +33,7 @@ from statisfactory.logger import MixinLogable, get_module_logger
 
 # Project type checks : see PEP563
 if TYPE_CHECKING:
-    from statisfactory.session import Session
+    from statisfactory.session import BaseSession
 
 #############################################################################
 #                                  Script                                   #
@@ -49,7 +49,7 @@ class Backend(MixinLogable, metaclass=ABCMeta):
     # A placeholder for all registered backends
     _backends = dict()
 
-    def __init__(self, session: Session, logger_name: str = __name__):
+    def __init__(self, session: BaseSession, logger_name: str = __name__):
         """
         Instanciate a new S3Backend. Implemeted for cooperative multiple inheritance only.
 
@@ -121,7 +121,7 @@ class S3Backend(Backend, prefix="s3"):
     Write and fetch data from S3
     """
 
-    def __init__(self, session: Session):
+    def __init__(self, session: BaseSession):
         """
         Instanciate a new S3Backend
         """
@@ -201,7 +201,7 @@ class LocalFS(Backend, prefix=""):
     Write and fetch data from the local file system
     """
 
-    def __init__(self, session: Session):
+    def __init__(self, session: BaseSession):
         """
         Instanciate a new Local File System
         """
@@ -259,7 +259,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
 
     REG_VALID_SLUG = re.compile(r"^[a-zA-Z0-9\-]*$")
 
-    def __init__(self, session: Session):
+    def __init__(self, session: BaseSession):
         """
         Instanciate a new LakeFS Backend.
         """

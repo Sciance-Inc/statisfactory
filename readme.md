@@ -97,7 +97,7 @@ notebook_target = "__compiled__"
 pipelines_definitions = "Pipelines/definitions/pipelines.yaml"
 
 # The file or the folders of yamls files containing the configurations definitions 
-pipelines_configurations = "Pipelines/configurations/pipelines.yaml"
+parameters = "Pipelines/configurations/pipelines.yaml"
 ```
 
 #### `globals` and `locals`
@@ -163,7 +163,7 @@ _Connectors are going to be completely reworked to be merged into a new SQLArtif
 ### Analysing data, one `Craft` at a time.
 
 #### The `Session` object
-* A `session` is the entry point of a `Statisfactory` application and give the uses access to the `Catalogue` as well as the `pipelines_definitions` and  `pipelines_configurations`
+* A `session` is the entry point of a `Statisfactory` application and give the uses access to the `Catalogue` as well as the `pipelines_definitions` and  `parameters`
 * When instanciated in a stati-enabled repo, the `Session` will try to find the `statisfactory.yaml` in the current folder and it's parents.
 
 ```python
@@ -638,10 +638,10 @@ class Foobar(Backend, prefix="print"):
 #### Registering `Session Hooks`
 
 ```python
-from statisfactory import Session
+from statisfactory.session import BaseSession
  
-@Session.hook_post_init()
-def print_and_set_param(sess: Session) -> None:
+@BaseSession.hook_post_init()
+def print_and_set_param(sess: BaseSession) -> None:
     """
     Custom hook to add a value from 'globals'
     """
@@ -658,6 +658,48 @@ def print_and_set_param(sess: Session) -> None:
     return sess
 ```
 
+# Session, Pipelines, and Crafts prototypes.
+
+> Prototypes allows the user to inject it's own objects instead of the one of Stati. The main use cases I have thought for is the registration of hooks, system wise. It's kind of like dependency injectio with the dependency being injected into Statisfactory. It's usefull for the CLi...
+> For simple use-cases, it's probably better to import a custom session from another file before instanciating the session.
+
+The `statisfactory` section of the `pyproject.toml` accepts the (optional) specification of a custom class to be used instead of the object returned by `Session`. The intent of this entrypoint is to allow the user to register hooks for all invocations of a Session in the current project. Hooks are, otherwise, limited to the files they are defined in (and the modules called by thoose file, once the Session has been defined).
+
+To register, project-wise, hooks you need : 
+
+1. To define a class inheriting from `statisfactory.session.BaseSession`
+2. To register your custom class in the `pyproject.toml`
+
+```python
+# custom_foler/custom_session.py
+
+from statisfactory.session import BaseSession
+ 
+# Create a custom session 
+class MySession(BaseSession):
+    custom_value = 1
+
+# Registering a custom hook
+@MySession.hook_post_init()
+def do_stuff(sess: MySession) -> None:
+    """
+    Custom hook
+    """
+    
+    # Do complicated stuff.
+
+    return sess
+```
+
+```toml
+# pyproject.toml
+
+[tool.statisfactory.session_factory] 
+module = 'custom_foler.custom_session'
+factory = 'MySession'
+```
+
+__Every__ call to `Session()` (in the current project) will now returns your own, personal, `MySession`
 
 # Implementation Details
 

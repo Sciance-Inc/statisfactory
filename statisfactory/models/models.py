@@ -16,13 +16,42 @@
 
 # system
 from typing import List, Dict, Optional, Any
-from pydantic import Field
+from pathlib import Path
+from pydantic import Field, BaseModel
 from pydantic.dataclasses import dataclass
-
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
+
+
+class Pyproject(BaseModel):
+    """
+    The parsed configurations from the project.toml
+    """
+
+    @dataclass
+    class SessionFactory:
+        module: str
+        factory: str
+
+    project_slug: str
+    configuration: str
+    catalog: str
+    sources: Optional[Path]
+    notebook_target: Optional[Path]
+    parameters: Optional[Path]
+    pipelines_definitions: Optional[Path]
+    session_factory: Optional[SessionFactory]
+
+    def dict(self):
+        """
+        Return a dictionary of non None fields
+
+        Returns:
+            _type_: _description_
+        """
+        return {k: v for k, v in self.__dict__.items() if v is not None}
 
 
 @dataclass

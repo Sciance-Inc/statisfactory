@@ -40,7 +40,7 @@ def sess():
 
 
 @pytest.fixture
-def catalog(sess: Session) -> Catalog:
+def catalog(sess) -> Catalog:
     """
     Create the Catalog
 
