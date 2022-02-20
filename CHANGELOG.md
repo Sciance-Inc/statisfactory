@@ -2,6 +2,27 @@
 
 <!--next-version-placeholder-->
 
+## v0.8.0 (2022-02-20)
+### Feature
+* Adding custom session ([`4c3e9a3`](https://github.com/Sciance-Inc/statisfactory/commit/4c3e9a3d32b54455000bc66007e31464a08ec2e2))
+* Adding custom session injection ([`7bbaccc`](https://github.com/Sciance-Inc/statisfactory/commit/7bbaccca4646a2e3340000d76b655a2fa29963a6))
+* Adding validation to the parsed pyproject.toml ([`85f907d`](https://github.com/Sciance-Inc/statisfactory/commit/85f907d25c39ae8be035fa1e62061c113d7c0b27))
+* Replaceing pipelines_definitions with parameters ([`d483c84`](https://github.com/Sciance-Inc/statisfactory/commit/d483c84321d7accfb105235882c4e8f970ae6016))
+* Adding an error message to the validation ([`f396b00`](https://github.com/Sciance-Inc/statisfactory/commit/f396b00dcfa135dd7f0313ecd8663df3f5a93885))
+* Adding support fort custom checks on artifact ([`14154f4`](https://github.com/Sciance-Inc/statisfactory/commit/14154f41a8c04cba699e31d7ecb2858db9343bea))
+* Streamlining the artefact creation ([`7bc7102`](https://github.com/Sciance-Inc/statisfactory/commit/7bc71025d3ec741db0fba5f8b5d2b14efeaf0d7f))
+* Allowing arbitrary keys in artifacts ([`2e986bc`](https://github.com/Sciance-Inc/statisfactory/commit/2e986bcf1a7d872aa7bdd3538a1193df894d8c73))
+* Configurations now supports jinja2 ([`45e0c40`](https://github.com/Sciance-Inc/statisfactory/commit/45e0c403a45512d83d9f83dc3c0d196cfef898c7))
+
+### Fix
+* Fixing double trigger in the package release workflow ([`3f3fd9b`](https://github.com/Sciance-Inc/statisfactory/commit/3f3fd9bed720a9f765cd92befff287fb479ba183))
+* Removing push from on ([`1fcf470`](https://github.com/Sciance-Inc/statisfactory/commit/1fcf470c0aea5bde00c15513fbea689a0245ac2a))
+* Removing marhsmalklow since yaml parsing is now done with pydantic ([`d726a25`](https://github.com/Sciance-Inc/statisfactory/commit/d726a25970d4da7a5d3ce8c80288ed0a34c6b75a))
+
+### Documentation
+* Updating catalog exemple ([`421b9b0`](https://github.com/Sciance-Inc/statisfactory/commit/421b9b0290d70e0a3d72faa0cadb12172eee88f8))
+* Updating documentation ([`becb728`](https://github.com/Sciance-Inc/statisfactory/commit/becb728875832e0b9fed6c65136a95a55ce32de2))
+
 ## v0.7.0 (2022-02-18)
 
 
