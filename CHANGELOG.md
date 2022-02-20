@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.9.0 (2022-02-20)
+### Feature
+* Setting trigger on push ([`cac8e56`](https://github.com/Sciance-Inc/statisfactory/commit/cac8e5649fb4168a7232eef5ae75dbb7de5f07a3))
+
 ## v0.8.0 (2022-02-20)
 ### Feature
 * Adding custom session ([`4c3e9a3`](https://github.com/Sciance-Inc/statisfactory/commit/4c3e9a3d32b54455000bc66007e31464a08ec2e2))
