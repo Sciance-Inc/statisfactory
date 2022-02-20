@@ -46,8 +46,8 @@ def get_artifacts_mapping(path: Union[str, Path], session) -> Dict[str, Artifact
     # Deserialize each mapper, and validate it against the model
     catalog_data = {}
     for artifact_data in chain.from_iterable(mappers):
-        artifact = Artifact(**artifact_data)  # Validate the struct
-        catalog_data[artifact.name] = artifact
+        artifact = Artifact(**artifact_data)  # type: ignore # Validate the struct
+        catalog_data[artifact.name] = artifact  # type: ignore
 
     # TODO: add support for keys collision
     return catalog_data  # type: ignore
