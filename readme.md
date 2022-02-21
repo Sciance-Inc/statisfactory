@@ -658,7 +658,7 @@ def print_and_set_param(sess: BaseSession) -> None:
     return sess
 ```
 
-# Session, Pipelines, and Crafts prototypes.
+# `Session` prototypes.
 
 > Prototypes allows the user to inject it's own objects instead of the one of Stati. The main use cases I have thought for is the registration of hooks, system wise. It's kind of like dependency injectio with the dependency being injected into Statisfactory. It's usefull for the CLi...
 > For simple use-cases, it's probably better to import a custom session from another file before instanciating the session.
@@ -694,9 +694,9 @@ def do_stuff(sess: MySession) -> None:
 ```toml
 # pyproject.toml
 
-[tool.statisfactory.session_factory] 
+[tool.statisfactory.entrypoints] 
 module = 'custom_foler.custom_session'
-factory = 'MySession'
+session_factory = 'MySession'
 ```
 
 __Every__ call to `Session()` (in the current project) will now returns your own, personal, `MySession`
