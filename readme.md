@@ -658,9 +658,7 @@ def print_and_set_param(sess: BaseSession) -> None:
     return sess
 ```
 
-# Session, Pipelines, and Crafts prototypes.
-
-__The code is shown for `session_factory` but schould work for  `pipeline_factory` and  `craft_factory` as well__
+# `Session` prototypes.
 
 > Prototypes allows the user to inject it's own objects instead of the one of Stati. The main use cases I have thought for is the registration of hooks, system wise. It's kind of like dependency injectio with the dependency being injected into Statisfactory. It's usefull for the CLi...
 > For simple use-cases, it's probably better to import a custom session from another file before instanciating the session.

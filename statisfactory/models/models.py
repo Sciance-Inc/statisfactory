@@ -34,8 +34,8 @@ class Pyproject(BaseModel):
     class Entrypoints(BaseModel):
         module: str
         session_factory: Optional[str]
-        pipeline_factory: Optional[str]
-        craft_factory: Optional[str]
+        # pipeline_factory: Optional[str]
+        # craft_factory: Optional[str]
 
     project_slug: str
     configuration: str
