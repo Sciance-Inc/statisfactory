@@ -4,6 +4,6 @@ configuration = "conf"
 catalog = "catalog.yaml"
 sources = "Lib"
 
-[tool.statisfactory.session_factory] 
+[tool.statisfactory.entrypoints] 
 module = 'session.custom_session'
-factory = 'MySession'
+session_factory = 'MySession'

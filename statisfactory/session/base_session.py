@@ -22,7 +22,6 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Any, Callable, Mapping, Optional
 from warnings import warn
-from abc import ABCMeta
 from types import SimpleNamespace
 
 import boto3
@@ -48,7 +47,7 @@ from statisfactory.loader import (
 #############################################################################
 
 
-class BaseSession(MixinLogable, metaclass=ABCMeta):
+class BaseSession(MixinLogable):
     """
     Base class for all Session objects.
     The Session is the entry point of a Statisfactory application
