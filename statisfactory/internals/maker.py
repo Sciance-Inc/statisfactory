@@ -70,6 +70,7 @@ class UserInjected(type):
         # If no custom factory is defined, then return the base session.
         config = get_pyproject(root / "pyproject.toml")
 
+        factory = prototype.default_factory
         if config.entrypoints:
 
             # Always import the module to get the potential sides effects.
@@ -80,8 +81,6 @@ class UserInjected(type):
             obj = getattr(config.entrypoints, prototype.factory_name)
             if obj:
                 factory = getattr(mod, obj)
-        else:
-            factory = prototype.default_factory
 
         # Create a new class inheriting from the factory
         session_class = type(cls.__name__, (cls, factory), {})  # type: ignore

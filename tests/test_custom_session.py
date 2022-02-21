@@ -55,3 +55,16 @@ def test_session_instanciation(change_test_dir):
 
     with sess:
         assert sess == Session.get_active_session()
+
+
+@pytest.mark.parametrize("change_test_dir", ["test_custom_session_side_effects_only/"], indirect=True)
+def test_sides_effect_only(change_test_dir):
+    """
+    Check if specifiying an entrypoint apply side effects.
+    """
+
+    from statisfactory import Session
+
+    sess = Session()
+
+    assert sess.side_only_flag == 1  # type: ignore
