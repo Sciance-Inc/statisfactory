@@ -19,10 +19,10 @@ from pathlib import Path
 
 # third party
 import click
-from dynaconf import Dynaconf, Validator
 
 from statisfactory.cli import build_notebooks
 from statisfactory.logger import get_module_logger
+from statisfactory.loader import get_pyproject, get_path_to_target
 
 #############################################################################
 #                                  Script                                   #
@@ -36,39 +36,24 @@ LOGGER = get_module_logger(__name__)
 @click.option(
     "-p",
     "--path",
-    default="statisfactory.yaml",
+    default=None,
     type=click.Path(exists=True),
-    help="An optional path to the 'statisfactory.yaml' settings file",
+    help="An optional path to the 'pyproject.toml' file.",
 )
 @click.pass_context
 def cli(ctx, path):
     ctx.ensure_object(dict)
-    path = Path(path)
+
+    if path:
+        path = Path(path).absolute()
+    else:
+        path = get_path_to_target("pyproject.toml")
 
     if not path.is_file():
-        raise FileNotFoundError("Path must be a file, got dir")
-
-    root_dir = path.parent
-
-    # Parse the root file to extract the config
-    settings = Dynaconf(
-        validators=[
-            Validator("sources", default="Lib"),
-            Validator("notebook_target", default="jupyter"),
-            Validator("notebook_sources", default="Script"),
-        ],
-        settings_files=[path],
-    )
-
-    # Create a settings mapping to be cascaded to the other commands
-    m = {}
-    m["root_dir"] = root_dir
-    m["sources"] = settings["sources"]
-    m["notebook_target"] = settings["notebook_target"]
-    m["notebook_sources"] = settings["notebook_sources"]
+        raise FileNotFoundError("Path must points to a 'pyproject.toml' file.")
 
     # Ad the settings to the CLI context so that it's available to any subcommands
-    ctx.obj["settings"] = m
+    ctx.obj["path"] = path
 
 
 @cli.command()
@@ -79,16 +64,23 @@ def build(ctx):
     Extract the Craft definitions to the notebook targets folder.
     """
     LOGGER.info("Building the Crafts...")
-    m = ctx.obj["settings"]
 
-    # Build the Notebooks sources and targets directorues
-    notebook_target = m["root_dir"] / m["sources"] / Path(m["notebook_target"])
-    notebook_target = notebook_target.resolve()
+    # Extract the path to parse from and to
+    path = ctx.obj["path"]
+    root_dir = path.parent
 
-    notebook_sources = m["root_dir"] / Path(m["notebook_sources"])
-    notebook_sources = notebook_sources.resolve()
+    # Extract values from pyproject
+    pyproject = get_pyproject(path)
 
-    build_notebooks(notebook_sources, notebook_target)
+    # Build paths to be forwarded to the parser
+    target = root_dir / pyproject.sources / pyproject.notebook_target
+    source = root_dir / pyproject.notebook_sources
+
+    # Solve paths
+    target = target.resolve()
+    source = source.resolve()
+
+    build_notebooks(source, target)
 
     return
 
