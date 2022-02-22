@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.2 (2022-02-22)
+### Fix
+* Updating odbc query ([`0683b3d`](https://github.com/Sciance-Inc/statisfactory/commit/0683b3d82ba178602359b119630ee53324d762ea))
+
 ## v0.10.1 (2022-02-22)
 ### Fix
 * Fixing missing CLI path for import ([`3a2d8ed`](https://github.com/Sciance-Inc/statisfactory/commit/3a2d8ed68956c2aea979b03e45d04dbf318b2192))
