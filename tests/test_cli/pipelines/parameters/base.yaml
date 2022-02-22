@@ -1,5 +1,5 @@
 base:
-  jupyter.foobar.foo:
+  jupyter_test.foobar.foo:
     val: 1
-  jupyter.foobar.bar:
+  jupyter_test.foobar.bar:
     val: 2

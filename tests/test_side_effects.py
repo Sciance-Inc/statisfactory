@@ -23,8 +23,6 @@ import sys
 #############################################################################
 #                                  Scripts                                  #
 #############################################################################
-
-
 @pytest.fixture
 def change_test_dir(request):
     """
@@ -42,22 +40,19 @@ def change_test_dir(request):
     print(sys.path)
 
 
-@pytest.mark.parametrize("change_test_dir", ["test_custom_session/"], indirect=True)
-def test_session_instanciation(change_test_dir):
+@pytest.mark.parametrize(
+    "change_test_dir", ["test_custom_session_side_effects_only/"], indirect=True
+)
+def _test_sides_effect_only(change_test_dir):
     """
-    Make sure the session can be instanciated
+    Check if specifiying an entrypoint apply side effects.
     """
 
-    import sys
-
+    del sys.modules["Session"]
     from statisfactory import Session
 
     sess = Session()
 
-    assert sess.custom_session_flag == 1  # type: ignore
-    assert sess.custom_session_flag_2 == 1  # type: ignore
+    assert sess.side_only_flag == 1  # type: ignore
 
-    with sess:
-        assert sess == Session.get_active_session()
-
-
+    sys.modules = base_modules

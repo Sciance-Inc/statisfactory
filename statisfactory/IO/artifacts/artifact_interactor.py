@@ -28,7 +28,6 @@ from string import Template
 from typing import TYPE_CHECKING, Any, Callable, Dict, Union
 from urllib.parse import urlparse
 
-import datapane as dp  # type: ignore
 import pyarrow.feather as feather
 from pydantic.dataclasses import dataclass
 from pydantic import ValidationError
@@ -564,12 +563,12 @@ class DatapaneInteractor(FileBasedInteractor, interactor_name="datapane"):
 
         raise Errors.E999()  # type: ignore
 
-    def save(self, asset: dp.Report, **kwargs):
+    def save(self, asset, **kwargs):
         """
         Save a datapane assert
 
         Args:
-            artifact (dp.Report): the datapane report object to be saved.
+            artifact (Report): the datapane report object to be saved.
             open (bool): whether open the report on saving.
 
         Implementation details:
