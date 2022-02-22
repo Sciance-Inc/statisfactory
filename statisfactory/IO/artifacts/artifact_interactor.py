@@ -491,11 +491,11 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
             query (str): The query to use to get the data
         """
 
+        super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
+
         self._query = self._interpolate_string(artifact.extra.query, **kwargs)
         self._connection_string = artifact.extra.connection_string
         self._kwargs = kwargs
-
-        super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
     @contextmanager
     def _get_connection(self):
