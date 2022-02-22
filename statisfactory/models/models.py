@@ -30,19 +30,22 @@ class Pyproject(BaseModel):
     The parsed configurations from the project.toml
     """
 
-    @dataclass
-    class SessionFactory:
+    # @dataclass
+    class Entrypoints(BaseModel):
         module: str
-        factory: str
+        session_factory: Optional[str]
+        # pipeline_factory: Optional[str]
+        # craft_factory: Optional[str]
 
     project_slug: str
     configuration: str
     catalog: str
-    sources: Optional[Path]
-    notebook_target: Optional[Path]
+    sources: Optional[Path] = Path("lib")
+    notebook_target: Optional[Path] = Path("jupyter")
+    notebook_sources: Optional[Path] = Path("scripts")
     parameters: Optional[Path]
     pipelines_definitions: Optional[Path]
-    session_factory: Optional[SessionFactory]
+    entrypoints: Optional[Entrypoints]
 
     def dict(self):
         """

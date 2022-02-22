@@ -3,7 +3,8 @@ project_slug = "exemple"
 configuration = "conf"
 catalog = "catalog.yaml"
 sources = "Lib"
+pipelines_definitions = 'pipelines/definitions'
+parameters = 'pipelines/parameters'
 
 [tool.statisfactory.entrypoints] 
-module = 'session.custom_session'
-session_factory = 'MySession'
+module = 'side'

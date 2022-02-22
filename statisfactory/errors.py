@@ -169,6 +169,10 @@ class Errors(metaclass=ExceptionFactory):
     E064 = "Session : The git repository has not been configured yet."
     E065 = "Session : there was an error trying to communicate the LakeFS API."
 
+    # Cli
+    E070 = "Run : the required parameters set does not exists : '{parameters_name}'"
+    E071 = "Run : the required pipeline does not exists : '{pipeline_name}'"
+
     # Ad hoc
     E999 = "out-of-scope : the method is not supported in the current roadmap"
 

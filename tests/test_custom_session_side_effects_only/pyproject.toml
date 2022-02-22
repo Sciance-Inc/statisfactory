@@ -5,5 +5,4 @@ catalog = "catalog.yaml"
 sources = "Lib"
 
 [tool.statisfactory.entrypoints] 
-module = 'session.custom_session'
-session_factory = 'MySession'
+module = 'side'

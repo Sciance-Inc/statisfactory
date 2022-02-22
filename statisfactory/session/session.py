@@ -14,63 +14,23 @@
 #                                 Packages                                  #
 #############################################################################
 
-from importlib import import_module
-from pathlib import Path
-from abc import ABCMeta
+
 from statisfactory.errors import Errors
 from statisfactory.operator import Scoped
-from statisfactory.loader import (
-    get_path_to_target,
-    get_pyproject,
-)
-
 from statisfactory.session import BaseSession
+from statisfactory.internals import UserInjected, Prototype
 
 #############################################################################
 #                                  Script                                   #
 #############################################################################
 
 
-class _SessionMaker(type):
-    """
-    A metaclass to dynamically select the appropriate bases for the Session object.
-    The custom base to inject inplace of the statisfactory.session.BaseSession can be set through the pyproject.toml file
-    """
-
-    def __call__(cls, root_folder=None):
-        """
-        Return a new Session class type to be used to instanciate Sessions.
-        The new class inherits from the user defined one (if provide.)
-        """
-
-        # Retrieve the location of the config file
-        root = Path(root_folder or get_path_to_target("pyproject.toml"))
-
-        # If no custom factory is defined, then return the base session.
-        config = get_pyproject(root / "pyproject.toml")
-        if not config.session_factory:
-            factory = BaseSession
-        else:
-            module, obj = config.session_factory.module, config.session_factory.factory  # type: ignore
-            factory = getattr(import_module(module), obj)
-
-        # Create a new class inheriting from the factory
-        session_class = type(cls.__name__, (cls, factory), {})  # type: ignore
-        return super(_SessionMaker, session_class).__call__(root_folder=root_folder)  # type: ignore
+_session_prototype = Prototype(
+    default_factory=BaseSession, factory_name="session_factory"
+)
 
 
-class _AbstractSessionMaker(_SessionMaker, ABCMeta):
-    """
-    BaseSession is an Abtract class. It's metaclass is ABC.
-    Session schould have a _SessioNaker metaclass.
-    The both metaclass conflict, since pyhton does not now wich one of the metaclasses it shcould be using.
-    To solve the conflict, I manually create a Metaclass that inherits from both the ABCMeta metaclass and the _SessionMaker
-    """
-
-    ...
-
-
-class Session(metaclass=_AbstractSessionMaker):
+class Session(metaclass=UserInjected, prototype=_session_prototype):
     """
     Instanciate the Session object.
     The Session class used is generaly the `statisfactory.session.base_session`.
