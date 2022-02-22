@@ -47,7 +47,7 @@ def cli(ctx, path):
     if path:
         path = Path(path).absolute() / "pyproject.toml"
     else:
-        path = get_path_to_target("pyproject.toml")
+        path = get_path_to_target("pyproject.toml") / "pyproject.toml"
 
     if not path.is_file():
         raise FileNotFoundError("Path must points to a 'pyproject.toml' file.")

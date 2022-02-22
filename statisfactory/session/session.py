@@ -14,7 +14,6 @@
 #                                 Packages                                  #
 #############################################################################
 
-
 from statisfactory.errors import Errors
 from statisfactory.operator import Scoped
 from statisfactory.session import BaseSession

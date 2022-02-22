@@ -14,7 +14,8 @@
 #                                 Packages                                  #
 #############################################################################
 
-
+import sys
+from contextlib import contextmanager
 from dataclasses import dataclass
 from typing import Type
 from importlib import import_module
@@ -27,6 +28,17 @@ from statisfactory.loader import (
 #############################################################################
 #                                  Script                                   #
 #############################################################################
+
+
+@contextmanager
+def _add_path(path: str):
+    """
+    CM. Adds a path to the path envir
+    """
+
+    sys.path.insert(0, path)
+    yield
+    sys.path.pop(0)
 
 
 @dataclass
@@ -75,12 +87,12 @@ class UserInjected(type):
 
             # Always import the module to get the potential sides effects.
             module = config.entrypoints.module  # type: ignore
-            mod = import_module(module)
-
-            # Potentialy import the factory
-            obj = getattr(config.entrypoints, prototype.factory_name)
-            if obj:
-                factory = getattr(mod, obj)
+            with _add_path(str(root)):
+                mod = import_module(module)
+                # Potentialy import the factory
+                obj = getattr(config.entrypoints, prototype.factory_name)
+                if obj:
+                    factory = getattr(mod, obj)
 
         # Create a new class inheriting from the factory
         session_class = type(cls.__name__, (cls, factory), {})  # type: ignore
