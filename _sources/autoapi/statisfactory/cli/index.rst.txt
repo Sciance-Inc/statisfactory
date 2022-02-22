@@ -10,8 +10,10 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   logger/index.rst
+   cli/index.rst
    notebooks/index.rst
+   run/index.rst
+   wd/index.rst
 
 
 Package Contents
@@ -24,6 +26,9 @@ Functions
 .. autoapisummary::
 
    statisfactory.cli.build_notebooks
+   statisfactory.cli.run_pipeline
+   statisfactory.cli.temp_wd
+   statisfactory.cli.cli
 
 
 
@@ -34,5 +39,26 @@ Functions
    Definitions found that way are copied to their .py counterpart.
    The name of the py file is the name of the notebook with num purged.
    The functions definitions found in "export" tagged cells, are exported to the root of the package.
+
+
+.. py:function:: run_pipeline(path: pathlib.Path, pipeline_name: str, parameters_name: str = None)
+
+   Execute a pipeline against a provided configuration
+
+   Args:
+       path (Path): the path to the statisfactory-enable repo to load.
+       pipeline_name (str): the name of the pipeline to execute.
+       config_name (str, optional): An optional name of arguments set to be fetched from the sessioon parameters. Defaults to None.
+
+
+.. py:function:: temp_wd(path: pathlib.Path)
+
+   Context manager. Temporary set the working dir to 'path'.
+
+   Args:
+       path (Path): the path to the temp working dir to set.
+
+
+.. py:function:: cli(ctx, path)
 
 

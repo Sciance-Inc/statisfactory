@@ -1,0 +1,57 @@
+:py:mod:`statisfactory.cli.cli`
+===============================
+
+.. py:module:: statisfactory.cli.cli
+
+.. autoapi-nested-parse::
+
+   implements the statisfactory's cli
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.cli.cli.cli
+   statisfactory.cli.cli.compile
+   statisfactory.cli.cli.run
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.cli.cli.LOGGER
+
+
+.. py:data:: LOGGER
+   
+
+   
+
+.. py:function:: cli(ctx, path)
+
+
+.. py:function:: compile(ctx)
+
+   Parse the notebooks folders and build the Crafts definitions.
+   Extract the Craft definitions to the notebook targets folder.
+
+
+.. py:function:: run(ctx, pipeline: str, parameters: str)
+
+   Run a pipeline with a given configuraiton.
+
+   Args:
+       pipeline (str): The pipeline to be executed.
+       parameters (str): An optional name for a set of parameters defined in the parameters object of statisfactory.
+
+

@@ -1,0 +1,676 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>statisfactory.internals.maker &#8212; Statisfactory  documentation</title>
+    
+  <link href="../../../../_static/css/theme.css" rel="stylesheet" />
+  <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../../../../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../../../../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+    <script src="../../../../_static/jquery.js"></script>
+    <script src="../../../../_static/underscore.js"></script>
+    <script src="../../../../_static/doctools.js"></script>
+    <script src="../../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../../../../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Statisfactory  documentation</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../../../../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <p class="caption" role="heading">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../../../../sources/started.html">
+   Getting started
+  </a>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../../../index.html">
+   API Reference
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="../../index.html">
+     <code class="xref py py-mod docutils literal notranslate">
+      <span class="pre">
+       statisfactory
+      </span>
+     </code>
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../IO/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.IO
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+      <label for="toctree-checkbox-3">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../IO/artifacts/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.IO.artifacts
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../IO/catalog/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.IO.catalog
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../cli/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.cli
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+      <label for="toctree-checkbox-4">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../cli/cli/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.cli
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../cli/notebooks/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.notebooks
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../cli/run/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.run
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../cli/wd/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.wd
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 current active has-children">
+      <a class="reference internal" href="../index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.internals
+        </span>
+       </code>
+      </a>
+      <input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+      <label for="toctree-checkbox-5">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul class="current">
+       <li class="toctree-l4 current active">
+        <a class="current reference internal" href="#">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.internals.maker
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../loader/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.loader
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/catalog_loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.catalog_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/parameters_loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.parameters_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/path_utils/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.path_utils
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/pipelines_loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.pipelines_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/pyproject_loader/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.pyproject_loader
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../loader/yaml_utils/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.loader.yaml_utils
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../models/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.models
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+      <label for="toctree-checkbox-7">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../models/models/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.models.models
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../operator/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.operator
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+      <label for="toctree-checkbox-8">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../operator/pipeline/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.pipeline
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../operator/utils/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.utils
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../operator/annotations/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.annotations
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../operator/craft/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.craft
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../operator/mixinHookable/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.mixinHookable
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../operator/scoped/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.operator.scoped
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../session/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.session
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+      <label for="toctree-checkbox-9">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../session/base_session/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.session.base_session
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../session/session/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.session.session
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../__main__/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.__main__
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../__version__/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.__version__
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../errors/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.errors
+        </span>
+       </code>
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../../logger/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.logger
+        </span>
+       </code>
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../../../../_sources/autoapi/statisfactory/internals/maker/index.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.internals.maker.Prototype">
+       Prototype
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.internals.maker.Prototype.factory_name">
+         factory_name
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.internals.maker.Prototype.default_factory">
+         default_factory
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.internals.maker.UserInjected">
+       UserInjected
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.internals.maker.UserInjected._cls_to_protype">
+         _cls_to_protype
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.internals.maker.UserInjected.__call__">
+         __call__
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="module-statisfactory.internals.maker">
+<span id="statisfactory-internals-maker"></span><h1><a class="reference internal" href="#module-statisfactory.internals.maker" title="statisfactory.internals.maker"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.internals.maker</span></code></a><a class="headerlink" href="#module-statisfactory.internals.maker" title="Permalink to this headline">¶</a></h1>
+<p>Implements a metaclass to inject user defined object to replace the default of stati.</p>
+<div class="section" id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.internals.maker.Prototype" title="statisfactory.internals.maker.Prototype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Prototype</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.internals.maker.UserInjected" title="statisfactory.internals.maker.UserInjected"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UserInjected</span></code></a></p></td>
+<td><p>A metaclass to dynamically select the appropriate bases for the Session object.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.internals.maker.Prototype">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.internals.maker.</span></span><span class="sig-name descname"><span class="pre">Prototype</span></span><a class="headerlink" href="#statisfactory.internals.maker.Prototype" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.internals.maker.Prototype.factory_name">
+<span class="sig-name descname"><span class="pre">factory_name</span></span><em class="property"> <span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.internals.maker.Prototype.factory_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.internals.maker.Prototype.default_factory">
+<span class="sig-name descname"><span class="pre">default_factory</span></span><em class="property"> <span class="pre">:Type</span></em><a class="headerlink" href="#statisfactory.internals.maker.Prototype.default_factory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.internals.maker.UserInjected">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.internals.maker.</span></span><span class="sig-name descname"><span class="pre">UserInjected</span></span><a class="headerlink" href="#statisfactory.internals.maker.UserInjected" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></p>
+<p>A metaclass to dynamically select the appropriate bases for the Session object.
+The custom base to inject inplace of the statisfactory.session.BaseSession can be set through the pyproject.toml file</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.internals.maker.UserInjected._cls_to_protype">
+<span class="sig-name descname"><span class="pre">_cls_to_protype</span></span><a class="headerlink" href="#statisfactory.internals.maker.UserInjected._cls_to_protype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.internals.maker.UserInjected.__call__">
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.internals.maker.UserInjected.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new Session class type to be used to instanciate Sessions.
+The new class inherits from the user defined one (if provide.)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        
+            
+
+
+
+<div class='prev-next-bottom'>
+    
+
+</div>
+        
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+        
+          By Hugo Juhel<br/>
+        
+            &copy; Copyright 2021, Hugo Juhel.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+  </body>
+</html>

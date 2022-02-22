@@ -1,0 +1,32 @@
+:py:mod:`statisfactory.cli.wd`
+==============================
+
+.. py:module:: statisfactory.cli.wd
+
+.. autoapi-nested-parse::
+
+   helpers to temporaly alter the working directory stati is executed in
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.cli.wd.temp_wd
+
+
+
+.. py:function:: temp_wd(path: pathlib.Path)
+
+   Context manager. Temporary set the working dir to 'path'.
+
+   Args:
+       path (Path): the path to the temp working dir to set.
+
+

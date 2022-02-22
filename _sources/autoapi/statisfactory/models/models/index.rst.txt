@@ -31,15 +31,17 @@ Classes
 
    The parsed configurations from the project.toml
 
-   .. py:class:: SessionFactory
+   .. py:class:: Entrypoints
+
+      Bases: :py:obj:`pydantic.BaseModel`
 
       .. py:attribute:: module
          :annotation: :str
 
          
 
-      .. py:attribute:: factory
-         :annotation: :str
+      .. py:attribute:: session_factory
+         :annotation: :Optional[str]
 
          
 
@@ -69,6 +71,11 @@ Classes
 
       
 
+   .. py:attribute:: notebook_sources
+      :annotation: :Optional[pathlib.Path]
+
+      
+
    .. py:attribute:: parameters
       :annotation: :Optional[pathlib.Path]
 
@@ -79,8 +86,8 @@ Classes
 
       
 
-   .. py:attribute:: session_factory
-      :annotation: :Optional[Pyproject.SessionFactory]
+   .. py:attribute:: entrypoints
+      :annotation: :Optional[Pyproject.Entrypoints]
 
       
 

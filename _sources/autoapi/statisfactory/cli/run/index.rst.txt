@@ -1,0 +1,34 @@
+:py:mod:`statisfactory.cli.run`
+===============================
+
+.. py:module:: statisfactory.cli.run
+
+.. autoapi-nested-parse::
+
+   Implements the notebooks parser for the Statisfactory's CLI
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.cli.run.run_pipeline
+
+
+
+.. py:function:: run_pipeline(path: pathlib.Path, pipeline_name: str, parameters_name: str = None)
+
+   Execute a pipeline against a provided configuration
+
+   Args:
+       path (Path): the path to the statisfactory-enable repo to load.
+       pipeline_name (str): the name of the pipeline to execute.
+       config_name (str, optional): An optional name of arguments set to be fetched from the sessioon parameters. Defaults to None.
+
+

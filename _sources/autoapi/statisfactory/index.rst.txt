@@ -12,6 +12,7 @@ Subpackages
 
    IO/index.rst
    cli/index.rst
+   internals/index.rst
    loader/index.rst
    models/index.rst
    operator/index.rst

@@ -286,12 +286,12 @@ Classes
           NotImplementedErrord
 
 
-   .. py:method:: save(self, asset: datapane.Report, **kwargs)
+   .. py:method:: save(self, asset, **kwargs)
 
       Save a datapane assert
 
       Args:
-          artifact (dp.Report): the datapane report object to be saved.
+          artifact (Report): the datapane report object to be saved.
           open (bool): whether open the report on saving.
 
       Implementation details:

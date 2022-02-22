@@ -1,0 +1,61 @@
+:py:mod:`statisfactory.internals`
+=================================
+
+.. py:module:: statisfactory.internals
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   maker/index.rst
+
+
+Package Contents
+----------------
+
+Classes
+~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.internals.UserInjected
+   statisfactory.internals.Prototype
+
+
+
+
+.. py:class:: UserInjected
+
+   Bases: :py:obj:`type`
+
+   A metaclass to dynamically select the appropriate bases for the Session object.
+   The custom base to inject inplace of the statisfactory.session.BaseSession can be set through the pyproject.toml file
+
+   .. py:attribute:: _cls_to_protype
+      
+
+      
+
+   .. py:method:: __call__(cls, root_folder=None)
+
+      Return a new Session class type to be used to instanciate Sessions.
+      The new class inherits from the user defined one (if provide.)
+
+
+
+.. py:class:: Prototype
+
+   .. py:attribute:: factory_name
+      :annotation: :str
+
+      
+
+   .. py:attribute:: default_factory
+      :annotation: :Type
+
+      
+
+

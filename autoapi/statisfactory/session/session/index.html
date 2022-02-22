@@ -147,10 +147,10 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../cli/logger/index.html">
+        <a class="reference internal" href="../../cli/cli/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.cli.logger
+           statisfactory.cli.cli
           </span>
          </code>
         </a>
@@ -160,6 +160,49 @@
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
            statisfactory.cli.notebooks
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../cli/run/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.run
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../cli/wd/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.wd
+          </span>
+         </code>
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toctree-l3 has-children">
+      <a class="reference internal" href="../../internals/index.html">
+       <code class="xref py py-mod docutils literal notranslate">
+        <span class="pre">
+         statisfactory.internals
+        </span>
+       </code>
+      </a>
+      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+      <label for="toctree-checkbox-5">
+       <i class="fas fa-chevron-down">
+       </i>
+      </label>
+      <ul>
+       <li class="toctree-l4">
+        <a class="reference internal" href="../../internals/maker/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.internals.maker
           </span>
          </code>
         </a>
@@ -174,8 +217,8 @@
         </span>
        </code>
       </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
-      <label for="toctree-checkbox-5">
+      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+      <label for="toctree-checkbox-6">
        <i class="fas fa-chevron-down">
        </i>
       </label>
@@ -244,8 +287,8 @@
         </span>
        </code>
       </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
-      <label for="toctree-checkbox-6">
+      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+      <label for="toctree-checkbox-7">
        <i class="fas fa-chevron-down">
        </i>
       </label>
@@ -269,8 +312,8 @@
         </span>
        </code>
       </a>
-      <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
-      <label for="toctree-checkbox-7">
+      <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+      <label for="toctree-checkbox-8">
        <i class="fas fa-chevron-down">
        </i>
       </label>
@@ -339,8 +382,8 @@
         </span>
        </code>
       </a>
-      <input checked="" class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
-      <label for="toctree-checkbox-8">
+      <input checked="" class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+      <label for="toctree-checkbox-9">
        <i class="fas fa-chevron-down">
        </i>
       </label>
@@ -485,22 +528,15 @@
     <a class="reference internal nav-link" href="#classes">
      Classes
     </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attributes">
+     Attributes
+    </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.session.session._SessionMaker">
-       _SessionMaker
-      </a>
-      <ul class="nav section-nav flex-column">
-       <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.session.session._SessionMaker.__call__">
-         __call__
-        </a>
-       </li>
-      </ul>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.session.session._AbstractSessionMaker">
-       _AbstractSessionMaker
+      <a class="reference internal nav-link" href="#statisfactory.session.session._session_prototype">
+       _session_prototype
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -543,41 +579,29 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.session.session._SessionMaker" title="statisfactory.session.session._SessionMaker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_SessionMaker</span></code></a></p></td>
-<td><p>A metaclass to dynamically select the appropriate bases for the Session object.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.session.session._AbstractSessionMaker" title="statisfactory.session.session._AbstractSessionMaker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_AbstractSessionMaker</span></code></a></p></td>
-<td><p>BaseSession is an Abtract class. It's metaclass is ABC.</p></td>
-</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.session.session.Session" title="statisfactory.session.session.Session"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Session</span></code></a></p></td>
 <td><p>Instanciate the Session object.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py class">
-<dt class="sig sig-object py" id="statisfactory.session.session._SessionMaker">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">_SessionMaker</span></span><a class="headerlink" href="#statisfactory.session.session._SessionMaker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></p>
-<p>A metaclass to dynamically select the appropriate bases for the Session object.
-The custom base to inject inplace of the statisfactory.session.BaseSession can be set through the pyproject.toml file</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.session.session._SessionMaker.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_folder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.session.session._SessionMaker.__call__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return a new Session class type to be used to instanciate Sessions.
-The new class inherits from the user defined one (if provide.)</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="statisfactory.session.session._AbstractSessionMaker">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">_AbstractSessionMaker</span></span><a class="headerlink" href="#statisfactory.session.session._AbstractSessionMaker" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#statisfactory.session.session._SessionMaker" title="statisfactory.session.session._SessionMaker"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_SessionMaker</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">abc.ABCMeta</span></code></p>
-<p>BaseSession is an Abtract class. It’s metaclass is ABC.
-Session schould have a _SessioNaker metaclass.
-The both metaclass conflict, since pyhton does not now wich one of the metaclasses it shcould be using.
-To solve the conflict, I manually create a Metaclass that inherits from both the ABCMeta metaclass and the _SessionMaker</p>
-</dd></dl>
+</div>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<table class="longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.session.session._session_prototype" title="statisfactory.session.session._session_prototype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_session_prototype</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="statisfactory.session.session._session_prototype">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.session.session.</span></span><span class="sig-name descname"><span class="pre">_session_prototype</span></span><a class="headerlink" href="#statisfactory.session.session._session_prototype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.session.session.Session">
