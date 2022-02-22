@@ -1,0 +1,5 @@
+base:
+  jupyter.foobar.foo:
+    val: 1
+  jupyter.foobar.bar:
+    val: 2

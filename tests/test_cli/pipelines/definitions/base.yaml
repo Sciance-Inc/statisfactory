@@ -1,0 +1,4 @@
+base:
+  operators:
+    - jupyter.foobar.foo
+    - jupyter.foobar.bar
