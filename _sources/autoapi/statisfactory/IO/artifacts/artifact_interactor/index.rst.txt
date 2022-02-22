@@ -252,6 +252,11 @@ Classes
 
          
 
+      .. py:attribute:: query
+         :annotation: :str
+
+         
+
 
    .. py:method:: _get_connection(self)
 
