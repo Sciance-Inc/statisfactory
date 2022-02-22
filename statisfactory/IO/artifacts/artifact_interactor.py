@@ -481,6 +481,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
     @dataclass
     class Extra:
         connection_string: str
+        query: str
 
     def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
@@ -490,7 +491,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
             query (str): The query to use to get the data
         """
 
-        self._query = self._interpolate_string(artifact.query, **kwargs)
+        self._query = self._interpolate_string(artifact.extra.query, **kwargs)
         self._connection_string = artifact.extra.connection_string
         self._kwargs = kwargs
 
