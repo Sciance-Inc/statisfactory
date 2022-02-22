@@ -22,6 +22,19 @@ Classes
 
 
 
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.internals.maker._add_path
+
+
+
+.. py:function:: _add_path(path: str)
+
+   CM. Adds a path to the path envir
+
 
 .. py:class:: Prototype
 
