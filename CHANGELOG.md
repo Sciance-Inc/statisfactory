@@ -2,6 +2,15 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.0 (2022-02-22)
+### Feature
+* Adding cli ([`09ba7c2`](https://github.com/Sciance-Inc/statisfactory/commit/09ba7c246f35b1c0d0aa764ecff7701fb84958ed))
+* Adding install systemwide ([`213d136`](https://github.com/Sciance-Inc/statisfactory/commit/213d136c6ada9cce4b6871995629634129f90c70))
+* Adding run method to the cli ([`dc68b35`](https://github.com/Sciance-Inc/statisfactory/commit/dc68b352a0b1b332af8e0fd71ded9e838f37fc6b))
+
+### Fix
+* Bumping version ([`a13854b`](https://github.com/Sciance-Inc/statisfactory/commit/a13854b268947e58215760fff788ece86837685b))
+
 ## v0.9.0 (2022-02-20)
 ### Feature
 * Setting trigger on push ([`cac8e56`](https://github.com/Sciance-Inc/statisfactory/commit/cac8e5649fb4168a7232eef5ae75dbb7de5f07a3))
