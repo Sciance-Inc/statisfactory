@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.1 (2022-02-22)
+### Fix
+* Fixing missing CLI path for import ([`3a2d8ed`](https://github.com/Sciance-Inc/statisfactory/commit/3a2d8ed68956c2aea979b03e45d04dbf318b2192))
+
 ## v0.10.0 (2022-02-22)
 ### Feature
 * Adding cli ([`09ba7c2`](https://github.com/Sciance-Inc/statisfactory/commit/09ba7c246f35b1c0d0aa764ecff7701fb84958ed))
