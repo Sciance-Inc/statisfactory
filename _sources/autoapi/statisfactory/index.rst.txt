@@ -380,7 +380,7 @@ Attributes
 
 
 .. py:data:: __version__
-   :annotation: = 0.10.1
+   :annotation: = 0.10.2
 
    
 
