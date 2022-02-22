@@ -14,6 +14,9 @@ upload_to_pypi = false
 upload_to_release = true
 build_command = "pip install poetry && poetry build"
 
+[tool.poetry.scripts]
+statisfactory = 'statisfactory.cli:cli'
+
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11.0"
 networkx = "2.5"

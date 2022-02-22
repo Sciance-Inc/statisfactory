@@ -33,7 +33,7 @@ from statisfactory.logger import get_module_logger  # .logger
 #############################################################################
 
 # constant
-LOGGER = get_module_logger(__name__)
+LOGGER = get_module_logger("statisfactory")
 
 
 # Constants
@@ -106,7 +106,7 @@ def build_notebooks(src: Path, dst: Path):
     """
 
     c = Config()
-    c.PythonExporter.preprocessors = [_CraftExtractor]
+    c.PythonExporter.preprocessors = [_CraftExtractor]  # type: ignore
     EXPORTER = PythonExporter(config=c)
 
     LOGGER.info("Exporting the python code.")
@@ -122,7 +122,7 @@ def build_notebooks(src: Path, dst: Path):
 
         # Parse the notebook
         LOGGER.debug(f"build : exporting '{file}'")
-        src_, meta = EXPORTER.from_filename(file)
+        src_, meta = EXPORTER.from_filename(file)  # type: ignore
 
         target_cursor.parent.resolve().mkdir(parents=True, exist_ok=True)
         with open(target_cursor, "w", encoding="UTF-8") as f:

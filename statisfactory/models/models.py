@@ -40,8 +40,9 @@ class Pyproject(BaseModel):
     project_slug: str
     configuration: str
     catalog: str
-    sources: Optional[Path]
-    notebook_target: Optional[Path]
+    sources: Optional[Path] = Path("lib")
+    notebook_target: Optional[Path] = Path("jupyter")
+    notebook_sources: Optional[Path] = Path("scripts")
     parameters: Optional[Path]
     pipelines_definitions: Optional[Path]
     entrypoints: Optional[Entrypoints]
