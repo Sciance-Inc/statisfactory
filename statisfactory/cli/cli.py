@@ -90,13 +90,13 @@ def compile(ctx):
 @click.pass_context
 @click.argument("pipeline")
 @click.option(
-    "-p",
-    "--parameters",
+    "-c",
+    "--configuration",
     default=None,
     type=str,
     help="A configuration to be used for this pipeline run.",
 )
-def run(ctx, pipeline: str, parameters: str):
+def run(ctx, pipeline: str, configuration: str):
     """
     Run a pipeline with a given configuraiton.
 
@@ -107,5 +107,5 @@ def run(ctx, pipeline: str, parameters: str):
 
     with temp_wd(ctx.obj["root"]):
         run_pipeline(
-            path=ctx.obj["root"], pipeline_name=pipeline, parameters_name=parameters
+            path=ctx.obj["root"], pipeline_name=pipeline, parameters_name=configuration
         )
