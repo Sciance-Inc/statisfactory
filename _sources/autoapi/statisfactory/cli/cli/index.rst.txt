@@ -46,7 +46,7 @@ Attributes
    Extract the Craft definitions to the notebook targets folder.
 
 
-.. py:function:: run(ctx, pipeline: str, parameters: str)
+.. py:function:: run(ctx, pipeline: str, configuration: str)
 
    Run a pipeline with a given configuraiton.
 
