@@ -194,7 +194,7 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
                 mapped_parameters[anno.name] = value = volatiles_mapping.get(
                     anno.name, anno.default
                 )
-                if value == Parameter.empty:
+                if value is Parameter.empty:
                     raise Errors.E041(name=self._name, param=anno.name)  # type: ignore
 
             # If the argument is KEYWORD only, it must either be in the context or have a default value
