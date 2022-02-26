@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.3 (2022-02-22)
+### Fix
+* Odbc connector is now initiaed before accessing atributes ([`b7d92ca`](https://github.com/Sciance-Inc/statisfactory/commit/b7d92ca08ab7b3c60350a953e6aac09d1589adf8))
+
 ## v0.10.2 (2022-02-22)
 ### Fix
 * Updating odbc query ([`0683b3d`](https://github.com/Sciance-Inc/statisfactory/commit/0683b3d82ba178602359b119630ee53324d762ea))
