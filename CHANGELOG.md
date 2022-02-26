@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.11.1 (2022-02-26)
+### Fix
+* Fixing test ([`f74cb89`](https://github.com/Sciance-Inc/statisfactory/commit/f74cb89f7073684d90837c288f0b6efb99ac8426))
+
 ## v0.11.0 (2022-02-26)
 ### Feature
 * Adding introspection commands to the cli ([`30eb01b`](https://github.com/Sciance-Inc/statisfactory/commit/30eb01b65473d3c7bb07f6e0494899f6a29624de))
