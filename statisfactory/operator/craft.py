@@ -21,6 +21,8 @@ from inspect import Parameter, Signature, signature
 from typing import Any, Callable, Dict, List, Mapping, Tuple, Union  # , TYPE_CHECKING
 from warnings import warn
 
+from numpy import empty
+
 # project
 from statisfactory.errors import Errors, Warnings
 from statisfactory.models.models import Artifact, Volatile
@@ -189,7 +191,11 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
             # A volatile must be in the the volatile mapping
             if anno.kind is AnnotationKind.VOLATILE:
-                mapped_parameters[anno.name] = volatiles_mapping[anno.name]
+                mapped_parameters[anno.name] = value = volatiles_mapping.get(
+                    anno.name, anno.default
+                )
+                if value == Parameter.empty:
+                    raise Errors.E041(name=self._name, param=anno.name)  # type: ignore
 
             # If the argument is KEYWORD only, it must either be in the context or have a default value
             if anno.kind is AnnotationKind.KEY:
