@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.10.4 (2022-02-26)
+### Fix
+* Renaming run parameters to configuration to avoid conflict ([`407e185`](https://github.com/Sciance-Inc/statisfactory/commit/407e185f4cb333be96a42f259bf53a0507f3dcb6))
+
 ## v0.10.3 (2022-02-22)
 ### Fix
 * Odbc connector is now initiaed before accessing atributes ([`b7d92ca`](https://github.com/Sciance-Inc/statisfactory/commit/b7d92ca08ab7b3c60350a953e6aac09d1589adf8))
