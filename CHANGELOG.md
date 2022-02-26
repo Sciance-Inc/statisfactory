@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.11.0 (2022-02-26)
+### Feature
+* Adding introspection commands to the cli ([`30eb01b`](https://github.com/Sciance-Inc/statisfactory/commit/30eb01b65473d3c7bb07f6e0494899f6a29624de))
+* Defaulting volatile to default value if provided ([`eee592a`](https://github.com/Sciance-Inc/statisfactory/commit/eee592a1ebe781c5264f9f9f9903490d6bcebe1b))
+
 ## v0.10.4 (2022-02-26)
 ### Fix
 * Renaming run parameters to configuration to avoid conflict ([`407e185`](https://github.com/Sciance-Inc/statisfactory/commit/407e185f4cb333be96a42f259bf53a0507f3dcb6))
