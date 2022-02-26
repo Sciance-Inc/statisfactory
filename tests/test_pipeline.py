@@ -225,3 +225,24 @@ def test_multiples_files_pipelines(sess):
     """
 
     _ = sess.pipelines_definitions["multiples_files_pipeline"]
+
+
+def test_volatile_default(sess):
+    """
+    Make sure than a pipeline can be called with defaults volatiles
+    """
+
+    @Craft()
+    def bar(bar: Volatile = 1) -> Volatile("bar_out"):
+        return bar
+
+    @Craft()
+    def spam(bar_out: Volatile) -> Volatile("spam_out"):
+        return bar_out
+
+    foo = spam + bar
+
+    with sess:
+        out = foo()
+
+    assert out["spam_out"] == 1

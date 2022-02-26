@@ -41,7 +41,7 @@ class Catalog(MixinLogable):
     Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
     """
 
-    def __init__(self, *, path: Path, session: BaseSession = None):
+    def __init__(self, *, path: Path, session: BaseSession = None):  # type: ignore
         """
         Build a new Catalog from an iterator of dumps
 
@@ -58,6 +58,10 @@ class Catalog(MixinLogable):
             self._artifacts = get_artifacts_mapping(path, session)
         except BaseException as err:
             raise Errors.E013(file="Catalog") from err  # type: ignore
+
+    @property
+    def artifacts(self):
+        return self._artifacts
 
     def __str__(self):
         """
@@ -94,7 +98,7 @@ class Catalog(MixinLogable):
         """
 
         try:
-            interactor = ArtifactInteractor.interactors()[artifact.type]
+            interactor = ArtifactInteractor.interactors()[artifact.type]  # type: ignore
         except KeyError:
             raise Errors.E031(name=artifact.type)  # type: ignore
 
