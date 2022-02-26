@@ -1,13 +1,13 @@
 #! /usr/bin/python3
 
-# notebooks.py
+# run.py
 #
 # Project name: statisfactory
 # Author: Hugo Juhel
 #
 # description:
 """
-    Implements the notebooks parser for the Statisfactory's CLI
+    Implements primitives to run the pipelines
 """
 
 #############################################################################

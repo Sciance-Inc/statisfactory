@@ -2,3 +2,7 @@ base:
   operators:
     - jupyter_test.foobar.foo
     - jupyter_test.foobar.bar
+
+foo:
+  operators:
+    - jupyter_test.foobar.foo
