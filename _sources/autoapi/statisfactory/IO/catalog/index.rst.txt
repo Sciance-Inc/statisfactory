@@ -28,6 +28,10 @@ Classes
 
    Catalog represent a loadable / savable set of dataframes living locally or in far, far aways distributed system.
 
+   .. py:method:: artifacts(self)
+      :property:
+
+
    .. py:method:: __str__(self)
 
       Show all artifacts entries

@@ -18,9 +18,19 @@ Functions
 
 .. autoapisummary::
 
+   statisfactory.cli.cli._prepare_group
    statisfactory.cli.cli.cli
    statisfactory.cli.cli.compile
    statisfactory.cli.cli.run
+   statisfactory.cli.cli.pipelines
+   statisfactory.cli.cli.pip_ls
+   statisfactory.cli.cli.pip_describe
+   statisfactory.cli.cli.configurations
+   statisfactory.cli.cli.conf_ls
+   statisfactory.cli.cli.conf_describe
+   statisfactory.cli.cli.artifacts
+   statisfactory.cli.cli.artifacts_ls
+   statisfactory.cli.cli.artifacts_describe
 
 
 
@@ -36,6 +46,9 @@ Attributes
    
 
    
+
+.. py:function:: _prepare_group(ctx, path)
+
 
 .. py:function:: cli(ctx, path)
 
@@ -53,5 +66,59 @@ Attributes
    Args:
        pipeline (str): The pipeline to be executed.
        parameters (str): An optional name for a set of parameters defined in the parameters object of statisfactory.
+
+
+.. py:function:: pipelines()
+
+   List and describes pipelines
+
+
+.. py:function:: pip_ls(ctx)
+
+   List the pipelines
+
+
+.. py:function:: pip_describe(ctx, name: str)
+
+   Describe the dependencies and execution flow of a pipeline named 'name'
+
+   Args:
+       name (str): the name of the pipeline to describe
+
+
+.. py:function:: configurations()
+
+   List and describe
+
+
+.. py:function:: conf_ls(ctx)
+
+   List the configurations
+
+
+.. py:function:: conf_describe(ctx, name: str)
+
+   Describe the configurations
+
+   Args:
+       name (str): the name of the configuration to describe
+
+
+.. py:function:: artifacts()
+
+   List and describe the artifacts
+
+
+.. py:function:: artifacts_ls(ctx)
+
+   List the artifacts
+
+
+.. py:function:: artifacts_describe(ctx, name: str)
+
+   Describe the artifact
+
+   Args:
+       name (str): the name of the artifact to describe
 
 

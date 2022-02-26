@@ -540,6 +540,11 @@
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli._prepare_group">
+       _prepare_group
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#statisfactory.cli.cli.cli">
        cli
       </a>
@@ -552,6 +557,51 @@
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#statisfactory.cli.cli.run">
        run
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli.pipelines">
+       pipelines
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli.pip_ls">
+       pip_ls
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli.pip_describe">
+       pip_describe
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli.configurations">
+       configurations
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli.conf_ls">
+       conf_ls
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli.conf_describe">
+       conf_describe
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli.artifacts">
+       artifacts
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli.artifacts_ls">
+       artifacts_ls
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli.artifacts_describe">
+       artifacts_describe
       </a>
      </li>
     </ul>
@@ -582,14 +632,44 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.cli.cli" title="statisfactory.cli.cli.cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cli</span></code></a>(ctx, path)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.cli._prepare_group" title="statisfactory.cli.cli._prepare_group"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_prepare_group</span></code></a>(ctx, path)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.cli.compile" title="statisfactory.cli.cli.compile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compile</span></code></a>(ctx)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.cli.cli" title="statisfactory.cli.cli.cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cli</span></code></a>(ctx, path)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.cli.compile" title="statisfactory.cli.cli.compile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compile</span></code></a>(ctx)</p></td>
 <td><p>Parse the notebooks folders and build the Crafts definitions.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.cli.run" title="statisfactory.cli.cli.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(ctx, pipeline: str, configuration: str)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.cli.run" title="statisfactory.cli.cli.run"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run</span></code></a>(ctx, pipeline: str, configuration: str)</p></td>
 <td><p>Run a pipeline with a given configuraiton.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.cli.pipelines" title="statisfactory.cli.cli.pipelines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pipelines</span></code></a>()</p></td>
+<td><p>List and describes pipelines</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.cli.pip_ls" title="statisfactory.cli.cli.pip_ls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pip_ls</span></code></a>(ctx)</p></td>
+<td><p>List the pipelines</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.cli.pip_describe" title="statisfactory.cli.cli.pip_describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pip_describe</span></code></a>(ctx, name: str)</p></td>
+<td><p>Describe the dependencies and execution flow of a pipeline named 'name'</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.cli.configurations" title="statisfactory.cli.cli.configurations"><code class="xref py py-obj docutils literal notranslate"><span class="pre">configurations</span></code></a>()</p></td>
+<td><p>List and describe</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.cli.conf_ls" title="statisfactory.cli.cli.conf_ls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conf_ls</span></code></a>(ctx)</p></td>
+<td><p>List the configurations</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.cli.conf_describe" title="statisfactory.cli.cli.conf_describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">conf_describe</span></code></a>(ctx, name: str)</p></td>
+<td><p>Describe the configurations</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.cli.artifacts" title="statisfactory.cli.cli.artifacts"><code class="xref py py-obj docutils literal notranslate"><span class="pre">artifacts</span></code></a>()</p></td>
+<td><p>List and describe the artifacts</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.cli.artifacts_ls" title="statisfactory.cli.cli.artifacts_ls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">artifacts_ls</span></code></a>(ctx)</p></td>
+<td><p>List the artifacts</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.cli.artifacts_describe" title="statisfactory.cli.cli.artifacts_describe"><code class="xref py py-obj docutils literal notranslate"><span class="pre">artifacts_describe</span></code></a>(ctx, name: str)</p></td>
+<td><p>Describe the artifact</p></td>
 </tr>
 </tbody>
 </table>
@@ -613,6 +693,11 @@
 <dd></dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli._prepare_group">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">_prepare_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli._prepare_group" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="statisfactory.cli.cli.cli">
 <span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">cli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.cli" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -631,6 +716,72 @@ Extract the Craft definitions to the notebook targets folder.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>pipeline (str): The pipeline to be executed.
 parameters (str): An optional name for a set of parameters defined in the parameters object of statisfactory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli.pipelines">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">pipelines</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.pipelines" title="Permalink to this definition">¶</a></dt>
+<dd><p>List and describes pipelines</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli.pip_ls">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">pip_ls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.pip_ls" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the pipelines</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli.pip_describe">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">pip_describe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.pip_describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describe the dependencies and execution flow of a pipeline named ‘name’</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): the name of the pipeline to describe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli.configurations">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">configurations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.configurations" title="Permalink to this definition">¶</a></dt>
+<dd><p>List and describe</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli.conf_ls">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">conf_ls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.conf_ls" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the configurations</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli.conf_describe">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">conf_describe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.conf_describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describe the configurations</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): the name of the configuration to describe</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli.artifacts">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">artifacts</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.artifacts" title="Permalink to this definition">¶</a></dt>
+<dd><p>List and describe the artifacts</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli.artifacts_ls">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">artifacts_ls</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.artifacts_ls" title="Permalink to this definition">¶</a></dt>
+<dd><p>List the artifacts</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli.artifacts_describe">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.cli.</span></span><span class="sig-name descname"><span class="pre">artifacts_describe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli.artifacts_describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Describe the artifact</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>name (str): the name of the artifact to describe</p>
 </dd>
 </dl>
 </dd></dl>

@@ -5,7 +5,7 @@
 
 .. autoapi-nested-parse::
 
-   Implements the notebooks parser for the Statisfactory's CLI
+   Implements primitives to run the pipelines
 
 
 
