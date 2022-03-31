@@ -442,7 +442,7 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
         try:
             obj = pickle.loads(payload, **options)
         except BaseException as err:
-            raise Errors.E021(method="pickle", path=self._path) from err  # type: ignore
+            raise Errors.E021(method="pickle", path=self.path) from err  # type: ignore
 
         return obj
 
