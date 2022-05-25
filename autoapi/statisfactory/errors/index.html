@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>statisfactory.errors &#8212; Statisfactory  documentation</title>
     
-  <link href="../../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -26,17 +26,20 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
-  <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -63,7 +66,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p class="caption" role="heading">
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Contents:
  </span>
@@ -494,7 +497,7 @@
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -512,7 +515,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -946,7 +949,444 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>statisfactory.errors</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-contents">
+   Module Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#functions">
+     Functions
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attributes">
+     Attributes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.errors.DEFAULT_LOGGER">
+       DEFAULT_LOGGER
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.errors.PROJECT_NAME">
+       PROJECT_NAME
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.errors.ExceptionFactory">
+       ExceptionFactory
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.ExceptionFactory.__call__">
+         __call__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.ExceptionFactory.__getattribute__">
+         __getattribute__
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.errors.ErrorPrototype">
+       ErrorPrototype
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.ErrorPrototype.msg">
+         msg
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.errors.WarningPrototype">
+       WarningPrototype
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.WarningPrototype.msg">
+         msg
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.errors.Errors">
+       Errors
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors._PROTOTYPE">
+         _PROTOTYPE
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E010">
+         E010
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E011">
+         E011
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E012">
+         E012
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E013">
+         E013
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E014">
+         E014
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E015">
+         E015
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E016">
+         E016
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E017">
+         E017
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0181">
+         E0181
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0182">
+         E0182
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0183">
+         E0183
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0184">
+         E0184
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E020">
+         E020
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0201">
+         E0201
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E021">
+         E021
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E022">
+         E022
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E023">
+         E023
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E024">
+         E024
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E025">
+         E025
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E026">
+         E026
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E027">
+         E027
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E028">
+         E028
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0281">
+         E0281
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0290">
+         E0290
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0291">
+         E0291
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0292">
+         E0292
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E0293">
+         E0293
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E030">
+         E030
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E031">
+         E031
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E032">
+         E032
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E033">
+         E033
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E034">
+         E034
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E040">
+         E040
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E041">
+         E041
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E042">
+         E042
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E043">
+         E043
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E044">
+         E044
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E045">
+         E045
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E050">
+         E050
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E052">
+         E052
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E053">
+         E053
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E054">
+         E054
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E055">
+         E055
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E060">
+         E060
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E061">
+         E061
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E062">
+         E062
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E063">
+         E063
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E064">
+         E064
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E065">
+         E065
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E070">
+         E070
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E071">
+         E071
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Errors.E999">
+         E999
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.errors.Warnings">
+       Warnings
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings._PROTOTYPE">
+         _PROTOTYPE
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W010">
+         W010
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W011">
+         W011
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W012">
+         W012
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W020">
+         W020
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W021">
+         W021
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W40">
+         W40
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W050">
+         W050
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W051">
+         W051
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W060">
+         W060
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.errors.Warnings.W061">
+         W061
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.errors._custom_formatwarning">
+       _custom_formatwarning
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.errors.formatwarning">
+       formatwarning
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="section" id="module-statisfactory.errors">
@@ -956,7 +1396,7 @@
 <h2>Module Contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -973,7 +1413,7 @@
 </div>
 <div class="section" id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -987,7 +1427,7 @@
 </div>
 <div class="section" id="attributes">
 <h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -1011,12 +1451,12 @@
 
 <dl class="py data">
 <dt class="sig sig-object py" id="statisfactory.errors.PROJECT_NAME">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">PROJECT_NAME</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Statisfactory</span></em><a class="headerlink" href="#statisfactory.errors.PROJECT_NAME" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">PROJECT_NAME</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Statisfactory</span></em><a class="headerlink" href="#statisfactory.errors.PROJECT_NAME" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.errors.ExceptionFactory">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">ExceptionFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.errors.ExceptionFactory" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">ExceptionFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.errors.ExceptionFactory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></p>
 <p>Implements a metaclass building errors from instances attributes. Errors are singleton and can be raised and catched.</p>
 <p>&gt;&gt;raise Errors.E010
@@ -1038,33 +1478,33 @@ a proper class for which the name is the error code</p>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="statisfactory.errors.ErrorPrototype">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">ErrorPrototype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.errors.ErrorPrototype" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">ErrorPrototype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.errors.ErrorPrototype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Base parent for all custom errors raised by the program.
 The class performs base operation making the error message displaybale</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.ErrorPrototype.msg">
-<span class="sig-name descname"><span class="pre">msg</span></span><em class="property"> <span class="pre">:str</span> <span class="pre">=</span></em><a class="headerlink" href="#statisfactory.errors.ErrorPrototype.msg" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">msg</span></span><em class="property"><span class="w"> </span><span class="pre">:str</span> <span class="pre">=</span></em><a class="headerlink" href="#statisfactory.errors.ErrorPrototype.msg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="statisfactory.errors.WarningPrototype">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">WarningPrototype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.errors.WarningPrototype" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">WarningPrototype</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.errors.WarningPrototype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">UserWarning</span></code></p>
 <p>Base parent for all custom warnings raised by the program.
 The class performs base operation making the warning displayba;e</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.WarningPrototype.msg">
-<span class="sig-name descname"><span class="pre">msg</span></span><em class="property"> <span class="pre">:str</span> <span class="pre">=</span></em><a class="headerlink" href="#statisfactory.errors.WarningPrototype.msg" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">msg</span></span><em class="property"><span class="w"> </span><span class="pre">:str</span> <span class="pre">=</span></em><a class="headerlink" href="#statisfactory.errors.WarningPrototype.msg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">Errors</span></span><a class="headerlink" href="#statisfactory.errors.Errors" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">Errors</span></span><a class="headerlink" href="#statisfactory.errors.Errors" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors._PROTOTYPE">
 <span class="sig-name descname"><span class="pre">_PROTOTYPE</span></span><a class="headerlink" href="#statisfactory.errors.Errors._PROTOTYPE" title="Permalink to this definition">¶</a></dt>
@@ -1072,269 +1512,269 @@ The class performs base operation making the warning displayba;e</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E010">
-<span class="sig-name descname"><span class="pre">E010</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">statisfactory</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">called</span> <span class="pre">from</span> <span class="pre">a</span> <span class="pre">folder,</span> <span class="pre">or</span> <span class="pre">the</span> <span class="pre">child</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">folder,</span> <span class="pre">containing</span> <span class="pre">a...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E010" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E010</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">statisfactory</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">called</span> <span class="pre">from</span> <span class="pre">a</span> <span class="pre">folder,</span> <span class="pre">or</span> <span class="pre">the</span> <span class="pre">child</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">folder,</span> <span class="pre">containing</span> <span class="pre">a...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E010" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E011">
-<span class="sig-name descname"><span class="pre">E011</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">validate</span> <span class="pre">the</span> <span class="pre">'statisfactory'</span> <span class="pre">section</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">'pyproject.toml'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E011" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E011</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">validate</span> <span class="pre">the</span> <span class="pre">'statisfactory'</span> <span class="pre">section</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">'pyproject.toml'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E011" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E012">
-<span class="sig-name descname"><span class="pre">E012</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">read</span> <span class="pre">the</span> <span class="pre">pyproject.toml</span> <span class="pre">file</span> <span class="pre">located</span> <span class="pre">here</span> <span class="pre">:</span> <span class="pre">'{path}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E012" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E012</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">read</span> <span class="pre">the</span> <span class="pre">pyproject.toml</span> <span class="pre">file</span> <span class="pre">located</span> <span class="pre">here</span> <span class="pre">:</span> <span class="pre">'{path}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E012" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E013">
-<span class="sig-name descname"><span class="pre">E013</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">load</span> <span class="pre">the</span> <span class="pre">catalogs.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E013" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E013</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">load</span> <span class="pre">the</span> <span class="pre">catalogs.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E013" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E014">
-<span class="sig-name descname"><span class="pre">E014</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">interpolate</span> <span class="pre">the</span> <span class="pre">catalog</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">settings</span> <span class="pre">from</span> <span class="pre">'conf/'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E014" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E014</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">interpolate</span> <span class="pre">the</span> <span class="pre">catalog</span> <span class="pre">with</span> <span class="pre">the</span> <span class="pre">settings</span> <span class="pre">from</span> <span class="pre">'conf/'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E014" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E015">
-<span class="sig-name descname"><span class="pre">E015</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">Parsing</span> <span class="pre">pipeline</span> <span class="pre">'{pip_name}'</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">import</span> <span class="pre">module</span> <span class="pre">'{module}'.</span> <span class="pre">The</span> <span class="pre">path</span> <span class="pre">might...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E015" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E015</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">Parsing</span> <span class="pre">pipeline</span> <span class="pre">'{pip_name}'</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">import</span> <span class="pre">module</span> <span class="pre">'{module}'.</span> <span class="pre">The</span> <span class="pre">path</span> <span class="pre">might...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E015" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E016">
-<span class="sig-name descname"><span class="pre">E016</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">pipelines</span> <span class="pre">definition</span> <span class="pre">'{name}'</span> <span class="pre">embed</span> <span class="pre">a</span> <span class="pre">reference</span> <span class="pre">to</span> <span class="pre">an</span> <span class="pre">undeclared</span> <span class="pre">definition</span> <span class="pre">'{ref}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E016" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E016</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">pipelines</span> <span class="pre">definition</span> <span class="pre">'{name}'</span> <span class="pre">embed</span> <span class="pre">a</span> <span class="pre">reference</span> <span class="pre">to</span> <span class="pre">an</span> <span class="pre">undeclared</span> <span class="pre">definition</span> <span class="pre">'{ref}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E016" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E017">
-<span class="sig-name descname"><span class="pre">E017</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">Parsing</span> <span class="pre">pipeline</span> <span class="pre">'{pip_name}'</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">import</span> <span class="pre">'{craft_name}'</span> <span class="pre">Craft</span> <span class="pre">from...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E017" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E017</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">Parsing</span> <span class="pre">pipeline</span> <span class="pre">'{pip_name}'</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">import</span> <span class="pre">'{craft_name}'</span> <span class="pre">Craft</span> <span class="pre">from...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E017" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0181">
-<span class="sig-name descname"><span class="pre">E0181</span></span><em class="property"> <span class="pre">=</span> <span class="pre">ConfigParser</span> <span class="pre">:</span> <span class="pre">'{path}'</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exist.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0181" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0181</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">ConfigParser</span> <span class="pre">:</span> <span class="pre">'{path}'</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exist.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0181" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0182">
-<span class="sig-name descname"><span class="pre">E0182</span></span><em class="property"> <span class="pre">=</span> <span class="pre">ConfigParser</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">read</span> <span class="pre">the</span> <span class="pre">'{path}'.</span> <span class="pre">Is</span> <span class="pre">the</span> <span class="pre">file</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">jinja2</span> <span class="pre">template</span> <span class="pre">?</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0182" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0182</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">ConfigParser</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">read</span> <span class="pre">the</span> <span class="pre">'{path}'.</span> <span class="pre">Is</span> <span class="pre">the</span> <span class="pre">file</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">jinja2</span> <span class="pre">template</span> <span class="pre">?</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0182" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0183">
-<span class="sig-name descname"><span class="pre">E0183</span></span><em class="property"> <span class="pre">=</span> <span class="pre">ConfigParser</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">render</span> <span class="pre">the</span> <span class="pre">'{path}'</span> <span class="pre">template</span> <span class="pre">with</span> <span class="pre">template</span> <span class="pre">variables</span> <span class="pre">'{vars}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0183" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0183</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">ConfigParser</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">render</span> <span class="pre">the</span> <span class="pre">'{path}'</span> <span class="pre">template</span> <span class="pre">with</span> <span class="pre">template</span> <span class="pre">variables</span> <span class="pre">'{vars}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0183" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0184">
-<span class="sig-name descname"><span class="pre">E0184</span></span><em class="property"> <span class="pre">=</span> <span class="pre">ConfigParser</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">deserialize</span> <span class="pre">the</span> <span class="pre">yaml</span> <span class="pre">representation</span> <span class="pre">'{repr}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0184" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0184</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">ConfigParser</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">deserialize</span> <span class="pre">the</span> <span class="pre">yaml</span> <span class="pre">representation</span> <span class="pre">'{repr}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0184" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E020">
-<span class="sig-name descname"><span class="pre">E020</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">there</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">an</span> <span class="pre">interactor</span> <span class="pre">named</span> <span class="pre">'{name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E020" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E020</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">there</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">an</span> <span class="pre">interactor</span> <span class="pre">named</span> <span class="pre">'{name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E020" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0201">
-<span class="sig-name descname"><span class="pre">E0201</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor:</span> <span class="pre">there</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">a</span> <span class="pre">backend</span> <span class="pre">name</span> <span class="pre">registered</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">'{prefix}'s</span> <span class="pre">prefix.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0201" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0201</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor:</span> <span class="pre">there</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">a</span> <span class="pre">backend</span> <span class="pre">name</span> <span class="pre">registered</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">'{prefix}'s</span> <span class="pre">prefix.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0201" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E021">
-<span class="sig-name descname"><span class="pre">E021</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">read</span> <span class="pre">'{method}'</span> <span class="pre">'{name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E021" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E021</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">read</span> <span class="pre">'{method}'</span> <span class="pre">'{name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E021" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E022">
-<span class="sig-name descname"><span class="pre">E022</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">save</span> <span class="pre">the</span> <span class="pre">asset</span> <span class="pre">'{name}'</span> <span class="pre">with</span> <span class="pre">'{method}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E022" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E022</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">save</span> <span class="pre">the</span> <span class="pre">asset</span> <span class="pre">'{name}'</span> <span class="pre">with</span> <span class="pre">'{method}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E022" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E023">
-<span class="sig-name descname"><span class="pre">E023</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">'{interactor}'</span> <span class="pre">interactor</span> <span class="pre">only</span> <span class="pre">accept</span> <span class="pre">{accept}</span> <span class="pre">:</span> <span class="pre">got</span> <span class="pre">'{got}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E023" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E023</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">'{interactor}'</span> <span class="pre">interactor</span> <span class="pre">only</span> <span class="pre">accept</span> <span class="pre">{accept}</span> <span class="pre">:</span> <span class="pre">got</span> <span class="pre">'{got}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E023" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E024">
-<span class="sig-name descname"><span class="pre">E024</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">'{path}'</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E024" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E024</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">'{path}'</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E024" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E025">
-<span class="sig-name descname"><span class="pre">E025</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">connect</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">connector</span> <span class="pre">with</span> <span class="pre">connection</span> <span class="pre">sting</span> <span class="pre">'{dsn}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E025" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E025</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">connect</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">connector</span> <span class="pre">with</span> <span class="pre">connection</span> <span class="pre">sting</span> <span class="pre">'{dsn}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E025" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E026">
-<span class="sig-name descname"><span class="pre">E026</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">execute</span> <span class="pre">query</span> <span class="pre">{query}.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E026" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E026</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">execute</span> <span class="pre">query</span> <span class="pre">{query}.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E026" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E027">
-<span class="sig-name descname"><span class="pre">E027</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">only</span> <span class="pre">not-null</span> <span class="pre">string</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">interpolated</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E027" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E027</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">only</span> <span class="pre">not-null</span> <span class="pre">string</span> <span class="pre">can</span> <span class="pre">be</span> <span class="pre">interpolated</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E027" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E028">
-<span class="sig-name descname"><span class="pre">E028</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">string</span> <span class="pre">'{trg}'</span> <span class="pre">is</span> <span class="pre">incomplettely</span> <span class="pre">formatted,</span> <span class="pre">missing</span> <span class="pre">parameters</span> <span class="pre">from</span> <span class="pre">context</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E028" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E028</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">string</span> <span class="pre">'{trg}'</span> <span class="pre">is</span> <span class="pre">incomplettely</span> <span class="pre">formatted,</span> <span class="pre">missing</span> <span class="pre">parameters</span> <span class="pre">from</span> <span class="pre">context</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E028" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0281">
-<span class="sig-name descname"><span class="pre">E0281</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">parse</span> <span class="pre">the</span> <span class="pre">Path</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">Artifact</span> <span class="pre">{name}.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0281" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0281</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">parse</span> <span class="pre">the</span> <span class="pre">Path</span> <span class="pre">parameter</span> <span class="pre">for</span> <span class="pre">Artifact</span> <span class="pre">{name}.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0281" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0290">
-<span class="sig-name descname"><span class="pre">E0290</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">{backend}</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">serialize</span> <span class="pre">or</span> <span class="pre">write</span> <span class="pre">the</span> <span class="pre">payload.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0290" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0290</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">{backend}</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">serialize</span> <span class="pre">or</span> <span class="pre">write</span> <span class="pre">the</span> <span class="pre">payload.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0290" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0291">
-<span class="sig-name descname"><span class="pre">E0291</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">{backend}</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">retrieve,</span> <span class="pre">fetch</span> <span class="pre">or</span> <span class="pre">deserialize</span> <span class="pre">the</span> <span class="pre">payload.</span> <span class="pre">Make</span> <span class="pre">sure</span> <span class="pre">that...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0291" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0291</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">{backend}</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">retrieve,</span> <span class="pre">fetch</span> <span class="pre">or</span> <span class="pre">deserialize</span> <span class="pre">the</span> <span class="pre">payload.</span> <span class="pre">Make</span> <span class="pre">sure</span> <span class="pre">that...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0291" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0292">
-<span class="sig-name descname"><span class="pre">E0292</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">scheme</span> <span class="pre">{scheme}</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">map</span> <span class="pre">to</span> <span class="pre">any</span> <span class="pre">backend.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0292" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0292</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">scheme</span> <span class="pre">{scheme}</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">map</span> <span class="pre">to</span> <span class="pre">any</span> <span class="pre">backend.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0292" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E0293">
-<span class="sig-name descname"><span class="pre">E0293</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">LakeFS</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">branch's</span> <span class="pre">name</span> <span class="pre">must</span> <span class="pre">match</span> <span class="pre">match</span> <span class="pre">the</span> <span class="pre">regex</span> <span class="pre">{regex}.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0293" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E0293</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">LakeFS</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">branch's</span> <span class="pre">name</span> <span class="pre">must</span> <span class="pre">match</span> <span class="pre">match</span> <span class="pre">the</span> <span class="pre">regex</span> <span class="pre">{regex}.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E0293" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E030">
-<span class="sig-name descname"><span class="pre">E030</span></span><em class="property"> <span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">'{name}'</span> <span class="pre">artifact</span>&#160; <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E030" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E030</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">'{name}'</span> <span class="pre">artifact</span>&#160; <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E030" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E031">
-<span class="sig-name descname"><span class="pre">E031</span></span><em class="property"> <span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">'{name}'</span> <span class="pre">interactor</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E031" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E031</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">'{name}'</span> <span class="pre">interactor</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E031" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E032">
-<span class="sig-name descname"><span class="pre">E032</span></span><em class="property"> <span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">'{name}'</span> <span class="pre">connector</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E032" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E032</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">'{name}'</span> <span class="pre">connector</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E032" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E033">
-<span class="sig-name descname"><span class="pre">E033</span></span><em class="property"> <span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">duplicated</span> <span class="pre">key.</span> <span class="pre">The</span> <span class="pre">'{key}'</span> <span class="pre">{type}</span> <span class="pre">key</span> <span class="pre">is</span> <span class="pre">defined</span> <span class="pre">in</span> <span class="pre">at</span> <span class="pre">least</span> <span class="pre">two</span> <span class="pre">catalogs</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E033" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E033</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">duplicated</span> <span class="pre">key.</span> <span class="pre">The</span> <span class="pre">'{key}'</span> <span class="pre">{type}</span> <span class="pre">key</span> <span class="pre">is</span> <span class="pre">defined</span> <span class="pre">in</span> <span class="pre">at</span> <span class="pre">least</span> <span class="pre">two</span> <span class="pre">catalogs</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E033" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E034">
-<span class="sig-name descname"><span class="pre">E034</span></span><em class="property"> <span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">validate</span> <span class="pre">the</span> <span class="pre">artifact</span> <span class="pre">'{name}'</span> <span class="pre">Extra</span> <span class="pre">key</span> <span class="pre">against</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">schema</span> <span class="pre">:</span> <span class="pre">'{schema}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E034" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E034</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">catalog</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">validate</span> <span class="pre">the</span> <span class="pre">artifact</span> <span class="pre">'{name}'</span> <span class="pre">Extra</span> <span class="pre">key</span> <span class="pre">against</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">schema</span> <span class="pre">:</span> <span class="pre">'{schema}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E034" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E040">
-<span class="sig-name descname"><span class="pre">E040</span></span><em class="property"> <span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">execute</span> <span class="pre">craft</span> <span class="pre">'{func}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E040" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E040</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">execute</span> <span class="pre">craft</span> <span class="pre">'{func}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E040" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E041">
-<span class="sig-name descname"><span class="pre">E041</span></span><em class="property"> <span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">craft</span> <span class="pre">'{name}'</span> <span class="pre">is</span> <span class="pre">missing</span> <span class="pre">mandatory</span> <span class="pre">param</span> <span class="pre">'{param}'.</span> <span class="pre">Use</span> <span class="pre">the</span> <span class="pre">context</span> <span class="pre">to</span> <span class="pre">provide</span> <span class="pre">the...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E041" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E041</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">craft</span> <span class="pre">'{name}'</span> <span class="pre">is</span> <span class="pre">missing</span> <span class="pre">mandatory</span> <span class="pre">param</span> <span class="pre">'{param}'.</span> <span class="pre">Use</span> <span class="pre">the</span> <span class="pre">context</span> <span class="pre">to</span> <span class="pre">provide</span> <span class="pre">the...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E041" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E042">
-<span class="sig-name descname"><span class="pre">E042</span></span><em class="property"> <span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">craft</span> <span class="pre">'{name}'s</span> <span class="pre">signature</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">Volatile,</span> <span class="pre">Artifact</span> <span class="pre">or</span> <span class="pre">a</span> <span class="pre">Tuple</span> <span class="pre">of</span> <span class="pre">Volatiles</span> <span class="pre">and...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E042" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E042</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">craft</span> <span class="pre">'{name}'s</span> <span class="pre">signature</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">a</span> <span class="pre">Volatile,</span> <span class="pre">Artifact</span> <span class="pre">or</span> <span class="pre">a</span> <span class="pre">Tuple</span> <span class="pre">of</span> <span class="pre">Volatiles</span> <span class="pre">and...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E042" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E043">
-<span class="sig-name descname"><span class="pre">E043</span></span><em class="property"> <span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">craft</span> <span class="pre">'{name}'</span> <span class="pre">signature</span> <span class="pre">expect</span> <span class="pre">{sign}</span> <span class="pre">items.</span> <span class="pre">Got</span> <span class="pre">{got}</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E043" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E043</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">craft</span> <span class="pre">'{name}'</span> <span class="pre">signature</span> <span class="pre">expect</span> <span class="pre">{sign}</span> <span class="pre">items.</span> <span class="pre">Got</span> <span class="pre">{got}</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E043" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E044">
-<span class="sig-name descname"><span class="pre">E044</span></span><em class="property"> <span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">craft</span> <span class="pre">'{name}'</span> <span class="pre">signature</span> <span class="pre">expect</span> <span class="pre">nothing</span> <span class="pre">but</span> <span class="pre">got</span> <span class="pre">a</span> <span class="pre">not</span> <span class="pre">None</span> <span class="pre">value.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E044" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E044</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">craft</span> <span class="pre">'{name}'</span> <span class="pre">signature</span> <span class="pre">expect</span> <span class="pre">nothing</span> <span class="pre">but</span> <span class="pre">got</span> <span class="pre">a</span> <span class="pre">not</span> <span class="pre">None</span> <span class="pre">value.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E044" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E045">
-<span class="sig-name descname"><span class="pre">E045</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Craft</span> <span class="pre">:</span> <span class="pre">Crafts</span> <span class="pre">only</span> <span class="pre">support</span> <span class="pre">Artifact,</span> <span class="pre">Volatile</span> <span class="pre">and</span> <span class="pre">Keyword</span> <span class="pre">only</span> <span class="pre">parameters.</span> <span class="pre">Craft</span> <span class="pre">'{name}'</span> <span class="pre">got</span> <span class="pre">'{anno}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E045" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E045</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Craft</span> <span class="pre">:</span> <span class="pre">Crafts</span> <span class="pre">only</span> <span class="pre">support</span> <span class="pre">Artifact,</span> <span class="pre">Volatile</span> <span class="pre">and</span> <span class="pre">Keyword</span> <span class="pre">only</span> <span class="pre">parameters.</span> <span class="pre">Craft</span> <span class="pre">'{name}'</span> <span class="pre">got</span> <span class="pre">'{anno}'.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E045" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E050">
-<span class="sig-name descname"><span class="pre">E050</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">run</span> <span class="pre">craft</span> <span class="pre">'{func}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E050" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E050</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">run</span> <span class="pre">craft</span> <span class="pre">'{func}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E050" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E052">
-<span class="sig-name descname"><span class="pre">E052</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">'{kind}'</span> <span class="pre">keys</span> <span class="pre">collides</span> <span class="pre">:</span> <span class="pre">for</span> <span class="pre">craft</span> <span class="pre">'{name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E052" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E052</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">'{kind}'</span> <span class="pre">keys</span> <span class="pre">collides</span> <span class="pre">:</span> <span class="pre">for</span> <span class="pre">craft</span> <span class="pre">'{name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E052" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E053">
-<span class="sig-name descname"><span class="pre">E053</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">Artifact</span> <span class="pre">'{artifact}'</span> <span class="pre">is</span> <span class="pre">produced</span> <span class="pre">by</span> <span class="pre">Crafts</span> <span class="pre">'{L}'</span> <span class="pre">and</span> <span class="pre">'{R}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E053" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E053</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">Artifact</span> <span class="pre">'{artifact}'</span> <span class="pre">is</span> <span class="pre">produced</span> <span class="pre">by</span> <span class="pre">Crafts</span> <span class="pre">'{L}'</span> <span class="pre">and</span> <span class="pre">'{R}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E053" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E054">
-<span class="sig-name descname"><span class="pre">E054</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">viz</span> <span class="pre">:</span> <span class="pre">missing</span> <span class="pre">'{dep}'</span> <span class="pre">package.</span> <span class="pre">Use</span> <span class="pre">'pip</span> <span class="pre">install</span> <span class="pre">{dep}'</span> <span class="pre">to</span> <span class="pre">install</span> <span class="pre">the</span> <span class="pre">required</span> <span class="pre">dependencie.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E054" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E054</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">viz</span> <span class="pre">:</span> <span class="pre">missing</span> <span class="pre">'{dep}'</span> <span class="pre">package.</span> <span class="pre">Use</span> <span class="pre">'pip</span> <span class="pre">install</span> <span class="pre">{dep}'</span> <span class="pre">to</span> <span class="pre">install</span> <span class="pre">the</span> <span class="pre">required</span> <span class="pre">dependencie.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E054" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E055">
-<span class="sig-name descname"><span class="pre">E055</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">NameSpacedSequentialRunner</span> <span class="pre">expects</span> <span class="pre">each</span> <span class="pre">craft's</span> <span class="pre">context</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">mapping.</span> <span class="pre">Got</span> <span class="pre">'{got}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E055" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E055</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">NameSpacedSequentialRunner</span> <span class="pre">expects</span> <span class="pre">each</span> <span class="pre">craft's</span> <span class="pre">context</span> <span class="pre">to</span> <span class="pre">be</span> <span class="pre">mapping.</span> <span class="pre">Got</span> <span class="pre">'{got}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E055" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E060">
-<span class="sig-name descname"><span class="pre">E060</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">A</span> <span class="pre">Craft</span> <span class="pre">or</span> <span class="pre">a</span> <span class="pre">Pipeline</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">executed</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">'with</span> <span class="pre">session:'</span> <span class="pre">statment.</span> <span class="pre">Use</span> <span class="pre">a</span> <span class="pre">context...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E060" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E060</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">A</span> <span class="pre">Craft</span> <span class="pre">or</span> <span class="pre">a</span> <span class="pre">Pipeline</span> <span class="pre">must</span> <span class="pre">be</span> <span class="pre">executed</span> <span class="pre">in</span> <span class="pre">a</span> <span class="pre">'with</span> <span class="pre">session:'</span> <span class="pre">statment.</span> <span class="pre">Use</span> <span class="pre">a</span> <span class="pre">context...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E060" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E061">
-<span class="sig-name descname"><span class="pre">E061</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">Session</span> <span class="pre">can't</span> <span class="pre">be</span> <span class="pre">injected</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">craft's</span> <span class="pre">underlying</span> <span class="pre">callables</span> <span class="pre">as</span> <span class="pre">the</span> <span class="pre">Context</span> <span class="pre">already...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E061" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E061</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">Session</span> <span class="pre">can't</span> <span class="pre">be</span> <span class="pre">injected</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">craft's</span> <span class="pre">underlying</span> <span class="pre">callables</span> <span class="pre">as</span> <span class="pre">the</span> <span class="pre">Context</span> <span class="pre">already...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E061" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E062">
-<span class="sig-name descname"><span class="pre">E062</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">The</span> <span class="pre">AWS</span> <span class="pre">session</span> <span class="pre">has</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">configured.</span> <span class="pre">You</span> <span class="pre">must</span> <span class="pre">provide</span> <span class="pre">access_key</span> <span class="pre">and</span> <span class="pre">secret_key...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E062" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E062</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">The</span> <span class="pre">AWS</span> <span class="pre">session</span> <span class="pre">has</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">configured.</span> <span class="pre">You</span> <span class="pre">must</span> <span class="pre">provide</span> <span class="pre">access_key</span> <span class="pre">and</span> <span class="pre">secret_key...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E062" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E063">
-<span class="sig-name descname"><span class="pre">E063</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">The</span> <span class="pre">lakeFS</span> <span class="pre">client</span> <span class="pre">has</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">configured.</span> <span class="pre">You</span> <span class="pre">must</span> <span class="pre">provide</span> <span class="pre">lakefs_access_key,...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E063" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E063</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">The</span> <span class="pre">lakeFS</span> <span class="pre">client</span> <span class="pre">has</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">configured.</span> <span class="pre">You</span> <span class="pre">must</span> <span class="pre">provide</span> <span class="pre">lakefs_access_key,...</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E063" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E064">
-<span class="sig-name descname"><span class="pre">E064</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">The</span> <span class="pre">git</span> <span class="pre">repository</span> <span class="pre">has</span> <span class="pre">not</span> <span class="pre">been</span> <span class="pre">configured</span> <span class="pre">yet.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E064" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E064</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">The</span> <span class="pre">git</span> <span class="pre">repository</span> <span class="pre">has</span> <span class="pre">not</span> <span class="pre">been</span> <span class="pre">configured</span> <span class="pre">yet.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E064" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E065">
-<span class="sig-name descname"><span class="pre">E065</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">there</span> <span class="pre">was</span> <span class="pre">an</span> <span class="pre">error</span> <span class="pre">trying</span> <span class="pre">to</span> <span class="pre">communicate</span> <span class="pre">the</span> <span class="pre">LakeFS</span> <span class="pre">API.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E065" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E065</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">there</span> <span class="pre">was</span> <span class="pre">an</span> <span class="pre">error</span> <span class="pre">trying</span> <span class="pre">to</span> <span class="pre">communicate</span> <span class="pre">the</span> <span class="pre">LakeFS</span> <span class="pre">API.</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E065" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E070">
-<span class="sig-name descname"><span class="pre">E070</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Run</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">required</span> <span class="pre">parameters</span> <span class="pre">set</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span> <span class="pre">:</span> <span class="pre">'{parameters_name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E070" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E070</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Run</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">required</span> <span class="pre">parameters</span> <span class="pre">set</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span> <span class="pre">:</span> <span class="pre">'{parameters_name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E070" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E071">
-<span class="sig-name descname"><span class="pre">E071</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Run</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">required</span> <span class="pre">pipeline</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span> <span class="pre">:</span> <span class="pre">'{pipeline_name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E071" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E071</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Run</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">required</span> <span class="pre">pipeline</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exists</span> <span class="pre">:</span> <span class="pre">'{pipeline_name}'</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E071" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Errors.E999">
-<span class="sig-name descname"><span class="pre">E999</span></span><em class="property"> <span class="pre">=</span> <span class="pre">out-of-scope</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">method</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">supported</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">roadmap</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E999" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">E999</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">out-of-scope</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">method</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">supported</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">current</span> <span class="pre">roadmap</span></em><a class="headerlink" href="#statisfactory.errors.Errors.E999" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py exception">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings">
-<em class="property"><span class="pre">exception</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">Warnings</span></span><a class="headerlink" href="#statisfactory.errors.Warnings" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.errors.</span></span><span class="sig-name descname"><span class="pre">Warnings</span></span><a class="headerlink" href="#statisfactory.errors.Warnings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">UserWarning</span></code></p>
 <p>Base class for warnings generated by user code.</p>
 <dl class="py attribute">
@@ -1344,52 +1784,52 @@ The class performs base operation making the warning displayba;e</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W010">
-<span class="sig-name descname"><span class="pre">W010</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">PYTHONPATH</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">set</span> <span class="pre">and</span> <span class="pre">won't</span> <span class="pre">be</span> <span class="pre">overwritted</span> <span class="pre">by</span> <span class="pre">Statisfactoy</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">sources</span> <span class="pre">from...</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W010" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W010</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">PYTHONPATH</span> <span class="pre">is</span> <span class="pre">already</span> <span class="pre">set</span> <span class="pre">and</span> <span class="pre">won't</span> <span class="pre">be</span> <span class="pre">overwritted</span> <span class="pre">by</span> <span class="pre">Statisfactoy</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">sources</span> <span class="pre">from...</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W010" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W011">
-<span class="sig-name descname"><span class="pre">W011</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">no</span> <span class="pre">globals.yaml</span> <span class="pre">config</span> <span class="pre">found.</span> <span class="pre">Defaulting</span> <span class="pre">to</span> <span class="pre">locals.yaml.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W011" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W011</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">no</span> <span class="pre">globals.yaml</span> <span class="pre">config</span> <span class="pre">found.</span> <span class="pre">Defaulting</span> <span class="pre">to</span> <span class="pre">locals.yaml.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W011" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W012">
-<span class="sig-name descname"><span class="pre">W012</span></span><em class="property"> <span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">no</span> <span class="pre">locals.yaml</span> <span class="pre">config</span> <span class="pre">found.</span> <span class="pre">Catalogs</span> <span class="pre">might</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">inteprolated.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W012" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W012</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">start-up</span> <span class="pre">:</span> <span class="pre">no</span> <span class="pre">locals.yaml</span> <span class="pre">config</span> <span class="pre">found.</span> <span class="pre">Catalogs</span> <span class="pre">might</span> <span class="pre">not</span> <span class="pre">be</span> <span class="pre">inteprolated.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W012" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W020">
-<span class="sig-name descname"><span class="pre">W020</span></span><em class="property"> <span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">'{inter_type}'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">registered</span> <span class="pre">interactor.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W020" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W020</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">data</span> <span class="pre">interactor</span> <span class="pre">:</span> <span class="pre">'{inter_type}'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">registered</span> <span class="pre">interactor.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W020" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W021">
-<span class="sig-name descname"><span class="pre">W021</span></span><em class="property"> <span class="pre">=</span> <span class="pre">S3Backend</span> <span class="pre">:</span> <span class="pre">no</span> <span class="pre">'aws_s3_endpoint'</span> <span class="pre">found</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">configuration.</span> <span class="pre">Defaulting</span> <span class="pre">to</span> <span class="pre">AWS.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W021" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W021</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">S3Backend</span> <span class="pre">:</span> <span class="pre">no</span> <span class="pre">'aws_s3_endpoint'</span> <span class="pre">found</span> <span class="pre">in</span> <span class="pre">the</span> <span class="pre">configuration.</span> <span class="pre">Defaulting</span> <span class="pre">to</span> <span class="pre">AWS.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W021" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W40">
-<span class="sig-name descname"><span class="pre">W40</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">Craft</span> <span class="pre">'{name}'</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">load</span> <span class="pre">'{artifact}'</span> <span class="pre">and</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">defaulted.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W40" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W40</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Craft</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">Craft</span> <span class="pre">'{name}'</span> <span class="pre">failed</span> <span class="pre">to</span> <span class="pre">load</span> <span class="pre">'{artifact}'</span> <span class="pre">and</span> <span class="pre">has</span> <span class="pre">been</span> <span class="pre">defaulted.</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W40" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W050">
-<span class="sig-name descname"><span class="pre">W050</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">keys</span> <span class="pre">collision</span> <span class="pre">:</span> <span class="pre">'{keys}'</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W050" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W050</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">keys</span> <span class="pre">collision</span> <span class="pre">:</span> <span class="pre">'{keys}'</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W050" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W051">
-<span class="sig-name descname"><span class="pre">W051</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">Craft</span> <span class="pre">'{craft}'</span> <span class="pre">requires</span> <span class="pre">an</span> <span class="pre">out-of-pipeline</span> <span class="pre">Artifact</span> <span class="pre">'{artifact}'</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W051" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W051</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Pipeline</span> <span class="pre">:</span> <span class="pre">Craft</span> <span class="pre">'{craft}'</span> <span class="pre">requires</span> <span class="pre">an</span> <span class="pre">out-of-pipeline</span> <span class="pre">Artifact</span> <span class="pre">'{artifact}'</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W051" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W060">
-<span class="sig-name descname"><span class="pre">W060</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">AWS</span> <span class="pre">client</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">configured,</span> <span class="pre">as</span> <span class="pre">either</span> <span class="pre">(or</span> <span class="pre">both)</span> <span class="pre">aws_access_key</span> <span class="pre">and...</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W060" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W060</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">AWS</span> <span class="pre">client</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">configured,</span> <span class="pre">as</span> <span class="pre">either</span> <span class="pre">(or</span> <span class="pre">both)</span> <span class="pre">aws_access_key</span> <span class="pre">and...</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W060" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.errors.Warnings.W061">
-<span class="sig-name descname"><span class="pre">W061</span></span><em class="property"> <span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">LakeFS</span> <span class="pre">client</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">configured,</span> <span class="pre">as</span> <span class="pre">either</span> <span class="pre">(or</span> <span class="pre">both)</span> <span class="pre">lakefs_access_key,...</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W061" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">W061</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">Session</span> <span class="pre">:</span> <span class="pre">the</span> <span class="pre">LakeFS</span> <span class="pre">client</span> <span class="pre">was</span> <span class="pre">not</span> <span class="pre">configured,</span> <span class="pre">as</span> <span class="pre">either</span> <span class="pre">(or</span> <span class="pre">both)</span> <span class="pre">lakefs_access_key,...</span></em><a class="headerlink" href="#statisfactory.errors.Warnings.W061" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1413,36 +1853,28 @@ Monkeypatching the formatter is acutalyy the way to do it as recommanded by Pyth
 
               </div>
               
-        
             
-
-
-
-<div class='prev-next-bottom'>
-    
-
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Hugo Juhel<br/>
-        
-            &copy; Copyright 2021, Hugo Juhel.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By Hugo Juhel<br/>
+    
+        &copy; Copyright 2021, Hugo Juhel.<br/>
+  </p>
+</footer>
 </main>
 
 
       </div>
     </div>
   
-  <script src="../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-  
   </body>
 </html>

@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>statisfactory.operator &#8212; Statisfactory  documentation</title>
     
-  <link href="../../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -26,17 +26,20 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
-  <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -63,7 +66,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p class="caption" role="heading">
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Contents:
  </span>
@@ -494,7 +497,7 @@
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -512,7 +515,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -712,7 +715,210 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>statisfactory.operator</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#subpackages">
+   Subpackages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package-contents">
+   Package Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#functions">
+     Functions
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.operator.Craft">
+       Craft
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.operator._Craft">
+       _Craft
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft._artifacts_annotation">
+         _artifacts_annotation
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft._input_to_annotations">
+         _input_to_annotations
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft._output_to_annotation">
+         _output_to_annotation
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.name">
+         name
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.requires">
+         requires
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.produces">
+         produces
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.output_annotations">
+         output_annotations
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.input_annotations">
+         input_annotations
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft._parse_args">
+         _parse_args
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.__call__">
+         __call__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.__copy__">
+         __copy__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft._save_artifacts">
+         _save_artifacts
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.__add__">
+         __add__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.visit_craft">
+         visit_craft
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator._Craft.visit_pipeline">
+         visit_pipeline
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.operator.Pipeline">
+       Pipeline
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Pipeline.name">
+         name
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Pipeline.crafts">
+         crafts
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Pipeline.plot">
+         plot
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Pipeline.__add__">
+         __add__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Pipeline.visit_craft">
+         visit_craft
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Pipeline.visit_pipeline">
+         visit_pipeline
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Pipeline.__str__">
+         __str__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Pipeline.__call__">
+         __call__
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.operator.Scoped">
+       Scoped
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Scoped._sessions">
+         _sessions
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Scoped.get_session">
+         get_session
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.operator.Scoped.set_session">
+         set_session
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="section" id="module-statisfactory.operator">
@@ -751,7 +957,7 @@
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -771,7 +977,7 @@
 </div>
 <div class="section" id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -790,7 +996,7 @@
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.operator.</span></span><span class="sig-name descname"><span class="pre">_Craft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.operator.</span></span><span class="sig-name descname"><span class="pre">_Craft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="scoped/index.html#statisfactory.operator.scoped.Scoped" title="statisfactory.operator.scoped.Scoped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.operator.scoped.Scoped</span></code></a>, <a class="reference internal" href="mixinHookable/index.html#statisfactory.operator.mixinHookable.MixinHookable" title="statisfactory.operator.mixinHookable.MixinHookable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.operator.mixinHookable.MixinHookable</span></code></a>, <a class="reference internal" href="utils/index.html#statisfactory.operator.utils.MergeableInterface" title="statisfactory.operator.utils.MergeableInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.operator.utils.MergeableInterface</span></code></a>, <a class="reference internal" href="../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
 <p>Craft wraps a task and take care of data retrieval from / storage to the catalogue.</p>
 <dl class="py attribute">
@@ -800,55 +1006,55 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft._input_to_annotations">
-<span class="sig-name descname"><span class="pre">_input_to_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="annotations/index.html#statisfactory.operator.annotations.Annotation" title="statisfactory.operator.annotations.Annotation"><span class="pre">statisfactory.operator.annotations.Annotation</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft._input_to_annotations" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_input_to_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="annotations/index.html#statisfactory.operator.annotations.Annotation" title="statisfactory.operator.annotations.Annotation"><span class="pre">statisfactory.operator.annotations.Annotation</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft._input_to_annotations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a Python’s callable annotation, as returned by Signature to a list of SElement</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft._output_to_annotation">
-<span class="sig-name descname"><span class="pre">_output_to_annotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="annotations/index.html#statisfactory.operator.annotations.Annotation" title="statisfactory.operator.annotations.Annotation"><span class="pre">statisfactory.operator.annotations.Annotation</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft._output_to_annotation" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_output_to_annotation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="annotations/index.html#statisfactory.operator.annotations.Annotation" title="statisfactory.operator.annotations.Annotation"><span class="pre">statisfactory.operator.annotations.Annotation</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft._output_to_annotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a Python’s callable return value to a list of SElement.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the name of the craft</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft.requires">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">requires</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.requires" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">requires</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.requires" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the name of the volatiles and artifact required by the craft</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft.produces">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">produces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.produces" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">produces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.produces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the names of the volatiles and artifacts produced by the Craft.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft.output_annotations">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">output_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="annotations/index.html#statisfactory.operator.annotations.Annotation" title="statisfactory.operator.annotations.Annotation"><span class="pre">statisfactory.operator.annotations.Annotation</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.output_annotations" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="annotations/index.html#statisfactory.operator.annotations.Annotation" title="statisfactory.operator.annotations.Annotation"><span class="pre">statisfactory.operator.annotations.Annotation</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.output_annotations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the full annotations of the items returned by the craft</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft.input_annotations">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">input_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="annotations/index.html#statisfactory.operator.annotations.Annotation" title="statisfactory.operator.annotations.Annotation"><span class="pre">statisfactory.operator.annotations.Annotation</span></a><span class="p"><span class="pre">,</span> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.input_annotations" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">input_annotations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="annotations/index.html#statisfactory.operator.annotations.Annotation" title="statisfactory.operator.annotations.Annotation"><span class="pre">statisfactory.operator.annotations.Annotation</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft.input_annotations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the full annotations of the items ingested by the craft.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft._parse_args">
-<span class="sig-name descname"><span class="pre">_parse_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volatiles_mapping</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Mapping</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft._parse_args" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_parse_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volatiles_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Mapping</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft._parse_args" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse the Craft’s arguments against it’s signature</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volatiles_mapping</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft.__call__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">volatiles_mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the call protocole for the Craft wrapper.
 Load and save the Artifact for the undelryaing callable.
 Defers the call to the underlying artifact.</p>
@@ -868,7 +1074,7 @@ kwargs: variadic keywrods arguments to be defered to the underlaying callable.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft._save_artifacts">
-<span class="sig-name descname"><span class="pre">_save_artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">,</span> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft._save_artifacts" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_save_artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Mapping</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator._Craft._save_artifacts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract and save the artifact of an output</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>out (Dict): the dictionnary to extract artifacts from.</p>
@@ -878,7 +1084,7 @@ kwargs: variadic keywrods arguments to be defered to the underlaying callable.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft.__add__">
-<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visitor</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="utils/index.html#statisfactory.operator.utils.MergeableInterface" title="statisfactory.operator.utils.MergeableInterface"><span class="pre">statisfactory.operator.utils.MergeableInterface</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft.__add__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visitor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="utils/index.html#statisfactory.operator.utils.MergeableInterface" title="statisfactory.operator.utils.MergeableInterface"><span class="pre">statisfactory.operator.utils.MergeableInterface</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft.__add__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Combine two crafts into a pipeline.
 Implements the accept part of the visitor pattern.</p>
 <dl class="simple">
@@ -889,7 +1095,7 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft.visit_craft">
-<span class="sig-name descname"><span class="pre">visit_craft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">craft</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.operator._Craft" title="statisfactory.operator._Craft"><span class="pre">_Craft</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft.visit_craft" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">visit_craft</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">craft</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#statisfactory.operator._Craft" title="statisfactory.operator._Craft"><span class="pre">_Craft</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft.visit_craft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Combine two crafts into a pipeline</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>craft (Craft): the other craft to add</p>
@@ -899,7 +1105,7 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator._Craft.visit_pipeline">
-<span class="sig-name descname"><span class="pre">visit_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="pipeline/index.html#statisfactory.operator.pipeline.Pipeline" title="statisfactory.operator.pipeline.Pipeline"><span class="pre">statisfactory.operator.pipeline.Pipeline</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft.visit_pipeline" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">visit_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="pipeline/index.html#statisfactory.operator.pipeline.Pipeline" title="statisfactory.operator.pipeline.Pipeline"><span class="pre">statisfactory.operator.pipeline.Pipeline</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator._Craft.visit_pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add the craft in last position to the visiting pipeline</p>
 </dd></dl>
 
@@ -907,18 +1113,18 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.operator.Pipeline">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.operator.</span></span><span class="sig-name descname"><span class="pre">Pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'noName'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Pipeline" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.operator.</span></span><span class="sig-name descname"><span class="pre">Pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'noName'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="scoped/index.html#statisfactory.operator.scoped.Scoped" title="statisfactory.operator.scoped.Scoped"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.operator.scoped.Scoped</span></code></a>, <a class="reference internal" href="mixinHookable/index.html#statisfactory.operator.mixinHookable.MixinHookable" title="statisfactory.operator.mixinHookable.MixinHookable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.operator.mixinHookable.MixinHookable</span></code></a>, <a class="reference internal" href="utils/index.html#statisfactory.operator.utils.MergeableInterface" title="statisfactory.operator.utils.MergeableInterface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.operator.utils.MergeableInterface</span></code></a>, <a class="reference internal" href="../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
 <p>Implements a way to combine crafts and pipeline togetger</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.Pipeline.name">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Pipeline.name" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Pipeline.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pipeline’s name getter.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.Pipeline.crafts">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">crafts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="craft/index.html#statisfactory.operator.craft._Craft" title="statisfactory.operator.craft._Craft"><span class="pre">statisfactory.operator.craft._Craft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.Pipeline.crafts" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">crafts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="craft/index.html#statisfactory.operator.craft._Craft" title="statisfactory.operator.craft._Craft"><span class="pre">statisfactory.operator.craft._Craft</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.Pipeline.crafts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Crafts getter</p>
 </dd></dl>
 
@@ -930,7 +1136,7 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.Pipeline.__add__">
-<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visitor</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="utils/index.html#statisfactory.operator.utils.MergeableInterface" title="statisfactory.operator.utils.MergeableInterface"><span class="pre">statisfactory.operator.utils.MergeableInterface</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#statisfactory.operator.Pipeline" title="statisfactory.operator.Pipeline"><span class="pre">Pipeline</span></a></span></span><a class="headerlink" href="#statisfactory.operator.Pipeline.__add__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visitor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="utils/index.html#statisfactory.operator.utils.MergeableInterface" title="statisfactory.operator.utils.MergeableInterface"><span class="pre">statisfactory.operator.utils.MergeableInterface</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#statisfactory.operator.Pipeline" title="statisfactory.operator.Pipeline"><span class="pre">Pipeline</span></a></span></span><a class="headerlink" href="#statisfactory.operator.Pipeline.__add__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a Mergeable to the pipeline.
 Implements the accept part of the visitor pattern.</p>
 </dd></dl>
@@ -943,7 +1149,7 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.Pipeline.visit_pipeline">
-<span class="sig-name descname"><span class="pre">visit_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#statisfactory.operator.Pipeline" title="statisfactory.operator.Pipeline"><span class="pre">Pipeline</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Pipeline.visit_pipeline" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">visit_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#statisfactory.operator.Pipeline" title="statisfactory.operator.Pipeline"><span class="pre">Pipeline</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Pipeline.visit_pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update self by adding the crafts from ‘pipeline’.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>pipeline (Pipeline): the pipeline to update and return</p>
@@ -959,7 +1165,7 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.Pipeline.__call__">
-<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">shared</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.Pipeline.__call__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__call__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">shared</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.operator.Pipeline.__call__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Concretely run a Pipeline with two Mapping of parameters.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>kwargs (Optional[Dict[str, any]]): An optionnal mapping containings configuration to be shared and namespaced configuration to be dispatched to the craft.The __call__ method uses the FQN of a craft to accordingly dispatch the configurations.</p>
@@ -973,7 +1179,7 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.operator.Scoped">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.operator.</span></span><span class="sig-name descname"><span class="pre">Scoped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Scoped" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.operator.</span></span><span class="sig-name descname"><span class="pre">Scoped</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Scoped" title="Permalink to this definition">¶</a></dt>
 <dd><p>Thread-safe session getter.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.operator.Scoped._sessions">
@@ -987,7 +1193,7 @@ Implements the accept part of the visitor pattern.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.operator.Scoped.set_session">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">set_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Scoped.set_session" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_session</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.operator.Scoped.set_session" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -999,36 +1205,28 @@ Implements the accept part of the visitor pattern.</p>
 
               </div>
               
-        
             
-
-
-
-<div class='prev-next-bottom'>
-    
-
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Hugo Juhel<br/>
-        
-            &copy; Copyright 2021, Hugo Juhel.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By Hugo Juhel<br/>
+    
+        &copy; Copyright 2021, Hugo Juhel.<br/>
+  </p>
+</footer>
 </main>
 
 
       </div>
     </div>
   
-  <script src="../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-  
   </body>
 </html>

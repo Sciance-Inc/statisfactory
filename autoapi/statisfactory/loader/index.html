@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>statisfactory.loader &#8212; Statisfactory  documentation</title>
     
-  <link href="../../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -26,17 +26,20 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
-  <link rel="preload" as="script" href="../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -63,7 +66,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p class="caption" role="heading">
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Contents:
  </span>
@@ -494,7 +497,7 @@
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -512,7 +515,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -571,7 +574,69 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>statisfactory.loader</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package-contents">
+   Package Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#functions">
+     Functions
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.loader.get_parameters">
+       get_parameters
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.loader.get_pipelines">
+       get_pipelines
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.loader.get_artifacts_mapping">
+       get_artifacts_mapping
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.loader.get_pyproject">
+       get_pyproject
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.loader.get_path_to_target">
+       get_path_to_target
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="section" id="module-statisfactory.loader">
@@ -593,7 +658,7 @@
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -618,13 +683,13 @@
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="statisfactory.loader.get_parameters">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.get_parameters" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.get_parameters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build the parameters definitions by recyrsively injecting pipelines definitions</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="statisfactory.loader.get_pipelines">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_pipelines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="../operator/index.html#statisfactory.operator.Pipeline" title="statisfactory.operator.Pipeline"><span class="pre">statisfactory.operator.Pipeline</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.get_pipelines" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_pipelines</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../operator/index.html#statisfactory.operator.Pipeline" title="statisfactory.operator.Pipeline"><span class="pre">statisfactory.operator.Pipeline</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.get_pipelines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build the pipelines representation by recyrsively injecting pipelines definitions</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>Dict[str, Any]: A mapping of pipelines names to <cite>PipelinesDefinition</cite></p>
@@ -634,7 +699,7 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="statisfactory.loader.get_artifacts_mapping">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_artifacts_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><a class="reference internal" href="../models/models/index.html#statisfactory.models.models.Artifact" title="statisfactory.models.models.Artifact"><span class="pre">statisfactory.models.models.Artifact</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.get_artifacts_mapping" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_artifacts_mapping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../models/models/index.html#statisfactory.models.models.Artifact" title="statisfactory.models.models.Artifact"><span class="pre">statisfactory.models.models.Artifact</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.get_artifacts_mapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>build the catalog data</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>CatalogData: A mapping of artifacts and connectors</p>
@@ -644,13 +709,13 @@
 
 <dl class="py function">
 <dt class="sig sig-object py" id="statisfactory.loader.get_pyproject">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_pyproject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../models/models/index.html#statisfactory.models.models.Pyproject" title="statisfactory.models.models.Pyproject"><span class="pre">statisfactory.models.models.Pyproject</span></a></span></span><a class="headerlink" href="#statisfactory.loader.get_pyproject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_pyproject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">pathlib.Path</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../models/models/index.html#statisfactory.models.models.Pyproject" title="statisfactory.models.models.Pyproject"><span class="pre">statisfactory.models.models.Pyproject</span></a></span></span><a class="headerlink" href="#statisfactory.loader.get_pyproject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open and validate the statisfactory section of the pyproject.toml file</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="statisfactory.loader.get_path_to_target">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_path_to_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#statisfactory.loader.get_path_to_target" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.</span></span><span class="sig-name descname"><span class="pre">get_path_to_target</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pathlib.Path</span></span></span><a class="headerlink" href="#statisfactory.loader.get_path_to_target" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the path to “target” file by executing a “fish pass ;)” from the location of the caller</p>
 </dd></dl>
 
@@ -661,36 +726,28 @@
 
               </div>
               
-        
             
-
-
-
-<div class='prev-next-bottom'>
-    
-
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Hugo Juhel<br/>
-        
-            &copy; Copyright 2021, Hugo Juhel.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By Hugo Juhel<br/>
+    
+        &copy; Copyright 2021, Hugo Juhel.<br/>
+  </p>
+</footer>
 </main>
 
 
       </div>
     </div>
   
-  <script src="../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-  
   </body>
 </html>

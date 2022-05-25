@@ -28,7 +28,6 @@ Functions
    statisfactory.cli.build_notebooks
    statisfactory.cli.run_pipeline
    statisfactory.cli.temp_wd
-   statisfactory.cli.cli
 
 
 
@@ -57,8 +56,5 @@ Functions
 
    Args:
        path (Path): the path to the temp working dir to set.
-
-
-.. py:function:: cli(ctx, path)
 
 

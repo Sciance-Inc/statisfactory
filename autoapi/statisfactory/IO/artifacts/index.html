@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>statisfactory.IO.artifacts &#8212; Statisfactory  documentation</title>
     
-  <link href="../../../../_static/css/theme.css" rel="stylesheet" />
-  <link href="../../../../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+  <link href="../../../../_static/css/theme.css" rel="stylesheet">
+  <link href="../../../../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
 
     
   <link rel="stylesheet"
@@ -26,17 +26,20 @@
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
     
-  <link rel="preload" as="script" href="../../../../_static/js/index.1c5a1a01449ed65a7b51.js">
+  <link rel="preload" as="script" href="../../../../_static/js/index.be7d3bbb2ef33a8344ce.js">
 
     <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
     <script src="../../../../_static/jquery.js"></script>
     <script src="../../../../_static/underscore.js"></script>
     <script src="../../../../_static/doctools.js"></script>
-    <script src="../../../../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script src="../../../../_static/sphinx-book-theme.d59cb220de22ca1c485ebbdc042f0030.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="en" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
     
   </head>
   <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
@@ -63,7 +66,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p class="caption" role="heading">
+        <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
   Contents:
  </span>
@@ -494,7 +497,7 @@
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
-            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+                onclick="printPdf(this)" data-toggle="tooltip" data-placement="left">.pdf</button>
     </div>
 </div>
 
@@ -512,7 +515,7 @@
         </div>
 
         <!-- Table of contents -->
-        <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
             <div class="tocsection onthispage pt-5 pb-3">
                 <i class="fas fa-list"></i> Contents
@@ -632,7 +635,130 @@
 </div>
     <div id="main-content" class="row">
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
-        
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>statisfactory.IO.artifacts</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#submodules">
+   Submodules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#package-contents">
+   Package Contents
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#classes">
+     Classes
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.ArtifactInteractor">
+       ArtifactInteractor
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.ArtifactInteractor.Extra">
+         Extra
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.ArtifactInteractor._interactors">
+         _interactors
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.ArtifactInteractor.__init_subclass__">
+         __init_subclass__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.ArtifactInteractor._dispatch">
+         _dispatch
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.ArtifactInteractor.interactors">
+         interactors
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.ArtifactInteractor.load">
+         load
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.ArtifactInteractor.save">
+         save
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.MixinInterpolable">
+       MixinInterpolable
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.MixinInterpolable._interpolate_string">
+         _interpolate_string
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.Backend">
+       Backend
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.Backend._backends">
+         _backends
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.Backend.__init_subclass__">
+         __init_subclass__
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.Backend.backends">
+         backends
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.Backend.put">
+         put
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.Backend.get">
+         get
+        </a>
+       </li>
+      </ul>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
               <div>
                 
   <div class="section" id="module-statisfactory.IO.artifacts">
@@ -650,7 +776,7 @@
 <h2>Package Contents<a class="headerlink" href="#package-contents" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
-<table class="longtable table autosummary">
+<table class="autosummary longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
 <col style="width: 90%" />
@@ -669,7 +795,7 @@
 </table>
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.ArtifactInteractor">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.</span></span><span class="sig-name descname"><span class="pre">ArtifactInteractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artifact</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.</span></span><span class="sig-name descname"><span class="pre">ArtifactInteractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artifact</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a>, <a class="reference internal" href="#statisfactory.IO.artifacts.MixinInterpolable" title="statisfactory.IO.artifacts.MixinInterpolable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinInterpolable</span></code></a></p>
 <p>Describe the Interactor’s interface.
 An interactor wraps the loading and saving operations of a Artifact.
@@ -690,7 +816,7 @@ The inner class schould be a pydantic dataclasse or a pydantic base model to all
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.ArtifactInteractor.__init_subclass__">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactor_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">register</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interactor_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">register</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor.__init_subclass__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implement the registration of a child class into the artifact class.
 By doing so, the ArtifactInteractor can be extended to use new interactors without updating the code of the class (Open Close principle)
 See PEP-487 for details.</p>
@@ -698,7 +824,7 @@ See PEP-487 for details.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.ArtifactInteractor._dispatch">
-<span class="sig-name descname"><span class="pre">_dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor._dispatch" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">_dispatch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor._dispatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dispatch the variadic arguments the callable.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>callable (Callable): The callable to dispatch arguments to.</p>
@@ -708,18 +834,18 @@ See PEP-487 for details.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.ArtifactInteractor.interactors">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">interactors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor.interactors" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interactors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor.interactors" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.ArtifactInteractor.load">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor.load" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the underlying asset.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.ArtifactInteractor.save">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor.save" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.ArtifactInteractor.save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the underlying asset.</p>
 </dd></dl>
 
@@ -727,7 +853,7 @@ See PEP-487 for details.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.MixinInterpolable">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.</span></span><span class="sig-name descname"><span class="pre">MixinInterpolable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.MixinInterpolable" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.</span></span><span class="sig-name descname"><span class="pre">MixinInterpolable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.MixinInterpolable" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements helpers to interpolate a string</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.MixinInterpolable._interpolate_string">
@@ -739,7 +865,7 @@ See PEP-487 for details.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.Backend">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.</span></span><span class="sig-name descname"><span class="pre">Backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger_name</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">__name__</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.</span></span><span class="sig-name descname"><span class="pre">Backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">__name__</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="../../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a></p>
 <p>Interface for the low level communication with a service (s3, lakefs…) through the exchange of Bytes
 The backend consume and returns Bytes.</p>
@@ -750,7 +876,7 @@ The backend consume and returns Bytes.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.Backend.__init_subclass__">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__init_subclass__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend.__init_subclass__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implement the registration of a child class into the backend class.
 By doing so, the Backend can be extended to use new interactors without updating the code of the class (Open Close principle)
 See PEP-487 for details.</p>
@@ -764,7 +890,7 @@ See PEP-487 for details.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.Backend.backends">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">backends</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.IO.artifacts.Backend" title="statisfactory.IO.artifacts.Backend"><span class="pre">Backend</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.IO.artifacts.Backend" title="statisfactory.IO.artifacts.Backend"><span class="pre">Backend</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend.backends" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">backends</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.IO.artifacts.Backend" title="statisfactory.IO.artifacts.Backend"><span class="pre">Backend</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#statisfactory.IO.artifacts.Backend" title="statisfactory.IO.artifacts.Backend"><span class="pre">Backend</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend.backends" title="Permalink to this definition">¶</a></dt>
 <dd><p>Getter for the registered backends</p>
 <dl class="simple">
 <dt>Returns:</dt><dd><p>Map[str, Type[Backend]]: A mapping of prefixes associated with their respectives backend.</p>
@@ -774,7 +900,7 @@ See PEP-487 for details.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.Backend.put">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">urllib.parse.ParseResult</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend.put" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">put</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">urllib.parse.ParseResult</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend.put" title="Permalink to this definition">¶</a></dt>
 <dd><p>Drop the payload to the service under the ‘path’ name.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>payload (bytes): The bytes representation of the artifact to drop on the backend.
@@ -785,7 +911,7 @@ fragment (ParseResult): The Artifact’s path parsed result to use to put the pa
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.Backend.get">
-<em class="property"><span class="pre">abstract</span> </em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">urllib.parse.ParseResult</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend.get" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fragment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">urllib.parse.ParseResult</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bytes</span></span></span><a class="headerlink" href="#statisfactory.IO.artifacts.Backend.get" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the payload from the service under the ‘path’ name.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>fragment (ParseResult): The Artifact’s path parsed result to use to fetch the payload from.</p>
@@ -802,36 +928,28 @@ fragment (ParseResult): The Artifact’s path parsed result to use to put the pa
 
               </div>
               
-        
             
-
-
-
-<div class='prev-next-bottom'>
-    
-
+                <!-- Previous / next buttons -->
+<div class='prev-next-area'>
 </div>
-        
+            
         </div>
     </div>
     <footer class="footer">
-    <div class="container">
-      <p>
-        
-          By Hugo Juhel<br/>
-        
-            &copy; Copyright 2021, Hugo Juhel.<br/>
-      </p>
-    </div>
-  </footer>
+  <p>
+    
+      By Hugo Juhel<br/>
+    
+        &copy; Copyright 2021, Hugo Juhel.<br/>
+  </p>
+</footer>
 </main>
 
 
       </div>
     </div>
   
-  <script src="../../../../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+  <script src="../../../../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
 
-  
   </body>
 </html>
