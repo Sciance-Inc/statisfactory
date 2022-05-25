@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.12.0 (2022-05-25)
+### Feature
+* Adding missing licence ([`3a224fe`](https://github.com/Sciance-Inc/statisfactory/commit/3a224fe9092df9ce64b78ef46c244b55df8ca679))
+
+### Fix
+* Typo in error path ([`bf44506`](https://github.com/Sciance-Inc/statisfactory/commit/bf44506a54c13e1a1e21d18db3d419f4cbe7e15b))
+
 ## v0.11.1 (2022-02-26)
 ### Fix
 * Fixing test ([`f74cb89`](https://github.com/Sciance-Inc/statisfactory/commit/f74cb89f7073684d90837c288f0b6efb99ac8426))
