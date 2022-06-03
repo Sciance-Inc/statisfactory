@@ -2,7 +2,7 @@
 # Statisfactory
 _A (not yet) Satisfying Statistical Factory_
 
-Primatives for statistical pipelines replication and data centralization (we put the fun out of "statistics").
+Opinionated primatives for statistical pipelines replication and data centralization.
 
 _maintainer_ : hugo juhel : juhel.hugo@stratemia.com
 
@@ -14,7 +14,7 @@ _API documentation_ : https://sciance-inc.github.io/statisfactory/
 
 ## Motivation and Scope
 Statisfactory is a toolbox to apply and replicate a Statistical pipeline. The purpose of the project is double : 
-* Exposing a one-stop-shop with artifacts generates through the analysis by abstracting the location and the retrieval / saving of an artifact away from the Python code ;
+* Exposing a one-stop-shop with artifacts generated through the analysis by abstracting the location and the retrieval / saving of an artifact away from the Python code ;
 * Replicating the same pipeline to multiple inputs, with some input-specific parametrisation done through a yaml based interface.
 
 
@@ -23,52 +23,71 @@ Keep it classy, boys :
 * Use `git flow` and don't directly publish to `master`;
 * Rebase/merge before integrating your changes;
 * Use proper commit messages and follow `commitizen` commits conventions;
-* Use `bump2version` to ... bump the version.
 * I like my code formatted the same way I like my coffee : `Black`. Use-it for code formatting before committing.
 
 ## High level presentation 
 * _Statisfactory_ is based on the idea of `Artifacts`. `Artifacts` are something produced or used by a statistical analysis such as a dataset, a report, a trained model ;
 * _Statisfactory_ abstracts away the definition of the `Artifact` from it's utilisation and storage. The library uses a map between an `Artifact`'s declaration and it's location called a `catalog` ;
-* Any callable that interacts with the `catalog`, by producing or using an `Artifact` can be wraps in a `Craft` ;
+* Any callable that interacts with the `catalog`, by producing or using an `Artifact` can be wraped in a `Craft` ;
 * The `Craft` handles the `Artifact` retrieval and storage from the `Catalog` ;
-* Multiples `Craft` can be chained together, forming a `Pipeline`. Any `Pipeline` can be personnalized through the use of a `Context` and some `Volatile` objects.
+* Multiples `Craft` can be chained together, forming a `Pipeline`. Any `Pipeline` can be personalized through `parameters`
+* `Pipeline` and `parameters` can be defined in `yaml` files and called through a command-line interface.
 
 ## How to use it
 
-__tl;dr : a tl;dr section is available at the end of the documentation__
+__a tl;dr section is available at the end of the documentation__
 
-### Repo skeleton
-
-* _Statisfactory_ requires the `catalog.yaml` file and the `Data` directory to be located together, at the top level of the git repo.
-    * The `Data` directory contains all the `Artifacts` (ie, data, in a broad sense) (and schould then have been called `Artifacts`... let's called that technical debt)
-    * The `catalog.yml` file declare and maps `artifacts` to their location.
+### Repo organisation
+* A _Statisfactory_ repo must be configured through the `pyproject.toml` file of your project.
+* _Statisfactory_ requiers the project to be used with git.
 
 * The following tree show an exemple of a directory using _statisfactory_ :
 
 ```
 .
-├── Data
-│   ├── 10_raw
-│   │   └── foobar.xlsx
-│   ├── 20_transformed
-│   └── 30_output
-│       └── coeff.pkl
+├── lib
+│   └── custom_lib    
+├── catalog
+│   └── raw_data.yaml
 ├── configuration
 │   ├── locals.yml
-│   └── globals.yaml
-└── catalog.yaml
-└── statisfactory.yaml
+│   └── globals.yml
+├── scripts
+│   ├── 10_explanatory_analysis.ipynb
+│   └── 20_modelling.ipynb
+├── pipelines
+│   ├── definitions.yml
+│   └── parameters.yaml
+└── pyproject.toml
+
 ```
 
 * The files :
-    * The `pyproject.statisfactory` is the entrypoint of the applications and contains binding to the other files. The configuration schould be put in the `pyproject.toml` file.
-    * Both `locals.yaml` and `globals.yaml` are key-value configuration files :
-        * `locals.yaml` is not gitted and overwrite the key defined in `globals`. It can be used to store credentials and user dependant variables 
-        * Both files defines key-values that can be statically interpolated in the `catalogs`
-    * `catalog.yaml` contains the definition of artifacts : ie, the outputs and ouptus of the analysis. 
-        * `catalog` can also be defined using folders and subfolders (all `yml|yaml` files are considered as catalogs file)
+    * __pyproject.toml__ : the __statisfactory__ configuration
+      * The `pyproject.statisfactory` is the entrypoint of the applications and contains binding to the other files. The configuration schould be put in the `pyproject.toml` file.
+    * __configuration__ : `pipelines`, `Craft` , Amazon / lakefs configurationss
+      * Both `locals.yaml` and `globals.yaml` are key-value configuration files :
+          * `locals.yaml` schould not be gitted and overwrite the key defined in `globals`. It can be used to store credentials and user dependant variables. 
+          * `globals.yaml` store shared variables.
+          * Both files define key-values that can be statically interpolated in the `catalogs`
+    * __catalog__ : the definition of artifacts : ie, the inputs and outputs of the data science process. 
+        * Multiple `.yaml` can be defined in the `catalog` directory. Each one will be parsed, interpolated (with `globals` and `locals`) and added to the `Catalog` class.
         * `catalog` files are rendered with `Jinja2` using variables defined in `locals` and `globals` files.
+          * So, you can use the power of `Jinaj2` (loop, conditional, etc) to define your `artifacts`.
+    * __lib__ : custom libraries
+        * Custom libraries can be defined in the `lib` directory.
+        * When a statisfactory Session is instanciated, the `lib` directory will be added to the `pythonpath`. Any package / library defined in __lib__ can then be imported in your project.
+        * You can also define `Crafts` in the `lib` directory, and reference them in your pipelines definitions.
+    * __pipelines__: declaring and configuring pipelines
+      * __definitions__ : declaring pipelines
+        * A Pipeline definition is basically a list of `Craft` names. The `Pipeline` is rendered by automagically solving dependencies between `Craft` objects.
+      * __parameters__ : configuring pipelines
+        * A parameter set is an arbitrary mapping of the form _craft name_ : _craft configuration_. 
+        * _craft configuration_ are passed down to crafts at pipeline execution time.
+    * __scripts__ : the `ipynb` files containing your analysis.
+      * Datascientists love `ipynb` files (_Eerk_ ). So `statisfactory` can parse any `ipynb` file and render any found `Craft` (by extracting all `craft` annotated cell) into __lib__, to make them usable from your pipelines.
 
+> All folders / files names are conventional and can be changed through the `statisfactory` section of the `pyproject.toml` file.
 ### Populating files
 
 #### `pyproject.toml`
@@ -79,25 +98,26 @@ __tl;dr : a tl;dr section is available at the end of the documentation__
 
 # The name of the project. ShcoUld ideally be the Git repo name.
 # it's advised to use the slug for LakeFS, S3's bucket and LakeFS
-project_slug = "exemple"
+# At stati's Session instanciation, an S3 bucket will be created with this name, as well as a LakeFS project (caveat: only if credentials are provided for respectively s3 and lakefs).
+project_slug = "exemple" 
 
 # The directory containing the globals and locals files
-configuration = "conf"
+configuration = "configuration"
 
 # The path to the Catalog file or to the root of the directory containing catalogs
-catalog = "conf/catalog.yaml"
+catalog = "catalogs"
 
 # The directory containing sources and packages to be made available to pipelines and crafts. Every python packages / script added to this folder is made available for import
-sources = "Lib"
+sources = "lib"
 
 # The root packages (inside "sources") in / from which the craft parsed definition would be store.
-notebook_target = "__compiled__"
+notebook_target = "jupyter"
 
-# The file or the folders of yamls files containing the pipeline definitions : the pipeles use craft defined in scripts and builded into "sources"
-pipelines_definitions = "Pipelines/definitions/pipelines.yaml"
+# The file or the folder of yamls files containing the pipeline definitions : the pipelines use crafts defined in scripts and builded into "sources" or crafts directly defined in sources.
+pipelines_definitions = "pipelines/definitions/pipelines.yaml"
 
-# The file or the folders of yamls files containing the configurations definitions 
-parameters = "Pipelines/configurations/pipelines.yaml"
+# The file or the folder of yamls files containing the parameters definitions 
+parameters = "pipelines/configurations/pipelines.yaml"
 ```
 
 #### `globals` and `locals`
@@ -106,43 +126,96 @@ parameters = "Pipelines/configurations/pipelines.yaml"
     * by the `Session` object, the very root of the a `Stati` application. 
         * Some `ArtifactInteractors` / `InteractorsBakend` / `SessionHook` such as the __aws s3 backend__ or the __lakefs__ backend use __AWS_SECRET_KEY__ defined in `globals` or `locals` file.
         * This can be used to provide variables to your own Statisfactory extensions.
-#### `catalog` files
-_Connectors are going to be completely reworked to be merged into a new SQLArtifact_
+### `catalog` files
 
-* The `Catalog` centralize the `Artifacts` definitions
+* The `Catalog` centralize the `Artifact` objects definitions
+* A `Catalog` files accepts a list of `Artifact` definitions (represented as yaml dictionaries).
+* The general syntax for an `Artifact` definition is :
+  
+```yaml
+- name: data # the friendly name of the artifact
+  type: csv # the type of the artifact. One of [csv, pickle, binary, datapane, odbc, feather, <your custom artifact>]
+  extra: # an artifact's specific configuration.
+    foo: bar # a list of key-value pair, specific to the artifact configuration
+```
 
-* The `catalog.yaml` accepts a list of artifacts (represented as yaml dictionaries:
-    * an __artifact__ must minimaly have the followings properties : 
-        * the __type__ (csv, excel, odbc)
-        * the __name__ of the artiface
-    * an __artifact__ can have the followings attributes :
-        *  __extra__ : an arbitrary mapping (potentialy validable against a __pydantic__ model) of arguments to dispatch to the class in charge of the __Artifact__ deserialization
-        *  __load_options__ and __save_options__ : two arbitraries mappings to be used in the __load__ and __save__ methods of the class in charge of the __Artifact__ deserialization.
+#### Mandatory keys : `name`, `type`, `extra`
+* An `Artifact` definition must minimaly have the followings properties : 
+    * the __type__ of the artifact (csv, excel, odbc,....)
+    * the __name__ of the artifact
+    * An __extra__ mapping, use to configure the artifact
+      * The extra section is specific to the artifact'type.
 
-* The __artifacts__ exposes the following attributes :
-    * __type__ : the defaults type of the connector : can be one of `odbc`, `csv`, `xslx`, `datapane`, `pickle`.
-        * `pickle` is used to serialize an object
-        * `odbc` is used to execute an sql query against a connector
-        * `datapane` is used to save a report build using datapane
-    * __ODBC__ connectors expect the following attributes in __Extra__:
-      * __connection_string__ the DSN / connection string to use
-      * __query__ : the sql query to execute. __Required for `type==odbc`__
-    * __datapane, pickle, csv, xlsx__, expect the following attribute in the extra fields:
-      * __path__ : the path to the artifact.
-        * The backend (__s3__, __local filesyste__, __lakefs__) can be specified through the use of the protocole name.
+#### Optional keys : `load_options` and `save_options`
+* The `load_options` and `save_options` are mapping that can be used to configure the artifact's loading and saving.
+* I mainly (only) use them :
+  * to force type casting for the `odbc` artifact
+  * to configure the index for the `pandas` interactor
+* `load_options` / `save_options` are dispatched to the `ArtifactInteractor.load` / `ArtifactInteractor.save` methods
 
-* The `Artifact`'s __path__ attribute can contains __dynamically interpolated variables__ variables. Such a variable is a placeholder for contextualized values, defined at runtime (as opposed to the ones statically defined into `globals|locals` andi nterpolated at the catalog rendering ). 
+#### Deep dive : Extra mapping
+* Most of the `Artifact` objects need some specific informations to load / save the `Artifact`. For instance, for the `odbc` artifact, you need to provide the query to be executed against the datbase. 
+* The extra mapping is as it goes :
 
-* Only `Artifacts` declared in the catalog can be loaded / saved using statisfactory. 
+__csv__ / __excel__ / __datapane__ / __pickle__ / __binary__
+```yaml
+name: foo
+type: csv
+extra:
+    path: fooo # The path the the csv file
+```
 
-##### `catalog.yaml` exemples
+__odbc__
+```yaml
+name: foo
+type: odbc
+extra:
+    query: SELECT * FROM FOO
+    connection_string: The connection string to use to connect (with crendentials interpolated from globals or locals ;) )
+```
+
+#### Deep dive : protocol and backend
+> For __path-based__ `Artifact` only
+
+* Some `Artifact` are retrieved from / stored to a files system.
+* __Statisfactory__ support three files system, called `Backend` (you can of course create your own backends) :
+  * __S3__ is the prefered backend when using an Amazon like data lake (Aws s3, Minio)
+  * __lakefs__ is usefull if you already have a __lake-fs__ instance.
+  * __local__ is _not really usefull_ as you schouldn't store data on your computer (Waht an opiniated micro-framework)
+* One can set the backend for a specific `Artifact` by prefixing `Extra.path` attribute with the name of the backend : e.g :
+  * `s3://my-project/foo.csv` tells __Statisfactory__ to store the data on __s3__
+    * `AWS_SECRET_KEY` and `AWS_ACCESS_KEY` must be provided through `globals` or `locals` (definitely locals !)
+  * `lakefs://my-project/foo.csv` tells __Statisfactory__ to store the data on __lakefs__
+    * `LAKEFS_ACCESS_KEY`, `LAKEFS_SECRET_ACCESS_KEY`, `LAKEFS_ENDPOINT` must be provided through `globals` or `locals`, 
+
+* The `extra` mapping is a dataclasse declared as a companion object in the `Artifact` definition. Please, refers to this declaration to know how to configure the `extra` mapping for the `Artifact` you want to use. 
+
+#### Deep dive : automating the automation with `Jinja2` 
+> To many `Artifacts` ? Keep calm and rander templates ! 
+
+* Defining a lot of `Artifacts` can be cumbersome (I have beers to drink instead ;( ). 
+* __Statisfactory__ natively supports `Jinja2` templates in the `Catalog` files as well as the `Parameters` files (c'est-tu hot un peu ?).
+* Jinja2 templates are rendered with the `globals` and `locals` dictionaries (you can add custom logic by customizing the `Session` object).
+* So, you can natively use :
+  * Simple Jinja2 interpolation : `{{ interpolate_me_please }}` 
+  * Jinja2 `for` loops : `{% for artfs in ['data_matrix', 'test_set'] %}`
+  * Jinja2 `if` statements : `{% if environment == 'production' %}`
+
+#### Deep dive : defining `Artifact` within a constant
+* `Artifact` defined manually or with Jinja, are somehow static. 
+* When doing data-science in the wild, you might need to define _variations_ of a given Artifact. For instance, you might want to serialize __n__ multiple logistic regression, with different parameters.It would not be praticable to template __n__ `Artificat` objects through Jinja2. 
+* __Statisfactory__ allows you to define `Artifact` _within a constant_, using __dynamic__ interpolation. The interpolation is then done at runtime, using data provided at the `Artifact` loading / saving time.
+* By default, only the `Extra.path` and `Extra.query` are interpolable. Once again, feel free to add your own `Artifact` classes with custom interpolations strategies.
+* Use the `!{value}` to indicate an interpolable variable.
+
+#### `catalog.yaml` : an exemple
 * The following snippet shows various interpolations technics and several uses cases for the extra arguments, specifics to each interactor type.
 
 ```yaml
 - name: qaiData
   type: odbc
   extra:
-    connection_string: DRIVER={ODBC Driver 17 for SQL Server};SERVER=myServer.com;DATABASE=myDatabase;
+    connection_string: DRIVER={ODBC Driver 17 for SQL Server};SERVER=myServer.com;DATABASE={{ datastore.database }};UID={{ datastore.user }};PWD={{ datastore.password }}
     query: SELECT TOP 10 * FROM SYSOBJECTS WHERE xtype = 'U';
 - name: testDataset
     type: csv
@@ -160,57 +233,69 @@ _Connectors are going to be completely reworked to be merged into a new SQLArtif
   extra:
     path: 30_output/model_!{samples}/coeff.pkl
 ```
+
+### I'm done defining my `Artifact`, let's start using them !
+Once you have defined your `Artifact`s, you can use them in your python code. To do so, you must first instanciate a `Session` object. The `Session` is in charge of wiring up everything you have been configuring.
+
+In your repo : create a _python_ or an _ipynb_ file and instanciate a `Session` object : 
+
+```python
+from statisfactory import Session
+
+sess = Session()
+```
+
+Boum ! Your are done !
+
+#### Loading / saving an `Artifact`
+* You can now read and save your precious `Artifact` by interacting with the `catalog` property of your `Session`.
+
+* Use the __load__ method to fetch an `Artifact`
+```python
+df = sess.catalog.load('data_matrix')
+```
+
+* Use the __save__ method to store an `Artifact`
+```python
+sess.catalog.save('data_matrix', df)
+```
+
+* You can also use additional data to interpolate the __dynamic__ `Artifact` path / query (you know, the weird `!{client_name}` thing)
+
+```python
+df = sess.catalog.load('data_matrix', client_name='jean-michel-client')
+sess.catalog.save('data_matrix', df, client_name='jean-michel-client')
+```
+
 ### Analysing data, one `Craft` at a time.
+> Obviously, data science is not about saving data, but more about analysing data. __Stati__ helps you to do this, by providing a set of tools to chain your operations. 
 
-#### The `Session` object
-* A `session` is the entry point of a `Statisfactory` application and give the uses access to the `Catalogue` as well as the `pipelines_definitions` and  `parameters`
-* When instanciated in a stati-enabled repo, the `Session` will try to find the `statisfactory.yaml` in the current folder and it's parents.
-
+* Manually loading and saving your data is not really usefull.
+* Instead of directly interacting with the `catalog` property, you can define `Craft`. A `Craft` is a callable that takes datas and outputs datas (looks promising -_-).
+* Ideally, the `Craft` also embed the **logic** underlaying the transformation of the __input__ into the __output__.
+  
+To define a `Craft`:
+* Import the `Craft` and `Artifact` objects from __Statisfactory__ : 
 ```python
-from statisfactory import Session
-
-sess = Session()
-
-# Optionaly, one can tels Stati to use a specific path to a folder containing a statisfactory.yaml file
-sess2 = Session(path="foo/bar/")
-
+from statisfactory import Craft, Artifact
 ```
-#### The `Catalog` object
-
-* The `Catalog` can be used to load / save `Artifacts`, using the __name__ of the `Artifact`.
-* The `Catalog` can be accessed from an active `Session`
-
+* Decorate your function (aka, the 'logic') with `@Craft`
 ```python
-from statisfactory import Session
-
-# Initiate a session
-sess = Session()
-
-# Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
-catalog = sess.catalog
-
-# catalog can then be used to get / save data
-df = catalog.load("masterFile")
-df['foo'] = 'foo'
-catalog.save("masterFile", df)
+@Craft()
+def add_cols:
+...
+```
+* Use __type hinting__ to indicate the input and the output of your function
+```python
+@Craft()
+def add_cols(data_matrix: Artifact) -> Artifact('dataframe'):
+    return data_matrix.assign(col=1)
 ```
 
-* if required, named arguments can be used as context to interpolate the _dynamic values_ in the artifacts's path declaration.
+Boum ! You have successfully defined a `Craft` ! 
+When called, the `Craft` will automagically pull the `data_matrix` (an `Artifact` defined in the `Catalog`) and store the result of the function under the `dataframe` Artifact.
 
-```python
-from statisfactory import Session
-
-# Initiate a session
-sess = Session()
-
-# Initiate a catalog to your poject (ie, the folder containing Data and catalog.yaml)
-catalog = sess.catalog
-
-# catalog can then be used to get / save data
-df = catalog.load("coeffs", samples=10)  # Dynamically interpolating the 'samples' as defined in the catalog
-```
-
-### The `Craft` object and how did I finally find a way to mess up with the `inspect` package
+#### The `Craft` object and how did I finally find a way to mess up with the `inspect` package
 
 * The `Craft` is a decorator used to automagically load and saved `Artifacts` from the `catalog`.
 * The craft uses:
@@ -237,7 +322,7 @@ with sess:
     show_df()
 ```
 
-* Artifact to serialise are indicated through the Typed signature. Use the `Artifact`'s and `Volatile`'s name to (resp.) persist them or add them to the Session context.
+* Artifact to serialize are indicated through the Typed signature. Use the `Artifact`'s and `Volatile`'s name to (resp.) persist them or add them to the Session context.
 
 ```python
 from statisfactory import Session, Craft, Artifact
@@ -245,9 +330,9 @@ from statisfactory import Session, Craft, Artifact
 # Initiate a Stati session
 sess = Session()
 
-# Declare and wraps a funtion that UPDATE an artifact
+# Declare and wraps a funtion that create a new artifact
 @Craft()
-def add_col(masterFile: Artifact) -> Artifact("masterFile"):
+def add_col(masterFile: Artifact) -> Artifact("masterFile2"):
     masterFile["foo"] = 1
     
     return masterFile
@@ -279,7 +364,7 @@ with sess:
     show_top(5)
 ```
 
-* You can return multiples `Artifacts` and `Volatile` with the `tuple` notation.
+* You can return multiples `Artifacts` and `Volatile` with the `of` notation.
 
 
 ```python
@@ -290,7 +375,7 @@ sess = Session()
 
 # Declare and wraps a funtion that uses an artifact and returns two artifacts
 @Craft()
-def duplicate(masterFile: Artifact) -> (Artifact("masterFile"), Artifact("DuplicatedMasterFile")):
+def duplicate(masterFile: Artifact) -> Artifact.of("masterFile", "DuplicatedMasterFile"):
     
     return masterFile, masterFile
 
@@ -298,11 +383,12 @@ with sess:
     duplicate()
 ```
 
+
 ### Writting a `Pipeline` for lazzy Statisticians
 
 * `Pipelines` are built by summing `Crafts`.
 * Once defined, a `Pipeline` must be called to be executed.
-* One way to declare pipeline, is to __add__ some crafts togethers. Crafts are executed by solving dependencies between `Craft`.
+* One way to declare pipeline, is to __add__ some crafts togethers. Crafts are executed by solving dependencies (ie output/input dependencies) between `Craft`.
 * You can call `print` on a pipeline to display a textual representation of the DAG (with it's execution order)
 * You can call the `plot()` method on a pipeline to display the DAG. The `graphviz` and `pygraphviz` must have been installed.
 
@@ -338,11 +424,11 @@ with sess:
 
 p = show_top + add_col
 
-#  Note that dependencies have been corected.
+#  Note that dependencies have been corrected.
 print(p)
 
 
-#  Note that dependencies have been corected.
+#  Note that dependencies have been corrected.
 p.plot()  # Require graphviz
 ```
  
@@ -376,7 +462,7 @@ with sess:
 ```
 
 #### "Same-same but different", contextualizing pipelines
-* As for the `Crafts`, you can pass options, or interpolating variables for the path interpolation to the `Pipeline` when calling it. The following example shows how you can execute the the same `Pipeline` with differents options.
+* As for the `Craft`, you can pass options, or interpolating variables for the `Extra.path / query` interpolation to the `Pipeline` when calling it. The following example shows how you can execute the same `Pipeline` with differents options.
 
 ```python
 from statisfactory import Session, Craft, Artifact
@@ -388,6 +474,8 @@ catalog = Session()
 @Craft()
 def add_col(masterFile: Artifact, val=1) -> Artifact('augmentedFile'):
     masterFile["foo"] = val
+    
+    return masterfile
 
 # Declare and wraps a funtion that uses an artifact
 @Craft()
@@ -404,7 +492,7 @@ with sess:
 ```
 
 #### One does not simply dispatch arguments
-* By default, a parameter dispatched while calling a pipeline is dispatched to all `Crafts` in a pipeline. Such a parameter is named a `shared` parameter. Parameters can be namespaced using thhe name of the Craft. 
+* By default, a parameter dispatched while calling a pipeline is dispatched to all `Crafts` in a pipeline. Such a parameter is named a `shared` parameter. Parameters can be namespaced using the name of the Craft. 
 * Namespaced parameters have an higher precedence over shared ones.
 
 
@@ -419,6 +507,8 @@ catalog = Session()
 def add_col(masterFile: Artifact, val=1) -> Artifact('augmentedFile'):
     masterFile["foo"] = val
 
+    return masterFile
+
 # Declare and wraps a funtion that uses an artifact
 @Craft()
 def show_top(top, augmentedFile: Artifact):
@@ -427,7 +517,7 @@ def show_top(top, augmentedFile: Artifact):
 # Define the pipeline, with the `add` interface
 p = add_col + show_top
 
-# Define a namespaced configuration (Note the shared params alongside the namespaced one)
+# Define a namespaced configuration (Note the shared param alongside the namespaced ones)
 config = {
     "add_col": {"top":10},
     "show_top": {"val":3},
@@ -441,7 +531,7 @@ with sess:
 
 #### Plumbing pipelines together
 
-* You can merge `Pipelines` togethers using the __+__ operator. The `Crafts` are executed in the order they are added
+* You can merge `Pipelines` togethers using the __+__ operator. Between `Crafts` dependencies will be solved anyway.
 * Note that the __left__ pipelines is actually mutated.
 
 ```python
@@ -452,9 +542,12 @@ x = p1 + p # 1 > 2 > 3
 y = p + p1 # 2 > 3 > 1
 ```
 
-#### ~~Fantastics~~ Volatile beasts and where to ~~find~~ persists them.
 
-* Variables returned by a `Craft` but __not__ declared in the `Catalog` will be added to the context and cascaded to the subsequent `Crafts` requiring them. Use the `Volatile` class to indicate the name of the objects to keep. Warning / error will be raised if keys collide.
+#### ~~Fantastics~~ Volatile beasts and where to ~~find~~ persists them.
+> Life is too short to define every single `Artifact` ! You can define 'not-persisted' `Artifacts` (donc pas des artifacts en fait) called ... `Volatile`.
+
+* A `Craft` can return or consume a `Volatile` object. A `Volatile` is a **not-persisted** `Artifact`. By not-persisted, I meean, not define in the `Catalog`.
+* `Volatile` behave as their persisted couterpart : they can be used to pass data between `Craft`s, and the dependencies solving mechanism still holds. They also got the `.of` method.
 
 ```python
 from statisfactory import Craft, Session, Volatile
@@ -480,8 +573,167 @@ with sess:
     out = p()
 
 out["myValue"]
-
 ```
+
+### Defining `pipelines` definitions and parameters through a yaml file (with some Jinja)
+
+#### definitions
+> Operators schould reference `Craft` either manually defined in `sources.something` or in `notebooks.something` and rendered into `sources.jupyter` by a call to `statisfactory compile`
+* Pipelines definitions are `yaml` files, that are loaded and rendered at the `Session` loading.
+* The following snippet shows a pipeline definition.
+
+```yaml
+fetch_design_matrix:
+  operators:
+    - jupyter.data_moving.move_artifacts.move_then
+    - jupyter.design_matrix.build_design_matrix.concat_aspects
+build_modelling_tuples:
+  operators:
+    - jupyter.modelling_tuple.build_modelling_tuple_droppers.build_modelling_tuple_droppers
+    - jupyter.modelling_tuple.build_modelling_tuple_exam.build_modelling_tuple_p6
+full_experience: # Combine the two previous pipelines into a single one with solved dependencies between crafts
+  operators:
+    - fetch_design_matrix
+    - build_modelling_tuples
+```
+
+#### Configurations
+> Configurations are namespaced by the fully qualified name of the craft (package.module.craft)
+* Multiple configurations can be defined.
+* Configuration schould primary be used to be executed with a `Pipeline`
+
+* The following snippet shows a pipeline configuration.
+
+```yaml
+# ----- Base config ----- #
+base_predict: # The name of the configuration
+  shared_param_1: foo # A parameter shared among all crafts
+  shared_param_2: bar # A parameter shared among all crafts
+  jupyter.modelisation.prediction.step_predict: # The FQN of the craft
+    ... # The parameters of the step_predict craft
+
+custom_predict:
+  _from: # A list of configs to inherit from
+    - base_predict 
+    - foobar 
+  MODEL_NAME: foobar # # Another shared parameter
+```
+
+Since `configurations` support Jinja2, you can do some ~~really obfuscated pipelines configurations~~ tidy definitions.
+
+```yaml
+# prediction specific configuration
+
+# ----- CSS / models selections ----- #
+{% set to_render = [] %}
+{% for css, models in generation.css.items() %} # generation.css is a dictonary defined in globals.yaml
+  {% for model_name, targets in models.items() %}
+    {% for target in targets %}
+      {% set fqn = css + '_' + model_name + '_' + target %}
+      {% if fqn not in generation.exclusions.predict_models %}  # exlusion are defined in globals.yaml
+      {{- to_render.append([css, model_name, target, fqn]) or '' -}}
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+{% endfor %}
+
+# ----- Base config ----- #
+base_predict:
+  jupyter.modelisation.prediction.step_predict: # The configuration to be used for the step_predict's craft
+    prediction_pipeline_name: default_prediction_pipline
+    prediction_pipeline_configuration:
+      jupyter.modelisation.prediction.fetch_models:
+        models_descriptors_names:
+          - xgboost_descriptor
+
+# ----- Client and  model specific configuration ----- #
+# Automagically create new configurations with client's specific details
+{% for css, model_name, target, fqn in to_render %}
+predict_{{ fqn }}:
+  _from:
+    - base_predict  # inherit from the base configuration
+  # Add some clients specific shared parameters
+  CSS: {{ css }}
+  MODEL_NAME: {{ model_name }}
+  MODEL_TARGET: {{ target }}
+{% endfor %}
+``` 
+
+### Introspection
+* `Pipeline` (and `Craft`), `Parameters`, `globals / locals` can be programatically accessed through the `Session` object.
+
+```python
+from statisfactory import Session
+
+sess = Session()
+
+param = sess.parameters # is a getter of all parameters defined
+
+# use pipelines_definitions to manipulate pipelines
+pipelines = sess.pipelines_definitions
+pipeline = pipelines['my_awsome_pipeline']
+
+sess.settings['parameter_defined_in_global']
+```
+
+#### Interacting with the `Session` from inside the `Craft`
+> Instanciating a session from inside a `Craft` might result in circular-import related errors and other unexpected behaviors. Please, use `get_session` instead.
+
+* Sometimes, we need to access the `Session` from inside a `Craft` to, let's say :
+  * Fetch and launch a `Pipeline`
+  * Fetch a constant defined in a parameter.
+* To do so, you need to use the special (thread-safe) `Session.get_session()` method.
+
+The following exemple show how one can use the Session to manually launch an `Pipeline`
+
+```python
+from statisfactory import Session, Artifact
+
+sess = Session()
+
+@Craft()
+def start_training_pipeline(data: Artifact, inner_pipeline_name = 'default'):
+    """Start a training pipeline"""
+
+    # Get the outermost session on the stack, and fetch the pipeline definition
+    sess = Session.get_session()
+    pipeline = sess.pipelines_definitions[inner_pipeline_name]
+
+    # There is no need to wraps the call with a `with` statment as the outer craft will be called in a Session
+    pipeline(data=data)
+
+with sess:
+    start_training_pipeline()
+```
+
+# Interacting with the `Session` from the Command-line
+> The CLI is (badly) designed to trigger pipeline execution
+
+From a terminal, in a stati-enable project, you can :
+* Interact with the pipelines
+```bash
+statisfactory pipelines ls # list all pipelines
+statisfactory pipelines describe <pipeline s name>  # Get the pipeline definition, and the executions stages
+```
+
+* Interact with the parameters / configurations
+```bash
+statisfactory configurations ls # list all configurations
+statisfactory configurations describe <configuration s name>  # Get the configuration
+```
+
+* Interact with the artifacts
+```bash
+statisfactory artifacts ls # list all artifacts
+statisfactory artifacts describe <artifact s name>  # Get the artifact detailed
+```
+
+* Run a pipeline with, optionally, a configuration :
+```bash
+statisfactory pipelines run <pipeline s name>
+statisfactory pipelines run -c [configuration s name] <pipeline s name>
+```
+
 # tl;dr show-me-the-money
 
 * The following example create a pipeline that create a dataframe, run a regression on it and save the coeff of the regression. The `Pipeline` is personnalized by the number of samples to generate. The `catalog.yaml` uses a variable path, to store the differents coeffiencts.
