@@ -734,6 +734,12 @@ statisfactory pipelines run <pipeline s name>
 statisfactory pipelines run -c [configuration s name] <pipeline s name>
 ```
 
+* Parse the notebooks (location defined by `source` (in the pyproject)) and move them to `lib`
+  * The cell must be annotated with `craft` (lowercase) for it to be extracted.
+```bash
+statisfactory compile
+```
+
 # tl;dr show-me-the-money
 
 * The following example create a pipeline that create a dataframe, run a regression on it and save the coeff of the regression. The `Pipeline` is personnalized by the number of samples to generate. The `catalog.yaml` uses a variable path, to store the differents coeffiencts.
