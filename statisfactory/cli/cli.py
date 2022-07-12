@@ -32,6 +32,7 @@
 #############################################################################
 
 # system
+from email.policy import default
 from pathlib import Path
 
 # third party
@@ -115,14 +116,8 @@ def compile(ctx):
 
 @cli.command()
 @click.pass_context
-@click.argument("pipeline")
-@click.option(
-    "-c",
-    "--configuration",
-    default=None,
-    type=str,
-    help="A configuration to be used for this pipeline run.",
-)
+@click.argument("pipeline", required=True)
+@click.argument("configuration", default=None, required=False, type=str)
 def run(ctx, pipeline: str, configuration: str):
     """
     Run a pipeline with a given configuraiton.

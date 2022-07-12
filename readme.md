@@ -706,7 +706,7 @@ with sess:
     start_training_pipeline()
 ```
 
-# Interacting with the `Session` from the Command-line
+# Interacting with `Statisfactory` from the Command-line
 > The CLI is (badly) designed to trigger pipeline execution
 
 From a terminal, in a stati-enable project, you can :
@@ -730,8 +730,7 @@ statisfactory artifacts describe <artifact s name>  # Get the artifact detailed
 
 * Run a pipeline with, optionally, a configuration :
 ```bash
-statisfactory pipelines run <pipeline s name>
-statisfactory pipelines run -c [configuration s name] <pipeline s name>
+statisfactory run <pipeline name> [configuration name]
 ```
 
 * Parse the notebooks (location defined by `source` (in the pyproject)) and move them to `lib`

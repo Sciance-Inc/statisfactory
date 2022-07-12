@@ -30,6 +30,7 @@
 #                                 Packages                                  #
 #############################################################################
 
+from typing import Optional
 from pathlib import Path
 from statisfactory import Session
 from statisfactory.errors import Errors
@@ -39,7 +40,7 @@ from statisfactory.errors import Errors
 #############################################################################
 
 
-def run_pipeline(path: Path, pipeline_name: str, parameters_name: str = None):
+def run_pipeline(path: Path, pipeline_name: str, parameters_name: Optional[str] = None):
     """
     Execute a pipeline against a provided configuration
 
