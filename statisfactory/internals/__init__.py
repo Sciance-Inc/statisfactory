@@ -17,4 +17,4 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from .maker import UserInjected, Prototype
+from .user_injected import UserInjected, Prototype
