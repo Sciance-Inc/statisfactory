@@ -1,7 +1,7 @@
-:py:mod:`statisfactory.internals.maker`
-=======================================
+:py:mod:`statisfactory.internals.user_injected`
+===============================================
 
-.. py:module:: statisfactory.internals.maker
+.. py:module:: statisfactory.internals.user_injected
 
 .. autoapi-nested-parse::
 
@@ -17,8 +17,8 @@ Classes
 
 .. autoapisummary::
 
-   statisfactory.internals.maker.Prototype
-   statisfactory.internals.maker.UserInjected
+   statisfactory.internals.user_injected.Prototype
+   statisfactory.internals.user_injected.UserInjected
 
 
 
@@ -27,7 +27,7 @@ Functions
 
 .. autoapisummary::
 
-   statisfactory.internals.maker._add_path
+   statisfactory.internals.user_injected._add_path
 
 
 

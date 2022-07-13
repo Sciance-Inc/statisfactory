@@ -202,10 +202,10 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="../../internals/maker/index.html">
+        <a class="reference internal" href="../../internals/user_injected/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.internals.maker
+           statisfactory.internals.user_injected
           </span>
          </code>
         </a>
@@ -531,10 +531,20 @@
     <a class="reference internal nav-link" href="#functions">
      Functions
     </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attributes">
+     Attributes
+    </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.gen_dictionaries_representation">
-       gen_dictionaries_representation
+      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.MODELS">
+       MODELS
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.gen_as_model">
+       gen_as_model
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -553,8 +563,8 @@
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.merge_dict">
-       merge_dict
+      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.override_merge_dict">
+       override_merge_dict
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -595,10 +605,20 @@
     <a class="reference internal nav-link" href="#functions">
      Functions
     </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#attributes">
+     Attributes
+    </a>
     <ul class="nav section-nav flex-column">
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.gen_dictionaries_representation">
-       gen_dictionaries_representation
+      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.MODELS">
+       MODELS
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.gen_as_model">
+       gen_as_model
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -617,8 +637,8 @@
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.merge_dict">
-       merge_dict
+      <a class="reference internal nav-link" href="#statisfactory.loader.yaml_utils.override_merge_dict">
+       override_merge_dict
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
@@ -652,34 +672,56 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils.gen_dictionaries_representation" title="statisfactory.loader.yaml_utils.gen_dictionaries_representation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gen_dictionaries_representation</span></code></a>(path: pathlib.Path, render_vars: Dict[str, Any] = None) → Iterator[Dict[str, Any]]</p></td>
-<td><p>Parse all the yamls files stored a 'path'.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils.gen_as_model" title="statisfactory.loader.yaml_utils.gen_as_model"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gen_as_model</span></code></a>(path: pathlib.Path, model: MODELS, render_vars: Optional[Dict[str, Any]] = None) → Generator[Tuple[Optional[str], MODELS], None, None]</p></td>
+<td><p>Parse all the yamls files stored a 'path' and returr of generator of deserialized models</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils._load_template" title="statisfactory.loader.yaml_utils._load_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_load_template</span></code></a>(template: str) → Dict[str, Any]</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils._load_template" title="statisfactory.loader.yaml_utils._load_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_load_template</span></code></a>(template: str) → Union[List, Dict[str, Any]]</p></td>
 <td><p>Load template and return dictionary representation fo the yaml.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils._render_template" title="statisfactory.loader.yaml_utils._render_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_render_template</span></code></a>(path: pathlib.Path, render_vars: Dict[str, Any] = None) → str</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils._render_template" title="statisfactory.loader.yaml_utils._render_template"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_render_template</span></code></a>(path: pathlib.Path, render_vars: Optional[Dict[str, Any]] = None) → str</p></td>
 <td><p>Render the Jinja2 template from 'path' with  interpolated varaibles from 'render_vars'.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils._gen_yamls" title="statisfactory.loader.yaml_utils._gen_yamls"><code class="xref py py-obj docutils literal notranslate"><span class="pre">_gen_yamls</span></code></a>(path: pathlib.Path) → Iterator[pathlib.Path]</p></td>
 <td><p>Iterates over all the yamls found at the 'path' location.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils.merge_dict" title="statisfactory.loader.yaml_utils.merge_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">merge_dict</span></code></a>(*dicts: Iterator[Dict], collide=True) → Dict</p></td>
-<td><p>Merge a list of dict in a python 3.5 comptible way</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils.override_merge_dict" title="statisfactory.loader.yaml_utils.override_merge_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">override_merge_dict</span></code></a>(L: Optional[Dict] = None, R: Optional[Dict] = None) → Dict</p></td>
+<td><p>Merge the Right dictionary into the Left dictionary, overriding the keys alreayd defined in the Left dictionary.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils.recursive_merge_dict" title="statisfactory.loader.yaml_utils.recursive_merge_dict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recursive_merge_dict</span></code></a>(L, R) → Mapping</p></td>
 <td><p>Recursively merge R into L.</p></td>
 </tr>
 </tbody>
 </table>
+</div>
+<div class="section" id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h3>
+<table class="autosummary longtable table autosummary">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.loader.yaml_utils.MODELS" title="statisfactory.loader.yaml_utils.MODELS"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MODELS</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py data">
+<dt class="sig sig-object py" id="statisfactory.loader.yaml_utils.MODELS">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">MODELS</span></span><a class="headerlink" href="#statisfactory.loader.yaml_utils.MODELS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py function">
-<dt class="sig sig-object py" id="statisfactory.loader.yaml_utils.gen_dictionaries_representation">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">gen_dictionaries_representation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.yaml_utils.gen_dictionaries_representation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse all the yamls files stored a ‘path’.</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>path (Path): the path to start parsing the yaml files for.
+<dt class="sig sig-object py" id="statisfactory.loader.yaml_utils.gen_as_model">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">gen_as_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">MODELS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">MODELS</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.yaml_utils.gen_as_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse all the yamls files stored a ‘path’ and returr of generator of deserialized models
+Args:</p>
+<blockquote>
+<div><p>path (Path): the path to start parsing the yaml files for.
+model (MODELS): the model to deserialize the yaml files against.
 render_vars (Dict[str, Any]): an optional mapping of variables to use to render the templates. Default to None.</p>
-</dd>
+</div></blockquote>
+<dl class="simple">
 <dt>Returns</dt><dd><p>Iterator[Dict[str, Any]]: a tuple of parsed dictionaries. One for each one of the yaml found in ‘path’</p>
 </dd>
 </dl>
@@ -687,7 +729,7 @@ render_vars (Dict[str, Any]): an optional mapping of variables to use to render 
 
 <dl class="py function">
 <dt class="sig sig-object py" id="statisfactory.loader.yaml_utils._load_template">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">_load_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.yaml_utils._load_template" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">_load_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">template</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#statisfactory.loader.yaml_utils._load_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load template and return dictionary representation fo the yaml.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>template (str): a string to be loaded as yaml into a dictionary.</p>
@@ -699,7 +741,7 @@ render_vars (Dict[str, Any]): an optional mapping of variables to use to render 
 
 <dl class="py function">
 <dt class="sig sig-object py" id="statisfactory.loader.yaml_utils._render_template">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">_render_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#statisfactory.loader.yaml_utils._render_template" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">_render_template</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">render_vars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#statisfactory.loader.yaml_utils._render_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Render the Jinja2 template from ‘path’ with  interpolated varaibles from ‘render_vars’.</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>path (Path): the path to the ressource to render.
@@ -721,9 +763,9 @@ If ‘path’ is a folder, any yaml in the folder will be returned.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="statisfactory.loader.yaml_utils.merge_dict">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">merge_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">dicts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">collide</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="headerlink" href="#statisfactory.loader.yaml_utils.merge_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Merge a list of dict in a python 3.5 comptible way</p>
+<dt class="sig sig-object py" id="statisfactory.loader.yaml_utils.override_merge_dict">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.loader.yaml_utils.</span></span><span class="sig-name descname"><span class="pre">override_merge_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">L</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">R</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="headerlink" href="#statisfactory.loader.yaml_utils.override_merge_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Merge the Right dictionary into the Left dictionary, overriding the keys alreayd defined in the Left dictionary.</p>
 </dd></dl>
 
 <dl class="py function">

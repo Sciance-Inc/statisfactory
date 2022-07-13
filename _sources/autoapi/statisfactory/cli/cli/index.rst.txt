@@ -73,9 +73,10 @@ Attributes
    List and describes pipelines
 
 
-.. py:function:: pip_ls(ctx)
+.. py:function:: pip_ls(ctx, select)
 
    List the pipelines
+
 
 
 .. py:function:: pip_describe(ctx, name: str)
@@ -91,7 +92,7 @@ Attributes
    List and describe
 
 
-.. py:function:: conf_ls(ctx)
+.. py:function:: conf_ls(ctx, select)
 
    List the configurations
 
@@ -109,7 +110,7 @@ Attributes
    List and describe the artifacts
 
 
-.. py:function:: artifacts_ls(ctx)
+.. py:function:: artifacts_ls(ctx, select)
 
    List the artifacts
 

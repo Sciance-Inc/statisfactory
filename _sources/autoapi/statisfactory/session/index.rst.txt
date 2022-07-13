@@ -46,7 +46,7 @@ Classes
 
 
 
-.. py:class:: BaseSession(*, root_folder: str = None)
+.. py:class:: BaseSession(*, root_folder: Optional[str] = None)
 
    Bases: :py:obj:`statisfactory.logger.MixinLogable`
 

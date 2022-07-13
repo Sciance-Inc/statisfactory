@@ -159,11 +159,17 @@ Functions
 
 
 
-.. py:class:: Pipeline(*, name: str = 'noName')
+.. py:class:: Pipeline(*, name: str = 'noName', tags: Optional[List[str]] = None)
 
    Bases: :py:obj:`statisfactory.operator.scoped.Scoped`, :py:obj:`statisfactory.operator.mixinHookable.MixinHookable`, :py:obj:`statisfactory.operator.utils.MergeableInterface`, :py:obj:`statisfactory.logger.MixinLogable`
 
    Implements a way to combine crafts and pipeline togetger
+
+   .. py:method:: tags(self) -> Optional[List[str]]
+      :property:
+
+      Returns the tags of the pipeline.
+
 
    .. py:method:: name(self)
       :property:

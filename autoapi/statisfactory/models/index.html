@@ -202,10 +202,10 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="../internals/maker/index.html">
+        <a class="reference internal" href="../internals/user_injected/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.internals.maker
+           statisfactory.internals.user_injected
           </span>
          </code>
         </a>
@@ -597,8 +597,57 @@
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.PipelineDefinition.tags">
+         tags
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.models.PipelineDefinition.operators">
          operators
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition">
+       ParametersSetDefinition
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition.tags">
+         tags
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition.from_">
+         from_
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition.precedence">
+         precedence
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition.merge">
+         merge
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.models.MergeMethod">
+       MergeMethod
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.MergeMethod.override">
+         override
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.MergeMethod.recursive_merge">
+         recursive_merge
         </a>
        </li>
       </ul>
@@ -702,8 +751,57 @@
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.PipelineDefinition.tags">
+         tags
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
         <a class="reference internal nav-link" href="#statisfactory.models.PipelineDefinition.operators">
          operators
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition">
+       ParametersSetDefinition
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition.tags">
+         tags
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition.from_">
+         from_
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition.precedence">
+         precedence
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.ParametersSetDefinition.merge">
+         merge
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.models.MergeMethod">
+       MergeMethod
+      </a>
+      <ul class="nav section-nav flex-column">
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.MergeMethod.override">
+         override
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.models.MergeMethod.recursive_merge">
+         recursive_merge
         </a>
        </li>
       </ul>
@@ -749,6 +847,12 @@
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.models.PipelineDefinition" title="statisfactory.models.PipelineDefinition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PipelineDefinition</span></code></a></p></td>
 <td><p>Represents the definition of a Pipeline</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.models.ParametersSetDefinition" title="statisfactory.models.ParametersSetDefinition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParametersSetDefinition</span></code></a></p></td>
+<td><p>Represent a parsed parameter set</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.models.MergeMethod" title="statisfactory.models.MergeMethod"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MergeMethod</span></code></a></p></td>
+<td><p>Enum for the merge method</p></td>
 </tr>
 </tbody>
 </table>
@@ -809,10 +913,60 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.models.PipelineDefinition">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.models.</span></span><span class="sig-name descname"><span class="pre">PipelineDefinition</span></span><a class="headerlink" href="#statisfactory.models.PipelineDefinition" title="Permalink to this definition">¶</a></dt>
-<dd><p>Represents the definition of a Pipeline</p>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></p>
+<p>Represents the definition of a Pipeline</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.PipelineDefinition.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="w"> </span><span class="pre">:Optional[List[str]]</span></em><a class="headerlink" href="#statisfactory.models.PipelineDefinition.tags" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.models.PipelineDefinition.operators">
 <span class="sig-name descname"><span class="pre">operators</span></span><em class="property"><span class="w"> </span><span class="pre">:List[str]</span></em><a class="headerlink" href="#statisfactory.models.PipelineDefinition.operators" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.models.ParametersSetDefinition">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.models.</span></span><span class="sig-name descname"><span class="pre">ParametersSetDefinition</span></span><a class="headerlink" href="#statisfactory.models.ParametersSetDefinition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">pydantic.BaseModel</span></code></p>
+<p>Represent a parsed parameter set</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.ParametersSetDefinition.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="w"> </span><span class="pre">:Optional[List[str]]</span></em><a class="headerlink" href="#statisfactory.models.ParametersSetDefinition.tags" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.ParametersSetDefinition.from_">
+<span class="sig-name descname"><span class="pre">from_</span></span><em class="property"><span class="w"> </span><span class="pre">:Optional[List[str]]</span></em><a class="headerlink" href="#statisfactory.models.ParametersSetDefinition.from_" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.ParametersSetDefinition.precedence">
+<span class="sig-name descname"><span class="pre">precedence</span></span><em class="property"><span class="w"> </span><span class="pre">:Optional[int]</span></em><a class="headerlink" href="#statisfactory.models.ParametersSetDefinition.precedence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.ParametersSetDefinition.merge">
+<span class="sig-name descname"><span class="pre">merge</span></span><em class="property"><span class="w"> </span><span class="pre">:Optional[MergeMethod]</span></em><a class="headerlink" href="#statisfactory.models.ParametersSetDefinition.merge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="statisfactory.models.MergeMethod">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.models.</span></span><span class="sig-name descname"><span class="pre">MergeMethod</span></span><a class="headerlink" href="#statisfactory.models.MergeMethod" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Enum for the merge method</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.MergeMethod.override">
+<span class="sig-name descname"><span class="pre">override</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">override</span></em><a class="headerlink" href="#statisfactory.models.MergeMethod.override" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.models.MergeMethod.recursive_merge">
+<span class="sig-name descname"><span class="pre">recursive_merge</span></span><em class="property"><span class="w"> </span><span class="pre">=</span> <span class="pre">recursive_merge</span></em><a class="headerlink" href="#statisfactory.models.MergeMethod.recursive_merge" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

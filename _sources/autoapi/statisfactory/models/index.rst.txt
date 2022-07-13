@@ -24,6 +24,8 @@ Classes
    statisfactory.models.Artifact
    statisfactory.models.Volatile
    statisfactory.models.PipelineDefinition
+   statisfactory.models.ParametersSetDefinition
+   statisfactory.models.MergeMethod
 
 
 
@@ -82,10 +84,61 @@ Classes
 
 .. py:class:: PipelineDefinition
 
+   Bases: :py:obj:`pydantic.BaseModel`
+
    Represents the definition of a Pipeline
+
+   .. py:attribute:: tags
+      :annotation: :Optional[List[str]]
+
+      
 
    .. py:attribute:: operators
       :annotation: :List[str]
+
+      
+
+
+.. py:class:: ParametersSetDefinition
+
+   Bases: :py:obj:`pydantic.BaseModel`
+
+   Represent a parsed parameter set
+
+   .. py:attribute:: tags
+      :annotation: :Optional[List[str]]
+
+      
+
+   .. py:attribute:: from_
+      :annotation: :Optional[List[str]]
+
+      
+
+   .. py:attribute:: precedence
+      :annotation: :Optional[int]
+
+      
+
+   .. py:attribute:: merge
+      :annotation: :Optional[MergeMethod]
+
+      
+
+
+.. py:class:: MergeMethod
+
+   Bases: :py:obj:`enum.Enum`
+
+   Enum for the merge method
+
+   .. py:attribute:: override
+      :annotation: = override
+
+      
+
+   .. py:attribute:: recursive_merge
+      :annotation: = recursive_merge
 
       
 

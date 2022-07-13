@@ -18,28 +18,40 @@ Functions
 
 .. autoapisummary::
 
-   statisfactory.loader.yaml_utils.gen_dictionaries_representation
+   statisfactory.loader.yaml_utils.gen_as_model
    statisfactory.loader.yaml_utils._load_template
    statisfactory.loader.yaml_utils._render_template
    statisfactory.loader.yaml_utils._gen_yamls
-   statisfactory.loader.yaml_utils.merge_dict
+   statisfactory.loader.yaml_utils.override_merge_dict
    statisfactory.loader.yaml_utils.recursive_merge_dict
 
 
 
-.. py:function:: gen_dictionaries_representation(path: pathlib.Path, render_vars: Dict[str, Any] = None) -> Iterator[Dict[str, Any]]
+Attributes
+~~~~~~~~~~
 
-   Parse all the yamls files stored a 'path'.
+.. autoapisummary::
 
+   statisfactory.loader.yaml_utils.MODELS
+
+
+.. py:data:: MODELS
+   
+
+   
+
+.. py:function:: gen_as_model(path: pathlib.Path, model: MODELS, render_vars: Optional[Dict[str, Any]] = None) -> Generator[Tuple[Optional[str], MODELS], None, None]
+
+   Parse all the yamls files stored a 'path' and returr of generator of deserialized models
    Args:
        path (Path): the path to start parsing the yaml files for.
+       model (MODELS): the model to deserialize the yaml files against.
        render_vars (Dict[str, Any]): an optional mapping of variables to use to render the templates. Default to None.
-
    Returns
        Iterator[Dict[str, Any]]: a tuple of parsed dictionaries. One for each one of the yaml found in 'path'
 
 
-.. py:function:: _load_template(template: str) -> Dict[str, Any]
+.. py:function:: _load_template(template: str) -> Union[List, Dict[str, Any]]
 
    Load template and return dictionary representation fo the yaml.
 
@@ -50,7 +62,7 @@ Functions
        Dict[str, Any]: a mapping of parsed values
 
 
-.. py:function:: _render_template(path: pathlib.Path, render_vars: Dict[str, Any] = None) -> str
+.. py:function:: _render_template(path: pathlib.Path, render_vars: Optional[Dict[str, Any]] = None) -> str
 
    Render the Jinja2 template from 'path' with  interpolated varaibles from 'render_vars'.
 
@@ -69,9 +81,9 @@ Functions
        path (Path): the source folder we want to extracts yaml from.
 
 
-.. py:function:: merge_dict(*dicts: Iterator[Dict], collide=True) -> Dict
+.. py:function:: override_merge_dict(L: Optional[Dict] = None, R: Optional[Dict] = None) -> Dict
 
-   Merge a list of dict in a python 3.5 comptible way
+   Merge the Right dictionary into the Left dictionary, overriding the keys alreayd defined in the Left dictionary.
 
 
 .. py:function:: recursive_merge_dict(L, R) -> Mapping

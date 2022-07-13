@@ -10,7 +10,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
-   maker/index.rst
+   user_injected/index.rst
 
 
 Package Contents

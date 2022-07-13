@@ -28,6 +28,7 @@ Functions
    statisfactory.cli.build_notebooks
    statisfactory.cli.run_pipeline
    statisfactory.cli.temp_wd
+   statisfactory.cli.cli
 
 
 
@@ -40,7 +41,7 @@ Functions
    The functions definitions found in "export" tagged cells, are exported to the root of the package.
 
 
-.. py:function:: run_pipeline(path: pathlib.Path, pipeline_name: str, parameters_name: str = None)
+.. py:function:: run_pipeline(path: pathlib.Path, pipeline_name: str, parameters_name: Optional[str] = None)
 
    Execute a pipeline against a provided configuration
 
@@ -56,5 +57,8 @@ Functions
 
    Args:
        path (Path): the path to the temp working dir to set.
+
+
+.. py:function:: cli(ctx, path)
 
 

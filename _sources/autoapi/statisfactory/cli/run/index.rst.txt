@@ -22,7 +22,7 @@ Functions
 
 
 
-.. py:function:: run_pipeline(path: pathlib.Path, pipeline_name: str, parameters_name: str = None)
+.. py:function:: run_pipeline(path: pathlib.Path, pipeline_name: str, parameters_name: Optional[str] = None)
 
    Execute a pipeline against a provided configuration
 

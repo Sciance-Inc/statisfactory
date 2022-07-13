@@ -202,10 +202,10 @@
       </label>
       <ul>
        <li class="toctree-l4">
-        <a class="reference internal" href="../internals/maker/index.html">
+        <a class="reference internal" href="../internals/user_injected/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
-           statisfactory.internals.maker
+           statisfactory.internals.user_injected
           </span>
          </code>
         </a>
@@ -552,6 +552,11 @@
        temp_wd
       </a>
      </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli">
+       cli
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -606,6 +611,11 @@
        temp_wd
       </a>
      </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.cli">
+       cli
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -645,11 +655,14 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.build_notebooks" title="statisfactory.cli.build_notebooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_notebooks</span></code></a>(src: pathlib.Path, dst: pathlib.Path)</p></td>
 <td><p>Recursively parse the Notebooks from 'src', to extract the Craft's definition.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.run_pipeline" title="statisfactory.cli.run_pipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_pipeline</span></code></a>(path: pathlib.Path, pipeline_name: str, parameters_name: str = None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.run_pipeline" title="statisfactory.cli.run_pipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_pipeline</span></code></a>(path: pathlib.Path, pipeline_name: str, parameters_name: Optional[str] = None)</p></td>
 <td><p>Execute a pipeline against a provided configuration</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.temp_wd" title="statisfactory.cli.temp_wd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temp_wd</span></code></a>(path: pathlib.Path)</p></td>
 <td><p>Context manager. Temporary set the working dir to 'path'.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.cli" title="statisfactory.cli.cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cli</span></code></a></p></td>
+<td><p>implements the statisfactory's cli</p></td>
 </tr>
 </tbody>
 </table>
@@ -664,7 +677,7 @@ The functions definitions found in “export” tagged cells, are exported to th
 
 <dl class="py function">
 <dt class="sig sig-object py" id="statisfactory.cli.run_pipeline">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.</span></span><span class="sig-name descname"><span class="pre">run_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.run_pipeline" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.</span></span><span class="sig-name descname"><span class="pre">run_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pipeline_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.run_pipeline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute a pipeline against a provided configuration</p>
 <dl class="simple">
 <dt>Args:</dt><dd><p>path (Path): the path to the statisfactory-enable repo to load.
@@ -683,6 +696,11 @@ config_name (str, optional): An optional name of arguments set to be fetched fro
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.cli">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.</span></span><span class="sig-name descname"><span class="pre">cli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 </div>
