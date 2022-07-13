@@ -584,15 +584,15 @@ out["myValue"]
 
 ```yaml
 fetch_design_matrix:
-  operators:
+  +operators:
     - jupyter.data_moving.move_artifacts.move_then
     - jupyter.design_matrix.build_design_matrix.concat_aspects
 build_modelling_tuples:
-  operators:
+  +operators:
     - jupyter.modelling_tuple.build_modelling_tuple_droppers.build_modelling_tuple_droppers
     - jupyter.modelling_tuple.build_modelling_tuple_exam.build_modelling_tuple_p6
 full_experience: # Combine the two previous pipelines into a single one with solved dependencies between crafts
-  operators:
+  +operators:
     - fetch_design_matrix
     - build_modelling_tuples
 ```
@@ -613,7 +613,7 @@ base_predict: # The name of the configuration
     ... # The parameters of the step_predict craft
 
 custom_predict:
-  _from: # A list of configs to inherit from
+  +from: # A list of configs to inherit from
     - base_predict 
     - foobar 
   MODEL_NAME: foobar # # Another shared parameter
@@ -650,7 +650,7 @@ base_predict:
 # Automagically create new configurations with client's specific details
 {% for css, model_name, target, fqn in to_render %}
 predict_{{ fqn }}:
-  _from:
+  +from:
     - base_predict  # inherit from the base configuration
   # Add some clients specific shared parameters
   CSS: {{ css }}
@@ -658,6 +658,45 @@ predict_{{ fqn }}:
   MODEL_TARGET: {{ target }}
 {% endfor %}
 ``` 
+
+
+##### Taking the high ground and overriding the configurations (preview)
+> Considered alternatives : 
+> * using a new `+overriding` key, and only allowing one level of overriding.
+
+Configurations can be overrided with the `+precedence` annotation. The lower the precedence number, the higher the precedence. You must use multiples yaml file (with at most one overriding configuration in each) to use `+precedence` annotations. __If not specified, the default precedence is set to 10__
+
+base.yaml
+```yaml
+base_config:
+  foo: 
+    param_1: anakin
+```
+
+base.overriding.yaml
+```yaml
+base_config:
+  +precedence: 0
+  foo: 
+    param_1: obiwan
+```
+
+The resulting `base_config` 's parameters will be equal to `obiwan` (Anakin never gets the high ground ;( ))
+
+##### Configurations (preview)
+> Considered alternatives : 
+> * using the `+precedence` key, to control for the precedence resolution order.
+
+
+You can control the parameters inheritance strategy by setting the `+merge` annotation. The two available strategies are `recursive_merge` and `overide`. The default strategy is `recursive_merge`.
+
+* In `recursive_merge` mode, inherited configurations are merged by overriding the inherited parameters with the ones defined in the overriding configuration. Each key is recrusivery merged that way.
+* In `overide` mode, inherited configurations are overrided by the overriding configuration. Everything under the key of the overriding configuration is overrided by the object under the overriding configurations. 
+
+
+__Precedenception__ : The `+precedence` attribute as precedence over the `+from` attribute : precedence happends BEFORE the inheritance.
+
+
 
 ### Introspection
 * `Pipeline` (and `Craft`), `Parameters`, `globals / locals` can be programatically accessed through the `Session` object.
@@ -738,6 +777,12 @@ statisfactory run <pipeline name> [configuration name]
 ```bash
 statisfactory compile
 ```
+
+## Tags
+
+`Pipelines`, `parameters` and `Artifact` accept a `+tags` key. This key is a list of strings. 
+The cli `ls` commands accept a `--select tag1,tag2` options to filter the results.
+
 
 # tl;dr show-me-the-money
 

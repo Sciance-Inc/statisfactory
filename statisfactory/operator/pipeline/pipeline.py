@@ -31,7 +31,7 @@
 #############################################################################
 
 # system
-from typing import TYPE_CHECKING, Any, Dict, List, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Optional
 
 from statisfactory.logger import MixinLogable
 from statisfactory.operator.mixinHookable import MixinHookable
@@ -61,6 +61,7 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         self,
         *,
         name: str = "noName",
+        tags: Optional[List[str]] = None,
     ):
         """
         Configure a new pipeline to execute a list of crafts.
@@ -69,13 +70,23 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         Args:
             name (str): The name of the pipeline.
+            tags (Optional[List[str]]): A list of tags to be associated to the pipeline.
         """
 
         super().__init__(logger_name=__name__)
         self._name = name
+        self._tags = tags or []
 
         # A placeholder to holds the added crafts.
         self._crafts: List[_Craft] = []  # noqa
+
+    @property
+    def tags(self) -> Optional[List[str]]:
+        """
+        Returns the tags of the pipeline.
+        """
+
+        return self._tags
 
     @property
     def name(self):
@@ -136,9 +147,7 @@ class Pipeline(Scoped, MixinHookable, MergeableInterface, MixinLogable):
 
         batches = DAGSolver(self._crafts)
 
-        batchs_repr = "\n\t- ".join(
-            ", ".join(craft.name for craft in batch) for batch in batches
-        )
+        batchs_repr = "\n\t- ".join(", ".join(craft.name for craft in batch) for batch in batches)
 
         return "Pipeline steps :\n\t- " + batchs_repr
 

@@ -38,12 +38,9 @@ from pathlib import Path
 # project
 from statisfactory.errors import Errors
 from statisfactory.operator import Pipeline
-from statisfactory.models.models import PipelineDefinition
-from statisfactory.loader.yaml_utils import (
-    gen_dictionaries_representation,
-    merge_dict,
-)
+from statisfactory.models import PipelineDefinition
 
+from statisfactory.loader.yaml_utils import gen_as_model
 
 #############################################################################
 #                                  Script                                   #
@@ -52,7 +49,7 @@ from statisfactory.loader.yaml_utils import (
 
 def _load_pipeline(name, definition: PipelineDefinition, raw: Mapping) -> Pipeline:
 
-    P = Pipeline(name=name)  # By default, YAML pipelines are namespaced
+    P = Pipeline(name=name, tags=definition.tags)  # By default, YAML pipelines are namespaced
     for target_name in definition.operators:  # type: ignore
 
         # If the name is declared in raw -> then it's a pipeline to be built
@@ -71,9 +68,7 @@ def _load_pipeline(name, definition: PipelineDefinition, raw: Mapping) -> Pipeli
                     callable_,
                 )
             except ImportError as error:
-                raise Errors.E015(
-                    pip_name=name, module=".".join(modules)
-                ) from error  # type: ignore
+                raise Errors.E015(pip_name=name, module=".".join(modules)) from error  # type: ignore
             except AttributeError as error:
                 raise Errors.E017(
                     pip_name=name,
@@ -98,16 +93,12 @@ def get_pipelines(path: Union[str, Path], session) -> Dict[str, Pipeline]:
     render_vars = {k.lower(): v for k, v in session.settings.to_dict().items()}
     path = Path(path)
 
-    # merge all the yamls
-    mappers = gen_dictionaries_representation(path, render_vars)
-    mapper = merge_dict(*mappers)  # type: ignore
-
-    # Deserialize against the model
-    mapper = {k: PipelineDefinition(**v) for k, v in mapper.items()}
+    # Combine all the YAML
+    mapper = {name: pipeline for name, pipeline in gen_as_model(path, PipelineDefinition, render_vars)}  # type: ignore
 
     # Iterate over each Definition, and create the a Pipeline object.
     loaded = {}
     for name, definition in mapper.items():
-        loaded[name] = _load_pipeline(name, definition, mapper)
+        loaded[name] = _load_pipeline(name, definition, mapper)  # type: ignore
 
     return loaded

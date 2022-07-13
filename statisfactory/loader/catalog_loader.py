@@ -36,7 +36,7 @@ from pathlib import Path
 from itertools import chain
 
 # project
-from statisfactory.loader.yaml_utils import gen_dictionaries_representation
+from statisfactory.loader.yaml_utils import gen_as_model
 
 from statisfactory.models.models import Artifact
 
@@ -56,14 +56,6 @@ def get_artifacts_mapping(path: Union[str, Path], session) -> Dict[str, Artifact
     render_vars = {k.lower(): v for k, v in session.settings.to_dict().items()}
     path = Path(path)
 
-    # merge all the yamls, concatenate the various artifacts and connectors
-    mappers = gen_dictionaries_representation(path, render_vars)
+    catalog_data = {a.name: a for (_, a) in gen_as_model(path, Artifact, render_vars)}  # type: ignore
 
-    # Deserialize each mapper, and validate it against the model
-    catalog_data = {}
-    for artifact_data in chain.from_iterable(mappers):
-        artifact = Artifact(**artifact_data)  # type: ignore # Validate the struct
-        catalog_data[artifact.name] = artifact  # type: ignore
-
-    # TODO: add support for keys collision
     return catalog_data  # type: ignore

@@ -86,7 +86,7 @@ class BaseSession(MixinLogable):
 
     _hooks = []
 
-    def __init__(self, *, root_folder: str = None):
+    def __init__(self, *, root_folder: Optional[str] = None):
         """
         Instanciate a Session by searching for the statisfactory.yaml file in the parent folders
         """
@@ -388,9 +388,7 @@ class _DefaultHooks:
             sess._aws_session = boto3.Session(
                 aws_access_key_id=sess.settings["aws_access_key"],
                 aws_secret_access_key=sess.settings["aws_secret_access_key"],
-                region_name=sess.settings.get(
-                    "aws_region", "us-east-1"
-                ),  # type: ignore
+                region_name=sess.settings.get("aws_region", "us-east-1"),  # type: ignore
             )
         except KeyError:
             warn(Warnings.W060)

@@ -128,9 +128,7 @@ def run(ctx, pipeline: str, configuration: str):
     """
 
     with temp_wd(ctx.obj["root"]):
-        run_pipeline(
-            path=ctx.obj["root"], pipeline_name=pipeline, parameters_name=configuration
-        )
+        run_pipeline(path=ctx.obj["root"], pipeline_name=pipeline, parameters_name=configuration)
 
 
 @cli.group()
@@ -143,16 +141,23 @@ def pipelines():
 
 
 @pipelines.command("ls")
+@click.option("-s", "--select", default=None, help="List of comma-separated tags to filter by.")
 @click.pass_context
-def pip_ls(ctx):
+def pip_ls(ctx, select):
     """
     List the pipelines
+
     """
 
     sess = Session(root_folder=ctx.obj["root"])
+    pipelines = sess.pipelines_definitions
 
-    n_pipelines = len(sess.pipelines_definitions)
-    string_pipelines = "\n - ".join(sess.pipelines_definitions)
+    if select:
+        tags = select.split(",")
+        pipelines = [name for name, pipeline in pipelines.items() if any(tag in pipeline.tags for tag in tags)]
+
+    n_pipelines = len(pipelines)
+    string_pipelines = "\n - ".join(pipelines)
 
     string = "\n - ".join((f"Found {n_pipelines} pipelines :", string_pipelines))
 
@@ -193,16 +198,22 @@ def configurations():
 
 
 @configurations.command("ls")
+@click.option("-s", "--select", default=None, help="List of comma-separated tags to filter by.")
 @click.pass_context
-def conf_ls(ctx):
+def conf_ls(ctx, select):
     """
     List the configurations
     """
 
     sess = Session(root_folder=ctx.obj["root"])
+    parameters = sess.parameters
 
-    n_confs = len(sess.parameters)
-    string_configurations = "\n - ".join(sess.parameters)
+    if select:
+        tags = select.split(",")
+        parameters = [name for name, parameter_set in parameters.items() if any(tag in parameter_set["tags"] for tag in tags)]
+
+    n_confs = len(parameters)
+    string_configurations = "\n - ".join(parameters)
 
     string = "\n - ".join((f"Found {n_confs} configurations :", string_configurations))
     print(string)
@@ -236,11 +247,15 @@ def artifacts():
 
 
 @artifacts.command("ls")
+@click.option("-s", "--select", default=None, help="List of comma-separated tags to filter by.")
 @click.pass_context
-def artifacts_ls(ctx):
+def artifacts_ls(ctx, select):
     """
     List the artifacts
     """
+
+    if select:
+        print("Select is not currently support for tags ;( (Statisfactory has a very twistted relation with Pydantic's dataclasses.)")
 
     artifacts = Session(root_folder=ctx.obj["root"]).catalog.artifacts
     n_artifacts = len(artifacts)
