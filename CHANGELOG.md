@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.13.0 (2022-07-13)
+### Feature
+* Adding + notations ([`34cc27e`](https://github.com/Sciance-Inc/statisfactory/commit/34cc27eb9838c04574852a30a1c8309ce3e5aa0c))
+
+### Documentation
+* Adding compile ([`471bba2`](https://github.com/Sciance-Inc/statisfactory/commit/471bba2d9d9469e7e8e3a40ca13eccc733065a8a))
+* Improving documentation ([`ab79d13`](https://github.com/Sciance-Inc/statisfactory/commit/ab79d1317fdf54519719f8cbdac7357580713701))
+
 ## v0.12.0 (2022-05-25)
 ### Feature
 * Adding missing licence ([`3a224fe`](https://github.com/Sciance-Inc/statisfactory/commit/3a224fe9092df9ce64b78ef46c244b55df8ca679))
