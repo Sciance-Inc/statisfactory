@@ -32,8 +32,9 @@
 
 # system
 from typing import List, Dict, Optional, Any
+from enum import Enum
 from pathlib import Path
-from pydantic import Field, BaseModel
+from pydantic import Field, BaseModel, Extra
 from pydantic.dataclasses import dataclass
 
 #############################################################################
@@ -50,8 +51,6 @@ class Pyproject(BaseModel):
     class Entrypoints(BaseModel):
         module: str
         session_factory: Optional[str]
-        # pipeline_factory: Optional[str]
-        # craft_factory: Optional[str]
 
     project_slug: str
     configuration: str
@@ -73,13 +72,44 @@ class Pyproject(BaseModel):
         return {k: v for k, v in self.__dict__.items() if v is not None}
 
 
-@dataclass
-class PipelineDefinition:
+class PipelineDefinition(BaseModel):
     """
     Represents the definition of a Pipeline
     """
 
-    operators: List[str]
+    tags: Optional[List[str]] = Field(default_factory=list, alias="+tags")
+
+    # A list of crafts / pipelines to be added to this pipeline
+    operators: List[str] = Field(alias="+operators")
+
+
+class MergeMethod(Enum):
+    """
+    Enum for the merge method
+    """
+
+    # "Their value with be replaced with our value"
+    override = "override"
+    # Recursive merge the dictionaries
+    recursive_merge = "recursive_merge"
+
+
+class ParametersSetDefinition(BaseModel, extra=Extra.allow):
+    """
+    Represent a parsed parameter set
+    """
+
+    tags: Optional[List[str]] = Field(default_factory=list, alias="+tags")
+
+    # Other parameters set to inherits from
+    from_: Optional[List[str]] = Field(default_factory=list, alias="+from")
+
+    # The precedence order for calling parameters sets name
+    precedence: Optional[int] = Field(default=10, alias="+precedence")
+
+    # Key mergin mechanism
+    # How to merge parameters of multiples priority
+    merge: Optional[MergeMethod] = Field(default=MergeMethod.recursive_merge, alias="+merge")
 
 
 @dataclass

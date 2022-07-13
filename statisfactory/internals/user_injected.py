@@ -78,7 +78,9 @@ class UserInjected(type):
 
         if not is_registered:
             if not prototype:
-                raise RuntimeError("The MetaMaker expects an entrypoints arguments")
+                raise RuntimeError(
+                    "The UserInjected metaclass expects an entrypoints arguments"
+                )
 
             UserInjected._cls_to_protype[name] = prototype
 

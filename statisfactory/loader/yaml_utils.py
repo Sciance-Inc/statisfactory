@@ -31,8 +31,7 @@
 #############################################################################
 
 # system
-import collections
-from typing import Any, Dict, Iterator, Mapping
+from typing import Any, Dict, Iterator, Mapping, Optional, Union, Generator, Tuple, List
 from pathlib import Path
 from glob import glob
 import yaml
@@ -42,6 +41,7 @@ from jinja2 import Template
 
 # project
 from statisfactory.errors import Errors
+from statisfactory.models import PipelineDefinition, ParametersSetDefinition, Artifact
 
 # Project type checks : see PEP563
 # if TYPE_CHECKING:
@@ -51,30 +51,36 @@ from statisfactory.errors import Errors
 #                                  Script                                   #
 #############################################################################
 
+MODELS = Union[PipelineDefinition, ParametersSetDefinition, Artifact]
 
-def gen_dictionaries_representation(
-    path: Path, render_vars: Dict[str, Any] = None
-) -> Iterator[Dict[str, Any]]:
+
+def gen_as_model(
+    path: Path, model: MODELS, render_vars: Optional[Dict[str, Any]] = None
+) -> Generator[Tuple[Optional[str], MODELS], None, None]:
     """
-    Parse all the yamls files stored a 'path'.
-
+    Parse all the yamls files stored a 'path' and returr of generator of deserialized models
     Args:
         path (Path): the path to start parsing the yaml files for.
+        model (MODELS): the model to deserialize the yaml files against.
         render_vars (Dict[str, Any]): an optional mapping of variables to use to render the templates. Default to None.
-
     Returns
         Iterator[Dict[str, Any]]: a tuple of parsed dictionaries. One for each one of the yaml found in 'path'
     """
 
     render_vars = render_vars or {}
-
     for template_path in _gen_yamls(Path(path)):
         rendered = _render_template(template_path, render_vars)
-        mapper = _load_template(rendered)
-        yield mapper
+        templated = _load_template(rendered)
+
+        if isinstance(templated, dict):
+            for key, val in templated.items():
+                yield key, model(**val)  # type: ignore
+        elif isinstance(templated, list):
+            for val in templated:
+                yield None, model(**val)  # type: ignore
 
 
-def _load_template(template: str) -> Dict[str, Any]:
+def _load_template(template: str) -> Union[List, Dict[str, Any]]:
     """
     Load template and return dictionary representation fo the yaml.
 
@@ -93,7 +99,7 @@ def _load_template(template: str) -> Dict[str, Any]:
     return parsed
 
 
-def _render_template(path: Path, render_vars: Dict[str, Any] = None) -> str:
+def _render_template(path: Path, render_vars: Optional[Dict[str, Any]] = None) -> str:
     """
     Render the Jinja2 template from 'path' with  interpolated varaibles from 'render_vars'.
 
@@ -142,18 +148,15 @@ def _gen_yamls(path: Path) -> Iterator[Path]:
     return None
 
 
-def merge_dict(*dicts: Iterator[Dict], collide=True) -> Dict:
+def override_merge_dict(L: Optional[Dict] = None, R: Optional[Dict] = None) -> Dict:
     """
-    Merge a list of dict in a python 3.5 comptible way
+    Merge the Right dictionary into the Left dictionary, overriding the keys alreayd defined in the Left dictionary.
     """
 
-    if not dicts:
-        return {}
+    L = L or {}
+    R = R or {}
 
-    out = {}
-    for dict_ in dicts:
-        out.update(dict_)  # type: ignore
-    return out
+    return {**L, **R}
 
 
 def recursive_merge_dict(L, R) -> Mapping:
@@ -161,8 +164,8 @@ def recursive_merge_dict(L, R) -> Mapping:
     Recursively merge R into L.
     The merge is recursive meaning that keys of two dictionnaries are not overrided but merged together.
     """
-    for k, v in R.items():
-        if k in L and isinstance(L[k], dict) and isinstance(R[k], collections.Mapping):
+    for k in R.keys():
+        if k in L and isinstance(L[k], dict) and isinstance(R[k], dict):
             recursive_merge_dict(L[k], R[k])
         else:
             L[k] = R[k]

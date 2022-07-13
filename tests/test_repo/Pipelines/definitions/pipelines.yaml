@@ -1,13 +1,13 @@
 # Pipelines deinitions are list of crafts. Crafts are namespaced.
 fooer:
-  operators:
+  +operators:
     - jupyter.foobar.craft_foo
 
 spamer:
-  operators:
+  +operators:
     - jupyter.spam.craft_spam
 
 full:
-  operators:
+  +operators:
     - fooer
     - spamer

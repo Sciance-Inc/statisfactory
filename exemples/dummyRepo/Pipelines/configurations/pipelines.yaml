@@ -1,7 +1,7 @@
 base:
-  __compiled__.foobar.craft_foo:
+  jupyter.foobar.craft_foo:
     param_1: 10
-  __compiled__.spam.craft_spam:
+  jupyter.spam.craft_spam:
     param_1: 1
     param_2:
       - 10
@@ -9,15 +9,17 @@ base:
       - 20
 
 foo:
-  __compiled__.spam.craft_spam:
+  jupyter.spam.craft_spam:
     param_1: 2
 
 custom:
-  _shared: 
+  +tags:
+    - foo
+    - bar
+  _shared:
     year: 10
-  _from:
+  +from:
     - base
     - foo
-  __compiled__.foobar.craft_foo:
+  jupyter.foobar.craft_foo:
     param_1: 20
-

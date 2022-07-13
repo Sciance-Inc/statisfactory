@@ -1,0 +1,26 @@
+main_1:
+  param_1: 1
+  param_2: 1
+  param_nested:
+    param_nested_1: 1
+    param_nested_2: 1
+
+inherited_1:
+  +from:
+    - main_1
+
+inherited_2:
+  +merge: override
+  +from:
+    - main_1
+  param_2: 2
+  param_nested:
+    param_nested_2: 2
+
+inherited_3:
+  +merge: recursive_merge
+  +from:
+    - main_1
+  param_2: 2
+  param_nested:
+    param_nested_2: 2

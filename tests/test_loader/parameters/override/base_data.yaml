@@ -1,0 +1,12 @@
+base_parameters:
+  a: 1
+
+default_parameters:
+  +from:
+    - base_parameters
+
+cssvdc_parameters:
+  +precedence: 100
+  +from:
+    - default_parameters
+  b: 1

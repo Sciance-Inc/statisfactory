@@ -1,0 +1,5 @@
+cssvdc_parameters:
+  +precedence: 0 # Absolute precedence of the parameter set
+  +from:
+    - default_parameters
+  b: 2

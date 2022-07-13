@@ -91,6 +91,7 @@ def test_base_configuration(sess):
         "test_pipelines_config.step_1": {"param_1": 10},
         "test_pipelines_config.step_2": {"param_1": 1, "param_2": [10, 15, 20]},
         "shared_param": 1,
+        "tags": [],
     }
 
     cfg = sess.parameters["base"]
