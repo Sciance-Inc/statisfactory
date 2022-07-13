@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -147,9 +147,7 @@ class S3Backend(Backend, prefix="s3"):
         # Build a new s3 ressource from the AWS_SESSION
         aws_s3_endpoint = self._session.settings.get("aws_s3_endpoint", None)  # type: ignore
         if aws_s3_endpoint:
-            self._s3 = self._session.aws_session.resource(
-                "s3", endpoint_url=aws_s3_endpoint
-            )
+            self._s3 = self._session.aws_session.resource("s3", endpoint_url=aws_s3_endpoint)
         else:
             self._s3 = self._session.aws_session.resource("s3")
             warn(Warnings.W021())  # type: ignore
@@ -291,9 +289,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
         client = self._session.lakefs_client
         repo_name = self._session.lakefs_repo["name"]
 
-        existing_branches = set(
-            [item["id"] for item in client.branches.list_branches(repo_name).results]
-        )
+        existing_branches = set([item["id"] for item in client.branches.list_branches(repo_name).results])
         if name in existing_branches:
             return
 
@@ -325,9 +321,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
 
         return branch
 
-    def put(
-        self, *, payload: bytes, fragment: ParseResult, lake_ref: str = None, **kwargs
-    ):
+    def put(self, *, payload: bytes, fragment: ParseResult, lake_ref: str = None, **kwargs):
         """
         Drop the payload to the file system using the data from the Fragment
 
@@ -348,9 +342,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
 
         # Write the payload to LakeFS
         try:
-            self._session.lakefs_client.objects.upload_object(
-                repository=repo, branch=branch, path=path, content=BytesIO(payload)
-            )
+            self._session.lakefs_client.objects.upload_object(repository=repo, branch=branch, path=path, content=BytesIO(payload))
         except BaseException as error:
             raise Errors.E0290(backend="LakeFSBackend") from error  # type: ignore
 
@@ -377,9 +369,7 @@ class LakeFSBackend(Backend, prefix="lakefs"):
 
         # Write the payload to LakeFS
         try:
-            payload = self._session.lakefs_client.objects.get_object(
-                repository=repo, ref=branch, path=path
-            )
+            payload = self._session.lakefs_client.objects.get_object(repository=repo, ref=branch, path=path)
         except BaseException as error:
             raise Errors.E0291(backend="LakeFSBackend") from error  # type: ignore
 

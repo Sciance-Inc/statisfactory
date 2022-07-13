@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -53,9 +53,7 @@ def get_module_logger(mod_name):
     except KeyError:
         logger = logging.getLogger(mod_name)
         handler = logging.StreamHandler()
-        formatter = logging.Formatter(
-            "%(asctime)s [%(name)-12s] : %(levelname)-1s : %(message)s"
-        )
+        formatter = logging.Formatter("%(asctime)s [%(name)-12s] : %(levelname)-1s : %(message)s")
         handler.setFormatter(formatter)
         logger.addHandler(handler)
         logger.setLevel(os.environ.get("LOG_LEVEL", "DEBUG").upper())

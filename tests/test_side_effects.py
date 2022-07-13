@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -56,9 +56,7 @@ def change_test_dir(request):
     print(sys.path)
 
 
-@pytest.mark.parametrize(
-    "change_test_dir", ["test_custom_session_side_effects_only/"], indirect=True
-)
+@pytest.mark.parametrize("change_test_dir", ["test_custom_session_side_effects_only/"], indirect=True)
 def _test_sides_effect_only(change_test_dir):
     """
     Check if specifiying an entrypoint apply side effects.

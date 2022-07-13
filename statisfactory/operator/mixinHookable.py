@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -72,9 +72,7 @@ class MixinHookable:
 
         def _(callable_: Callable):
 
-            _LOGGER.debug(
-                f"Registering {cls.__name__}'s on-error hook : '{callable_.__name__}'"
-            )
+            _LOGGER.debug(f"Registering {cls.__name__}'s on-error hook : '{callable_.__name__}'")
             if last:
                 MixinHookable._on_error_hooks[cls].append(callable_)
             else:
@@ -93,9 +91,7 @@ class MixinHookable:
 
         def _(callable_: Callable):
 
-            _LOGGER.debug(
-                f"Registering {cls.__name__}'s pre run's hook : '{callable_.__name__}'"
-            )
+            _LOGGER.debug(f"Registering {cls.__name__}'s pre run's hook : '{callable_.__name__}'")
             if last:
                 MixinHookable._pre_run_hooks[cls].append(callable_)
             else:
@@ -113,9 +109,7 @@ class MixinHookable:
         """
 
         def _(callable_: Callable):
-            _LOGGER.debug(
-                f"Registering {cls.__name__}'s post run's hook : '{callable_.__name__}'"
-            )
+            _LOGGER.debug(f"Registering {cls.__name__}'s post run's hook : '{callable_.__name__}'")
             if last:
                 MixinHookable._post_run_hooks[cls].append(callable_)
             else:

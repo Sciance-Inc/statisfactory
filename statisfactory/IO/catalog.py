@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -130,9 +130,7 @@ class Catalog(MixinLogable):
         """
 
         artifact = self._get_artifact(name)
-        interactor: ArtifactInteractor = self._get_interactor(artifact)(
-            artifact=artifact, session=self._session, **context
-        )
+        interactor: ArtifactInteractor = self._get_interactor(artifact)(artifact=artifact, session=self._session, **context)
 
         return interactor.load(**context)
 
@@ -147,9 +145,7 @@ class Catalog(MixinLogable):
         """
 
         artifact = self._get_artifact(name)
-        interactor: ArtifactInteractor = self._get_interactor(artifact)(
-            artifact=artifact, session=self._session, **context
-        )
+        interactor: ArtifactInteractor = self._get_interactor(artifact)(artifact=artifact, session=self._session, **context)
 
         interactor.save(asset, **context)  # type: ignore
 
