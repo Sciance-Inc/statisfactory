@@ -232,10 +232,10 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
             with self._with_error():
                 out = self._callable(**craft_arguments)
 
-        self._save_artifacts(output=out, **artifact_saving_context)
+        self._save_artifacts(output=out, **artifact_saving_context)  # type: ignore
 
         # Return the output of the callable
-        return out
+        return out  # type: ignore
 
     def __copy__(self) -> "_Craft":
         """
