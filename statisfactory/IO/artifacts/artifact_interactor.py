@@ -506,7 +506,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
         self._query = self._interpolate_string(artifact.extra.query, **kwargs)
-        self._connection_string = artifact.extra.connection_string
+        self._connection_string = self._interpolate_string(artifact.extra.connection_string, **kwargs)
         self._kwargs = kwargs
 
     @contextmanager
