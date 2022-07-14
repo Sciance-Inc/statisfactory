@@ -38,7 +38,7 @@ from pathlib import Path
 # third party
 import click
 
-from statisfactory.cli import build_notebooks, run_pipeline, temp_wd
+from statisfactory.cli import build_notebooks, run_pipeline, temp_wd, build_manifest
 from statisfactory import Session
 from statisfactory.logger import get_module_logger
 from statisfactory.loader import get_pyproject, get_path_to_target
@@ -94,6 +94,9 @@ def compile(ctx):
     """
     LOGGER.info("Building the Crafts...")
 
+    # Instanciate the session
+    sess = Session(root_folder=ctx.obj["root"])
+
     # Extract the path to parse from and to
     path = ctx.obj["path"]
     root_dir = ctx.obj["root"]
@@ -110,6 +113,9 @@ def compile(ctx):
     source = source.resolve()
 
     build_notebooks(source, target)
+    manifest_path = ctx.obj["root"] / "manifest.json"
+    build_manifest(sess, manifest_path)
+    LOGGER.info(f"Manifest saved to '{manifest_path}'.")
 
     return
 
