@@ -37,6 +37,7 @@ import pytest
 
 from statisfactory import Artifact, Craft, Session, Volatile
 from statisfactory.IO import Backend
+from statisfactory.operator import craft
 
 #############################################################################
 #                                 Packages                                  #
@@ -182,3 +183,19 @@ def test_propagating_configuration_to_backend(custom_sess):
         spam(spam=1, args_holder=args_holder)
 
     assert args_holder == [{"spam": 1}, {"spam": 1}]
+
+
+def test_key_variadic_argument(sess):
+    @Craft()
+    def foo(**kwargs) -> Volatile("out_1"):
+        return kwargs
+
+    @Craft()
+    def bar(out_1: Volatile) -> Volatile("out_2"):
+        return out_1["spam"]
+
+    with sess:
+        out = (foo + bar)(spam=1)
+
+
+    assert out["out_2"] == 1

@@ -95,6 +95,8 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
                 e.append(Annotation(anno, AnnotationKind.VOLATILE))
             elif anno.kind in (Parameter.POSITIONAL_OR_KEYWORD, Parameter.KEYWORD_ONLY):
                 e.append(Annotation(anno, AnnotationKind.KEY))
+            elif anno.kind == Parameter.VAR_KEYWORD:
+                e.append(Annotation(anno, AnnotationKind.VAR_KEY))
             else:
                 raise Errors.E045(name=self.name, anno=anno.kind)  # type: ignore
 
@@ -207,6 +209,12 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
                     mapped_parameters[anno.name] = artifact_context[anno.name]
                 except KeyError:
                     Errors.E041(name=self._name, param=anno.name)  # type: ignore
+
+            # If the argument is VAR_KEYWORD, then it schould be every key the context that is not in mapped_parameters
+            # VAR_KEYWORD has to be the last item of the anno, so all KEY arguments have already been parsed
+            if anno.kind is AnnotationKind.VAR_KEY:
+                var_key = {k: v for k, v in context.items() if k not in mapped_parameters}
+                mapped_parameters.update(var_key)
 
         return mapped_parameters, artifact_context
 

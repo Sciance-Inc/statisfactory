@@ -49,7 +49,8 @@ class AnnotationKind(Enum):
 
     ARTEFACT = auto()  # An artifact to load
     VOLATILE = auto()  # A Volatile object from a previously Executed craft
-    KEY = auto()
+    KEY = auto()  # A named argument
+    VAR_KEY = auto()  # A variadic argument key
 
 
 @dataclass
