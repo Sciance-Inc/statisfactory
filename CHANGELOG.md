@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.14.0 (2022-07-20)
+### Feature
+* Adding support for variadics arguments in craft definition ([`4db0b61`](https://github.com/Sciance-Inc/statisfactory/commit/4db0b61473979869bd79faa1a7f8c744cfa86f80))
+* The ODBC interactor connection string is now interpolable ([`35f5506`](https://github.com/Sciance-Inc/statisfactory/commit/35f5506178467b768bd93a23eeabda7d2f653787))
+
+### Fix
+* Adding missing manifest builder ([`f97848c`](https://github.com/Sciance-Inc/statisfactory/commit/f97848c9e572fafe18cd6b61f8287e19840113a1))
+
 ## v0.13.0 (2022-07-13)
 ### Feature
 * Adding + notations ([`34cc27e`](https://github.com/Sciance-Inc/statisfactory/commit/34cc27eb9838c04574852a30a1c8309ce3e5aa0c))
