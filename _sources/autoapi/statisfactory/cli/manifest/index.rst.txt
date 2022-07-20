@@ -1,0 +1,33 @@
+:py:mod:`statisfactory.cli.manifest`
+====================================
+
+.. py:module:: statisfactory.cli.manifest
+
+.. autoapi-nested-parse::
+
+   Implements the manifest parser for the Statisfactory's CLI
+
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   statisfactory.cli.manifest._extract_annotation
+   statisfactory.cli.manifest.build_manifest
+
+
+
+.. py:function:: _extract_annotation(annotations)
+
+
+.. py:function:: build_manifest(sess: statisfactory.Session, path: pathlib.Path)
+
+   Build the manifest to statically specify dependencies between pipelines.
+
+

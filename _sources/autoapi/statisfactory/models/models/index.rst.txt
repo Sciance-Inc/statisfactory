@@ -23,6 +23,7 @@ Classes
    statisfactory.models.models.ParametersSetDefinition
    statisfactory.models.models.Volatile
    statisfactory.models.models.Artifact
+   statisfactory.models.models.Manifest
 
 
 
@@ -212,6 +213,59 @@ Classes
       :staticmethod:
 
       Convenient helper to return a tuple of Artifact from an iterable of strings.
+
+
+
+.. py:class:: Manifest
+
+   Represent a minifest : a description of a statisfactory project.
+   To be used by DepecheCode to infer dependencies.
+
+   .. py:class:: CraftDefinition
+
+      .. py:class:: CraftIO
+
+         .. py:attribute:: volatiles
+            :annotation: :Optional[List[str]]
+
+            
+
+         .. py:attribute:: artifacts
+            :annotation: :Optional[List[str]]
+
+            
+
+
+      .. py:attribute:: module
+         :annotation: :str
+
+         
+
+      .. py:attribute:: name
+         :annotation: :str
+
+         
+
+      .. py:attribute:: inputs
+         :annotation: :Manifest.CraftDefinition.CraftIO
+
+         
+
+      .. py:attribute:: outputs
+         :annotation: :Manifest.CraftDefinition.CraftIO
+
+         
+
+
+   .. py:attribute:: pipelines
+      :annotation: :Dict[str, List[List[Manifest.CraftDefinition]]]
+
+      
+
+   .. py:method:: json_dumps(self)
+
+
+   .. py:method:: json_dump(self, f)
 
 
 

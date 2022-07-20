@@ -159,6 +159,15 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="manifest/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.manifest
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="notebooks/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
@@ -543,6 +552,11 @@
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.build_manifest">
+       build_manifest
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#statisfactory.cli.run_pipeline">
        run_pipeline
       </a>
@@ -550,11 +564,6 @@
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#statisfactory.cli.temp_wd">
        temp_wd
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.cli.cli">
-       cli
       </a>
      </li>
     </ul>
@@ -602,6 +611,11 @@
       </a>
      </li>
      <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#statisfactory.cli.build_manifest">
+       build_manifest
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#statisfactory.cli.run_pipeline">
        run_pipeline
       </a>
@@ -609,11 +623,6 @@
      <li class="toc-h4 nav-item toc-entry">
       <a class="reference internal nav-link" href="#statisfactory.cli.temp_wd">
        temp_wd
-      </a>
-     </li>
-     <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.cli.cli">
-       cli
       </a>
      </li>
     </ul>
@@ -636,6 +645,7 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="cli/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.cli.cli</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="manifest/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.cli.manifest</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="notebooks/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.cli.notebooks</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="run/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.cli.run</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="wd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">statisfactory.cli.wd</span></code></a></li>
@@ -655,14 +665,14 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.build_notebooks" title="statisfactory.cli.build_notebooks"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_notebooks</span></code></a>(src: pathlib.Path, dst: pathlib.Path)</p></td>
 <td><p>Recursively parse the Notebooks from 'src', to extract the Craft's definition.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.run_pipeline" title="statisfactory.cli.run_pipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_pipeline</span></code></a>(path: pathlib.Path, pipeline_name: str, parameters_name: Optional[str] = None)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.build_manifest" title="statisfactory.cli.build_manifest"><code class="xref py py-obj docutils literal notranslate"><span class="pre">build_manifest</span></code></a>(sess: statisfactory.Session, path: pathlib.Path)</p></td>
+<td><p>Build the manifest to statically specify dependencies between pipelines.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.run_pipeline" title="statisfactory.cli.run_pipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">run_pipeline</span></code></a>(path: pathlib.Path, pipeline_name: str, parameters_name: Optional[str] = None)</p></td>
 <td><p>Execute a pipeline against a provided configuration</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.cli.temp_wd" title="statisfactory.cli.temp_wd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temp_wd</span></code></a>(path: pathlib.Path)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.temp_wd" title="statisfactory.cli.temp_wd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">temp_wd</span></code></a>(path: pathlib.Path)</p></td>
 <td><p>Context manager. Temporary set the working dir to 'path'.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.cli.cli" title="statisfactory.cli.cli"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cli</span></code></a></p></td>
-<td><p>implements the statisfactory's cli</p></td>
 </tr>
 </tbody>
 </table>
@@ -673,6 +683,12 @@
 <p>Definitions found that way are copied to their .py counterpart.
 The name of the py file is the name of the notebook with num purged.
 The functions definitions found in “export” tagged cells, are exported to the root of the package.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="statisfactory.cli.build_manifest">
+<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.</span></span><span class="sig-name descname"><span class="pre">build_manifest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sess</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../index.html#statisfactory.Session" title="statisfactory.Session"><span class="pre">statisfactory.Session</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pathlib.Path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.build_manifest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build the manifest to statically specify dependencies between pipelines.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -696,11 +712,6 @@ config_name (str, optional): An optional name of arguments set to be fetched fro
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="statisfactory.cli.cli">
-<span class="sig-prename descclassname"><span class="pre">statisfactory.cli.</span></span><span class="sig-name descname"><span class="pre">cli</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.cli.cli" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 </div>

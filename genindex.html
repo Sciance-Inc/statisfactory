@@ -159,6 +159,15 @@
         </a>
        </li>
        <li class="toctree-l4">
+        <a class="reference internal" href="autoapi/statisfactory/cli/manifest/index.html">
+         <code class="xref py py-mod docutils literal notranslate">
+          <span class="pre">
+           statisfactory.cli.manifest
+          </span>
+         </code>
+        </a>
+       </li>
+       <li class="toctree-l4">
         <a class="reference internal" href="autoapi/statisfactory/cli/notebooks/index.html">
          <code class="xref py py-mod docutils literal notranslate">
           <span class="pre">
@@ -532,6 +541,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#J"><strong>J</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
@@ -707,10 +717,10 @@
 </li>
       <li><a href="autoapi/statisfactory/IO/artifacts/backend/index.html#statisfactory.IO.artifacts.backend.LakeFSBackend._create_branch">_create_branch() (statisfactory.IO.artifacts.backend.LakeFSBackend method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/statisfactory/IO/artifacts/backend/index.html#statisfactory.IO.artifacts.backend.S3Backend._create_bucket">_create_bucket() (statisfactory.IO.artifacts.backend.S3Backend method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/statisfactory/IO/artifacts/backend/index.html#statisfactory.IO.artifacts.backend.LocalFS._create_parents">_create_parents() (statisfactory.IO.artifacts.backend.LocalFS method)</a>
 </li>
       <li><a href="autoapi/statisfactory/errors/index.html#statisfactory.errors._custom_formatwarning">_custom_formatwarning() (in module statisfactory.errors)</a>
@@ -732,6 +742,8 @@
 </li>
       </ul></li>
       <li><a href="autoapi/statisfactory/loader/parameters_loader/index.html#statisfactory.loader.parameters_loader._expand_embedded_configs">_expand_embedded_configs() (in module statisfactory.loader.parameters_loader)</a>
+</li>
+      <li><a href="autoapi/statisfactory/cli/manifest/index.html#statisfactory.cli.manifest._extract_annotation">_extract_annotation() (in module statisfactory.cli.manifest)</a>
 </li>
       <li><a href="autoapi/statisfactory/cli/notebooks/index.html#statisfactory.cli.notebooks._CraftExtractor._func_pattern">_func_pattern (statisfactory.cli.notebooks._CraftExtractor attribute)</a>
 </li>
@@ -906,6 +918,10 @@
 </li>
         <li><a href="autoapi/statisfactory/IO/catalog/index.html#statisfactory.IO.catalog.Catalog.artifacts">(statisfactory.IO.catalog.Catalog property)</a>
 </li>
+        <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.CraftDefinition.CraftIO.artifacts">(statisfactory.models.Manifest.CraftDefinition.CraftIO attribute)</a>
+</li>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.CraftDefinition.CraftIO.artifacts">(statisfactory.models.models.Manifest.CraftDefinition.CraftIO attribute)</a>
+</li>
       </ul></li>
       <li><a href="autoapi/statisfactory/cli/cli/index.html#statisfactory.cli.cli.artifacts">artifacts() (in module statisfactory.cli.cli)</a>
 </li>
@@ -951,6 +967,12 @@
       </ul></li>
       <li><a href="autoapi/statisfactory/IO/artifacts/artifact_interactor/index.html#statisfactory.IO.artifacts.artifact_interactor.BinaryInteractor">BinaryInteractor (class in statisfactory.IO.artifacts.artifact_interactor)</a>
 </li>
+      <li><a href="autoapi/statisfactory/cli/index.html#statisfactory.cli.build_manifest">build_manifest() (in module statisfactory.cli)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/cli/manifest/index.html#statisfactory.cli.manifest.build_manifest">(in module statisfactory.cli.manifest)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/statisfactory/cli/index.html#statisfactory.cli.build_notebooks">build_notebooks() (in module statisfactory.cli)</a>
 
       <ul>
@@ -979,12 +1001,8 @@
         <li><a href="autoapi/statisfactory/session/index.html#statisfactory.session.BaseSession.catalog">(statisfactory.session.BaseSession property)</a>
 </li>
       </ul></li>
-      <li><a href="autoapi/statisfactory/cli/index.html#statisfactory.cli.cli">cli() (in module statisfactory.cli)</a>
-
-      <ul>
-        <li><a href="autoapi/statisfactory/cli/cli/index.html#statisfactory.cli.cli.cli">(in module statisfactory.cli.cli)</a>
+      <li><a href="autoapi/statisfactory/cli/cli/index.html#statisfactory.cli.cli.cli">cli() (in module statisfactory.cli.cli)</a>
 </li>
-      </ul></li>
       <li><a href="autoapi/statisfactory/cli/cli/index.html#statisfactory.cli.cli.compile">compile() (in module statisfactory.cli.cli)</a>
 </li>
       <li><a href="autoapi/statisfactory/cli/cli/index.html#statisfactory.cli.cli.conf_describe">conf_describe() (in module statisfactory.cli.cli)</a>
@@ -1337,12 +1355,38 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.CraftDefinition.inputs">inputs (statisfactory.models.Manifest.CraftDefinition attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.CraftDefinition.inputs">(statisfactory.models.models.Manifest.CraftDefinition attribute)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/statisfactory/IO/index.html#statisfactory.IO.ArtifactInteractor.interactors">interactors() (statisfactory.IO.ArtifactInteractor class method)</a>
 
       <ul>
         <li><a href="autoapi/statisfactory/IO/artifacts/artifact_interactor/index.html#statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor.interactors">(statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor class method)</a>
 </li>
         <li><a href="autoapi/statisfactory/IO/artifacts/index.html#statisfactory.IO.artifacts.ArtifactInteractor.interactors">(statisfactory.IO.artifacts.ArtifactInteractor class method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="J">J</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.json_dump">json_dump() (statisfactory.models.Manifest method)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.json_dump">(statisfactory.models.models.Manifest method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.json_dumps">json_dumps() (statisfactory.models.Manifest method)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.json_dumps">(statisfactory.models.models.Manifest method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1429,6 +1473,24 @@
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest">Manifest (class in statisfactory.models)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest">(class in statisfactory.models.models)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.CraftDefinition">Manifest.CraftDefinition (class in statisfactory.models)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.CraftDefinition">(class in statisfactory.models.models)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.CraftDefinition.CraftIO">Manifest.CraftDefinition.CraftIO (class in statisfactory.models)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.CraftDefinition.CraftIO">(class in statisfactory.models.models)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.ParametersSetDefinition.merge">merge (statisfactory.models.models.ParametersSetDefinition attribute)</a>
 
       <ul>
@@ -1480,6 +1542,8 @@
         <li><a href="autoapi/statisfactory/cli/index.html#module-statisfactory.cli">statisfactory.cli</a>
 </li>
         <li><a href="autoapi/statisfactory/cli/cli/index.html#module-statisfactory.cli.cli">statisfactory.cli.cli</a>
+</li>
+        <li><a href="autoapi/statisfactory/cli/manifest/index.html#module-statisfactory.cli.manifest">statisfactory.cli.manifest</a>
 </li>
         <li><a href="autoapi/statisfactory/cli/notebooks/index.html#module-statisfactory.cli.notebooks">statisfactory.cli.notebooks</a>
 </li>
@@ -1558,8 +1622,14 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Pyproject.Entrypoints.module">module (statisfactory.models.models.Pyproject.Entrypoints attribute)</a>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.CraftDefinition.module">module (statisfactory.models.Manifest.CraftDefinition attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.CraftDefinition.module">(statisfactory.models.models.Manifest.CraftDefinition attribute)</a>
 </li>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Pyproject.Entrypoints.module">(statisfactory.models.models.Pyproject.Entrypoints attribute)</a>
+</li>
+      </ul></li>
       <li><a href="autoapi/statisfactory/errors/index.html#statisfactory.errors.ErrorPrototype.msg">msg (statisfactory.errors.ErrorPrototype attribute)</a>
 
       <ul>
@@ -1579,7 +1649,11 @@
 </li>
         <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Artifact.name">(statisfactory.models.Artifact attribute)</a>
 </li>
+        <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.CraftDefinition.name">(statisfactory.models.Manifest.CraftDefinition attribute)</a>
+</li>
         <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Artifact.name">(statisfactory.models.models.Artifact attribute)</a>
+</li>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.CraftDefinition.name">(statisfactory.models.models.Manifest.CraftDefinition attribute)</a>
 </li>
         <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Volatile.name">(statisfactory.models.models.Volatile attribute)</a>
 </li>
@@ -1632,20 +1706,26 @@
         <li><a href="autoapi/statisfactory/index.html#statisfactory.Volatile.of">(statisfactory.Volatile static method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.PipelineDefinition.operators">operators (statisfactory.models.models.PipelineDefinition attribute)</a>
 
       <ul>
         <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.PipelineDefinition.operators">(statisfactory.models.PipelineDefinition attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="autoapi/statisfactory/index.html#statisfactory._Craft.output_annotations">output_annotations (statisfactory._Craft property)</a>
 
       <ul>
         <li><a href="autoapi/statisfactory/operator/index.html#statisfactory.operator._Craft.output_annotations">(statisfactory.operator._Craft property)</a>
 </li>
         <li><a href="autoapi/statisfactory/operator/craft/index.html#statisfactory.operator.craft._Craft.output_annotations">(statisfactory.operator.craft._Craft property)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.CraftDefinition.outputs">outputs (statisfactory.models.Manifest.CraftDefinition attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.CraftDefinition.outputs">(statisfactory.models.models.Manifest.CraftDefinition attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.MergeMethod.override">override (statisfactory.models.MergeMethod attribute)</a>
@@ -1700,6 +1780,12 @@
 
       <ul>
         <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.PipelineDefinition">(class in statisfactory.models.models)</a>
+</li>
+      </ul></li>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.pipelines">pipelines (statisfactory.models.Manifest attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.pipelines">(statisfactory.models.models.Manifest attribute)</a>
 </li>
       </ul></li>
       <li><a href="autoapi/statisfactory/cli/cli/index.html#statisfactory.cli.cli.pipelines">pipelines() (in module statisfactory.cli.cli)</a>
@@ -1953,6 +2039,13 @@
 
       <ul>
         <li><a href="autoapi/statisfactory/cli/cli/index.html#module-statisfactory.cli.cli">module</a>
+</li>
+      </ul></li>
+      <li>
+    statisfactory.cli.manifest
+
+      <ul>
+        <li><a href="autoapi/statisfactory/cli/manifest/index.html#module-statisfactory.cli.manifest">module</a>
 </li>
       </ul></li>
       <li>
@@ -2274,6 +2367,8 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="autoapi/statisfactory/operator/annotations/index.html#statisfactory.operator.annotations.AnnotationKind.VAR_KEY">VAR_KEY (statisfactory.operator.annotations.AnnotationKind attribute)</a>
+</li>
       <li><a href="autoapi/statisfactory/__version__/index.html#statisfactory.__version__.version">version (in module statisfactory.__version__)</a>
 </li>
       <li><a href="autoapi/statisfactory/index.html#statisfactory.Catalog.visit_catalog">visit_catalog() (statisfactory.Catalog method)</a>
@@ -2336,6 +2431,12 @@
       </ul></li>
       <li><a href="autoapi/statisfactory/operator/annotations/index.html#statisfactory.operator.annotations.AnnotationKind.VOLATILE">VOLATILE (statisfactory.operator.annotations.AnnotationKind attribute)</a>
 </li>
+      <li><a href="autoapi/statisfactory/models/index.html#statisfactory.models.Manifest.CraftDefinition.CraftIO.volatiles">volatiles (statisfactory.models.Manifest.CraftDefinition.CraftIO attribute)</a>
+
+      <ul>
+        <li><a href="autoapi/statisfactory/models/models/index.html#statisfactory.models.models.Manifest.CraftDefinition.CraftIO.volatiles">(statisfactory.models.models.Manifest.CraftDefinition.CraftIO attribute)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 

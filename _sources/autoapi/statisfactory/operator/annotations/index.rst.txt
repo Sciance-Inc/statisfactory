@@ -44,6 +44,11 @@ Classes
 
       
 
+   .. py:attribute:: VAR_KEY
+      
+
+      
+
 
 .. py:class:: Annotation
 
