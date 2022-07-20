@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -123,9 +123,7 @@ class Errors(metaclass=ExceptionFactory):
     E011 = "start-up : failed to validate the 'statisfactory' section of the 'pyproject.toml'"
     E012 = "start-up : failed to read the pyproject.toml file located here : '{path}'."
     E013 = "start-up : failed to load the catalogs."
-    E014 = (
-        "start-up : failed to interpolate the catalog with the settings from 'conf/'."
-    )
+    E014 = "start-up : failed to interpolate the catalog with the settings from 'conf/'."
     E015 = "start-up : Parsing pipeline '{pip_name}' : failed to import module '{module}'. The path might not be reachable."
     E016 = "start-up : pipelines definition '{name}' embed a reference to an undeclared definition '{ref}'"
     E017 = "start-up : Parsing pipeline '{pip_name}' : failed to import '{craft_name}' Craft from '{module}'. The module is reachable but importing the Craft failed."
@@ -139,9 +137,7 @@ class Errors(metaclass=ExceptionFactory):
     E0201 = "data interactor: there is already a backend name registered for the '{prefix}'s prefix."
     E021 = "data interactor : failed to read '{method}' '{name}'"
     E022 = "data interactor : failed to save the asset '{name}' with '{method}' "
-    E023 = (
-        "data interactor : '{interactor}' interactor only accept {accept} : got '{got}'"
-    )
+    E023 = "data interactor : '{interactor}' interactor only accept {accept} : got '{got}'"
     E024 = "data interactor : '{path}' does not exists"
     E025 = "data interactor : failed to connect to the connector with connection sting '{dsn}'"
     E026 = "data interactor : failed to execute query {query}."
@@ -165,9 +161,7 @@ class Errors(metaclass=ExceptionFactory):
     E041 = "craft : the craft '{name}' is missing mandatory param '{param}'. Use the context to provide the value or add a default to the function's signature."
     E042 = "craft : the craft '{name}'s signature must be a Volatile, Artifact or a Tuple of Volatiles and Artifacts. Got '{got}'"
     E043 = "craft : the craft '{name}' signature expect {sign} items. Got {got}"
-    E044 = (
-        "craft : the craft '{name}' signature expect nothing but got a not None value."
-    )
+    E044 = "craft : the craft '{name}' signature expect nothing but got a not None value."
     E045 = "Craft : Crafts only support Artifact, Volatile and Keyword only parameters. Craft '{name}' got '{anno}'."
 
     # Pipeline
@@ -207,15 +201,11 @@ class Warnings(UserWarning):
     W021 = "S3Backend : no 'aws_s3_endpoint' found in the configuration. Defaulting to AWS."
 
     # Craft
-    W40 = (
-        "Craft : the Craft '{name}' failed to load '{artifact}' and has been defaulted."
-    )
+    W40 = "Craft : the Craft '{name}' failed to load '{artifact}' and has been defaulted."
 
     # Pipeline
     W050 = "Pipeline : keys collision : '{keys}'"
-    W051 = (
-        "Pipeline : Craft '{craft}' requires an out-of-pipeline Artifact '{artifact}'"
-    )
+    W051 = "Pipeline : Craft '{craft}' requires an out-of-pipeline Artifact '{artifact}'"
 
     # Session
     W060 = "Session : the AWS client was not configured, as either (or both) aws_access_key and aws_secret_access_key were not found in the Globals / Locals configurations files."

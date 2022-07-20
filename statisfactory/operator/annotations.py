@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,8 @@ class AnnotationKind(Enum):
 
     ARTEFACT = auto()  # An artifact to load
     VOLATILE = auto()  # A Volatile object from a previously Executed craft
-    KEY = auto()
+    KEY = auto()  # A named argument
+    VAR_KEY = auto()  # A variadic argument key
 
 
 @dataclass

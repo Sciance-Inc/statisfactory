@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -40,9 +40,7 @@ from statisfactory.internals import UserInjected, Prototype
 #############################################################################
 
 
-_session_prototype = Prototype(
-    default_factory=BaseSession, factory_name="session_factory"
-)
+_session_prototype = Prototype(default_factory=BaseSession, factory_name="session_factory")
 
 
 class Session(metaclass=UserInjected, prototype=_session_prototype):

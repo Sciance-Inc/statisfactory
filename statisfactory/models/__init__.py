@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -16,4 +16,4 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
-from .models import Artifact, Volatile, PipelineDefinition, ParametersSetDefinition, MergeMethod
+from .models import Artifact, Volatile, PipelineDefinition, ParametersSetDefinition, MergeMethod, Manifest

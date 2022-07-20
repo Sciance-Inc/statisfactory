@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -184,9 +184,7 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
         sng = signature(callable)
 
         # If the callable accepts variadic keywords args, send them all
-        has_variadics = any(
-            p for p in sng.parameters.values() if p.kind == Parameter.VAR_KEYWORD
-        )
+        has_variadics = any(p for p in sng.parameters.values() if p.kind == Parameter.VAR_KEYWORD)
         if has_variadics:
             return kwargs
 
@@ -217,9 +215,7 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
         raise NotImplementedError("must be implemented in the concrete class")
 
 
-class FileBasedInteractor(
-    ArtifactInteractor, interactor_name="", register=False, metaclass=ABCMeta
-):
+class FileBasedInteractor(ArtifactInteractor, interactor_name="", register=False, metaclass=ABCMeta):
     """
     Extend the Artifact Interactor with Path interpolations
     """
@@ -510,7 +506,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
         self._query = self._interpolate_string(artifact.extra.query, **kwargs)
-        self._connection_string = artifact.extra.connection_string
+        self._connection_string = self._interpolate_string(artifact.extra.connection_string, **kwargs)
         self._kwargs = kwargs
 
     @contextmanager

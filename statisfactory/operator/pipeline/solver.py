@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -122,9 +122,7 @@ class DAGSolver(Solver):
             for output in craft.produces:
                 # Check that no craft is already creating this artifact
                 if output in m_producer:
-                    raise Errors.E053(
-                        artifact=output, L=craft.name, R=m_producer.get(output)
-                    )  # type: ignore
+                    raise Errors.E053(artifact=output, L=craft.name, R=m_producer.get(output))  # type: ignore
 
                 m_producer[output] = craft.name
             G.add_node(craft.name)

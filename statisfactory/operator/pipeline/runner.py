@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -70,9 +70,7 @@ class Runner(MixinLogable):
         self._length = len(crafts)
         super().__init__(logger_name=__name__)
 
-    def _update_volatiles(
-        self, accumulated: Dict[str, Any], craft: _Craft, craft_output: Iterable[Any]
-    ) -> Dict[str, Any]:
+    def _update_volatiles(self, accumulated: Dict[str, Any], craft: _Craft, craft_output: Iterable[Any]) -> Dict[str, Any]:
         """
         Return a new Volatile mapping, from the union of the current `accumulated` mapping with the volatiles extracted from a craft.
         Raise an error if keys collides.
@@ -82,11 +80,7 @@ class Runner(MixinLogable):
             return accumulated
 
         # Extract the volatiles from the Craft's outputed values
-        update = {
-            anno.name: value
-            for anno, value in zip(craft.output_annotations, craft_output)
-            if anno.kind == AnnotationKind.VOLATILE
-        }
+        update = {anno.name: value for anno, value in zip(craft.output_annotations, craft_output) if anno.kind == AnnotationKind.VOLATILE}
 
         # Merge the accumulated with the output
         try:
@@ -145,9 +139,7 @@ class Runner(MixinLogable):
 
             craft_context = {**shared, **craft_namespaced_context}  # type: ignore
 
-            self.info(
-                f"Executing {craft_full_name} with execution context : \n {craft_context}"
-            )
+            self.info(f"Executing {craft_full_name} with execution context : \n {craft_context}")
 
             try:
                 output = craft(volatiles_mapping=running_volatile, **craft_context)

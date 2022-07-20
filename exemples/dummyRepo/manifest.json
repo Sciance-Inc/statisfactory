@@ -1,0 +1,78 @@
+{
+  "pipelines": {
+    "fooer": [
+      [
+        {
+          "module": "jupyter.foobar.craft_foo",
+          "name": "craft_foo",
+          "inputs": {
+            "volatiles": [],
+            "artifacts": []
+          },
+          "outputs": {
+            "volatiles": [
+              "foo_out"
+            ],
+            "artifacts": []
+          }
+        }
+      ]
+    ],
+    "spamer": [
+      [
+        {
+          "module": "jupyter.spam.craft_spam",
+          "name": "craft_spam",
+          "inputs": {
+            "volatiles": [
+              "foo_out"
+            ],
+            "artifacts": []
+          },
+          "outputs": {
+            "volatiles": [
+              "spam_out"
+            ],
+            "artifacts": []
+          }
+        }
+      ]
+    ],
+    "full": [
+      [
+        {
+          "module": "jupyter.foobar.craft_foo",
+          "name": "craft_foo",
+          "inputs": {
+            "volatiles": [],
+            "artifacts": []
+          },
+          "outputs": {
+            "volatiles": [
+              "foo_out"
+            ],
+            "artifacts": []
+          }
+        }
+      ],
+      [
+        {
+          "module": "jupyter.spam.craft_spam",
+          "name": "craft_spam",
+          "inputs": {
+            "volatiles": [
+              "foo_out"
+            ],
+            "artifacts": []
+          },
+          "outputs": {
+            "volatiles": [
+              "spam_out"
+            ],
+            "artifacts": []
+          }
+        }
+      ]
+    ]
+  }
+}

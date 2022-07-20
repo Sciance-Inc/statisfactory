@@ -1,4 +1,4 @@
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -15,6 +15,7 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from .notebooks import build_notebooks
+from .manifest import build_manifest
 from .run import run_pipeline
 from .wd import temp_wd
 from .cli import cli

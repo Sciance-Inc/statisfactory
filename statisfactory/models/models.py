@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 #
-#    Statisfactory - A satisfying statistical facotry
+#    Statisfactory - A satisfying statistical factory
 #    Copyright (C) 2021-2022  Hugo Juhel
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -32,10 +32,12 @@
 
 # system
 from typing import List, Dict, Optional, Any
+import json
 from enum import Enum
 from pathlib import Path
 from pydantic import Field, BaseModel, Extra
 from pydantic.dataclasses import dataclass
+from pydantic.json import pydantic_encoder
 
 #############################################################################
 #                                  Script                                   #
@@ -126,7 +128,7 @@ class Volatile:
         Convenient helper to return a tuple of volatile from an iterable of strings.
         """
 
-        return [Volatile(i) for i in args]
+        return [Volatile(i) for i in args]  # type: ignore
 
 
 # Extra.allow does not work wit dataclasses
@@ -149,6 +151,34 @@ class Artifact:
         """
         _ = lambda name: Artifact(name=name, save_options={}, load_options={}, extra={})
         return [_(i) for i in args]
+
+
+@dataclass
+class Manifest:
+    """
+    Represent a minifest : a description of a statisfactory project.
+    To be used by DepecheCode to infer dependencies.
+    """
+
+    @dataclass
+    class CraftDefinition:
+        @dataclass
+        class CraftIO:
+            volatiles: Optional[List[str]] = Field(default_factory=list)
+            artifacts: Optional[List[str]] = Field(default_factory=list)
+
+        module: str
+        name: str
+        inputs: CraftIO
+        outputs: CraftIO
+
+    pipelines: Dict[str, List[List[CraftDefinition]]]
+
+    def json_dumps(self):
+        return json.dumps(self, default=pydantic_encoder, indent=2)
+
+    def json_dump(self, f):
+        return json.dump(self, f, default=pydantic_encoder, indent=2)
 
 
 #############################################################################
