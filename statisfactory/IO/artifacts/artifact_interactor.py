@@ -516,7 +516,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
             query (str): The query to use to get the data
         """
 
-        super().__init__(artifact, *args, session, **kwargs)  # type: ignore
+        super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
         # Interpolate the artifact fields to be directly used in load or save methods
         artifact.extra.db_schema = self._interpolate_string(artifact.extra.db_schema, **kwargs) if artifact.extra.db_schema else None
