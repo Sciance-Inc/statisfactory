@@ -37,11 +37,12 @@ import pickle
 import tempfile
 from abc import ABCMeta, abstractmethod
 from contextlib import contextmanager
+from copy import deepcopy
 from inspect import Parameter, signature
 from io import BytesIO  # noqa
 from pathlib import Path
 from string import Template
-from typing import TYPE_CHECKING, Any, Callable, Dict, Union
+from typing import TYPE_CHECKING, Any, Callable, Dict, Union, Optional
 from urllib.parse import urlparse
 
 import pyarrow.feather as feather
@@ -51,10 +52,11 @@ from pydantic import ValidationError
 import pandas as pd  # type: ignore
 import pyodbc  # type: ignore
 
+from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
+
 from statisfactory.errors import Errors
 from statisfactory.IO.artifacts.backend import Backend
-
-# project
 from statisfactory.logger import MixinLogable, get_module_logger
 
 # Project type checks : see PEP563
@@ -485,70 +487,136 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
 class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odbc"):
     """
     Concrete implementation of an odbc interactor
-
-    TODO : inject the odbc flavor (transac, athena, posgres...)
-    TODO : implements the saving strategy
     """
 
     @dataclass
     class Extra:
-        connection_string: str
-        query: str
+        """
+        See https://docs.sqlalchemy.org/en/14/dialects/mssql.html#connecting-to-pyodbc
+        for a complete description of the options
+        """
+
+        protocole: str
+        username: str
+        password: str
+        host: str
+        port: Union[int, str]
+        database: str
+        URL_query: Dict[str, str]
+        # Save-only attributes
+        db_schema: Optional[str] = None
+        table: Optional[str] = None
+        # Load only attributes
+        query: Optional[str] = None
 
     def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
         Instanciate an interactor against an odbc
-
         Args:
             query (str): The query to use to get the data
         """
 
         super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
-        self._query = self._interpolate_string(artifact.extra.query, **kwargs)
-        self._connection_string = self._interpolate_string(artifact.extra.connection_string, **kwargs)
-        self._kwargs = kwargs
+        # Interpolate the artifact fields to be directly used in load or save methods
+        artifact.extra.db_schema = self._interpolate_string(artifact.extra.db_schema, **kwargs) if artifact.extra.db_schema else None
+        artifact.extra.table = self._interpolate_string(artifact.extra.table, **kwargs) if artifact.extra.table else None
+        artifact.extra.query = self._interpolate_string(artifact.extra.query, **kwargs) if artifact.extra.query else None
+        self._artifact = artifact
+
+        # Build the connection URL
+        # Interpolate all the extra fields except for the query
+        protocole = self._interpolate_string(artifact.extra.protocole, **kwargs)
+        username = self._interpolate_string(artifact.extra.username, **kwargs)
+        password = self._interpolate_string(artifact.extra.password, **kwargs)
+        host = self._interpolate_string(artifact.extra.host, **kwargs)
+        port = self._interpolate_string(artifact.extra.port, **kwargs)
+        database = self._interpolate_string(artifact.extra.database, **kwargs)
+
+        # Interpolate the query field by iterating over all of it's inner fields
+        URL_query = deepcopy(artifact.extra.URL_query)
+        for key, val in URL_query.items():
+            URL_query[key] = self._interpolate_string(val, **kwargs)
+
+        # Create the SQL engine
+        self._connection_url = URL.create(
+            protocole, username=username, password=password, host=host, port=int(port), database=database, query=URL_query
+        )
 
     @contextmanager
-    def _get_connection(self):
+    def _get_engine(self):
         """
-        Parse the connector and return the connection objecté
+        Instanciate (and dispose off) the SQLAlchemy engine to be used for the query execution
         """
-        self.debug(f"requesting database connection.")
 
         try:
-            with pyodbc.connect(self._connection_string) as cnxn:
-                yield cnxn
+            engine = create_engine(self._connection_url, fast_executemany=True)
         except BaseException as error:
-            raise Errors.E025(dsn=self._connection_string) from error  # type: ignore
+            raise Errors.E025(dsn=self._connection_url) from error  # type: ignore
 
+        yield engine
+
+        # Properly close the engine to avoif hanging connections
         self.debug(f"closing connection.")
+        engine.dispose()
+
         return
 
     def load(self, **kwargs) -> pd.DataFrame:
         """
         Parse 'path' as a pandas dataframe and return it
-
         Returns:
             pd.DataFrame: the parsed dataframe
         """
-        self.debug(f"loading 'odbc' connection")
+
+        self.debug(f"loading 'odbc' artifact")
+
+        is_query = bool(self._artifact.extra.query)
+        if not is_query:
+            raise Errors.E0284()  # type: ignore
 
         # Combine the save options with the variadics ones
         options = {**self._load_options, **kwargs}
         options = self._dispatch(pd.read_sql, **options)
 
         data = None
-        with self._get_connection() as cnxn:
+        with self._get_engine() as engine:
             try:
-                data = pd.read_sql(self._query, cnxn, **options)
+                data = pd.read_sql(self._artifact.extra.query, engine, **options)
             except BaseException as error:
-                raise Errors.E026(query=self._query) from error  # type: ignore
+                raise Errors.E026(query=self._artifact.extra.query) from error  # type: ignore
 
         return data
 
-    def save(self, asset: Any, **kwargs):
-        raise Errors.E999()  # type: ignore
+    def save(self, asset: pd.DataFrame, **kwargs):
+        """
+        Save the DataFrame to the SQL server.
+        """
+
+        self.debug(f"saving 'odbc' artifact")
+
+        # Check if both schema and table are defined
+        is_table_none = self._artifact.extra.table is None
+        is_schema_none = self._artifact.extra.db_schema is None
+        if is_table_none or is_schema_none:
+            raise Errors.E0283()  # type: ignore
+
+        options = {**self._save_options, **kwargs}
+        options = self._dispatch(pd.DataFrame.to_sql, **options)
+
+        try:
+            with self._get_engine() as engine:
+                asset.to_sql(
+                    con=engine,
+                    schema=self._artifact.extra.db_schema,
+                    if_exists="replace",
+                    name=self._artifact.extra.table,
+                    chunksize=1000,
+                    **options,
+                )
+
+        except BaseException as error:
+            raise Errors.E0282(schema=self._artifact.extra.db_schema, table=self._artifact.extra.table) from error  # type: ignore
 
 
 # ------------------------------------------------------------------------- #
