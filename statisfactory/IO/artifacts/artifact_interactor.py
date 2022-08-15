@@ -596,9 +596,9 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         self.debug(f"saving 'odbc' artifact")
 
         # Check if both schema and table are defined
-        is_table = bool(self._artifact.extra.table)
-        is_schema = bool(self._artifact.extra.db_schema)
-        if not is_table or not is_schema:
+        is_table_none = self._artifact.extra.table is None
+        is_schema_none = self._artifact.extra.db_schema is None
+        if is_table_none or is_schema_none:
             raise Errors.E0283()  # type: ignore
 
         options = {**self._save_options, **kwargs}
