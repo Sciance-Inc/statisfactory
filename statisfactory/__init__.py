@@ -21,4 +21,4 @@ from statisfactory.models.models import Artifact, Volatile  # Artefact,
 from statisfactory.operator import Craft, Pipeline, _Craft  # noqa
 from statisfactory.session import Session  # noqa
 
-__version__ = "0.14.0"
+__version__ = "0.15.0"

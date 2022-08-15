@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.0 (2022-08-15)
+### Feature
+* Adding support for odbc saving ([`b7f5acd`](https://github.com/Sciance-Inc/statisfactory/commit/b7f5acd5e26bf760908093a7a6ac71c8be902b53))
+
+### Fix
+* Adding keyword only session ([`7493559`](https://github.com/Sciance-Inc/statisfactory/commit/74935595730ea85d01174d5a4eac330e1e12b49d))
+
 ## v0.14.0 (2022-07-20)
 ### Feature
 * Adding support for variadics arguments in craft definition ([`4db0b61`](https://github.com/Sciance-Inc/statisfactory/commit/4db0b61473979869bd79faa1a7f8c744cfa86f80))
