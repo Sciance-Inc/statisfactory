@@ -47,7 +47,7 @@ from urllib.parse import urlparse
 
 import pyarrow.feather as feather
 from pydantic.dataclasses import dataclass
-from pydantic import ValidationError, Field
+from pydantic import ValidationError
 
 import pandas as pd  # type: ignore
 import pyodbc  # type: ignore
@@ -504,7 +504,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         database: str
         URL_query: Dict[str, str]
         # Save-only attributes
-        db_schema: Optional[str] = Field(default=None, alias="schema")
+        db_schema: Optional[str] = None
         table: Optional[str] = None
         # Load only attributes
         query: Optional[str] = None
@@ -616,7 +616,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
                 )
 
         except BaseException as error:
-            raise Errors.E0282(schema=self._artifact.extra.schema, table=self._artifact.extra.table) from error  # type: ignore
+            raise Errors.E0282(schema=self._artifact.extra.db_schema, table=self._artifact.extra.table) from error  # type: ignore
 
 
 # ------------------------------------------------------------------------- #
