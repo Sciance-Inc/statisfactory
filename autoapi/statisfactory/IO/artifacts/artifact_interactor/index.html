@@ -703,8 +703,48 @@
         </a>
         <ul class="nav section-nav flex-column">
          <li class="toc-h6 nav-item toc-entry">
-          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.connection_string">
-           connection_string
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.protocole">
+           protocole
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.username">
+           username
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.password">
+           password
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.host">
+           host
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.port">
+           port
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.database">
+           database
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.URL_query">
+           URL_query
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.db_schema">
+           db_schema
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.table">
+           table
           </a>
          </li>
          <li class="toc-h6 nav-item toc-entry">
@@ -715,8 +755,8 @@
         </ul>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor._get_connection">
-         _get_connection
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor._get_engine">
+         _get_engine
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -978,8 +1018,48 @@
         </a>
         <ul class="nav section-nav flex-column">
          <li class="toc-h6 nav-item toc-entry">
-          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.connection_string">
-           connection_string
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.protocole">
+           protocole
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.username">
+           username
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.password">
+           password
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.host">
+           host
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.port">
+           port
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.database">
+           database
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.URL_query">
+           URL_query
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.db_schema">
+           db_schema
+          </a>
+         </li>
+         <li class="toc-h6 nav-item toc-entry">
+          <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.table">
+           table
           </a>
          </li>
          <li class="toc-h6 nav-item toc-entry">
@@ -990,8 +1070,8 @@
         </ul>
        </li>
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor._get_connection">
-         _get_connection
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor._get_engine">
+         _get_engine
         </a>
        </li>
        <li class="toc-h5 nav-item toc-entry">
@@ -1341,43 +1421,83 @@ See PEP-487 for details.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.artifact_interactor.</span></span><span class="sig-name descname"><span class="pre">ODBCInteractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artifact</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor" title="statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArtifactInteractor</span></code></a>, <a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable" title="statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinInterpolable</span></code></a></p>
 <p>Concrete implementation of an odbc interactor</p>
-<p>TODO : inject the odbc flavor (transac, athena, posgres…)
-TODO : implements the saving strategy</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Extra</span></span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py attribute">
-<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.connection_string">
-<span class="sig-name descname"><span class="pre">connection_string</span></span><em class="property"><span class="w"> </span><span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.connection_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>See <a class="reference external" href="https://docs.sqlalchemy.org/en/14/dialects/mssql.html#connecting-to-pyodbc">https://docs.sqlalchemy.org/en/14/dialects/mssql.html#connecting-to-pyodbc</a>
+for a complete description of the options</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.protocole">
+<span class="sig-name descname"><span class="pre">protocole</span></span><em class="property"><span class="w"> </span><span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.protocole" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.username">
+<span class="sig-name descname"><span class="pre">username</span></span><em class="property"><span class="w"> </span><span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.username" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.password">
+<span class="sig-name descname"><span class="pre">password</span></span><em class="property"><span class="w"> </span><span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.password" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.host">
+<span class="sig-name descname"><span class="pre">host</span></span><em class="property"><span class="w"> </span><span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.host" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.port">
+<span class="sig-name descname"><span class="pre">port</span></span><em class="property"><span class="w"> </span><span class="pre">:Union[int,</span> <span class="pre">str]</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.port" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.database">
+<span class="sig-name descname"><span class="pre">database</span></span><em class="property"><span class="w"> </span><span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.database" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.URL_query">
+<span class="sig-name descname"><span class="pre">URL_query</span></span><em class="property"><span class="w"> </span><span class="pre">:Dict[str,</span> <span class="pre">str]</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.URL_query" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.db_schema">
+<span class="sig-name descname"><span class="pre">db_schema</span></span><em class="property"><span class="w"> </span><span class="pre">:Optional[str]</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.db_schema" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.table">
+<span class="sig-name descname"><span class="pre">table</span></span><em class="property"><span class="w"> </span><span class="pre">:Optional[str]</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.table" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.query">
-<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="w"> </span><span class="pre">:str</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.query" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">query</span></span><em class="property"><span class="w"> </span><span class="pre">:Optional[str]</span></em><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra.query" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor._get_connection">
-<span class="sig-name descname"><span class="pre">_get_connection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor._get_connection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse the connector and return the connection objecté</p>
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor._get_engine">
+<span class="sig-name descname"><span class="pre">_get_engine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor._get_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instanciate (and dispose off) the SQLAlchemy engine to be used for the query execution</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.load">
 <span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pandas.DataFrame</span></span></span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.load" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse ‘path’ as a pandas dataframe and return it</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>pd.DataFrame: the parsed dataframe</p>
-</dd>
-</dl>
+<dd><p>Parse ‘path’ as a pandas dataframe and return it
+Returns:</p>
+<blockquote>
+<div><p>pd.DataFrame: the parsed dataframe</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.save" title="Permalink to this definition">¶</a></dt>
-<dd><p>Save the underlying asset.</p>
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.DataFrame</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the DataFrame to the SQL server.</p>
 </dd></dl>
 
 </dd></dl>

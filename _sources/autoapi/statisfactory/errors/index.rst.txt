@@ -220,6 +220,21 @@ Attributes
 
       
 
+   .. py:attribute:: E0282
+      :annotation: = data interactor : failed to write data to the '{schema}.{table}' table.
+
+      
+
+   .. py:attribute:: E0283
+      :annotation: = data interactor : both 'schema' and 'table' attributes of the artifact specification are...
+
+      
+
+   .. py:attribute:: E0284
+      :annotation: = data interactor : the 'query' attribute of the artifact specification is required for a table to...
+
+      
+
    .. py:attribute:: E0290
       :annotation: = data interactor : {backend} failed to serialize or write the payload.
 

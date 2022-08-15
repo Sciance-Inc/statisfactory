@@ -242,38 +242,77 @@ Classes
 
    Concrete implementation of an odbc interactor
 
-   TODO : inject the odbc flavor (transac, athena, posgres...)
-   TODO : implements the saving strategy
-
    .. py:class:: Extra
 
-      .. py:attribute:: connection_string
+      See https://docs.sqlalchemy.org/en/14/dialects/mssql.html#connecting-to-pyodbc
+      for a complete description of the options
+
+      .. py:attribute:: protocole
          :annotation: :str
+
+         
+
+      .. py:attribute:: username
+         :annotation: :str
+
+         
+
+      .. py:attribute:: password
+         :annotation: :str
+
+         
+
+      .. py:attribute:: host
+         :annotation: :str
+
+         
+
+      .. py:attribute:: port
+         :annotation: :Union[int, str]
+
+         
+
+      .. py:attribute:: database
+         :annotation: :str
+
+         
+
+      .. py:attribute:: URL_query
+         :annotation: :Dict[str, str]
+
+         
+
+      .. py:attribute:: db_schema
+         :annotation: :Optional[str]
+
+         
+
+      .. py:attribute:: table
+         :annotation: :Optional[str]
 
          
 
       .. py:attribute:: query
-         :annotation: :str
+         :annotation: :Optional[str]
 
          
 
 
-   .. py:method:: _get_connection(self)
+   .. py:method:: _get_engine(self)
 
-      Parse the connector and return the connection objecté
+      Instanciate (and dispose off) the SQLAlchemy engine to be used for the query execution
 
 
    .. py:method:: load(self, **kwargs) -> pandas.DataFrame
 
       Parse 'path' as a pandas dataframe and return it
-
       Returns:
           pd.DataFrame: the parsed dataframe
 
 
-   .. py:method:: save(self, asset: Any, **kwargs)
+   .. py:method:: save(self, asset: pandas.DataFrame, **kwargs)
 
-      Save the underlying asset.
+      Save the DataFrame to the SQL server.
 
 
 
