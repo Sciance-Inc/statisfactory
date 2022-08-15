@@ -284,8 +284,8 @@ class _Craft(Scoped, MixinHookable, MergeableInterface, MixinLogable):
         session = self.get_session()
         for item, anno in zip(output, self._out_anno):
             if anno.kind == AnnotationKind.ARTEFACT:
-                session.catalog.save(anno.name, item, **context)
                 self.debug(f"craft '{self._name}' : capturing artifacts : '{anno.name}'")
+                session.catalog.save(anno.name, item, **context)
 
     def __add__(self, visitor: MergeableInterface):
         """
