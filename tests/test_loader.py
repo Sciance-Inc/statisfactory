@@ -143,5 +143,3 @@ def test_support_for_nul(sess):
     parameters = get_parameters(path=p, session=sess)
 
     assert parameters["test"]["nullable"] is None
-
-    print(1)

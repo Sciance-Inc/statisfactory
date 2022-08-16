@@ -34,4 +34,4 @@ layers:
 # Test nullable
 value:
   not_null: 1
-  nullable: null
+  nullable: ~
