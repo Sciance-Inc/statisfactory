@@ -147,6 +147,7 @@ class Errors(metaclass=ExceptionFactory):
     E0282 = "data interactor : failed to write data to the '{schema}.{table}' table."
     E0283 = "data interactor : both 'schema' and 'table' attributes of the artifact specification are required for a table to be written."
     E0284 = "data interactor : the 'query' attribute of the artifact specification is required for a table to be loaded."
+    E0285 = "data interactor : port must be an integer or a a string representing an integer."
     E0290 = "data interactor : {backend} failed to serialize or write the payload."
     E0291 = "data interactor : {backend} failed to retrieve, fetch or deserialize the payload. Make sure that the ressource exists in the current branch."
     E0292 = "data interactor : scheme {scheme} does not map to any backend."
