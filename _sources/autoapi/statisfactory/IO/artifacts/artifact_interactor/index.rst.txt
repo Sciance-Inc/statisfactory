@@ -267,11 +267,6 @@ Classes
 
          
 
-      .. py:attribute:: port
-         :annotation: :Union[int, str]
-
-         
-
       .. py:attribute:: database
          :annotation: :str
 
@@ -279,6 +274,11 @@ Classes
 
       .. py:attribute:: URL_query
          :annotation: :Dict[str, str]
+
+         
+
+      .. py:attribute:: port
+         :annotation: :Optional[Union[int, str]]
 
          
 

@@ -49,6 +49,6 @@ Attributes
 
 .. py:function:: get_parameters(path: Union[str, pathlib.Path], session) -> Dict[str, Any]
 
-   Build the parameters definitions by recyrsively injecting pipelines definitions
+   Build the parameters definitions by recyrsively injecting pipelines parameters definitions
 
 

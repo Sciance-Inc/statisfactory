@@ -235,6 +235,11 @@ Attributes
 
       
 
+   .. py:attribute:: E0285
+      :annotation: = data interactor : port must be an integer or a a string representing an integer.
+
+      
+
    .. py:attribute:: E0290
       :annotation: = data interactor : {backend} failed to serialize or write the payload.
 

@@ -757,6 +757,12 @@ render_vars (Dict[str, Any]): an optional mapping of variables to use to render 
 render_vars (Dict[str, Any], optional): An optional mapping of variables to use to render the template. Defaults to None.</p>
 </dd>
 </dl>
+<p>Implementation details:
+* YAML parse nill and ~ as None.
+* YAML doesnt dump None as Null
+* The render_vars dict is interpolate from global, so any null or ~ has been replaced by a None
+* Before rendering, any None in the the render_vars dict replaced with a ‘~’
+* After rendering, and when parsed back, the None will be preserved</p>
 </dd></dl>
 
 <dl class="py function">
