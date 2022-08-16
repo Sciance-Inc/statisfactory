@@ -505,22 +505,12 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         host: str
         database: str
         URL_query: Dict[str, str]
-        port: Optional[int] = None
+        port: Optional[Union[int, str]] = None
         # Save-only attributes
         db_schema: Optional[str] = None
         table: Optional[str] = None
         # Load only attributes
         query: Optional[str] = None
-
-        def __post_init__(self):
-
-            try:
-                self.port = int(self.port)
-            except ValueError as error:
-                if self.port == "None":
-                    self.port = None
-                else:
-                    raise error
 
     def __init__(self, artifact, *args, session: BaseSession = None, **kwargs):
         """
@@ -554,10 +544,12 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
 
         # Interpolate and try to convert the port to an integer
         port = maybe_interpolate(artifact.extra.port)
-        if port:
-            try:
-                port = int(port)
-            except BaseException as error:
+        try:
+            port = int(port)
+        except ValueError as error:
+            if port == "None":
+                port = None
+            else:
                 raise Errors.E0285() from error  # type: ignore
 
         # Interpolate the query field by iterating over all of it's inner fields
