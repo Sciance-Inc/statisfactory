@@ -48,3 +48,17 @@
   type: feather
   extra:
     path: tests/test_repo/data/test_feather.feather
+
+- name: test_odbc
+  type: odbc
+  extra:
+    protocole: "mssql+pyodbc"
+    username: "foobar"
+    password: "spam"
+    host: "192.19.1.1"
+    port: "None"
+    database: "test"
+    URL_query:
+      driver: "ODBC Driver 17 for SQL Server"
+    db_schema: "reporting"
+    table: egg
