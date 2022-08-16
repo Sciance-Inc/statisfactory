@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.1 (2022-08-16)
+### Fix
+* Adding support for None port ([#17](https://github.com/Sciance-Inc/statisfactory/issues/17)) ([`f02a2c6`](https://github.com/Sciance-Inc/statisfactory/commit/f02a2c6e52ddc24e63777a0fb642a7181ed786b3))
+
 ## v0.15.0 (2022-08-15)
 ### Feature
 * Adding support for odbc saving ([`b7f5acd`](https://github.com/Sciance-Inc/statisfactory/commit/b7f5acd5e26bf760908093a7a6ac71c8be902b53))
