@@ -30,3 +30,8 @@ layers:
 #lakefs_secret_access_key: replaceMeInLocals
 #lakefs_endpoint: http://lakefs.iacssvdc.ia.csvdc.qc.ca #http://lakefs.jugodzilla.com
 # Optionaly, LakeFS bucket van be set through LAKEFS_BUCKET. Defaulted to "s3://lakefs/"
+
+# Test nullable
+value:
+  not_null: 1
+  nullable: ~

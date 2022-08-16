@@ -33,7 +33,6 @@
 # system
 from typing import Union, Dict
 from pathlib import Path
-from itertools import chain
 
 # project
 from statisfactory.loader.yaml_utils import gen_as_model

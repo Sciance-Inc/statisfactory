@@ -36,6 +36,7 @@ import pytest
 
 from statisfactory import Session, Catalog
 from statisfactory import Artifact
+from statisfactory.IO.artifacts import artifact_interactor
 
 #############################################################################
 #                                 Packages                                  #
@@ -143,3 +144,23 @@ def test_jinja_loop(sess):
 
     for item in ["foo", "bar", "spam"]:
         sess.catalog._get_artifact(f"{item}_artifact")
+
+
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo",
+    ],
+    indirect=True,
+)
+def test_odbc_interactor(sess):
+    """
+    Make sure None port are properly handled
+    """
+
+    artifact_repr = sess.catalog._get_artifact("test_odbc")
+    interactor_factory = sess.catalog._get_interactor(artifact_repr)
+
+    args = interactor_factory(artifact_repr, sess=sess)._connection_url.translate_connect_args()
+
+    assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam"}

@@ -112,7 +112,7 @@ def _expand_embedded_configs(*, name: str, parameters: Mapping, raw: Mapping):
 
 def get_parameters(path: Union[str, Path], session) -> Dict[str, Any]:
     """
-    Build the parameters definitions by recyrsively injecting pipelines definitions
+    Build the parameters definitions by recyrsively injecting pipelines parameters definitions
     """
 
     render_vars = {k.lower(): v for k, v in session.settings.to_dict().items()}

@@ -32,6 +32,7 @@
 
 # system
 from __future__ import annotations
+from lib2to3.pytree import Base
 
 import pickle
 import tempfile
@@ -155,6 +156,8 @@ class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
             except (ValidationError, TypeError) as error:
                 schema = self.Extra.__pydantic_model__.schema()["properties"]
                 raise Errors.E034(name=artifact.name, schema=schema) from error  # type: ignore
+
+        self.artifact = artifact
 
     def __init_subclass__(cls, interactor_name, register: bool = True, **kwargs):
         """
@@ -500,9 +503,9 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         username: str
         password: str
         host: str
-        port: Union[int, str]
         database: str
         URL_query: Dict[str, str]
+        port: Optional[Union[int, str]] = None
         # Save-only attributes
         db_schema: Optional[str] = None
         table: Optional[str] = None
@@ -518,29 +521,45 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
 
         super().__init__(artifact, *args, session=session, **kwargs)  # type: ignore
 
+        def maybe_interpolate(value):
+            if not value:
+                return None
+            return self._interpolate_string(value, **kwargs)
+
+        def interpolate(value):
+            return self._interpolate_string(value, **kwargs)
+
         # Interpolate the artifact fields to be directly used in load or save methods
-        artifact.extra.db_schema = self._interpolate_string(artifact.extra.db_schema, **kwargs) if artifact.extra.db_schema else None
-        artifact.extra.table = self._interpolate_string(artifact.extra.table, **kwargs) if artifact.extra.table else None
-        artifact.extra.query = self._interpolate_string(artifact.extra.query, **kwargs) if artifact.extra.query else None
-        self._artifact = artifact
+        self._db_schema = maybe_interpolate(artifact.extra.db_schema)
+        self._table = maybe_interpolate(artifact.extra.table)
+        self._query = maybe_interpolate(artifact.extra.query)
 
         # Build the connection URL
-        # Interpolate all the extra fields except for the query
-        protocole = self._interpolate_string(artifact.extra.protocole, **kwargs)
-        username = self._interpolate_string(artifact.extra.username, **kwargs)
-        password = self._interpolate_string(artifact.extra.password, **kwargs)
-        host = self._interpolate_string(artifact.extra.host, **kwargs)
-        port = self._interpolate_string(artifact.extra.port, **kwargs)
-        database = self._interpolate_string(artifact.extra.database, **kwargs)
+        # Interpolate all the extra fields except for the query and the port
+        protocole = interpolate(artifact.extra.protocole)
+        username = interpolate(artifact.extra.username)
+        password = interpolate(artifact.extra.password)
+        host = interpolate(artifact.extra.host)
+        database = interpolate(artifact.extra.database)
+
+        # Interpolate and try to convert the port to an integer
+        port = maybe_interpolate(artifact.extra.port)
+        try:
+            port = int(port)
+        except ValueError as error:
+            if port == "None":
+                port = None
+            else:
+                raise Errors.E0285() from error  # type: ignore
 
         # Interpolate the query field by iterating over all of it's inner fields
         URL_query = deepcopy(artifact.extra.URL_query)
         for key, val in URL_query.items():
-            URL_query[key] = self._interpolate_string(val, **kwargs)
+            URL_query[key] = interpolate(val)
 
         # Create the SQL engine
         self._connection_url = URL.create(
-            protocole, username=username, password=password, host=host, port=int(port), database=database, query=URL_query
+            protocole, username=username, password=password, host=host, port=port, database=database, query=URL_query
         )
 
     @contextmanager
@@ -571,7 +590,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
 
         self.debug(f"loading 'odbc' artifact")
 
-        is_query = bool(self._artifact.extra.query)
+        is_query = bool(self._query)
         if not is_query:
             raise Errors.E0284()  # type: ignore
 
@@ -582,9 +601,9 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         data = None
         with self._get_engine() as engine:
             try:
-                data = pd.read_sql(self._artifact.extra.query, engine, **options)
+                data = pd.read_sql(self._query, engine, **options)
             except BaseException as error:
-                raise Errors.E026(query=self._artifact.extra.query) from error  # type: ignore
+                raise Errors.E026(query=self._query) from error  # type: ignore
 
         return data
 
@@ -596,8 +615,8 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         self.debug(f"saving 'odbc' artifact")
 
         # Check if both schema and table are defined
-        is_table_none = self._artifact.extra.table is None
-        is_schema_none = self._artifact.extra.db_schema is None
+        is_table_none = self._table is None
+        is_schema_none = self._db_schema is None
         if is_table_none or is_schema_none:
             raise Errors.E0283()  # type: ignore
 
@@ -608,15 +627,15 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
             with self._get_engine() as engine:
                 asset.to_sql(
                     con=engine,
-                    schema=self._artifact.extra.db_schema,
+                    schema=self._db_schema,
                     if_exists="replace",
-                    name=self._artifact.extra.table,
+                    name=self._table,
                     chunksize=1000,
                     **options,
                 )
 
         except BaseException as error:
-            raise Errors.E0282(schema=self._artifact.extra.db_schema, table=self._artifact.extra.table) from error  # type: ignore
+            raise Errors.E0282(schema=self._db_schema, table=self._table) from error  # type: ignore
 
 
 # ------------------------------------------------------------------------- #

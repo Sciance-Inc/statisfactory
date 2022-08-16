@@ -35,6 +35,7 @@ from typing import Any, Dict, Iterator, Mapping, Optional, Union, Generator, Tup
 from pathlib import Path
 from glob import glob
 import yaml
+from functools import singledispatch
 
 # Third party
 from jinja2 import Template
@@ -106,7 +107,30 @@ def _render_template(path: Path, render_vars: Optional[Dict[str, Any]] = None) -
     Args:
         path (Path): the path to the ressource to render.
         render_vars (Dict[str, Any], optional): An optional mapping of variables to use to render the template. Defaults to None.
+
+    Implementation details:
+    * YAML parse nill and ~ as None.
+    * YAML doesnt dump None as Null
+    * The render_vars dict is interpolate from global, so any null or ~ has been replaced by a None
+    * Before rendering, any None in the the render_vars dict replaced with a '~'
+    * After rendering, and when parsed back, the None will be preserved
     """
+
+    @singledispatch
+    def replace_none(value):
+        return value
+
+    @replace_none.register(dict)
+    def _(value):
+        return {k: replace_none(v) for k, v in value.items()}
+
+    @replace_none.register(list)
+    def _(value):
+        return [replace_none(v) for v in value]
+
+    @replace_none.register(type(None))
+    def _(value):
+        return "null"
 
     # Load and render the Jinja template
     try:
@@ -114,6 +138,9 @@ def _render_template(path: Path, render_vars: Optional[Dict[str, Any]] = None) -
             template = Template(f.read())
     except BaseException as error:
         raise Errors.E0182(path=str(path)) from error  # type: ignore
+
+    # Replace the None from renders_vars with '~' because of the way yaml parse the None
+    render_vars = replace_none(render_vars)
 
     try:
         rendered = template.render(render_vars)
