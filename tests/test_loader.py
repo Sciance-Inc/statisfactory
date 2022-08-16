@@ -129,3 +129,19 @@ def test_merging_strategies(sess):
 
     assert params["inherited_2"] == {"param_1": 1, "param_2": 2, "param_nested": {"param_nested_2": 2}, "tags": []}
     assert params["inherited_3"] == {"param_1": 1, "param_2": 2, "param_nested": {"param_nested_1": 1, "param_nested_2": 2}, "tags": []}
+
+
+def test_support_for_nul(sess):
+    """
+    Test that Globals and Locals Null are correctly supported
+    """
+
+    assert sess.settings.value.not_null == 1
+    assert sess.settings.value.nullable is None
+
+    p = Path("tests/test_loader/parameters/nullable.yaml").absolute()
+    parameters = get_parameters(path=p, session=sess)
+
+    assert parameters["test"]["nullable"] is None
+
+    print(1)

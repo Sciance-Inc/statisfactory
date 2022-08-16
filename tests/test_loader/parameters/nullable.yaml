@@ -1,0 +1,3 @@
+test: 
+    not_nul: {{ value['not_null']}}
+    nullable: {{ value['nullable']}}
