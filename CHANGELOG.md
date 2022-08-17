@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.2 (2022-08-17)
+### Fix
+* Once again trying to solve this fucking port issue ([`beee5c0`](https://github.com/Sciance-Inc/statisfactory/commit/beee5c08a3c99b57047b0347e2fa9ff71c994989))
+* Converting port in the post_validation ([`11305d2`](https://github.com/Sciance-Inc/statisfactory/commit/11305d2bcb5780b4dd5f7939a434f5cd7f62ac31))
+* Globals/locals None are now properly preserved ([`c979bed`](https://github.com/Sciance-Inc/statisfactory/commit/c979bed2815c6a97ccae1680ab022da387a2a693))
+* Removing dead code ([`d4a8aae`](https://github.com/Sciance-Inc/statisfactory/commit/d4a8aaec80dea92003339fc387ed65c9cbf6983d))
+* Adding support for nullable ports ([`1785841`](https://github.com/Sciance-Inc/statisfactory/commit/1785841d4c8be255f455c8efb4279152ea2b3f3f))
+
 ## v0.15.1 (2022-08-16)
 ### Fix
 * Adding support for None port ([#17](https://github.com/Sciance-Inc/statisfactory/issues/17)) ([`f02a2c6`](https://github.com/Sciance-Inc/statisfactory/commit/f02a2c6e52ddc24e63777a0fb642a7181ed786b3))
