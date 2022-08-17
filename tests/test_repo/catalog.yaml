@@ -56,7 +56,21 @@
     username: "foobar"
     password: "spam"
     host: "192.19.1.1"
-    port: "None"
+    port: null
+    database: "test"
+    URL_query:
+      driver: "ODBC Driver 17 for SQL Server"
+    db_schema: "reporting"
+    table: egg
+
+- name: test_odbc_dynamic
+  type: odbc
+  extra:
+    protocole: "mssql+pyodbc"
+    username: "foobar"
+    password: "spam"
+    host: "192.19.1.1"
+    port: "+{port}"
     database: "test"
     URL_query:
       driver: "ODBC Driver 17 for SQL Server"

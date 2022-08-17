@@ -164,3 +164,23 @@ def test_odbc_interactor(sess):
     args = interactor_factory(artifact_repr, sess=sess)._connection_url.translate_connect_args()
 
     assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam"}
+
+
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo",
+    ],
+    indirect=True,
+)
+def test_odbc_interactor_dynamic(sess):
+    """
+    Make sure None port are properly handled
+    """
+
+    artifact_repr = sess.catalog._get_artifact("test_odbc_dynamic")
+    interactor_factory = sess.catalog._get_interactor(artifact_repr)
+
+    args = interactor_factory(artifact_repr, sess=sess, port=1234)._connection_url.translate_connect_args()
+
+    assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam", "port": 1234}

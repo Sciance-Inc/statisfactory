@@ -203,6 +203,7 @@ class Warnings(UserWarning):
     # Interactor
     W020 = "data interactor : '{inter_type}' is not a registered interactor."
     W021 = "S3Backend : no 'aws_s3_endpoint' found in the configuration. Defaulting to AWS."
+    W030 = "ODBC interactor : use the '+{ value }' syntax to interpolate non-string or nullable value."
 
     # Craft
     W40 = "Craft : the Craft '{name}' failed to load '{artifact}' and has been defaulted."

@@ -32,7 +32,7 @@
 
 # system
 from __future__ import annotations
-from lib2to3.pytree import Base
+
 
 import pickle
 import tempfile
@@ -45,18 +45,18 @@ from pathlib import Path
 from string import Template
 from typing import TYPE_CHECKING, Any, Callable, Dict, Union, Optional
 from urllib.parse import urlparse
+from warnings import warn
 
 import pyarrow.feather as feather
 from pydantic.dataclasses import dataclass
 from pydantic import ValidationError
 
 import pandas as pd  # type: ignore
-import pyodbc  # type: ignore
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 
-from statisfactory.errors import Errors
+from statisfactory.errors import Errors, Warnings
 from statisfactory.IO.artifacts.backend import Backend
 from statisfactory.logger import MixinLogable, get_module_logger
 
@@ -90,6 +90,24 @@ class DynamicInterpolation(Template):
     """  # type: ignore
 
 
+class DynamicInterpolationPlus(Template):
+    """
+    Implements the interpolation of the +{} for the artifact values.
+    The + char can be used even in non escaped sequences, as it's not a YAML reserved char (but ! is...).
+    The +{} syntax can then be used in scalar yaml, whereas the !{} can't. The +{} can then be used to interpolate integer, and not only strings.
+    """
+
+    delimiter = "+{"
+    pattern = r"""
+    \+{(?:
+      (?P<escaped>\+) |
+      (?P<named>[_a-z][_a-z0-9]*)} |
+      (?P<braced>[_a-z][_a-z0-9]*)} |
+      (?P<invalid>)
+    )
+    """  # type: ignore
+
+
 class MixinInterpolable:
     """
     Implements helpers to interpolate a string
@@ -102,7 +120,7 @@ class MixinInterpolable:
 
         super().__init__(*args, **kwargs)
 
-    def _interpolate_string(self, string, **kwargs):
+    def _interpolate(self, string, **kwargs):
         """
         Interpolate a given string using the provided context
         """
@@ -112,6 +130,7 @@ class MixinInterpolable:
 
         try:
             string = DynamicInterpolation(string).substitute(**kwargs)
+            string = DynamicInterpolationPlus(string).substitute(**kwargs)
         except KeyError as err:
             raise Errors.E028(trg=string) from err  # type: ignore
 
@@ -239,7 +258,7 @@ class FileBasedInteractor(ArtifactInteractor, interactor_name="", register=False
         path = artifact.extra.path
         # Extract the fragment from the URI
         try:
-            URI = self._interpolate_string(string=path, **kwargs)
+            URI = self._interpolate(string=path, **kwargs)
             fragment = urlparse(URI)
         except BaseException as error:
             raise Errors.E0281(name=self.name) from error  # type: ignore
@@ -524,10 +543,10 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         def maybe_interpolate(value):
             if not value:
                 return None
-            return self._interpolate_string(value, **kwargs)
+            return self._interpolate(value, **kwargs)
 
         def interpolate(value):
-            return self._interpolate_string(value, **kwargs)
+            return self._interpolate(value, **kwargs)
 
         # Interpolate the artifact fields to be directly used in load or save methods
         self._db_schema = maybe_interpolate(artifact.extra.db_schema)
@@ -544,13 +563,15 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
 
         # Interpolate and try to convert the port to an integer
         port = maybe_interpolate(artifact.extra.port)
-        try:
-            port = int(port)
-        except ValueError as error:
-            if port == "None":
-                port = None
-            else:
-                raise Errors.E0285() from error  # type: ignore
+        if port:
+            try:
+                port = int(port)
+            except ValueError as error:
+                if port == "None":
+                    warn(Warnings.W030)  # type: ignore
+                    port = None
+                else:
+                    raise Errors.E0285() from error  # type: ignore
 
         # Interpolate the query field by iterating over all of it's inner fields
         URL_query = deepcopy(artifact.extra.URL_query)
