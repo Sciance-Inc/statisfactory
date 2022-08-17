@@ -544,13 +544,9 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
 
         # Interpolate and try to convert the port to an integer
         port = maybe_interpolate(artifact.extra.port)
-        try:
-            port = int(port)
-        except ValueError as error:
-            if port == "None":
-                port = None
-            else:
-                raise Errors.E0285() from error  # type: ignore
+
+        if port:
+            port = eval(port, {})
 
         # Interpolate the query field by iterating over all of it's inner fields
         URL_query = deepcopy(artifact.extra.URL_query)
