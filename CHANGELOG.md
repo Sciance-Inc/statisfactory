@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.16.0 (2022-08-17)
+### Feature
+* Adding support for complete recursive evaluation of +{ statments ([`8f0bb84`](https://github.com/Sciance-Inc/statisfactory/commit/8f0bb849ad36d20f9052122239511ca59ed39cc1))
+
+### Fix
+* Dynamic interpolation now support space ([`f06868a`](https://github.com/Sciance-Inc/statisfactory/commit/f06868a82d6aaab8ad52d5b6608030e31a25fee2))
+
 ## v0.15.2 (2022-08-17)
 ### Fix
 * Once again trying to solve this fucking port issue ([`beee5c0`](https://github.com/Sciance-Inc/statisfactory/commit/beee5c08a3c99b57047b0347e2fa9ff71c994989))
