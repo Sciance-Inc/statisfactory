@@ -18,7 +18,7 @@ Classes
 .. autoapisummary::
 
    statisfactory.IO.artifacts.artifact_interactor.DynamicInterpolation
-   statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable
+   statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate
    statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor
    statisfactory.IO.artifacts.artifact_interactor.FileBasedInteractor
    statisfactory.IO.artifacts.artifact_interactor.CSVInteractor
@@ -60,8 +60,8 @@ Classes
            
                \!(?:
                  (?P<escaped>\!) |
-                 {(?P<named>[_a-z][_a-z0-9]*)} |
-                 {(?P<braced>[_a-z][_a-z0-9]*)} |
+                 {\s*(?P<named>[_a-z][_a-z0-9]*)\s*} |
+                 {\s*(?P<braced>[_a-z][_a-z0-9]*)\s*} |
                  (?P<invalid>)
                )
                
@@ -73,9 +73,26 @@ Classes
       
 
 
-.. py:class:: MixinInterpolable(*args, **kwargs)
+.. py:class:: MixinParseInterpolate(*args, **kwargs)
 
-   Implements helpers to interpolate a string
+   Implements helpers to interpolate a string and potentialy parse-it
+
+   Implement the +{ }+ syntax to flag string to be evaluated (lit.)
+
+   .. py:attribute:: pattern
+      
+
+      
+
+   .. py:method:: interpolate_and_parse(self, string, **kwargs)
+
+      Interpolate and parse a given string using the provided context
+
+
+   .. py:method:: _evaluate_string(self, string)
+
+      Evaluate a given string using the provided context
+
 
    .. py:method:: _interpolate_string(self, string, **kwargs)
 
@@ -85,7 +102,7 @@ Classes
 
 .. py:class:: ArtifactInteractor(artifact, *args, session: statisfactory.session.BaseSession, **kwargs)
 
-   Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinInterpolable`
+   Bases: :py:obj:`statisfactory.logger.MixinLogable`, :py:obj:`MixinParseInterpolate`
 
    Describe the Interactor's interface.
    An interactor wraps the loading and saving operations of a Artifact.
@@ -238,7 +255,7 @@ Classes
 
 .. py:class:: ODBCInteractor(artifact, *args, session: statisfactory.session.BaseSession = None, **kwargs)
 
-   Bases: :py:obj:`ArtifactInteractor`, :py:obj:`MixinInterpolable`
+   Bases: :py:obj:`ArtifactInteractor`, :py:obj:`MixinParseInterpolate`
 
    Concrete implementation of an odbc interactor
 

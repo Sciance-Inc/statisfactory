@@ -559,12 +559,27 @@
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable">
-       MixinInterpolable
+      <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate">
+       MixinParseInterpolate
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable._interpolate_string">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate.pattern">
+         pattern
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate.interpolate_and_parse">
+         interpolate_and_parse
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate._evaluate_string">
+         _evaluate_string
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate._interpolate_string">
          _interpolate_string
         </a>
        </li>
@@ -874,12 +889,27 @@
       </ul>
      </li>
      <li class="toc-h4 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable">
-       MixinInterpolable
+      <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate">
+       MixinParseInterpolate
       </a>
       <ul class="nav section-nav flex-column">
        <li class="toc-h5 nav-item toc-entry">
-        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable._interpolate_string">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate.pattern">
+         pattern
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate.interpolate_and_parse">
+         interpolate_and_parse
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate._evaluate_string">
+         _evaluate_string
+        </a>
+       </li>
+       <li class="toc-h5 nav-item toc-entry">
+        <a class="reference internal nav-link" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate._interpolate_string">
          _interpolate_string
         </a>
        </li>
@@ -1166,8 +1196,8 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.DynamicInterpolation" title="statisfactory.IO.artifacts.artifact_interactor.DynamicInterpolation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DynamicInterpolation</span></code></a></p></td>
 <td><p>Implements the interpolation of the !{} for the artifact values.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable" title="statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinInterpolable</span></code></a></p></td>
-<td><p>Implements helpers to interpolate a string</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate" title="statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinParseInterpolate</span></code></a></p></td>
+<td><p>Implements helpers to interpolate a string and potentialy parse-it</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor" title="statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArtifactInteractor</span></code></a></p></td>
 <td><p>Describe the Interactor's interface.</p></td>
@@ -1221,8 +1251,8 @@
 <dd><blockquote>
 <div><details><summary>Show Value</summary><div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span>    \!(?:
 <span class="linenos">2</span>      (?P&lt;escaped&gt;\!) |
-<span class="linenos">3</span>      {(?P&lt;named&gt;[_a-z][_a-z0-9]*)} |
-<span class="linenos">4</span>      {(?P&lt;braced&gt;[_a-z][_a-z0-9]*)} |
+<span class="linenos">3</span>      {\s*(?P&lt;named&gt;[_a-z][_a-z0-9]*)\s*} |
+<span class="linenos">4</span>      {\s*(?P&lt;braced&gt;[_a-z][_a-z0-9]*)\s*} |
 <span class="linenos">5</span>      (?P&lt;invalid&gt;)
 <span class="linenos">6</span>    )
 </pre></div>
@@ -1233,12 +1263,30 @@
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.artifact_interactor.</span></span><span class="sig-name descname"><span class="pre">MixinInterpolable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable" title="Permalink to this definition">¶</a></dt>
-<dd><p>Implements helpers to interpolate a string</p>
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.artifact_interactor.</span></span><span class="sig-name descname"><span class="pre">MixinParseInterpolate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements helpers to interpolate a string and potentialy parse-it</p>
+<p>Implement the +{ }+ syntax to flag string to be evaluated (lit.)</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate.pattern">
+<span class="sig-name descname"><span class="pre">pattern</span></span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate.pattern" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py method">
-<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable._interpolate_string">
-<span class="sig-name descname"><span class="pre">_interpolate_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable._interpolate_string" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate.interpolate_and_parse">
+<span class="sig-name descname"><span class="pre">interpolate_and_parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate.interpolate_and_parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate and parse a given string using the provided context</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate._evaluate_string">
+<span class="sig-name descname"><span class="pre">_evaluate_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate._evaluate_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate a given string using the provided context</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate._interpolate_string">
+<span class="sig-name descname"><span class="pre">_interpolate_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate._interpolate_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Interpolate a given string using the provided context</p>
 </dd></dl>
 
@@ -1247,7 +1295,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.artifact_interactor.</span></span><span class="sig-name descname"><span class="pre">ArtifactInteractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artifact</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="../../../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a>, <a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable" title="statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinInterpolable</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="../../../logger/index.html#statisfactory.logger.MixinLogable" title="statisfactory.logger.MixinLogable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">statisfactory.logger.MixinLogable</span></code></a>, <a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate" title="statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinParseInterpolate</span></code></a></p>
 <p>Describe the Interactor’s interface.
 An interactor wraps the loading and saving operations of a Artifact.
 The user can implements custom interactors. To do so, the user should
@@ -1419,7 +1467,7 @@ See PEP-487 for details.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">statisfactory.IO.artifacts.artifact_interactor.</span></span><span class="sig-name descname"><span class="pre">ODBCInteractor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artifact</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../../session/index.html#statisfactory.session.BaseSession" title="statisfactory.session.BaseSession"><span class="pre">statisfactory.session.BaseSession</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor" title="statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArtifactInteractor</span></code></a>, <a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable" title="statisfactory.IO.artifacts.artifact_interactor.MixinInterpolable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinInterpolable</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor" title="statisfactory.IO.artifacts.artifact_interactor.ArtifactInteractor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ArtifactInteractor</span></code></a>, <a class="reference internal" href="#statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate" title="statisfactory.IO.artifacts.artifact_interactor.MixinParseInterpolate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MixinParseInterpolate</span></code></a></p>
 <p>Concrete implementation of an odbc interactor</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="statisfactory.IO.artifacts.artifact_interactor.ODBCInteractor.Extra">
