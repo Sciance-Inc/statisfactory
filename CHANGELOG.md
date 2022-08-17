@@ -2,6 +2,44 @@
 
 <!--next-version-placeholder-->
 
+## v0.15.1 (2022-08-16)
+### Fix
+* Adding support for None port ([#17](https://github.com/Sciance-Inc/statisfactory/issues/17)) ([`f02a2c6`](https://github.com/Sciance-Inc/statisfactory/commit/f02a2c6e52ddc24e63777a0fb642a7181ed786b3))
+
+## v0.15.0 (2022-08-15)
+### Feature
+* Adding support for odbc saving ([`b7f5acd`](https://github.com/Sciance-Inc/statisfactory/commit/b7f5acd5e26bf760908093a7a6ac71c8be902b53))
+
+### Fix
+* Adding keyword only session ([`7493559`](https://github.com/Sciance-Inc/statisfactory/commit/74935595730ea85d01174d5a4eac330e1e12b49d))
+
+## v0.14.0 (2022-07-20)
+### Feature
+* Adding support for variadics arguments in craft definition ([`4db0b61`](https://github.com/Sciance-Inc/statisfactory/commit/4db0b61473979869bd79faa1a7f8c744cfa86f80))
+* The ODBC interactor connection string is now interpolable ([`35f5506`](https://github.com/Sciance-Inc/statisfactory/commit/35f5506178467b768bd93a23eeabda7d2f653787))
+
+### Fix
+* Adding missing manifest builder ([`f97848c`](https://github.com/Sciance-Inc/statisfactory/commit/f97848c9e572fafe18cd6b61f8287e19840113a1))
+
+## v0.13.0 (2022-07-13)
+### Feature
+* Adding + notations ([`34cc27e`](https://github.com/Sciance-Inc/statisfactory/commit/34cc27eb9838c04574852a30a1c8309ce3e5aa0c))
+
+### Documentation
+* Adding compile ([`471bba2`](https://github.com/Sciance-Inc/statisfactory/commit/471bba2d9d9469e7e8e3a40ca13eccc733065a8a))
+* Improving documentation ([`ab79d13`](https://github.com/Sciance-Inc/statisfactory/commit/ab79d1317fdf54519719f8cbdac7357580713701))
+
+## v0.12.0 (2022-05-25)
+### Feature
+* Adding missing licence ([`3a224fe`](https://github.com/Sciance-Inc/statisfactory/commit/3a224fe9092df9ce64b78ef46c244b55df8ca679))
+
+### Fix
+* Typo in error path ([`bf44506`](https://github.com/Sciance-Inc/statisfactory/commit/bf44506a54c13e1a1e21d18db3d419f4cbe7e15b))
+
+## v0.11.1 (2022-02-26)
+### Fix
+* Fixing test ([`f74cb89`](https://github.com/Sciance-Inc/statisfactory/commit/f74cb89f7073684d90837c288f0b6efb99ac8426))
+
 ## v0.11.0 (2022-02-26)
 ### Feature
 * Adding introspection commands to the cli ([`30eb01b`](https://github.com/Sciance-Inc/statisfactory/commit/30eb01b65473d3c7bb07f6e0494899f6a29624de))

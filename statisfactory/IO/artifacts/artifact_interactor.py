@@ -544,6 +544,7 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
 
         # Interpolate and try to convert the port to an integer
         port = maybe_interpolate(artifact.extra.port)
+
         if port:
             port = eval(port, {})
 

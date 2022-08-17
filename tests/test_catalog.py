@@ -165,7 +165,6 @@ def test_odbc_interactor(sess):
 
     assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam"}
 
-
 @pytest.mark.parametrize(
     "sess",
     [
@@ -186,3 +185,4 @@ def test_odbc_interactor_dynamic(sess):
 
     args = interactor_factory(artifact_repr, sess=sess, port=None)._connection_url.translate_connect_args()
     assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam"}
+
