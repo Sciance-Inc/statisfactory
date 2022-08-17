@@ -51,7 +51,6 @@ from pydantic.dataclasses import dataclass
 from pydantic import ValidationError
 
 import pandas as pd  # type: ignore
-import pyodbc  # type: ignore
 
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
@@ -83,8 +82,8 @@ class DynamicInterpolation(Template):
     pattern = r"""
     \!(?:
       (?P<escaped>\!) |
-      {(?P<named>[_a-z][_a-z0-9]*)} |
-      {(?P<braced>[_a-z][_a-z0-9]*)} |
+      {\s*(?P<named>[_a-z][_a-z0-9]*)\s*} |
+      {\s*(?P<braced>[_a-z][_a-z0-9]*)\s*} |
       (?P<invalid>)
     )
     """  # type: ignore
@@ -114,6 +113,9 @@ class MixinInterpolable:
             string = DynamicInterpolation(string).substitute(**kwargs)
         except KeyError as err:
             raise Errors.E028(trg=string) from err  # type: ignore
+
+        if not string:
+            return None
 
         return string
 
