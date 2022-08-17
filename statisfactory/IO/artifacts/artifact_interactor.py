@@ -32,9 +32,10 @@
 
 # system
 from __future__ import annotations
-from lib2to3.pytree import Base
 
+import re
 import pickle
+from functools import singledispatch
 import tempfile
 from abc import ABCMeta, abstractmethod
 from contextlib import contextmanager
@@ -43,8 +44,9 @@ from inspect import Parameter, signature
 from io import BytesIO  # noqa
 from pathlib import Path
 from string import Template
-from typing import TYPE_CHECKING, Any, Callable, Dict, Union, Optional
+from typing import TYPE_CHECKING, Any, Callable, Dict, Union, Optional, List
 from urllib.parse import urlparse
+
 
 import pyarrow.feather as feather
 from pydantic.dataclasses import dataclass
@@ -89,10 +91,14 @@ class DynamicInterpolation(Template):
     """  # type: ignore
 
 
-class MixinInterpolable:
+class MixinParseInterpolate:
     """
-    Implements helpers to interpolate a string
+    Implements helpers to interpolate a string and potentialy parse-it
+
+    Implement the +{ }+ syntax to flag string to be evaluated (lit.)
     """
+
+    pattern = re.compile("\+{\s*(.*)\s*}\+")
 
     def __init__(self, *args, **kwargs):
         """
@@ -100,6 +106,53 @@ class MixinInterpolable:
         """
 
         super().__init__(*args, **kwargs)
+
+    def interpolate_and_parse(self, string, **kwargs):
+        """
+        Interpolate and parse a given string using the provided context
+        """
+
+        return self._evaluate_string(self._interpolate_string(string, **kwargs))
+
+    def _evaluate_string(self, string):
+        """
+        Evaluate a given string using the provided context
+        """
+
+        @singledispatch
+        def rec_eval(value):
+            return value
+
+        @rec_eval.register(str)
+        def _(value):
+            try:
+                return eval(value, {})
+            except BaseException:
+                return value
+
+        @rec_eval.register(dict)
+        def _(value):
+            return {key: rec_eval(value[key]) for key in value}
+
+        @rec_eval.register(list)
+        def _(value):
+            return [rec_eval(value[key]) for key in value]
+
+        @rec_eval.register(type(None))
+        def _(_):
+            return None
+
+        def eval_(value):
+            return rec_eval(eval(value, {}))
+
+        match = MixinParseInterpolate.pattern.match(string)
+        if match:
+            group = match.group(1)
+            out = eval_(group)
+        else:
+            out = string
+
+        return out
 
     def _interpolate_string(self, string, **kwargs):
         """
@@ -120,7 +173,7 @@ class MixinInterpolable:
         return string
 
 
-class ArtifactInteractor(MixinLogable, MixinInterpolable, metaclass=ABCMeta):
+class ArtifactInteractor(MixinLogable, MixinParseInterpolate, metaclass=ABCMeta):
     """
     Describe the Interactor's interface.
     An interactor wraps the loading and saving operations of a Artifact.
@@ -241,7 +294,7 @@ class FileBasedInteractor(ArtifactInteractor, interactor_name="", register=False
         path = artifact.extra.path
         # Extract the fragment from the URI
         try:
-            URI = self._interpolate_string(string=path, **kwargs)
+            URI = self.interpolate_and_parse(string=path, **kwargs)
             fragment = urlparse(URI)
         except BaseException as error:
             raise Errors.E0281(name=self.name) from error  # type: ignore
@@ -489,7 +542,7 @@ class PicklerInteractor(FileBasedInteractor, interactor_name="pickle"):
 # ------------------------------------------------------------------------- #
 
 
-class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odbc"):
+class ODBCInteractor(ArtifactInteractor, MixinParseInterpolate, interactor_name="odbc"):
     """
     Concrete implementation of an odbc interactor
     """
@@ -526,10 +579,10 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
         def maybe_interpolate(value):
             if not value:
                 return None
-            return self._interpolate_string(value, **kwargs)
+            return self.interpolate_and_parse(value, **kwargs)
 
         def interpolate(value):
-            return self._interpolate_string(value, **kwargs)
+            return self.interpolate_and_parse(value, **kwargs)
 
         # Interpolate the artifact fields to be directly used in load or save methods
         self._db_schema = maybe_interpolate(artifact.extra.db_schema)
@@ -546,9 +599,6 @@ class ODBCInteractor(ArtifactInteractor, MixinInterpolable, interactor_name="odb
 
         # Interpolate and try to convert the port to an integer
         port = maybe_interpolate(artifact.extra.port)
-
-        if port:
-            port = eval(port, {})
 
         # Interpolate the query field by iterating over all of it's inner fields
         URL_query = deepcopy(artifact.extra.URL_query)

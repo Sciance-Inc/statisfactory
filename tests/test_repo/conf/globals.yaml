@@ -35,3 +35,12 @@ layers:
 value:
   not_null: 1
   nullable: ~
+
+selector: base
+mapper:
+  base: 1234
+  alternate: 5678
+
+null_mapper:
+  base: None
+  alternate: 5678

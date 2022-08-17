@@ -165,6 +165,7 @@ def test_odbc_interactor(sess):
 
     assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam"}
 
+
 @pytest.mark.parametrize(
     "sess",
     [
@@ -186,3 +187,54 @@ def test_odbc_interactor_dynamic(sess):
     args = interactor_factory(artifact_repr, sess=sess, port=None)._connection_url.translate_connect_args()
     assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam"}
 
+
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo",
+    ],
+    indirect=True,
+)
+def test_odbc_eval_mapper_selector(sess):
+    """
+    Check the chaining on static > dynamic interpolation
+    """
+    artifact_repr = sess.catalog._get_artifact("test_eval_interpolation_selector")
+    interactor_factory = sess.catalog._get_interactor(artifact_repr)
+    port_mapping = {"base": 1234, "alternate": 5678}
+    args = interactor_factory(artifact_repr, sess=sess, port_mapping=port_mapping)._connection_url.translate_connect_args()
+    assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam", "port": 1234}
+
+
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo",
+    ],
+    indirect=True,
+)
+def test_odbc_eval_selector_mapper(sess):
+    """
+    Check the chaining on static > dynamic interpolation
+    """
+    artifact_repr = sess.catalog._get_artifact("test_eval_interpolation_mapper")
+    interactor_factory = sess.catalog._get_interactor(artifact_repr)
+    args = interactor_factory(artifact_repr, sess=sess, selector="base")._connection_url.translate_connect_args()
+    assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam", "port": 1234}
+
+
+@pytest.mark.parametrize(
+    "sess",
+    [
+        "test_repo",
+    ],
+    indirect=True,
+)
+def test_odbc_eval_selector_mapper_null(sess):
+    """
+    Check the chaining on static > dynamic interpolation
+    """
+    artifact_repr = sess.catalog._get_artifact("test_eval_interpolation_mapper_null")
+    interactor_factory = sess.catalog._get_interactor(artifact_repr)
+    args = interactor_factory(artifact_repr, sess=sess, selector="base")._connection_url.translate_connect_args()
+    assert args == {"host": "192.19.1.1", "database": "test", "username": "foobar", "password": "spam"}
