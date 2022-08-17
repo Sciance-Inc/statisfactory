@@ -17,5 +17,5 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 # flake8: ignore
-from .artifact_interactor import ArtifactInteractor, MixinInterpolable
+from .artifact_interactor import ArtifactInteractor, MixinParseInterpolate
 from .backend import Backend

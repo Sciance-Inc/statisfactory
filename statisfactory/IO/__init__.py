@@ -17,5 +17,5 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-from .artifacts import ArtifactInteractor, Backend, MixinInterpolable  # noqa
+from .artifacts import ArtifactInteractor, Backend, MixinParseInterpolate  # noqa
 from .catalog import Catalog  # noqa
