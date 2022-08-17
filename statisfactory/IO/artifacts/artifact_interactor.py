@@ -125,8 +125,12 @@ class MixinParseInterpolate:
 
         @rec_eval.register(str)
         def _(value):
+            """
+            Evaluate a litteral string
+            """
+
             try:
-                return eval(value, {})
+                return rec_eval(eval(value, {}))
             except BaseException:
                 return value
 
