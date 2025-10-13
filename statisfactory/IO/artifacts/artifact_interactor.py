@@ -33,27 +33,24 @@
 # system
 from __future__ import annotations
 
-import re
 import pickle
-from functools import singledispatch
+import re
 import tempfile
 from abc import ABCMeta, abstractmethod
 from contextlib import contextmanager
 from copy import deepcopy
+from functools import singledispatch
 from inspect import Parameter, signature
 from io import BytesIO  # noqa
 from pathlib import Path
 from string import Template
-from typing import TYPE_CHECKING, Any, Callable, Dict, Union, Optional, List
+from typing import TYPE_CHECKING, Any, Callable, Dict, List, Optional, Union
 from urllib.parse import urlparse
 
-
-import pyarrow.feather as feather
-from pydantic.dataclasses import dataclass
-from pydantic import ValidationError
-
 import pandas as pd  # type: ignore
-
+import pyarrow.feather as feather
+from pydantic import ValidationError
+from pydantic.dataclasses import dataclass
 from sqlalchemy import create_engine
 from sqlalchemy.engine import URL
 
@@ -98,7 +95,7 @@ class MixinParseInterpolate:
     Implement the +{ }+ syntax to flag string to be evaluated (lit.)
     """
 
-    pattern = re.compile("\+{\s*(.*)\s*}\+")
+    pattern = re.compile(r"\+{\s*(.*)\s*}\+")
 
     def __init__(self, *args, **kwargs):
         """
